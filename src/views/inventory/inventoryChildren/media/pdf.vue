@@ -96,7 +96,7 @@
             <template v-else>
               <el-button :disabled="scope.row.self == 0" size="mini" plain @click="edit(scope.row,scope.$index)">{{$t('pdf.edit')}}</el-button>
             </template>
-            <el-button :disabled="scope.row.self == 0" size="mini" plain @click="mainClick(scope.row)" v-if="scope.row.pndType!=1&&scope.row.type==2">Main PDF</el-button>
+            <el-button :disabled="scope.row.self == 0 || userInfo.accountType != 2" size="mini" plain @click="mainClick(scope.row)" v-if="scope.row.pndType!=1&&scope.row.type==2">Main PDF</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -127,6 +127,7 @@ export default {
       description: "",
       language: "",
       showIndex: "",
+      userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
       hostUrl: sessionStorage.getItem("serveUrl") || "",
       id: JSON.parse(sessionStorage.getItem("projectDesc") || "{}").id || "",
       uploadParam: [
