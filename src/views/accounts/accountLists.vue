@@ -57,6 +57,21 @@
             <div>{{ scope.row.website }}</div>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('tel')">
+          <template slot-scope="scope">
+            <div>{{ scope.row.tel }}</div>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('address')">
+          <template slot-scope="scope">
+            <div>{{ scope.row.address }}</div>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('title')">
+          <template slot-scope="scope">
+            <div>{{ scope.row.title }}</div>
+          </template>
+        </el-table-column>
 
         <el-table-column fixed="right" width="370" :label="$t('userLists.edit')">
           <template slot-scope="scope">
@@ -121,7 +136,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="Expiration Date">
-              <el-date-picker style="width: 100%" value-format="timestamp" v-model="companyForm.expirationDate" type="date" placeholder="Select Date"></el-date-picker>
+              <el-date-picker style="width: 100%" value-format="timestamp" v-model="companyForm.expiration" type="date" placeholder="Select Date"></el-date-picker>
             </el-form-item>
           </el-col>
 
@@ -147,7 +162,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-row>
           <el-col :span="12">
             <el-form-item label="LicenceNo">
@@ -161,6 +175,23 @@
           </el-col>
         </el-row>
         <el-row>
+          <el-col :span="12">
+            <el-form-item label="tel">
+              <el-input v-model="companyForm.tel"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="address">
+              <el-input v-model="companyForm.address"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="title">
+              <el-input v-model="companyForm.title"></el-input>
+            </el-form-item>
+          </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('accounts.companyLogo')">
               <uploaderImg :backData="companyForm.logo" :editBrokeId='companyForm.editBrokeId' :id="'calendayImg'" :mixLength="1" folder="brokeLogo" :maxSize="500"></uploaderImg>
@@ -218,7 +249,10 @@ export default {
         country: "",
         brokeAlias: "",
         licenceNo: "",
-        showc: '0'
+        showc: '0',
+        tel: "",
+        address: "",
+        title: ""
       },
       detail: "",
       editorArr: [], //获取数据时富文本编辑器的图片数组
@@ -263,7 +297,7 @@ export default {
         type: "",
         logo: [],
         editBrokeId: "",
-        expirationDate: "",
+        expiration: "",
         color: "",
         detail: "",
         calcUrl: "",
@@ -360,7 +394,7 @@ export default {
             src: this.serveUrl + row.logo,
           },
         ],
-        expirationDate: row.expirationDate,
+        expiration: row.expirationDate,
         color: row.color,
         editBrokeId: row.brokeId,
         facebookWebsit: row.facebookWebsit,

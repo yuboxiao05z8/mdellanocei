@@ -51,8 +51,8 @@
     "edit": "Edit",
     "selectExcelFile": "Select Excel File",
     "Rename": "Rename",
-    "Search":"Search",
-    "projectName":"Project Name",
+    "Search": "Search",
+    "projectName": "Project Name",
     "propertyGroup": "Property Group",
     "ModifyGroup": "Modify Group"
   },
@@ -71,7 +71,7 @@
     "permissions": "Permissions",
     "propertiesDetails": "PROPERTIES DETAILS: ",
     "documentGeneration": "Document Generation",
-    "aeriaView":"AeriaView",
+    "aeriaView": "AeriaView",
     "GeneralSettings": "General Settings",
     "SalesPromotion": "Sales Settings "
   },
@@ -144,7 +144,7 @@
     "edit": "Edit"
   },
   "floorPlans": {
-    "downFloorPlan":"DownLoad Floor Plan",
+    "downFloorPlan": "DownLoad Floor Plan",
     "updateFloorPlan": "Update Floor Plan",
     "selectFile": "Select File",
     "importFloorPlan": "Import",
@@ -243,7 +243,7 @@
     "showInterest": "Show Interest",
     "surroundings": "Add Surroundings",
     "AddStorey": "Add Storey",
-    "Img":"Picture"
+    "Img": "Picture"
   },
   "image": {
     "importImages": "Import Images",
@@ -294,14 +294,14 @@
     "delete": "Delete",
     "edit": "Edit"
   },
-  "ivt":{
+  "ivt": {
     "ivtList": "Ivt List",
     "title": "Title",
     "addIvt": "Add Ivt",
     "refresh": "Refresh",
-    "backgroundImage":"Background Image",
-    "ivtUrl":"Ivt Url",
-    "uploadIvt":"Upload Image",
+    "backgroundImage": "Background Image",
+    "ivtUrl": "Ivt Url",
+    "uploadIvt": "Upload Image",
     "delete": "Delete",
     "edit": "Edit"
   },
@@ -401,7 +401,6 @@
     "setting": "SetTing",
     "discount": "Discount",
     "payment": "Payment"
-
   },
   "commission": {
     "deadCommission": "Company and Commission",
@@ -452,7 +451,6 @@
     "Source": "Source",
     "opeartion": "Opeartion",
     "Details": "Details"
-
   },
   "userLists": {
     "userList": "User List",
@@ -557,10 +555,10 @@
     "DeleteWatermarkImage": "Delete Watermark Image",
     "waterImageCommand": "*Watermarking image resolution should be around 500×500, the image format is PNG, opacity is around 100 and transparent background.",
     "noFile": "No File",
-    "template":"Template",
+    "template": "Template",
     "upload": "Upload",
-    "attachment":"Attachment"
-    },
+    "attachment": "Attachment"
+  },
   "notification": {
     "SendNotification": "Send Notification",
     "HistoryMessages": "History Messages",
@@ -624,7 +622,6 @@
     "Email": " Email",
     "Mobile": " Mobile",
     "Address": "Address"
-
   },
   "createNewTeam": {
     "EmptyMembers": "Empty Members",
@@ -692,7 +689,6 @@
     "NetworkRole": " Network Role",
     "NetworkInAppRole": "  Network In App Role",
     "ProspectsRole": " Prospects Role"
-
   },
   "interest": {
     "UnitInterest": "Unit Interest",
@@ -774,8 +770,8 @@
   "operation": "Operation",
   "browse": "browse",
   "release": "release",
-  "Lastlogontime":"Last login time",
-  "FileNum":"File Number",
+  "Lastlogontime": "Last login time",
+  "FileNum": "File Number",
   "uploadmorethan": "Please do not upload more than",
   "hasbeenuploaded": "This picture has been uploaded",
   "picture": "picture",
@@ -837,8 +833,6 @@
   "Are you sure to abandon synchronization": "Are you sure to abandon synchronization",
   "Sync": "Sync",
   "not Sync": "Not Sync",
-
-
   "Project advertising": "Project Advertising",
   "Create/edit Project advertising": "Create/Edit Project Advertising",
   "High commission incentive": "High Commission Incentive",
@@ -859,7 +853,7 @@
   "move up": "Move Up",
   "move down": "Move Down",
   "Create/edit the plan": "Create/Edit the Plan",
-  "The title cannot be empty":"The title cannot be empty",
+  "The title cannot be empty": "The title cannot be empty",
   "The length ranges from 3 to 40 characters": "The length ranges from 3 to 40 characters",
   "developers": "Developers",
   "Please select developer": "Please select developer",
@@ -874,38 +868,38 @@
   "Are you sure you want to take it off the shelf": "Are you sure you want to take it off the shelf?",
   "PromoSettings": "Promo Settings",
   "architect": {
-    "project": "Project" ,
-    "recordUpdate": "Record Update", 
-    "addCompletionStatus": "Add Completion Status" , 
-    "building": "Building" , 
-    "unit": "Unit" , 
-    "informStatus": "Inform Status" , 
-    "pendingNotification": "Pending Notification" , 
-    "notified": "Notified", 
-    "statusProgress": "Status Progress", 
-    "updateDate": "Update Date", 
-    "file": "File", 
-    "edit": "Edit", 
-    "informLawyer": "Inform Lawyer", 
-    "kindlySelect": "Kindly Select", 
-    "statusDescription": "Status Description", 
-    "selectionUpdate": "Selection Update", 
-    "completionCertificate": "Completion Certificate", 
-    "uploadFile": "Upload File", 
-    "documentNotSelected": "Document not selected", 
+    "project": "Project",
+    "recordUpdate": "Record Update",
+    "addCompletionStatus": "Add Completion Status",
+    "building": "Building",
+    "unit": "Unit",
+    "informStatus": "Inform Status",
+    "pendingNotification": "Pending Notification",
+    "notified": "Notified",
+    "statusProgress": "Status Progress",
+    "updateDate": "Update Date",
+    "file": "File",
+    "edit": "Edit",
+    "informLawyer": "Inform Lawyer",
+    "kindlySelect": "Kindly Select",
+    "statusDescription": "Status Description",
+    "selectionUpdate": "Selection Update",
+    "completionCertificate": "Completion Certificate",
+    "uploadFile": "Upload File",
+    "documentNotSelected": "Document not selected",
     "update": "Update",
     "notifyingLawyer": "Content will be locked for editing after notifying lawyer. Please confirm action.",
-    "tip":"Inform The lawyer",
-    "confirm":"Confirm",
-    "cancel":"Cancel"
+    "tip": "Inform The lawyer",
+    "confirm": "Confirm",
+    "cancel": "Cancel"
   },
   "lawyer": {
-    "project": "Project" ,
-    "building": "Building" , 
-    "unit": "Unit" , 
-    "addCompletionStatus": "Add Completion Status" , 
-    "kindlySelect": "Kindly Select", 
-    "pendingNotification": "Pending Notification" , 
+    "project": "Project",
+    "building": "Building",
+    "unit": "Unit",
+    "addCompletionStatus": "Add Completion Status",
+    "kindlySelect": "Kindly Select",
+    "pendingNotification": "Pending Notification",
     "pendingPaymentReceivable": "Pending Receivable",
     "pending": "Pending",
     "latePaymentAlert": "Late Payment Alert",
