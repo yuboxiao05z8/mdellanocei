@@ -12,6 +12,16 @@
     "Residential Low to Mid-rise",
     "Residential Lowrise"
   ],
+  "stageCompletionData": [
+    "Stage 1 - On completion of Foundation Works of the Unit",
+    "Stage 2 - On completion of reinforced concrete framework of the building unit",
+    "Stage 3 - On completion of brick walls of the building unit 5%",
+    "Stage 4 - On completion of ceiling of the building unit 5%",
+    "Stage 5 - Doors/ Window frames/ Electrical wiring (without light fittings) / Plumbing & Internal plastering completed.",
+    "Stage 6 - Car Park/ Roads and Drains completed 5%",
+    "Stage 7 - Temporary Occupation Permit and Architect’s Certificate of Completion",
+    "Stage 8 - Upon completion of Certificate of Statutory Completion (CSC)"
+  ],
   "tenureData": [
     {
       "label": "30 Years",
