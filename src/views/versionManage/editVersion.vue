@@ -78,6 +78,7 @@
   </div>
 </template>
 <script>
+import md5 from 'js-md5'
 export default {
   props: {
     editObj: {
@@ -282,6 +283,7 @@ export default {
       formData.append('userId', user.userId)
       formData.append('token', user.token)
       formData.append('file', file.file)
+      formData.append("signature", md5(user.brokeId + user.userId + 'c1d65f3667324592a071ebec5038f38c'));
       this.$PostFormData(this.$api.uploadWebResource, formData)
         .then(res => {
           if (res.code == 0) {

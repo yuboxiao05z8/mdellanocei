@@ -1423,6 +1423,7 @@ export default {
       formData.append("file", imgBlob.upImgData);
       formData.append("type", 'projectImg');
       formData.append("projectId", this.id);
+      formData.append("signature", md5(user.brokeId + this.id + 'projectImg' + user.userId + 'c1d65f3667324592a071ebec5038f38c'));
       console.log(formData)
       this.$PostFormData(this.$api.uploadFile, formData).then(res => {
         if (res.code === "0") {

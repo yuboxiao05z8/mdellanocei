@@ -20,7 +20,24 @@ const addDownUrl = (url = '', params = {}) => {
     let sign = md5(agentId + brokeId + 'manager' + token + userId + 'c1d65f3667324592a071ebec5038f38c')
     return `${baseURL}${url}?${str}userId=${userId}&token=${token}&brokeId=${brokeId}&source=manager&agentId=${userId}&signature=${sign}`
   } else {
-    return `${baseURL}${url}?${str}userId=${userId}&token=${token}&brokeId=${brokeId}&source=manager&agentId=${userId}`
+    let signStr = ''
+    params = { ...params, agentId: agentId, brokeId: brokeId, source: 'manager', userId: userId, }
+    for (const key in Vue.prototype.$objKeySort(params)) {
+      if (
+        Vue.prototype.$objKeySort(params)[key] !== null &&
+        typeof Vue.prototype.$objKeySort(params)[key] !== 'undefined'
+        && key !== 'file' &&
+        key !== 'appVer' &&
+        key !== 'mobileMode' &&
+        key !== 'appSource' &&
+        key !== 'token'
+      ) {
+        signStr += Vue.prototype.$objKeySort(params)[key]
+      }
+    }
+    console.log(signStr + 'c1d65f3667324592a071ebec5038f38c')
+    let sign = md5(signStr + 'c1d65f3667324592a071ebec5038f38c')
+    return `${baseURL}${url}?${str}userId=${userId}&token=${token}&brokeId=${brokeId}&source=manager&agentId=${userId}&signature=${sign}`
   }
 }
 const base64ToContent = (content) => {
@@ -203,6 +220,11 @@ function signatrue (obj) {
     if (
       objKeySort(obj)[key] !== null &&
       typeof objKeySort(obj)[key] !== 'undefined'
+      && key !== 'file' &&
+      key !== 'appVer' &&
+      key !== 'mobileMode' &&
+      key !== 'appSource' &&
+      key !== 'token'
     ) {
       str += objKeySort(obj)[key]
     }

@@ -4,21 +4,8 @@
       <el-row class="row_header">
         <el-col :span="8" class="col_text">{{$t('units.updateUnits')}}</el-col>
         <el-col :span="16" class="col_button">
-          <uploader
-            fileId="unit"
-            :maxSize="100"
-            :uploadParam="uploadUnitParam"
-            @uploadAfter="uploadUnitsAfter"
-            :url="$api.importUnit"
-            :selfNum="(isCooperate == 1 && self == 0) ? 0 : 1"
-            fileType=".xls,.xlsx"
-            :btnText="{select:$t('units.selectFile'),import:$t('units.importUnitList')}"
-          ></uploader>
-          <el-button
-            :disabled="(isCooperate == 1 && self == 0)"
-            size="mini"
-            @click="exportUnit"
-          >{{$t('units.exportUnitList')}}</el-button>
+          <uploader fileId="unit" :maxSize="100" :uploadParam="uploadUnitParam" @uploadAfter="uploadUnitsAfter" :url="$api.importUnit" :selfNum="(isCooperate == 1 && self == 0) ? 0 : 1" fileType=".xls,.xlsx" :btnText="{select:$t('units.selectFile'),import:$t('units.importUnitList')}"></uploader>
+          <el-button :disabled="(isCooperate == 1 && self == 0)" size="mini" @click="exportUnit">{{$t('units.exportUnitList')}}</el-button>
         </el-col>
       </el-row>
       <el-row>
@@ -27,30 +14,15 @@
         </el-col>
       </el-row>
       <div class="checkbox_one">
-        <el-checkbox
-          @change="changeCheckbox"
-          v-model="isChecked"
-        >{{$t('units.updatePurchaseStatusOfUnit')}}</el-checkbox>
+        <el-checkbox @change="changeCheckbox" v-model="isChecked">{{$t('units.updatePurchaseStatusOfUnit')}}</el-checkbox>
       </div>
     </div>
     <div class="update_units_status units_section">
       <el-row class="row_header">
         <el-col :span="8" class="col_text">{{$t('units.updateUnitsStatus')}}</el-col>
         <el-col :span="16" class="col_button">
-          <uploader
-            fileId="unitTransaction"
-            :maxSize="10"
-            :uploadParam="uploadUnitTransactionParam"
-            :url="$api.importUnitTransaction"
-            fileType=".xls,.xlsx"
-            :selfNum="onSelf"
-            :btnText="{select:$t('units.selectFile'),import:$t('units.importUnitTransactionList')}"
-          ></uploader>
-          <el-button
-            size="mini"
-            @click="exportUnitTransaction"
-            :disabled="onSelf == 0"
-          >{{$t('units.exportUnitTransactionList')}}</el-button>
+          <uploader fileId="unitTransaction" :maxSize="10" :uploadParam="uploadUnitTransactionParam" :url="$api.importUnitTransaction" fileType=".xls,.xlsx" :selfNum="onSelf" :btnText="{select:$t('units.selectFile'),import:$t('units.importUnitTransactionList')}"></uploader>
+          <el-button size="mini" @click="exportUnitTransaction" :disabled="onSelf == 0">{{$t('units.exportUnitTransactionList')}}</el-button>
         </el-col>
       </el-row>
       <el-row>
@@ -69,22 +41,13 @@
                   <div>{{$t('units.UnitList')}}</div>
                 </el-col>
                 <el-col :span="12">
-                  <el-button
-                    size="mini"
-                    :disabled=" (isCooperate == 1 && self == 0) ||  CMS_Edit_Price == 2 || CMS_Edit_Price == 1 "
-                    @click="EditPriceFn"
-                  >Edit Price</el-button>
+                  <el-button size="mini" :disabled=" (isCooperate == 1 && self == 0) ||  CMS_Edit_Price == 2 || CMS_Edit_Price == 1 " @click="EditPriceFn">Edit Price</el-button>
                   <el-button size="mini" :disabled="self == 0" @click="DeleteAll">Delete All Unit</el-button>
                   <el-button size="mini" @click="refreshUnit">{{$t('Refresh')}}</el-button>
                 </el-col>
               </el-row>
             </div>
-            <el-table
-              :data="unitList"
-              :header-cell-style="{'background':'#f5f7fa'}"
-              style="width: 100%"
-              size="mini"
-            >
+            <el-table :data="unitList" :header-cell-style="{'background':'#f5f7fa'}" style="width: 100%" size="mini">
               <el-table-column prop="unitName" :label="$t('units.Name')"></el-table-column>
               <el-table-column prop="purchaseStatus" :label="$t('units.Status')"></el-table-column>
               <el-table-column prop="price1" :label="$t('units.Price1')"></el-table-column>
@@ -96,35 +59,17 @@
               <el-table-column prop="type" :label="$t('units.Type')"></el-table-column>
               <el-table-column :label="$t('Delete')">
                 <template slot-scope="scope">
-                  <el-button
-                    :disabled="self == 0"
-                    size="mini"
-                    @click="deleteUnit(scope.row)"
-                  >{{$t('units.delete')}}</el-button>
+                  <el-button :disabled="self == 0" size="mini" @click="deleteUnit(scope.row)">{{$t('units.delete')}}</el-button>
                 </template>
               </el-table-column>
               <el-table-column :label="$t('Edit')">
                 <template slot-scope="scope">
-                  <el-button
-                    :disabled="(isCooperate == 1&& self == 0)"
-                    size="mini"
-                    @click="editUnit(scope.row)"
-                  >{{$t('units.edit')}}</el-button>
+                  <el-button :disabled="(isCooperate == 1&& self == 0)" size="mini" @click="editUnit(scope.row)">{{$t('units.edit')}}</el-button>
                 </template>
               </el-table-column>
             </el-table>
             <div class="page_section">
-              <el-pagination
-                background
-                small
-                @size-change="handleUnitSizeChange"
-                @current-change="handleUnitCurrentChange"
-                :current-page.sync="unitPage.currentPage"
-                :page-sizes="[5,10,30,50,100]"
-                :page-size="unitPage.pageSize"
-                layout="prev, pager, next,sizes,total"
-                :total="unitPage.count"
-              ></el-pagination>
+              <el-pagination background small @size-change="handleUnitSizeChange" @current-change="handleUnitCurrentChange" :current-page.sync="unitPage.currentPage" :page-sizes="[5,10,30,50,100]" :page-size="unitPage.pageSize" layout="prev, pager, next,sizes,total" :total="unitPage.count"></el-pagination>
             </div>
           </el-tab-pane>
           <el-tab-pane :label="$t('units.UnitAccessList')" name="2">
@@ -134,11 +79,7 @@
                   <div>{{$t('units.UnitAccessList')}}</div>
                 </el-col>
                 <el-col :span="12">
-                  <el-button
-                    size="mini"
-                    :disabled="groupInit!==-1 || self==0"
-                    @click="addGroup"
-                  >{{$t('units.AddUnitAccess')}}</el-button>
+                  <el-button size="mini" :disabled="groupInit!==-1 || self==0" @click="addGroup">{{$t('units.AddUnitAccess')}}</el-button>
                   <el-button size="mini" @click="refreshGroup">{{$t('Refresh')}}</el-button>
                 </el-col>
               </el-row>
@@ -174,106 +115,50 @@
                           </template>
                         </div>
                         <div class="opration_column_children">
-                          <el-checkbox
-                            v-model="showSold"
-                            v-if="k == groupInit"
-                            :true-label="1"
-                            :false-label="2"
-                          ></el-checkbox>
+                          <el-checkbox v-model="showSold" v-if="k == groupInit" :true-label="1" :false-label="2"></el-checkbox>
                           <template v-else>
                             <i class="el-icon-check" v-if="item.group.showSold == '1'"></i>
                             <i class="el-icon-close" v-else></i>
                           </template>
                         </div>
                         <div class="opration_column_children">
-                          <el-button
-                            size="mini"
-                            @click="manageUnits(item)"
-                            :disabled="!item.group.groupId || self == 0"
-                          >{{$t('units.ManageUnits')}}({{item.group.unitNum}})</el-button>
+                          <el-button size="mini" @click="manageUnits(item)" :disabled="!item.group.groupId || self == 0">{{$t('units.ManageUnits')}}({{item.group.unitNum}})</el-button>
                         </div>
                         <div class="opration_column_children">
-                          <el-button
-                            size="mini"
-                            :disabled="groupInit==k || self == 0"
-                            @click="deleteGroup(item)"
-                          >{{$t('units.delete')}}</el-button>
+                          <el-button size="mini" :disabled="groupInit==k || self == 0" @click="deleteGroup(item)">{{$t('units.delete')}}</el-button>
                         </div>
                         <div class="opration_column_children">
                           <template v-if="groupInit!==k">
-                            <el-button
-                              :disabled="self == 0"
-                              size="mini"
-                              @click="editGroup(item,k)"
-                            >{{$t('units.edit')}}</el-button>
+                            <el-button :disabled="self == 0" size="mini" @click="editGroup(item,k)">{{$t('units.edit')}}</el-button>
                           </template>
                           <template v-else>
-                            <el-button
-                              :disabled="self == 0"
-                              size="mini"
-                              @click="updateGroup(item)"
-                            >{{$t('update')}}</el-button>
-                            <el-button
-                              :disabled="self == 0"
-                              size="mini"
-                              @click="cancelEditGroup(item,k)"
-                            >{{$t('cancel')}}</el-button>
+                            <el-button :disabled="self == 0" size="mini" @click="updateGroup(item)">{{$t('update')}}</el-button>
+                            <el-button :disabled="self == 0" size="mini" @click="cancelEditGroup(item,k)">{{$t('cancel')}}</el-button>
                           </template>
                         </div>
                       </div>
                       <div class="right_item flex add_column">
                         <div class="add">
-                          <el-button
-                            size="mini"
-                            icon="el-icon-plus"
-                            @click="addTeam(item,k)"
-                            :disabled="!item.group.isAddTeam || self==0"
-                          >{{$t('units.AddTeam')}}</el-button>
+                          <el-button size="mini" icon="el-icon-plus" @click="addTeam(item,k)" :disabled="!item.group.isAddTeam || self==0">{{$t('units.AddTeam')}}</el-button>
                         </div>
                       </div>
                       <div class="right_item flex data_column">
                         <div class="data_column_item flex" v-for="(team,i) in item.teams">
                           <div class="data_column_item_left flex">
                             <div class="team_name">
-                              <el-select
-                                v-if="!team.teamId"
-                                size="mini"
-                                v-model="item.group.selectTeamId"
-                                @change="teamChange(item)"
-                              >
-                                <el-option
-                                  v-for="teamVal in item.group.selectTeamList"
-                                  :key="teamVal.teamId"
-                                  :label="teamVal.teamName"
-                                  :value="teamVal.teamId"
-                                ></el-option>
+                              <el-select v-if="!team.teamId" size="mini" v-model="item.group.selectTeamId" @change="teamChange(item)">
+                                <el-option v-for="teamVal in item.group.selectTeamList" :key="teamVal.teamId" :label="teamVal.teamName" :value="teamVal.teamId"></el-option>
                               </el-select>
                               <div v-else>{{team.teamName}}</div>
                             </div>
                             <div v-if="!team.teamId">
-                              <el-button
-                                size="mini"
-                                @click="insertTeamToGroup(item)"
-                                :disabled="self == 0"
-                              >{{$t('units.Insert')}}</el-button>
-                              <el-button
-                                size="mini"
-                                @click="cancelTeam(team,i,item)"
-                                :disabled="self == 0"
-                              >{{$t('cancel')}}</el-button>
+                              <el-button size="mini" @click="insertTeamToGroup(item)" :disabled="self == 0">{{$t('units.Insert')}}</el-button>
+                              <el-button size="mini" @click="cancelTeam(team,i,item)" :disabled="self == 0">{{$t('cancel')}}</el-button>
                             </div>
                           </div>
                           <div class="data_column_item_right">
-                            <el-button
-                              size="mini"
-                              @click="viewTeamMembers(item,team)"
-                              :disabled="!team.teamId&&!item.group.selectTeamId || self == 0"
-                            >{{$t('units.ViewTeamMembers')}}</el-button>
-                            <el-button
-                              size="mini"
-                              :disabled="!team.teamId || self == 0"
-                              @click="deleteTeam(team,item)"
-                            >{{$t('units.DeleteTeam')}}</el-button>
+                            <el-button size="mini" @click="viewTeamMembers(item,team)" :disabled="!team.teamId&&!item.group.selectTeamId || self == 0">{{$t('units.ViewTeamMembers')}}</el-button>
+                            <el-button size="mini" :disabled="!team.teamId || self == 0" @click="deleteTeam(team,item)">{{$t('units.DeleteTeam')}}</el-button>
                           </div>
                         </div>
                       </div>
@@ -285,12 +170,7 @@
             </div>
           </el-tab-pane>
           <el-tab-pane label="Operation Log" name="3">
-            <el-table
-              :data="OperationLog"
-              :header-cell-style="{'background':'#f5f7fa'}"
-              style="width: 100%"
-              size="mini"
-            >
+            <el-table :data="OperationLog" :header-cell-style="{'background':'#f5f7fa'}" style="width: 100%" size="mini">
               <el-table-column label="Unit Status">
                 <template slot-scope="scope">
                   <div>
@@ -364,13 +244,7 @@
               </el-table-column>
             </el-table>
             <div class="page_section">
-              <el-pagination
-                background
-                layout="prev, pager, next"
-                @current-change="logPageChange"
-                :page-size="logPageSize"
-                :total="logCount"
-              ></el-pagination>
+              <el-pagination background layout="prev, pager, next" @current-change="logPageChange" :page-size="logPageSize" :total="logCount"></el-pagination>
             </div>
           </el-tab-pane>
         </el-tabs>
@@ -386,16 +260,8 @@
             </el-col>
             <el-col :span="12">
               <div class="opration">
-                <el-button
-                  size="mini"
-                  :disabled="(isCooperate == 1 && self == 0)"
-                  @click="updateUnit"
-                >{{$t('update')}}</el-button>
-                <el-button
-                  size="mini"
-                  :disabled="(isCooperate == 1 && self == 0)"
-                  @click="dialogOfPrice = false"
-                >{{$t('cancel')}}</el-button>
+                <el-button size="mini" :disabled="(isCooperate == 1 && self == 0)" @click="updateUnit">{{$t('update')}}</el-button>
+                <el-button size="mini" :disabled="(isCooperate == 1 && self == 0)" @click="dialogOfPrice = false">{{$t('cancel')}}</el-button>
               </div>
             </el-col>
           </el-row>
@@ -468,42 +334,15 @@
     </el-dialog>
     <!-- 编辑unit的价格 -->
     <!-- 管理unit下面的组 -->
-    <el-dialog
-      :title="$t('units.ManageUnitsUnderGroup')"
-      :visible.sync="dialogOfGroup"
-      width="900px"
-      @close="closeGroupDialog"
-    >
+    <el-dialog :title="$t('units.ManageUnitsUnderGroup')" :visible.sync="dialogOfGroup" width="900px" @close="closeGroupDialog">
       <div class="manage_group_content">
         <el-row>
           <el-col>
             <div class="header">
-              <uploader
-                ref="unitManageImport"
-                fileId="unitManageImport"
-                :maxSize="10"
-                :uploadParam="importUnitGroupParam"
-                :url="$api.importUnitGroup"
-                fileType=".xls,.xlsx"
-                :selfNum="self"
-                :btnText="{select:$t('units.selectFile'),import:$t('units.Import')}"
-                @uploadAfter="uploadManageUnitAfter"
-              ></uploader>
-              <el-button
-                :disabled="self == 0"
-                size="mini"
-                @click="exportUnitManage"
-              >{{$t('units.Export')}}</el-button>
-              <el-button
-                :disabled="self == 0"
-                size="mini"
-                @click="deleteGroupOfUnit('')"
-              >{{$t('units.RemoveAll')}}</el-button>
-              <el-button
-                :disabled="self == 0"
-                size="mini"
-                @click="refreshManageUnit"
-              >{{$t('Refresh')}}</el-button>
+              <uploader ref="unitManageImport" fileId="unitManageImport" :maxSize="10" :uploadParam="importUnitGroupParam" :url="$api.importUnitGroup" fileType=".xls,.xlsx" :selfNum="self" :btnText="{select:$t('units.selectFile'),import:$t('units.Import')}" @uploadAfter="uploadManageUnitAfter"></uploader>
+              <el-button :disabled="self == 0" size="mini" @click="exportUnitManage">{{$t('units.Export')}}</el-button>
+              <el-button :disabled="self == 0" size="mini" @click="deleteGroupOfUnit('')">{{$t('units.RemoveAll')}}</el-button>
+              <el-button :disabled="self == 0" size="mini" @click="refreshManageUnit">{{$t('Refresh')}}</el-button>
             </div>
           </el-col>
         </el-row>
@@ -514,76 +353,36 @@
           <el-col :span="18">
             <div class="select_div">
               <el-select size="mini" v-model="unitSelectId">
-                <el-option
-                  :value="item.unitId"
-                  :label="item.unitName"
-                  v-for="(item,k) in unitsSelectList"
-                  :key="k"
-                ></el-option>
+                <el-option :value="item.unitId" :label="item.unitName" v-for="(item,k) in unitsSelectList" :key="k"></el-option>
               </el-select>
             </div>
           </el-col>
           <el-col :span="4">
             <div class="select_btn">
-              <el-button
-                :disabled="self == 0"
-                size="mini"
-                @click="insertUnitGroupJoin"
-              >{{$t('units.Insert')}}</el-button>
+              <el-button :disabled="self == 0" size="mini" @click="insertUnitGroupJoin">{{$t('units.Insert')}}</el-button>
             </div>
           </el-col>
         </el-row>
         <div class="table_section">
-          <el-table
-            :data="unitsManageList"
-            border
-            :header-cell-style="{'background':'#f5f7fa'}"
-            style="width: 100%"
-            max-height="300"
-            size="mini"
-          >
+          <el-table :data="unitsManageList" border :header-cell-style="{'background':'#f5f7fa'}" style="width: 100%" max-height="300" size="mini">
             <el-table-column prop="unitName" :label="$t('units.UnitName')"></el-table-column>
             <el-table-column :label="$t('Delete')" width="180">
               <template slot-scope="scope">
-                <el-button
-                  size="mini"
-                  :disabled="self == 0"
-                  @click="deleteGroupOfUnit(scope.row.unitId)"
-                >{{$t('units.delete')}}</el-button>
+                <el-button size="mini" :disabled="self == 0" @click="deleteGroupOfUnit(scope.row.unitId)">{{$t('units.delete')}}</el-button>
               </template>
             </el-table-column>
           </el-table>
         </div>
         <div class="page_section" v-if="unitsManageList.length">
-          <el-pagination
-            background
-            small
-            @size-change="handleUnitManageSizeChange"
-            @current-change="handleUnitManageCurrentChange"
-            :current-page.sync="unitManagePage.currentPage"
-            :page-sizes="[5,10,30,50,100]"
-            :page-size="unitManagePage.pageSize"
-            layout="prev, pager, next,sizes,total"
-            :total="unitManagePage.count"
-          ></el-pagination>
+          <el-pagination background small @size-change="handleUnitManageSizeChange" @current-change="handleUnitManageCurrentChange" :current-page.sync="unitManagePage.currentPage" :page-sizes="[5,10,30,50,100]" :page-size="unitManagePage.pageSize" layout="prev, pager, next,sizes,total" :total="unitManagePage.count"></el-pagination>
         </div>
       </div>
     </el-dialog>
     <!-- 管理unit下面的组 -->
     <!-- 查看team成员 -->
-    <el-dialog
-      :title="$t('units.TeamMembers')+ teamName"
-      :visible.sync="dialogOfMember"
-      width="900px"
-    >
+    <el-dialog :title="$t('units.TeamMembers')+ teamName" :visible.sync="dialogOfMember" width="900px">
       <div class="view_member_section">
-        <el-table
-          :data="memberLists"
-          border
-          :header-cell-style="{'background':'#f5f7fa'}"
-          style="width: 100%"
-          size="mini"
-        >
+        <el-table :data="memberLists" border :header-cell-style="{'background':'#f5f7fa'}" style="width: 100%" size="mini">
           <el-table-column prop="agentName" :label="$t('units.Name')"></el-table-column>
         </el-table>
       </div>
@@ -602,7 +401,7 @@ export default {
     uploader,
     PriceChange,
   },
-  data() {
+  data () {
     return {
       self: JSON.parse(sessionStorage.getItem('projectDesc')).self,
       isCooperate: JSON.parse(sessionStorage.getItem('projectDesc')).cooperate,
@@ -676,7 +475,7 @@ export default {
       logPageSize: 5,
     }
   },
-  mounted() {
+  mounted () {
     if (this.id !== '') {
       this.getUnitListData()
       this.getUnitAccessListData()
@@ -684,7 +483,7 @@ export default {
     }
   },
   methods: {
-    queryUnitOpLog() {
+    queryUnitOpLog () {
       let data = {
         pageNo: this.logPage,
         pageSize: this.logPageSize,
@@ -697,14 +496,14 @@ export default {
         }
       })
     },
-    logPageChange(val) {
+    logPageChange (val) {
       this.logPage = val
       this.queryUnitOpLog()
     },
-    EditPriceFn() {
+    EditPriceFn () {
       this.$refs.PriceChange.outerVisible = true
     },
-    teamChange(item) {
+    teamChange (item) {
       //当team选择框发生变化时获取其对应的名称显示在team弹框上方
       this.selectTeamName = item.group.selectTeamList.find((team) => {
         if (team.teamId == item.group.selectTeamId) {
@@ -718,28 +517,28 @@ export default {
       //   }
       // }
     },
-    exportUnitManage() {
+    exportUnitManage () {
       //导出group关联的unit数据
       window.location.href = this.$addDownUrl(this.$api.exportUnitGroup, {
         groupId: this.groupId,
         projectId: this.id,
       })
     },
-    closeGroupDialog() {
+    closeGroupDialog () {
       //当弹窗关闭时将上传组件的文件清除
       this.$refs.unitManageImport.removeFile()
       this.refreshGroup()
     },
-    uploadManageUnitAfter() {
+    uploadManageUnitAfter () {
       //group的unit数据上传完毕后重新刷新数据
       this.getGroupUnderUnits(this.groupId, 'query')
       this.getGroupUnderUnits(this.groupId, 'add')
     },
-    refreshManageUnit() {
+    refreshManageUnit () {
       //group的unit数据刷新
       this.getGroupUnderUnits(this.groupId, 'query')
     },
-    deleteGroupOfUnit(unitId) {
+    deleteGroupOfUnit (unitId) {
       //删除group关联的unit数据 不传unitId表示全部删除
       let params = {
         groupId: this.groupId,
@@ -768,7 +567,7 @@ export default {
         }
       })
     },
-    insertUnitGroupJoin() {
+    insertUnitGroupJoin () {
       //将unit关联到指定的group
       if (!this.unitSelectId) return
       this.$Posting(this.$api.insertUnitGroupJoin, {
@@ -792,7 +591,7 @@ export default {
         }
       })
     },
-    manageUnits(item) {
+    manageUnits (item) {
       //点击manage unit按钮时加载表格数据和select数据
       this.dialogOfGroup = true
       this.groupId = item.group.groupId
@@ -803,18 +602,18 @@ export default {
       this.getGroupUnderUnits(item.group.groupId, 'query')
       this.getGroupUnderUnits(item.group.groupId, 'add')
     },
-    handleUnitManageSizeChange(val) {
+    handleUnitManageSizeChange (val) {
       //unit弹窗的分页方法
       this.unitManagePage.pageSize = val
       this.unitManagePage.currentPage = 1
       this.getGroupUnderUnits(this.groupId, 'query')
     },
-    handleUnitManageCurrentChange(val) {
+    handleUnitManageCurrentChange (val) {
       //unit弹窗的分页方法
       this.unitManagePage.currentPage = val
       this.getGroupUnderUnits(this.groupId, 'query')
     },
-    viewTeamMembers(item, team) {
+    viewTeamMembers (item, team) {
       //查看team下面的成员
       this.dialogOfMember = true
       team.teamId
@@ -837,7 +636,7 @@ export default {
         }
       })
     },
-    deleteGroup(item) {
+    deleteGroup (item) {
       //删除指定group
       this.$confirm(
         this.$t('alert.alert_delete'),
@@ -866,12 +665,12 @@ export default {
         })
       })
     },
-    refreshGroup() {
+    refreshGroup () {
       //刷新group数据
       this.getUnitAccessListData()
       this.cancelGroupAddData()
     },
-    updateGroup(item) {
+    updateGroup (item) {
       //修改或者添加group
       this.$Posting(this.$api.saveUnitGroup, {
         groupId: item.group.groupId,
@@ -895,7 +694,7 @@ export default {
         }
       })
     },
-    DeleteAll() {
+    DeleteAll () {
       this.$confirm(this.$t('alert.alert_delete'), 'Delete All Unit?', {
         confirmButtonText: this.$t('alert.sure'),
         cancelButtonText: this.$t('alert.cancel'),
@@ -919,7 +718,7 @@ export default {
         })
       })
     },
-    deleteTeam(team, item) {
+    deleteTeam (team, item) {
       //删除team
       this.$confirm(
         this.$t('alert.alert_delete'),
@@ -949,7 +748,7 @@ export default {
         })
       })
     },
-    insertTeamToGroup(item) {
+    insertTeamToGroup (item) {
       //将指定team关联到指定的group
       let groupId = item.group.groupId || -1
       this.$Posting(this.$api.insertUnitGroupTeam, {
@@ -971,14 +770,14 @@ export default {
         }
       })
     },
-    addTeam(item) {
+    addTeam (item) {
       //添加team
       item.teams.unshift({})
       item.group.isAddTeam = false
       item.group.selectTeamId = ''
       this.getSelectTeam(item)
     },
-    cancelTeam(team, i, item) {
+    cancelTeam (team, i, item) {
       //取消添加team
       //取消team
       if (i == 0) {
@@ -988,14 +787,14 @@ export default {
       }
       item.group.isAddTeam = true
     },
-    editGroup(item, k) {
+    editGroup (item, k) {
       //编辑group时将对应数据赋值给表单控件
       this.groupInit = k
       this.accessStatus = item.group.accessStatus
       this.showSold = item.group.showSold
       this.groupName = item.group.groupName
     },
-    cancelEditGroup(item, k) {
+    cancelEditGroup (item, k) {
       //取消编辑group
       if (k == 0) {
         if (item.group.groupId == undefined) {
@@ -1004,14 +803,14 @@ export default {
       }
       this.cancelGroupAddData()
     },
-    cancelGroupAddData() {
+    cancelGroupAddData () {
       //取消编辑group时需要重置的数据
       this.groupName = ''
       this.accessStatus = 1
       this.showSold = 2
       this.groupInit = -1
     },
-    addGroup() {
+    addGroup () {
       //添加group时往表格最上面插一条数据
       this.unitAccessList.unshift({
         group: {
@@ -1027,18 +826,18 @@ export default {
       })
       this.groupInit = 0
     },
-    refreshUnit() {
+    refreshUnit () {
       //刷新unit list数据
       //刷新unit表格
       this.getUnitListData()
       this.queryUnitOpLog()
     },
-    editUnit(row) {
+    editUnit (row) {
       //编辑unit数据
       this.priceDialogDetails = Object.assign({}, row)
       this.dialogOfPrice = true
     },
-    updateUnit() {
+    updateUnit () {
       //更新单个unit的价格
       let params = {
         unitId: this.priceDialogDetails.unitId,
@@ -1071,27 +870,27 @@ export default {
         }
       })
     },
-    uploadUnitsAfter() {
+    uploadUnitsAfter () {
       //unit数据导入后的回调
       this.unitPage.currentPage = 1
       this.getUnitListData()
     },
-    handleUnitSizeChange(val) {
+    handleUnitSizeChange (val) {
       //unit的分页方法
       this.unitPage.pageSize = val
       this.unitPage.currentPage = 1
       this.getUnitListData()
     },
-    handleUnitCurrentChange(val) {
+    handleUnitCurrentChange (val) {
       //unit的分页方法
       this.unitPage.currentPage = val
       this.getUnitListData()
     },
-    priceAdjustment() {
+    priceAdjustment () {
       this.getUnitListData()
       this.queryUnitOpLog()
     },
-    deleteUnit(row) {
+    deleteUnit (row) {
       //删除单个unit
       console.log(row)
       this.$confirm(
@@ -1122,7 +921,7 @@ export default {
         })
       })
     },
-    changeCheckbox() {
+    changeCheckbox () {
       //关于上传文件时的勾选条件
       if (this.isChecked) {
         this.uploadUnitParam[1].value = 'YES'
@@ -1130,19 +929,19 @@ export default {
         this.uploadUnitParam[1].value = 'NO'
       }
     },
-    exportUnitTransaction() {
+    exportUnitTransaction () {
       //导出数据
       window.location.href = this.$addDownUrl(this.$api.exportUnitTransaction, {
         projectId: this.id,
       })
     },
-    exportUnit() {
+    exportUnit () {
       //导出数据
       window.location.href = this.$addDownUrl(this.$api.exportUnit, {
         projectId: this.id,
       })
     },
-    getUnitListData() {
+    getUnitListData () {
       //获取unit列表数据
       this.$Geting(this.$api.queryUnitList, {
         projectId: this.id,
@@ -1161,7 +960,7 @@ export default {
         }
       })
     },
-    getUnitAccessListData() {
+    getUnitAccessListData () {
       //获取unitAccess列表数据
       this.$Geting(this.$api.queryUnitGroupList, {
         projectId: this.id,
@@ -1183,7 +982,7 @@ export default {
         }
       })
     },
-    getSelectTeam(item, type = 'add') {
+    getSelectTeam (item, type = 'add') {
       //获取group下面的team列表 add表示未添加的 query表示添加的
       let groupId = item.group.groupId || -1
       this.$Geting(this.$api.queryUnitGroupTeam, {
@@ -1206,7 +1005,7 @@ export default {
         }
       })
     },
-    getGroupUnderUnits(groupId, type) {
+    getGroupUnderUnits (groupId, type) {
       //获取group下的unit add表示未添加的 query表示添加的
       let params = {
         groupId: groupId,
@@ -1315,7 +1114,7 @@ export default {
         background: rgb(245, 247, 250);
         color: #909399;
         &::after {
-          content: '';
+          content: "";
           display: table;
           clear: both;
         }

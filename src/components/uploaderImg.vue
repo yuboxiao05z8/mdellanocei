@@ -15,6 +15,7 @@
   </div>
 </template>
 <script>
+import md5 from 'js-md5'
 export default {
   props: {
     mixLength: Number, // 限制数量
@@ -141,7 +142,27 @@ export default {
       formData.append("userId", user.userId);
       formData.append("file", imgBlob.upImgData);
       formData.append("type", this.folder);
-      this.editBrokeId ? formData.append("editBrokeId", this.editBrokeId) : ''
+      let params = { brokeId: user.brokeId, userId: user.userId, type: this.folder }
+      if (this.editBrokeId) {
+        formData.append("editBrokeId", this.editBrokeId)
+        params["editBrokeId"] = this.editBrokeId
+      }
+      let signStr = ''
+      for (const key in this.$objKeySort(params)) {
+        if (
+          this.$objKeySort(params)[key] !== null &&
+          typeof this.$objKeySort(params)[key] !== 'undefined'
+          && key !== 'file' &&
+          key !== 'appVer' &&
+          key !== 'mobileMode' &&
+          key !== 'appSource' &&
+          key !== 'token'
+        ) {
+          signStr += this.$objKeySort(params)[key]
+        }
+      }
+      let sign = md5(signStr + 'c1d65f3667324592a071ebec5038f38c')
+      formData.append("signature", sign);
       console.log(formData)
       this.$PostFormData(this.$api.uploadFile, formData).then(res => {
         if (res.code === "0") {

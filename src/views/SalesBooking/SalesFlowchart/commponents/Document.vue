@@ -45,6 +45,7 @@
                   ...upDataObj,
                   docId: scope.row.docId,
                   id: scope.row.id,
+                  signature: $signatrue({...upDataObj, docId:scope.row.docId,  id:scope.row.id})
                 }" :limit="30" auto-upload :on-success="upImgSuccess" :on-error="upImgError" v-if="scope.row.allowGenerate == 1" :show-file-list="false">
                 <el-button size="small" type="primary" v-if="scope.row.url.length < 2">Click on the upload</el-button>
                 <div slot="tip" class="el-upload__tip">

@@ -2,12 +2,7 @@
   <div class="upload_section">
     <template v-if="showType==0">
       <span class="file_name" v-if="fileName" :title="fileName">{{fileName}}</span>
-      <i
-        class="el-icon-delete"
-        style="margin-left:5px;cursor:pointer"
-        @click="removeFile"
-        v-if="fileName"
-      ></i>
+      <i class="el-icon-delete" style="margin-left:5px;cursor:pointer" @click="removeFile" v-if="fileName"></i>
       <el-button size="mini" :disabled="selfNum == 0" @click="selectFile">{{btnText.select}}</el-button>
       <el-button size="mini" :disabled="selfNum == 0" @click="uploadFile">{{btnText.import}}</el-button>
     </template>
@@ -16,17 +11,12 @@
     </template>
     <input type="file" :disabled="selfNum == 0" :id="fileId" class="file_input" @change="fileChange" :accept="fileType">
     <div class="mask" v-if="progress.isShowProgress">
-      <el-progress
-        type="circle"
-        :percentage="progress.percent"
-        class="mask_progress"
-        :status="progress.status"
-        :show-text="false"
-      ></el-progress>
+      <el-progress type="circle" :percentage="progress.percent" class="mask_progress" :status="progress.status" :show-text="false"></el-progress>
     </div>
   </div>
 </template>
 <script>
+import md5 from 'js-md5'
 export default {
   props: {
     isDisabled: {
@@ -71,7 +61,7 @@ export default {
       default: 1
     }
   },
-  data() {
+  data () {
     return {
       fileName: "",
       progress: {
@@ -83,7 +73,7 @@ export default {
     };
   },
   watch: {
-    isUpResult(now, old) {
+    isUpResult (now, old) {
       let _this = this;
       if (now) {
         setTimeout(() => {
@@ -91,7 +81,7 @@ export default {
           _this.progress.status = "success";
           _this.progress.percent = 0;
           _this.isUpResult = false;
-          console.log('触发',_this.progress )
+          console.log('触发', _this.progress)
         }, 1500);
       } else {
         return;
@@ -99,15 +89,15 @@ export default {
     }
   },
   methods: {
-    removeFile() {
+    removeFile () {
       this.fileName = "";
       document.getElementById(this.fileId).value = "";
     },
-    selectFile() {
+    selectFile () {
       let domEle = document.getElementById(this.fileId);
       domEle.click();
     },
-    fileChange() {
+    fileChange () {
       let domEle = document.getElementById(this.fileId);
       if (domEle.files.length) {
         //选择了文件
@@ -130,11 +120,11 @@ export default {
         }
       }
     },
-    uploadTableFile() {
+    uploadTableFile () {
       let domEle = document.getElementById(this.fileId);
       domEle.click();
     },
-    uploadFile() {
+    uploadFile () {
       if (this.showType == 0) {
         if (!this.fileName) {
           return;
@@ -154,11 +144,15 @@ export default {
       formData.append("token", userInfo.token);
       formData.append("file", document.getElementById(self.fileId).files[0]);
       // console.log(this.uploadParam)
+      let params = { brokeId: userInfo.brokeId, userId: userInfo.userId }
       if (this.uploadParam) {
         for (let i = 0; i < this.uploadParam.length; i++) {
           formData.append(this.uploadParam[i].name, this.uploadParam[i].value);
+          params[this.uploadParam[i].name] = this.uploadParam[i].value
         }
       }
+      let sign = this.$signatrue(params)
+      formData.append("signature", sign);
       this.progress.isShowProgress = true;
       let timer = setInterval(() => {
         if (self.progress.percent == 85) {

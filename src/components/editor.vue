@@ -20,6 +20,7 @@ import 'tinymce/plugins/colorpicker'
 import 'tinymce/plugins/wordcount'
 import 'tinymce/plugins/preview'
 import 'tinymce/plugins/nonbreaking'
+import md5 from 'js-md5'
 
 export default {
   components: { editor: Editor },
@@ -123,14 +124,19 @@ export default {
       formData.append('userId', userInfo.userId)
       formData.append('token', userInfo.token)
       formData.append('file', blobInfo.blob())
+      let params = { brokeId: userInfo.brokeId, userId: userInfo.userId }
       if (this.uploadImageType == 1) {
         let projectId =
           JSON.parse(sessionStorage.getItem('projectDesc') || '{}').id || ''
         formData.append('type', 'projectImg')
         formData.append('projectId', projectId)
+        params['type'] = 'projectImg'
+        params['projectId'] = projectId
       } else {
         uploadImageUrl = this.$api.uploadEditorImg
       }
+      let sign = this.$signatrue(params)
+      formData.append("signature", sign);
 
       _this
         .$PostFormData(uploadImageUrl, formData)

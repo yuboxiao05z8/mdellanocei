@@ -49,7 +49,7 @@ export default {
       formData.append("userId", userInfo.userId);
       formData.append("token", userInfo.token);
       formData.append("file", document.getElementById('fileId').files[0]);
-      formData.append("signature", md5(userInfo.brokeId + userInfo.token + userInfo.userId + 'c1d65f3667324592a071ebec5038f38c'));
+      formData.append("signature", md5(userInfo.brokeId + userInfo.userId + 'c1d65f3667324592a071ebec5038f38c'));
       this.$PostFormData(this.$api.importProjectLand, formData)
         .then(res => {
           if (res.code == 0) {

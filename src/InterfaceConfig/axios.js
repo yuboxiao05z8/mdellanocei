@@ -362,8 +362,6 @@ Vue.prototype.$md5 = md5
 Vue.md5 = md5
 
 // 上传图文表单
-
-
 const PostFormData = function (url = '', formData, allowHTML = false) {
   let config = {
     headers: {
