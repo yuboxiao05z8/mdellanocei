@@ -22,7 +22,7 @@
       </el-row>
     </div>
     <div class="transactions_list_table transactions_section">
-      <el-table   :data="transactionsList" border style="width: 100%" :header-cell-style="{'background':'#f5f7fa'}" size="mini">
+      <el-table :data="transactionsList" border style="width: 100%" :header-cell-style="{'background':'#f5f7fa'}" size="mini">
         <!-- <el-table-column type="selection" width="55">
         </el-table-column> -->
         <el-table-column :label="$t('transactions.SalesRep')" prop="agentName">
@@ -156,13 +156,14 @@
   </div>
 </template>
 <script>
+import md5 from 'js-md5'
 import { baseURL } from '@/InterfaceConfig/env'
 import uploader from "@/components/uploader";
 export default {
   components: {
     uploader
   },
-  data() {
+  data () {
     return {
       uploadParam: [],
       currentPage: 1,
@@ -178,24 +179,24 @@ export default {
       buyerList: []
     };
   },
-  mounted() {
+  mounted () {
     this.getProjectData();
   },
   methods: {
-    downloadFils(row) {
+    downloadFils (row) {
       let newWindow = window.open()
-      let urlSite = baseURL + this.$api.downLoadTransactionFile + `?id=${row.id}`
+      let urlSite = baseURL + this.$api.downLoadTransactionFile + `?id=${row.id}&signature=${md5(row.id + 'c1d65f3667324592a071ebec5038f38c')}`
       newWindow.location.href = urlSite
     },
-    refreshData() {
+    refreshData () {
       this.getActiveData();
     },
-    edit(row) {
+    edit (row) {
       this.queryEditInfo(row.id);
       this.editName = row.agentName;
       this.dialogVisible = true;
     },
-    getProjectData() {
+    getProjectData () {
       this.$Geting(this.$api.queryProject, { pageSize: 10000, pageNo: 1 }).then(
         res => {
           if (res.code == 0) {
@@ -210,7 +211,7 @@ export default {
         }
       );
     },
-    getActiveData(isResetPage = false) {
+    getActiveData (isResetPage = false) {
       if (!this.selectProject) return;
       isResetPage && (this.currentPage = 1);
       this.$Geting(this.$api.queryTransaction, {
@@ -230,7 +231,7 @@ export default {
         }
       });
     },
-    exportData() {
+    exportData () {
       if (!this.selectProject) {
         this.$alertWarn(this.$t("interest.pleasechooseaproject"));
         return;
@@ -241,18 +242,18 @@ export default {
         });
       }
     },
-    uploadAfter() {
+    uploadAfter () {
       this.getActiveData(true);
     },
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.pageSize = val;
       this.getActiveData();
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.currentPage = val;
       this.getActiveData();
     },
-    editTransaction() {
+    editTransaction () {
       for (let key in this.editInfo) {
         if (key == "buyerList" || key == "soldby") {
           delete this.editInfo[key];
@@ -273,7 +274,7 @@ export default {
         }
       });
     },
-    queryEditInfo(id) {
+    queryEditInfo (id) {
       this.$Geting(this.$api.queryEditInfo, {
         id: id
       }).then(res => {
@@ -292,7 +293,7 @@ export default {
     }
   },
   watch: {
-    selectProject(now) {
+    selectProject (now) {
       if (now) {
         this.uploadParam = [{ name: "projectId", value: now.projectId }];
       }

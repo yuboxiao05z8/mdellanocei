@@ -128,9 +128,9 @@ export default {
       if (this.uploadImageType == 1) {
         let projectId =
           JSON.parse(sessionStorage.getItem('projectDesc') || '{}').id || ''
-        formData.append('type', 'projectImg')
+        formData.append('type', 'editorImg')
         formData.append('projectId', projectId)
-        params['type'] = 'projectImg'
+        params['type'] = 'editorImg'
         params['projectId'] = projectId
       } else {
         uploadImageUrl = this.$api.uploadEditorImg
