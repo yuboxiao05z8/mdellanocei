@@ -83,8 +83,8 @@ export default {
           label: 'Bankers'
         },
         {
-          value: 'Lawyers',
-          label: 'Lawyers'
+          value: 'Law Firms',
+          label: 'Law Firms'
         },
         {
           value: 'Interior',
@@ -95,8 +95,8 @@ export default {
           label: 'Martgage Broker'
         },
         {
-          value: 'Handyan & moves',
-          label: 'Handyan & moves'
+          value: 'Home Services',
+          label: 'Home Services'
         },
         {
           value: 'Property Platforms',
