@@ -304,6 +304,9 @@ export default {
         country: "",
         brokeAlias: "",
         licenceNo: "",
+        tel: "",
+        address: "",
+        title: "",
         showc: '0'
       };
       this.dialogVisible = true;
@@ -402,7 +405,10 @@ export default {
         country: row.country,
         brokeAlias: row.brokeAlias,
         licenceNo: row.licenceNo,
-        showc: row.showc + ''
+        showc: row.showc + '',
+        tel: row.tel,
+        address: row.address,
+        title: row.title
       };
       if (!this.CountryList.includes(row.country) && row.country) {
         this.CountryList.push(row.country);
