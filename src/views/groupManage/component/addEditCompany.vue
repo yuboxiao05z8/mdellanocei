@@ -109,8 +109,8 @@ export default {
           label: 'Interior',
         },
         {
-          value: 'Martgage Broker',
-          label: 'Martgage Broker',
+          value: 'Mortgage Broker',
+          label: 'Mortgage Broker',
         },
         {
           value: 'Home Services',
