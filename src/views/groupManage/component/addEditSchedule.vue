@@ -15,7 +15,7 @@
           <el-form-item label="Venue">
             <el-input size="mini" style="width:200px" v-model="scheduleForm.venue"></el-input>
           </el-form-item>
-          <el-form-item label="Calendar Time" prop="calendarTime">
+          <el-form-item label="Event Date" prop="calendarTime">
             <el-date-picker value-format="yyyy-MM-dd HH:mm:ss" format="dd-MMM-yyyy HH:mm:ss" type="datetime" v-model="scheduleForm.calendarTime"></el-date-picker>
           </el-form-item>
           <el-form-item label="Picture upload" prop="picture">
