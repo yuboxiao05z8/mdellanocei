@@ -38,6 +38,15 @@
             <div v-else>{{scope.row.showIndex}}</div>
           </template>
         </el-table-column>
+        <el-table-column label="indoor">
+          <template slot-scope="scope">
+            <el-select v-model="indoor" v-if="scope.$index === tableDataInit">
+              <el-option label="室内" :value="1"></el-option>
+              <el-option label="室外" :value="2"></el-option>
+            </el-select>
+            <div v-else>{{scope.row.indoor==1?'室内':'室外'}}</div>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('ivt.uploadIvt')">
           <template slot-scope="scope">
             <uploader :isDisabled="(scope.$index === tableDataInit)" :fileId="'ivt'+scope.row.id" :uploadParam="uploadModelParam" @uploadAfter="uploadModelAfter" :url="$api.uploadFile" fileType="image/*" :selfNum="scope.row.self" :btnText="{import:$t('upLoad')}" :showType="1"></uploader>
@@ -85,6 +94,7 @@ export default {
       url: "",
       link: "",
       showIndex: "",
+      indoor: 1,
       uploadModelParam: [
         {
           name: "projectId",
@@ -153,6 +163,7 @@ export default {
       this.title = row.title;
       this.url = row.url;
       this.link = row.link;
+      this.indoor = row.indoor;
       this.showIndex = row.showIndex;
     },
     cancel (row, index) {
@@ -181,6 +192,7 @@ export default {
         title: this.title,
         url: this.url,
         link: this.link,
+        indoor: this.indoor,
         type: "IVT",
         id: id,
         showIndex: this.showIndex ? this.showIndex * 1 : 1
