@@ -257,19 +257,19 @@ export default {
       ],
       labelOptions: [
         {
-          value: "Clear",
-          label: "Clear"
+          value: "Silver",
+          label: "Silver"
         },
         {
-          value: "Mahogany",
-          label: "Mahogany"
+          value: "Rhodium",
+          label: "Rhodium"
         },
         {
-          value: "Red",
-          label: "Red"
+          value: "Platinum",
+          label: "Platinum"
         }, {
-          value: "Rose",
-          label: "Rose"
+          value: "Titanium",
+          label: "Titanium"
         }, {
           value: "Star",
           label: "Star"
