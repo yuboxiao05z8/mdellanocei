@@ -41,10 +41,10 @@
         <el-table-column label="indoor">
           <template slot-scope="scope">
             <el-select v-model="indoor" v-if="scope.$index === tableDataInit">
-              <el-option label="室内" :value="1"></el-option>
-              <el-option label="室外" :value="2"></el-option>
+              <el-option label="Internal" :value="1"></el-option>
+              <el-option label="External" :value="2"></el-option>
             </el-select>
-            <div v-else>{{scope.row.indoor==1?'室内':'室外'}}</div>
+            <div v-else>{{scope.row.indoor==1?'Internal':'External'}}</div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('ivt.uploadIvt')">
