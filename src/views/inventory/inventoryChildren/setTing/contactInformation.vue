@@ -138,6 +138,15 @@
             <div v-else>{{scope.row.groupName}}</div>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('Label')">
+          <template slot-scope="scope">
+            <!-- <el-input v-if="scope.$index === tableDataInit" v-model="form.type"></el-input> -->
+            <el-select v-model="form.label" placeholder="placeholder" v-if="scope.$index === tableDataInit">
+              <el-option v-for="item in labelOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
+            </el-select>
+            <div v-else>{{scope.row.label}}</div>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('Delete')">
           <template slot-scope="scope">
             <template>
@@ -205,7 +214,10 @@ export default {
       hostUrl: sessionStorage.getItem("serveUrl") || "",
       form: {
         email: "",
-        type: ""
+        type: "",
+        regNum: "",
+        groupName: "",
+        label: ""
       },
       typeOptions: [
         {
@@ -241,6 +253,29 @@ export default {
         {
           value: "Leader Team",
           label: "Leader Team"
+        }
+      ],
+      labelOptions: [
+        {
+          value: "Clear",
+          label: "Clear"
+        },
+        {
+          value: "Mahogany",
+          label: "Mahogany"
+        },
+        {
+          value: "Red",
+          label: "Red"
+        }, {
+          value: "Rose",
+          label: "Rose"
+        }, {
+          value: "Star",
+          label: "Star"
+        },{
+          value: "Superstar",
+          label: "Superstar"
         }
       ],
       editorSetting: {
@@ -347,7 +382,9 @@ export default {
         type: this.form.type,
         email: this.form.email,
         regNum: this.form.regNum,
-        groupName: this.form.groupName
+        groupName: this.form.groupName,
+        label: this.form.label,
+        agentId: this.form.agentId
       };
       this.$Post(this.$api.saveProjectContact, data).then(res => {
         if (res.code == 0) {
@@ -372,6 +409,8 @@ export default {
       this.form.email = row.email;
       this.form.regNum = row.regNum;
       this.form.groupName = row.groupName || "";
+      this.form.agentId = row.agentId
+      this.form.label = row.label
     },
     cancel (row, index) {
       if (index == 0) {
@@ -386,7 +425,8 @@ export default {
         email: "",
         type: "",
         regNum: "",
-        groupName: ""
+        groupName: "",
+        label: ""
       };
       this.tableDataInit = -1;
     },
