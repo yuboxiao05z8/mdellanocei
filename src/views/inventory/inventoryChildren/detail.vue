@@ -328,6 +328,13 @@
               <el-input class="width_300px" v-model="detailForm.plotRatio"></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="stageCompletion">
+              <el-select size="mini" v-model="detailForm.stageCompletion" class="width_300px" placeholder>
+                <el-option v-for="item in stageCompletionData" :key="item" :label="item" :value="item"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
 
         <div style="border-bottom:1px solid #dcdfe6;margin:5px 0;"></div>
@@ -636,6 +643,7 @@ export default {
       hostUrl: sessionStorage.getItem('serveUrl') || '',
       userInfo: JSON.parse(sessionStorage.getItem('userInfo')) || {},
       typeData: selsectData.typeData,
+      stageCompletionData: selsectData.stageCompletionData,
       tenureData: selsectData.tenureData,
       locationData: selsectData.locationData,
       countryData: selsectData.countryData,
@@ -701,6 +709,7 @@ export default {
         commissionCn: '',
         externalCommission: '',
         plotRatio: '',
+        stageCompletion: '',
         siteArea: '',
         salesContacts: '',
         customLabel1: '',
