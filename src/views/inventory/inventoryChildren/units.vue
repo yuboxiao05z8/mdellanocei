@@ -4,8 +4,8 @@
       <el-row class="row_header">
         <el-col :span="8" class="col_text">{{$t('units.updateUnits')}}</el-col>
         <el-col :span="16" class="col_button">
-          <uploader fileId="unit" :maxSize="100" :uploadParam="uploadUnitParam" @uploadAfter="uploadUnitsAfter" :url="$api.importUnit" :selfNum="(isCooperate == 1 && self == 0) ? 0 : 1" fileType=".xls,.xlsx" :btnText="{select:$t('units.selectFile'),import:$t('units.importUnitList')}"></uploader>
-          <el-button :disabled="(isCooperate == 1 && self == 0)" size="mini" @click="exportUnit">{{$t('units.exportUnitList')}}</el-button>
+          <uploader fileId="unit" :maxSize="100" :uploadParam="uploadUnitParam" @uploadAfter="uploadUnitsAfter" :url="$api.importUnit" :selfNum="( (isCooperate == undefined || isCooperate == 1) && self == 0) ? 0 : 1" fileType=".xls,.xlsx" :btnText="{select:$t('units.selectFile'),import:$t('units.importUnitList')}"></uploader>
+          <el-button :disabled="((isCooperate == undefined || isCooperate == 1) && self == 0)" size="mini" @click="exportUnit">{{$t('units.exportUnitList')}}</el-button>
         </el-col>
       </el-row>
       <el-row>
