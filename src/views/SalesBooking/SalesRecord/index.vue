@@ -29,60 +29,35 @@
       </el-row>
     </div>
     <div class="table-wrap">
-      <el-table
-        :data="transactionList"
-        style="width: 100%"
-        height="520"
-        border
-        :default-sort = "{prop: 'date', order: 'descending'}"
-        >
-        <el-table-column
-          prop="building"
-          label="BLK"
-          width="180">
+      <el-table :data="transactionList" style="width: 100%" height="520" border :default-sort="{prop: 'date', order: 'descending'}">
+        <el-table-column prop="building" label="BLK" width="180">
         </el-table-column>
-        <el-table-column
-          prop="unitName"
-          label="UNIT"
-          width="180">
+        <el-table-column prop="unitName" label="UNIT" width="180">
         </el-table-column>
-        <el-table-column
-          prop="transactionStatus"
-          sortable
-          label="Contract Status">
+        <el-table-column prop="transactionStatus" sortable label="Contract Status">
           <template slot-scope="scope">
             <div v-if="scope.row.transactionStatus=='PDI PENDING'" class="sales-record-status"><span class="status-point pdi"></span> <span>PDI PENDING</span></div>
             <div v-if="scope.row.transactionStatus=='OTP PENDING'" class="sales-record-status"><span class="status-point otp"></span> <span>OTP PENDING</span></div>
             <div v-if="scope.row.transactionStatus=='COMPLETED'" class="sales-record-status"><span class="status-point complete"></span> <span>COMPLETED</span> </div>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="transactionPrice"
-          label="Price">
+        <el-table-column prop="transactionPrice" label="Price">
         </el-table-column>
-        <el-table-column
-          label="Trade Date">
+        <el-table-column label="Trade Date">
           <template slot-scope="scope">
             <div>{{$dateFormatNoTime(scope.row.transactionDate)}}</div>
           </template>
         </el-table-column>
-        <el-table-column
-          prop="brokeName"
-          label="AGENCY">
+        <el-table-column prop="brokeName" label="AGENCY">
         </el-table-column>
-        <el-table-column
-          prop="agentName"
-          label="Agent">
+        <el-table-column prop="agentName" label="Agent">
         </el-table-column>
-        <el-table-column
-          sortable
-          label="UPDATE">
+        <el-table-column sortable label="UPDATE">
           <template slot-scope="scope">
             <div>{{$dateFormat(scope.row.updateTime)}}</div>
           </template>
         </el-table-column>
-        <el-table-column
-          label="ACTION">
+        <el-table-column label="ACTION">
           <template slot-scope="scope">
             <div>
               <el-button class="show-sales-record" @click="handleClick(scope.row)" size="mini">View</el-button>
@@ -110,7 +85,7 @@
 
 <script>
 export default {
-  data(){
+  data () {
     return {
       selectProject: {},
       projectLists: [],
@@ -126,24 +101,24 @@ export default {
       }
     }
   },
-  created(){
+  created () {
 
   },
-  mounted(){
+  mounted () {
     this.getProjectData()
   },
   methods: {
-    getProjectData() {
+    getProjectData () {
       let projectId = ""
-      if(this.$route.query.id){
+      if (this.$route.query.id) {
         projectId = this.$route.query.id
       }
-      this.$Geting(this.$api.queryProject, { pageSize: 10000, pageNo: 1 }).then(
+      this.$Get(this.$api.queryProject, { pageSize: 10000, pageNo: 1 }).then(
         res => {
           if (res.code == 0) {
             this.projectLists = res.datas.lists;
-            if(projectId){
-              this.selectProject = res.datas.lists.filter(item=>{
+            if (projectId) {
+              this.selectProject = res.datas.lists.filter(item => {
                 return item.projectId == projectId
               })[0]
               this.getActiveData()
@@ -158,22 +133,22 @@ export default {
         }
       );
     },
-    getSales(){
-      this.$Geting(this.$api.queryTransactionStatusSales, {projectId: this.selectProject.projectId})
-      .then(res=>{
-        console.log(res)
-        if(res.code == 0){
-          this.num = res.datas
-        }
-      })
+    getSales () {
+      this.$Get(this.$api.queryTransactionStatusSales, { projectId: this.selectProject.projectId })
+        .then(res => {
+          console.log(res)
+          if (res.code == 0) {
+            this.num = res.datas
+          }
+        })
     },
-    exportData(){},
-    
-    getActiveData(isResetPage = false, transactionStatus) {
+    exportData () { },
+
+    getActiveData (isResetPage = false, transactionStatus) {
       if (!this.selectProject) return;
       this.searchStatus = transactionStatus;
-      if(isResetPage)this.currentPage = 1;
-      this.$Geting(this.$api.queryTransactionList, {
+      if (isResetPage) this.currentPage = 1;
+      this.$Get(this.$api.queryTransactionList, {
         projectId: this.selectProject.projectId,
         pageSize: this.pageSize,
         pageNo: this.currentPage,
@@ -194,34 +169,34 @@ export default {
         }
       });
     },
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.pageSize = val;
       this.getActiveData(false, this.searchStatus);
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.currentPage = val;
       this.getActiveData(false, this.searchStatus);
     },
-    handleCommand(command){
+    handleCommand (command) {
       let data = {
         projectId: this.selectProject.projectId,
         transactionStatus: command.command,
         unitId: command.scope.row.unitId
       }
-      this.$Geting(this.$api.updateTransactionStatus, data)
-      .then(res=>{
-        if(res.code == 0){
-          this.getActiveData(true, this.searchStatus)
-        }
-      })
+      this.$Get(this.$api.updateTransactionStatus, data)
+        .then(res => {
+          if (res.code == 0) {
+            this.getActiveData(true, this.searchStatus)
+          }
+        })
     },
-    beforeHandleCommand(scope, command){
+    beforeHandleCommand (scope, command) {
       return {
         "scope": scope,
         "command": command
       }
     },
-    handleClick(row){
+    handleClick (row) {
       let status = row.purchaseStatus
       this.$router.push({
         path: '/SalesBooking/viewDetails',
@@ -243,94 +218,94 @@ export default {
 </script>
 
  <style lang="less" scoped>
-  .sales-record-wrap{
-    background-color: #fff;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-    .search-wrap{
-      padding: 15px 30px;
-      .sales-record-status-wrap{
+.sales-record-wrap {
+  background-color: #fff;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  .search-wrap {
+    padding: 15px 30px;
+    .sales-record-status-wrap {
+      display: flex;
+      .sales-record-status {
+        width: 200px;
+        height: 50px;
+        line-height: 50px;
+        border: 1px solid rgba(187, 187, 187, 100);
+        text-align: center;
+        font-size: 14px;
         display: flex;
-        .sales-record-status{
-          width: 200px;
-          height: 50px;
-          line-height: 50px;
-          border: 1px solid rgba(187, 187, 187, 100);
-          text-align: center;
-          font-size: 14px;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          cursor: pointer;
-          .status-point{
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            margin-right: 8px;
-          }
-          .pdi{
-            background: #F9AD03;
-          }
-          .otp{
-            background: #F44144;
-          }
-          .complete{
-            background: #00D2C8;
-          }
-        }
-        .sales-record-status + .sales-record-status{
-          border-left: none;
-        }
-        .active{
-          background: #f2f2f2;
-          color: #409EFF;
-        }
-      }
-      .el-row{
-        margin-bottom: 20px;
-      }
-      .screen-wrap{
-        .search-box{
-          display: flex;
-          .el-input{
-            margin-right: 35px;
-          }
-        }
-        .export-box{
-          text-align: right;
-        }
-      }
-    }
-    /deep/.table-wrap{
-      padding: 15px 30px;
-      .el-table{
-        .el-table__header {
-          th{
-            background: #f2f2f2;
-          }
-        }
-        .status-point{
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        .status-point {
           display: inline-block;
           width: 12px;
           height: 12px;
           border-radius: 50%;
           margin-right: 8px;
         }
-        .pdi{
-          background: #F9AD03;
+        .pdi {
+          background: #f9ad03;
         }
-        .otp{
-          background: #F44144;
+        .otp {
+          background: #f44144;
         }
-        .complete{
-          background: #00D2C8;
+        .complete {
+          background: #00d2c8;
         }
-        .show-sales-record{
-          margin-right: 10px;
+      }
+      .sales-record-status + .sales-record-status {
+        border-left: none;
+      }
+      .active {
+        background: #f2f2f2;
+        color: #409eff;
+      }
+    }
+    .el-row {
+      margin-bottom: 20px;
+    }
+    .screen-wrap {
+      .search-box {
+        display: flex;
+        .el-input {
+          margin-right: 35px;
         }
+      }
+      .export-box {
+        text-align: right;
       }
     }
   }
+  /deep/.table-wrap {
+    padding: 15px 30px;
+    .el-table {
+      .el-table__header {
+        th {
+          background: #f2f2f2;
+        }
+      }
+      .status-point {
+        display: inline-block;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin-right: 8px;
+      }
+      .pdi {
+        background: #f9ad03;
+      }
+      .otp {
+        background: #f44144;
+      }
+      .complete {
+        background: #00d2c8;
+      }
+      .show-sales-record {
+        margin-right: 10px;
+      }
+    }
+  }
+}
 </style>
