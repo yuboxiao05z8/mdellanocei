@@ -271,12 +271,6 @@ export default {
           value: "Titanium",
           label: "Titanium"
         }, {
-          value: "Star",
-          label: "Star"
-        }, {
-          value: "Superstar",
-          label: "Superstar"
-        }, {
           value: "Gold",
           label: "Gold"
         }
