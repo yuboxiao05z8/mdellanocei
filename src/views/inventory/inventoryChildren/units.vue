@@ -4,8 +4,8 @@
       <el-row class="row_header">
         <el-col :span="8" class="col_text">{{$t('units.updateUnits')}}</el-col>
         <el-col :span="16" class="col_button">
-          <uploader fileId="unit" :maxSize="100" :uploadParam="uploadUnitParam" @uploadAfter="uploadUnitsAfter" :url="$api.importUnit" :selfNum="( (isCooperate == undefined || isCooperate == 1) && self == 0) ? 0 : 1" fileType=".xls,.xlsx" :btnText="{select:$t('units.selectFile'),import:$t('units.importUnitList')}"></uploader>
-          <el-button :disabled="((isCooperate == undefined || isCooperate == 1) && self == 0)" size="mini" @click="exportUnit">{{$t('units.exportUnitList')}}</el-button>
+          <uploader fileId="unit" :maxSize="100" :uploadParam="uploadUnitParam" @uploadAfter="uploadUnitsAfter" :url="$api.importUnit" :selfNum="( isCooperate !=2 && self == 0) ? 0 : 1" fileType=".xls,.xlsx" :btnText="{select:$t('units.selectFile'),import:$t('units.importUnitList')}"></uploader>
+          <el-button :disabled="(isCooperate !=2 && self == 0)" size="mini" @click="exportUnit">{{$t('units.exportUnitList')}}</el-button>
         </el-col>
       </el-row>
       <el-row>
@@ -41,7 +41,7 @@
                   <div>{{$t('units.UnitList')}}</div>
                 </el-col>
                 <el-col :span="12">
-                  <el-button size="mini" :disabled=" (isCooperate == 1 && self == 0) ||  CMS_Edit_Price == 2 || CMS_Edit_Price == 1 " @click="EditPriceFn">Edit Price</el-button>
+                  <el-button size="mini" :disabled=" (isCooperate !=2 && self == 0) ||  CMS_Edit_Price == 2 || CMS_Edit_Price == 1 " @click="EditPriceFn">Edit Price</el-button>
                   <el-button size="mini" :disabled="self == 0" @click="DeleteAll">Delete All Unit</el-button>
                   <el-button size="mini" @click="refreshUnit">{{$t('Refresh')}}</el-button>
                 </el-col>
@@ -64,7 +64,7 @@
               </el-table-column>
               <el-table-column :label="$t('Edit')">
                 <template slot-scope="scope">
-                  <el-button :disabled="(isCooperate == 1&& self == 0)" size="mini" @click="editUnit(scope.row)">{{$t('units.edit')}}</el-button>
+                  <el-button :disabled="(isCooperate !=2&& self == 0)" size="mini" @click="editUnit(scope.row)">{{$t('units.edit')}}</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -260,8 +260,8 @@
             </el-col>
             <el-col :span="12">
               <div class="opration">
-                <el-button size="mini" :disabled="(isCooperate == 1 && self == 0)" @click="updateUnit">{{$t('update')}}</el-button>
-                <el-button size="mini" :disabled="(isCooperate == 1 && self == 0)" @click="dialogOfPrice = false">{{$t('cancel')}}</el-button>
+                <el-button size="mini" :disabled="(isCooperate !=2 && self == 0)" @click="updateUnit">{{$t('update')}}</el-button>
+                <el-button size="mini" :disabled="(isCooperate !=2 && self == 0)" @click="dialogOfPrice = false">{{$t('cancel')}}</el-button>
               </div>
             </el-col>
           </el-row>
