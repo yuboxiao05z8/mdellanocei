@@ -244,10 +244,29 @@ const Geting = function (url = '', data = {}, allowHTML = false) {
   } = XHR({
     loading: true
   })
+  let param = {
+    ...user,
+    ...data
+  }
+  let str = ''
+  for (const key in Vue.prototype.$objKeySort(param)) {
+    if (
+      Vue.prototype.$objKeySort(param)[key] !== null &&
+      typeof Vue.prototype.$objKeySort(param)[key] !== 'undefined'
+      && key !== 'file' &&
+      key !== 'appVer' &&
+      key !== 'mobileMode' &&
+      key !== 'appSource' &&
+      key !== 'token'
+    ) {
+      str += Vue.prototype.$objKeySort(param)[key]
+    }
+  }
+  str = md5(str + 'c1d65f3667324592a071ebec5038f38c')
   let params = {
     params: {
-      ...user,
-      ...data
+      ...param,
+      signature: str
     }
   }
   return axiosX.get(url, params).then(sucFun).catch(errFun)

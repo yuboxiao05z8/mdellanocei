@@ -54,8 +54,7 @@
       <el-container class="outboard">
         <el-main class="outboard_box_view">
           <keep-alive>
-            <component ref="componRef" :interested="interested" :variate="variate" :updaObj="updaObj" :is="sonView"
-              :SummaryData="SummaryData" :documentObj="documentObj"></component>
+            <component ref="componRef" :interested="interested" :variate="variate" :updaObj="updaObj" :is="sonView" :SummaryData="SummaryData" :documentObj="documentObj"></component>
           </keep-alive>
         </el-main>
         <el-footer class="outboard_box_btn">
@@ -343,7 +342,7 @@ export default {
         projectId: this.query.projectId,
         unitId: this.query.unitId,
       }
-      this.$Posting(this.$api.getTransaction, data).then((res) => {
+      this.$Post(this.$api.getTransaction, data).then((res) => {
         if (res.code == 0) {
           this.updaObj = res.datas
           if (this.updaObj.facilityList) {

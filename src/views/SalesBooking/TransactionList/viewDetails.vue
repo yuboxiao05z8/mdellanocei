@@ -221,7 +221,7 @@ export default {
       }
     },
     getTransaction () {
-      this.$Posting(this.$api.getTransaction, this.query).then((res) => {
+      this.$Post(this.$api.getTransaction, this.query).then((res) => {
         if (res.code == 0) {
           let obj = res.datas
           this.detailsObj = res.datas
