@@ -139,6 +139,11 @@ const Posting = function (url = '', data = {}, allowHTML = false) {
     if (
       Vue.prototype.$objKeySort(params)[key] !== null &&
       typeof Vue.prototype.$objKeySort(params)[key] !== 'undefined'
+      && key !== 'file' &&
+      key !== 'appVer' &&
+      key !== 'mobileMode' &&
+      key !== 'appSource' &&
+      key !== 'token'
     ) {
 
       if (Array.isArray(Vue.prototype.$objKeySort(params)[key])) params[key] = JSON.stringify(Vue.prototype.$objKeySort(params)[key]);
@@ -204,6 +209,11 @@ const Post = function (url = '', data = {}, allowHTML = false) {
     if (
       Vue.prototype.$objKeySort(params)[key] !== null &&
       typeof Vue.prototype.$objKeySort(params)[key] !== 'undefined'
+      && key !== 'file' &&
+      key !== 'appVer' &&
+      key !== 'mobileMode' &&
+      key !== 'appSource' &&
+      key !== 'token'
     ) {
 
       if (Array.isArray(Vue.prototype.$objKeySort(params)[key])) params[key] = JSON.stringify(Vue.prototype.$objKeySort(params)[key]);
@@ -290,6 +300,11 @@ const Get = function (url = '', data = {}, allowHTML = false) {
     if (
       Vue.prototype.$objKeySort(param)[key] !== null &&
       typeof Vue.prototype.$objKeySort(param)[key] !== 'undefined'
+      && key !== 'file' &&
+      key !== 'appVer' &&
+      key !== 'mobileMode' &&
+      key !== 'appSource' &&
+      key !== 'token'
     ) {
       str += Vue.prototype.$objKeySort(param)[key]
     }
