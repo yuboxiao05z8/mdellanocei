@@ -22,7 +22,7 @@
         </el-table-column>
         <el-table-column label="Event Date">
           <template slot-scope="scope">
-            <div>{{$dateFormatNoTime(scope.row.createTime)}}</div>
+            <div>{{$dateFormatNoTime(scope.row.calendarTime)}}</div>
           </template>
         </el-table-column>
         <el-table-column label="Update Time">

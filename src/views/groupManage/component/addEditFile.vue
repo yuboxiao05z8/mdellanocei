@@ -82,12 +82,13 @@ export default {
         this.uploadFlag = false
         return false
       };
-      if (!isPDF) {
-        this.$message.error('请上传pdf文件')
-        this.uploadFlag = false
-        return false
-      }
-      if (isPDF && type) this.uploadFlag = true
+      // if (!isPDF) {
+      //   this.$message.error('请上传pdf文件')
+      //   this.uploadFlag = false
+      //   return false
+      // }
+      // if (isPDF && type) this.uploadFlag = true
+      if (type) this.uploadFlag = true
     },
     uploadFile (file) {
       if (this.uploadFlag) {
