@@ -50,11 +50,11 @@ export default {
       delArr: [],//富文本需要删除的图片
       editDelArr: [],
       serveUrl: sessionStorage.getItem('serveUrl') || '',
-      scheduleForm: { picture: '', type: 'Tranining', description: '', calendarTime: '' },
+      scheduleForm: { picture: '', type: 'Training', description: '', calendarTime: '' },
       options: [
         {
-          value: 'Tranining',
-          label: 'Tranining'
+          value: 'Training',
+          label: 'Training'
         },
         {
           value: 'Project',
@@ -225,7 +225,7 @@ export default {
       this.$refs['form_schedule'].resetFields();
       this.scheduleForm = {
         logo: '',
-        type: 'Tranining',
+        type: 'Training',
         description: ''
       }
       this.editLogo = ''
