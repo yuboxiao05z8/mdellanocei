@@ -74,7 +74,8 @@
         <el-row>
           <el-col :span="12">
             <el-form-item prop="unitsNum" :label="$t('edit.numberOfUnits')">
-              <el-input class="width_300px" v-model="detailForm.unitsNum"></el-input>
+              <el-input style="display:inline-block;width: 250px;margin-right:5px" v-model="detailForm.unitsNum"></el-input>
+              <el-checkbox v-model="detailForm.est" :true-label="1" :false-label="0">est</el-checkbox>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -666,6 +667,7 @@ export default {
       dialogVisible: false, // 弹窗show
       projectAreaList: ['CCR', 'RCR', 'OCR', 'OTHERS'],
       detailForm: {
+        est: 0,
         cooperate: false,
         soldOut: false,
         projectName: '',
