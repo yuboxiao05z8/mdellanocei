@@ -54,6 +54,12 @@
             <div v-else>{{$urlEncode(hostUrl+scope.row.url)}}</div>
           </template>
         </el-table-column>
+        <el-table-column label="abbreviation">
+          <template slot-scope="scope">
+            <el-input v-if="scope.$index === tableDataInit" v-model="abbreviation"></el-input>
+            <div v-else>{{scope.row.abbreviation}}</div>
+          </template>
+        </el-table-column>
         <el-table-column label="showIndex">
           <template slot-scope="scope">
             <el-input v-if="scope.$index === tableDataInit" v-model="showIndex"></el-input>
@@ -127,6 +133,7 @@ export default {
       description: "",
       language: "",
       showIndex: "",
+      abbreviation: "",
       userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
       hostUrl: sessionStorage.getItem("serveUrl") || "",
       id: JSON.parse(sessionStorage.getItem("projectDesc") || "{}").id || "",
@@ -225,6 +232,7 @@ export default {
         description: this.description,
         showIndex: this.showIndex ? this.showIndex * 1 : 1,
         type: "PDF",
+        abbreviation: this.abbreviation,
         groupName: this.group,
         restrictEmail: this.restrictEmail,
         sensitive: this.isSensitive,
@@ -273,6 +281,7 @@ export default {
       this.restrictEmail = row.restrictEmail;
       this.description = row.description;
       this.showIndex = row.showIndex;
+      this.abbreviation = row.abbreviation;
       this.group = row.groupName;
       this.language = row.lang
     },
@@ -291,6 +300,7 @@ export default {
       this.description = "";
       this.url = "";
       this.showIndex = "";
+      this.abbreviation = "";
       this.tableDataInit = -1;
       this.group = "";
       this.language = ""

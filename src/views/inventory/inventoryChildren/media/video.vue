@@ -44,6 +44,12 @@
             </div>
           </template>
         </el-table-column>
+        <el-table-column label="abbreviation">
+          <template slot-scope="scope">
+            <el-input v-if="scope.$index === tableDataInit" v-model="abbreviation"></el-input>
+            <div v-else>{{scope.row.abbreviation}}</div>
+          </template>
+        </el-table-column>
         <el-table-column label="showIndex">
           <template slot-scope="scope">
             <el-input v-if="scope.$index === tableDataInit" v-model="showIndex"></el-input>
@@ -115,6 +121,7 @@ export default {
       tableDataInit: -1,
       title: "",
       url: "",
+      abbreviation: "",
       logoUrl: "",
       description: "",
       showIndex: "",
@@ -198,7 +205,8 @@ export default {
         description: this.description,
         logoUrl: this.logoUrl,
         showIndex: this.showIndex ? this.showIndex * 1 : 1,
-        type: "Video"
+        type: "Video",
+        abbreviation: this.abbreviation
       }).then(res => {
         if (res.code == 0) {
           this.$notify.success({
@@ -246,6 +254,7 @@ export default {
       // this.sliceFn(row.logoUrl) ? this.logoUrl = this.hostUrl + row.logoUrl: this.logoUrl = row.logoUrl;
       this.uploadTableParam[1].brokeId = row.brokeId;
       this.description = row.description;
+      this.abbreviation = row.abbreviation;
     },
     sliceFn (str) {
       let isShow = true;
@@ -269,6 +278,7 @@ export default {
       this.showIndex = "";
       this.description = "";
       this.tableDataInit = -1;
+      this.abbreviation = ''
       // console.log('清楚',this.title = "",  this.url = "",this.logoUrl,  this.description)
     },
     //获取列表数据

@@ -105,6 +105,12 @@
               <el-checkbox v-model="detailForm.deferredPayment"></el-checkbox>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+          
+            <el-form-item prop="landSaleDate" :label="$t('landSaleDate')">
+              <el-date-picker class="width_300px" value-format="timestamp" format="dd-MMM-yyyy" type="date" v-model="detailForm.landSaleDate"></el-date-picker>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
@@ -336,6 +342,15 @@
               </el-select>
             </el-form-item>
           </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="abbreviation" prop="abbreviation">
+              <el-input class="width_300px" v-model="detailForm.abbreviation"></el-input>
+            </el-form-item>
+          </el-col>
+
         </el-row>
 
         <div style="border-bottom:1px solid #dcdfe6;margin:5px 0;"></div>
@@ -640,6 +655,18 @@ export default {
     uploader
   },
   data () {
+    var checkAbbreviation = (rule, value, callback) => {
+      if (!value) {
+        return callback(new Error("简称不能为空"));
+      }
+      setTimeout(() => {
+        if (/[^a-zA-Z0-9\u4E00-\u9FA5\-\(*(w+)\)*]/g.test(value)) {
+          callback(new Error("不能输入特殊字符"));
+        } else {
+          callback();
+        }
+      }, 500);
+    };
     return {
       hostUrl: sessionStorage.getItem('serveUrl') || '',
       userInfo: JSON.parse(sessionStorage.getItem('userInfo')) || {},
@@ -687,6 +714,7 @@ export default {
         previewDate: '',
         previewDateAltText: '',
         launchDate: '',
+        landSaleDate: '',
         launchDateAltText: '',
         country: '',
         countryAltText: '',
@@ -735,7 +763,8 @@ export default {
         mfPerShare: '',
         ecProjectCode: '',
         snapshotLogo: [],
-        facilitiesMap: []
+        facilitiesMap: [],
+        abbreviation: ''
       },
       nearbyList: {
         subway_station: [],
@@ -851,6 +880,10 @@ export default {
             trigger: 'blur',
           },
         ],
+        abbreviation: [
+          { required: true, message: "请输入简称", trigger: "blur" },
+          { validator: checkAbbreviation, trigger: "blur" },
+        ]
       },
       editorSetting: {
         // 配置富文本编辑器高

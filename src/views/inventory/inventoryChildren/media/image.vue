@@ -79,6 +79,12 @@
             <img v-else style="width:45px" @click.stop="$imgPreview($urlEncode(hostUrl + scope.row.url))" :src="$urlEncode(hostUrl +scope.row.url)" alt="">
           </template>
         </el-table-column>
+        <el-table-column :label="$t('abbreviation')">
+          <template slot-scope="scope">
+            <el-input v-if="scope.$index === tableDataInit" v-model="abbreviation"></el-input>
+            <div v-else>{{scope.row.abbreviation}}</div>
+          </template>
+        </el-table-column>
         <el-table-column label="showIndex">
           <template slot-scope="scope">
             <el-input v-if="scope.$index === tableDataInit" v-model="showIndex"></el-input>
@@ -132,6 +138,7 @@ export default {
       mainImage: "",
       group: "",
       showIndex: "",
+      abbreviation: '',
       hostUrl: sessionStorage.getItem("serveUrl") || "",
       self:
         JSON.parse(sessionStorage.getItem("projectDesc") || "{}").self,
@@ -217,7 +224,8 @@ export default {
         url: this.url,
         type: "Image",
         groupName: this.group,
-        showIndex: this.showIndex ? this.showIndex * 1 : 1
+        showIndex: this.showIndex ? this.showIndex * 1 : 1,
+        abbreviation: this.abbreviation
       }).then(res => {
         if (res.code == 0) {
           this.$notify.success({
@@ -260,6 +268,7 @@ export default {
       this.url = this.hostUrl + row.url;
       this.group = row.groupName;
       this.showIndex = row.showIndex;
+      this.abbreviation = row.abbreviation
     },
     cancel (row, index) {
       if (index == 0) {
@@ -275,6 +284,7 @@ export default {
       this.group = "";
       this.showIndex = "";
       this.tableDataInit = -1;
+      this.abbreviation = ''
     },
     refresh () {
       this.cancelAddData();
