@@ -107,7 +107,7 @@
           </el-col>
           <el-col :span="12">
           
-            <el-form-item prop="landSaleDate" :label="$t('landSaleDate')">
+            <el-form-item prop="landSaleDate" :label="$t('land sales date')">
               <el-date-picker class="width_300px" value-format="timestamp" format="dd-MMM-yyyy" type="date" v-model="detailForm.landSaleDate"></el-date-picker>
             </el-form-item>
           </el-col>

@@ -59,6 +59,12 @@
             </div>
           </template>
         </el-table-column>
+        <el-table-column label="abbreviation">
+          <template slot-scope="scope">
+            <el-input v-if="scope.$index === tableDataInit" v-model="abbreviation"></el-input>
+            <div v-else>{{scope.row.abbreviation}}</div>
+          </template>
+        </el-table-column>
         <el-table-column label="720°">
           <template slot-scope="scope">
             <el-input v-if="scope.$index === tableDataInit" v-model="ivt"></el-input>
@@ -132,6 +138,7 @@ export default {
       floorName: "",
       floortype: "",
       ivt: "",
+      abbreviation: "",
       vrCode: "",
       uploadParam: [
         {
@@ -248,6 +255,7 @@ export default {
       this.floorName = row.floorPlanName;
       this.floortype = row.floorPlanType;
       this.ivt = row.ivt
+      this.abbreviation = row.abbreviation
       this.vrCode = row.vrCode
       this.uploadModelParam[1].value = row.floorPlanId;
     },
@@ -263,6 +271,7 @@ export default {
       this.floorName = "";
       this.floortype = "";
       this.ivt = ""
+      this.abbreviation = ""
       this.vrCode = ""
       this.tableDataInit = -1;
     },
@@ -277,6 +286,7 @@ export default {
         floorPlanName: this.floorName,
         floorPlanType: this.floortype,
         ivt: this.ivt,
+        abbreviation: this.abbreviation,
         vrCode: this.vrCode,
         floorPlanId: floorPlanId
       }).then(res => {
