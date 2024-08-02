@@ -1,0 +1,33 @@
+{
+  "language": "请选择语言",
+  "login": {
+    "title": "MixGo全控中心后台",
+    "website": "MixGo官网",
+    "app": "APP产品",
+    "input_phone": "请输入邮箱或手机号码",
+    "input_passwords": "请输入密码",
+    "verificate_phone": "请输入用户名",
+    "verificate_pass": "请输入密码",
+    "verificate_account_pass": "请输入账号或者密码",
+    "login": "登录",
+    "loginout":"退出"
+  },
+  "footer": {
+    "mixgo": "MIXGO",
+    "desc1": "服务优势/使用条款/隐私政策",
+    "desc2": "地址：新加披SJAKLSJDAKSJDLKAJSDLKAJSLDKAJSLKDJ",
+    "desc3": "电话：1353767200",
+    "desc4": "版权 2017 mixgo. 保留权利"
+  },
+  "alert":{
+    "alert_delete": "Confirm delete",
+    "alert_command": "Alert",
+    "alert_success_delete_title": "Sucessfully deleted",
+    "alert_fail_delete_title": "Failed to delete",
+    "operate_success_title": "Sucessful operated",
+    "operate_fail_title": "Failed to operate",
+    "alert_success_title": "Success"
+  },
+  "Lastlogontime":"最后登录时间",
+  "FileNum":"文件个数"
+}
