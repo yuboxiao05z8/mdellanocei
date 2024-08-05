@@ -14,7 +14,11 @@
             fileType=".xls,.xlsx"
             :btnText="{select:$t('units.selectFile'),import:$t('units.importUnitList')}"
           ></uploader>
-          <el-button :disabled="self == 0" size="mini" @click="exportUnit">{{$t('units.exportUnitList')}}</el-button>
+          <el-button
+            :disabled="self == 0"
+            size="mini"
+            @click="exportUnit"
+          >{{$t('units.exportUnitList')}}</el-button>
         </el-col>
       </el-row>
       <el-row>
@@ -65,6 +69,7 @@
                   <div>{{$t('units.UnitList')}}</div>
                 </el-col>
                 <el-col :span="12">
+                  <el-button size="mini" @click="DeleteAll">Delete All Unit</el-button>
                   <el-button size="mini" @click="refreshUnit">{{$t('Refresh')}}</el-button>
                 </el-col>
               </el-row>
@@ -86,12 +91,20 @@
               <el-table-column prop="type" :label="$t('units.Type')"></el-table-column>
               <el-table-column :label="$t('Delete')">
                 <template slot-scope="scope">
-                  <el-button :disabled="self == 0" size="mini" @click="deleteUnit(scope.row)">{{$t('units.delete')}}</el-button>
+                  <el-button
+                    :disabled="self == 0"
+                    size="mini"
+                    @click="deleteUnit(scope.row)"
+                  >{{$t('units.delete')}}</el-button>
                 </template>
               </el-table-column>
               <el-table-column :label="$t('Edit')">
                 <template slot-scope="scope">
-                  <el-button :disabled="self == 0" size="mini" @click="editUnit(scope.row)">{{$t('units.edit')}}</el-button>
+                  <el-button
+                    :disabled="self == 0"
+                    size="mini"
+                    @click="editUnit(scope.row)"
+                  >{{$t('units.edit')}}</el-button>
                 </template>
               </el-table-column>
             </el-table>
@@ -183,11 +196,23 @@
                         </div>
                         <div class="opration_column_children">
                           <template v-if="groupInit!==k">
-                            <el-button :disabled="self == 0" size="mini" @click="editGroup(item,k)">{{$t('units.edit')}}</el-button>
+                            <el-button
+                              :disabled="self == 0"
+                              size="mini"
+                              @click="editGroup(item,k)"
+                            >{{$t('units.edit')}}</el-button>
                           </template>
                           <template v-else>
-                            <el-button :disabled="self == 0" size="mini" @click="updateGroup(item)">{{$t('update')}}</el-button>
-                            <el-button :disabled="self == 0" size="mini" @click="cancelEditGroup(item,k)">{{$t('cancel')}}</el-button>
+                            <el-button
+                              :disabled="self == 0"
+                              size="mini"
+                              @click="updateGroup(item)"
+                            >{{$t('update')}}</el-button>
+                            <el-button
+                              :disabled="self == 0"
+                              size="mini"
+                              @click="cancelEditGroup(item,k)"
+                            >{{$t('cancel')}}</el-button>
                           </template>
                         </div>
                       </div>
@@ -268,7 +293,11 @@
             <el-col :span="12">
               <div class="opration">
                 <el-button size="mini" :disabled="self == 0" @click="updateUnit">{{$t('update')}}</el-button>
-                <el-button size="mini" :disabled="self == 0" @click="dialogOfPrice = false">{{$t('cancel')}}</el-button>
+                <el-button
+                  size="mini"
+                  :disabled="self == 0"
+                  @click="dialogOfPrice = false"
+                >{{$t('cancel')}}</el-button>
               </div>
             </el-col>
           </el-row>
@@ -362,9 +391,21 @@
                 :btnText="{select:$t('units.selectFile'),import:$t('units.Import')}"
                 @uploadAfter="uploadManageUnitAfter"
               ></uploader>
-              <el-button :disabled="self == 0" size="mini" @click="exportUnitManage">{{$t('units.Export')}}</el-button>
-              <el-button :disabled="self == 0" size="mini" @click="deleteGroupOfUnit('')">{{$t('units.RemoveAll')}}</el-button>
-              <el-button :disabled="self == 0" size="mini" @click="refreshManageUnit">{{$t('Refresh')}}</el-button>
+              <el-button
+                :disabled="self == 0"
+                size="mini"
+                @click="exportUnitManage"
+              >{{$t('units.Export')}}</el-button>
+              <el-button
+                :disabled="self == 0"
+                size="mini"
+                @click="deleteGroupOfUnit('')"
+              >{{$t('units.RemoveAll')}}</el-button>
+              <el-button
+                :disabled="self == 0"
+                size="mini"
+                @click="refreshManageUnit"
+              >{{$t('Refresh')}}</el-button>
             </div>
           </el-col>
         </el-row>
@@ -386,7 +427,11 @@
           </el-col>
           <el-col :span="4">
             <div class="select_btn">
-              <el-button :disabled="self == 0" size="mini" @click="insertUnitGroupJoin">{{$t('units.Insert')}}</el-button>
+              <el-button
+                :disabled="self == 0"
+                size="mini"
+                @click="insertUnitGroupJoin"
+              >{{$t('units.Insert')}}</el-button>
             </div>
           </el-col>
         </el-row>
@@ -718,6 +763,30 @@ export default {
         }
       });
     },
+    DeleteAll() {
+      this.$confirm(this.$t("alert.alert_delete"), "Delete All Unit?", {
+        confirmButtonText: this.$t("alert.sure"),
+        cancelButtonText: this.$t("alert.cancel"),
+        type: "warning"
+      }).then(() => {
+        this.$Geting(this.$api.deleteAllUnit, {
+          projectId: this.id
+        }).then(res => {
+          if (res.code == 0) {
+            this.$notify.success({
+              title: this.$t("alert.alert_success_title"),
+              message: this.$t("alert.alert_success_delete_title")
+            });
+            this.getUnitListData();
+          } else {
+            this.$notify.error({
+              title: this.$t("alert.fail"),
+              message: this.$t("alert.alert_fail_delete_title")
+            });
+          }
+        });
+      });
+    },
     deleteTeam(team, item) {
       //删除team
       this.$confirm(
@@ -897,7 +966,8 @@ export default {
         }
       ).then(() => {
         this.$Geting(this.$api.deleteUnit, {
-          unitId: row.unitId
+          unitId: row.unitId,
+          projectId: this.projectId
         }).then(res => {
           if (res.code == 0) {
             let self = this;

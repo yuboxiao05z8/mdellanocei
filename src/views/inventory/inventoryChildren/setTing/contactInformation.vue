@@ -67,9 +67,7 @@
         <el-row class="row_header">
           <el-col :span="8" class="col_text">Add Tagger Img</el-col>
           <el-col :span="16" class="col_button">
-            <!-- <el-button size="mini"> {{$t('image.selectFile')}}</el-button>
-          <el-button size="mini"> {{$t('image.addMainImage')}}
-            </el-button>-->
+            <el-button size="mini" @click="deleteContactImage">Delete Tagger Img</el-button>
             <uploader
               fileId="mainImageFile"
               :maxSize="10"
@@ -269,7 +267,8 @@ export default {
       },
       commissionDesc: "",
       editorArr: [], //获取数据时富文本编辑器的图片数组
-      updateEditorArr: [] //提交时富文本编辑器里面的图片数组
+      updateEditorArr: [], //提交时富文本编辑器里面的图片数组
+      ContactData: {}
     };
   },
   mounted() {
@@ -393,11 +392,28 @@ export default {
       };
       this.tableDataInit = -1;
     },
+    deleteContactImage() {
+      this.$Get(this.$api.deleteContactImage, {id: this.ContactData.id}).then(res => {
+        if(res.code == 0) {
+          this.$notify.success({
+            title: this.$t("alert.alert_success_title"),
+            message: res.msg
+          });
+          this.contactImage = ''
+        } else {
+          this.$notify.error({
+            title: this.$t("alert.fail"),
+            message: res.msg
+          });
+        }
+      })
+    },
     queryCommission() {
       this.$Get(this.$api.queryCommission, { projectId: this.projectId }).then(
         res => {
           if (res.code == 0) {
             // console.log(res)
+            this.ContactData = res.datas
             this.ExternalCommission = res.datas.externalCommission;
             this.internalCommission = res.datas.internalCommission;
             this.internalCommissionNum = res.datas.internalCommissionNum;
@@ -406,6 +422,7 @@ export default {
             this.commissionDesc = this.$base64ToContent(
               res.datas.commissionDesc
             );
+            console.log(res)
             // this.beforeSaveGetInitEdit(this.commissionDesc)
             if (tinymce.editors[0]) {
               tinymce.editors[0].setContent(this.commissionDesc);

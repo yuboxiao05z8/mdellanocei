@@ -2,7 +2,12 @@
   <div class="edit_map">
     <h1 class="hint_site">
       {{$t('editMap.currentPage')}}: {{$t('editMap.inventory')}} > {{$t('editMap.plans')}} > {{$t('editMap.editMapping')}}
-      <el-button size="mini" type="info" class="btn el-icon-back" @click="goBack">{{$t('editMap.goBack')}}</el-button>
+      <el-button
+        size="mini"
+        type="info"
+        class="btn el-icon-back"
+        @click="goBack"
+      >{{$t('editMap.goBack')}}</el-button>
     </h1>
     <div class="project_title">
       <el-row>
@@ -23,7 +28,11 @@
             <el-radio :label="'circle'">{{$t('editMap.drawCircle')}}</el-radio>
             <el-radio :label="'triangle'">{{$t('editMap.drawTriangle')}}</el-radio>
           </el-radio-group>
-          <el-button size="mini" @click="createGraphicsBtn" style="margin-left:10px;">{{$t('editMap.generatingGraphics')}}</el-button>
+          <el-button
+            size="mini"
+            @click="createGraphicsBtn"
+            style="margin-left:10px;"
+          >{{$t('editMap.generatingGraphics')}}</el-button>
         </el-col>
         <el-col :span="12" style=" text-align: right;">
           <el-button @click="Copy" size="mini">{{$t('editMap.copySharp')}}</el-button>
@@ -34,7 +43,7 @@
       </el-row>
     </div>
     <div class="map_section">
-      <canvas id='canvas'></canvas>
+      <canvas id="canvas"></canvas>
     </div>
     <div class="bottom_form">
       <el-form :inline="true" size="mini">
@@ -55,8 +64,19 @@
           </el-col>
           <el-col :span="11" style=" text-align: right;">
             <el-form-item :label="$t('editMap.sharpName')" v-if="isShowBuilding||isShowUnit">
-              <el-select v-model="building" @change="getUnitList(building)" filterable placeholder="Select Building" v-if="isShowBuilding">
-                <el-option v-for="(v,k) in buildingList" :key="k" :label="v.sitePlanName" :value="v.buildId"></el-option>
+              <el-select
+                v-model="building"
+                @change="getUnitList(building)"
+                filterable
+                placeholder="Select Building"
+                v-if="isShowBuilding"
+              >
+                <el-option
+                  v-for="(v,k) in buildingList"
+                  :key="k"
+                  :label="v.sitePlanName"
+                  :value="v.buildId"
+                ></el-option>
               </el-select>
               <el-select v-model="unit" placeholder="Select Unit" filterable v-if="isShowUnit">
                 <el-option v-for="(v,k) in unitLits" :key="k" :label="v.unitName" :value="v.unitId"></el-option>
@@ -64,10 +84,8 @@
             </el-form-item>
             <el-button @click="SetUrl" size="mini">{{$t('editMap.save')}}</el-button>
           </el-col>
-
         </el-row>
       </el-form>
-
     </div>
   </div>
 </template>
@@ -94,7 +112,9 @@ export default {
       TriangleArr: [],
       RectNum: -1,
       CircleNum: -1,
-      TriangleNum: -1
+      TriangleNum: -1,
+      oldBuildingID: "",
+      oldUnitID: ""
     };
   },
   mounted() {
@@ -280,9 +300,17 @@ export default {
           sitePlanID: self.sitePlanID,
           unitID: self.unitID
         };
+        console.log(_this.graphicsInfo, "点击");
         if (self.buildingID !== "" && _this.$route.query.type !== "building") {
-          _this.building = self.buildingID;
-          _this.getUnitList(self.buildingID);
+          if (self.buildingID) {
+            _this.building = self.buildingID;
+            _this.getUnitList(self.buildingID);
+            _this.oldBuildingID = self.buildingID;
+          } else {
+            _this.building = _this.oldBuildingID;
+            _this.getUnitList(_this.building);
+          }
+          console.log(self.buildingID, "漏洞");
         } else if (self.buildingID === undefined) {
           _this.building = "";
         }
@@ -291,8 +319,10 @@ export default {
         }
         if (self.unitID) {
           _this.unit = self.unitID;
+          _this.oldUnitID = self.unitID;
         } else if (self.unitID === undefined) {
-          _this.unit = "";
+          console.log(self.unitID, "unitID");
+          _this.unit = _this.oldUnitID;
         }
         // console.log(_this.graphicsInfo,obj);
       });
@@ -318,13 +348,13 @@ export default {
           this.canvas.getActiveObject().buildingID = this.building;
           this.canvas.getActiveObject().sitePlanID = sitePlanID;
           this.canvas.getActiveObject().sitePlanName = sitePlanName;
-        } 
+        }
 
         if (this.unit !== "") {
           // console.log('222', this.unit)
           this.canvas.getActiveObject().unitID = this.unit;
         } else {
-          this.canvas.getActiveObject().unitID = ''
+          this.canvas.getActiveObject().unitID = "";
         }
       }
       // console.log(this.canvas.getActiveObject())

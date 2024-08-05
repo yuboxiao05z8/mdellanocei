@@ -277,9 +277,8 @@ export default {
   },
   methods: {
     editors(obj) {
-
-      this.sendForm.content = obj.content
-      console.log('符文布', this.sendForm.content)
+      this.sendForm.content = obj.content;
+      console.log("符文布", this.sendForm.content);
     },
     onEditorUploadComplete(json) {
       json[1](this.hostUrl + json[0].filePath);
@@ -287,8 +286,7 @@ export default {
     showContent(content) {
       this.dialogVisible = true;
       if (content) {
-
-        this.base64Content = this.$base64ToContent(content)
+        this.base64Content = this.$base64ToContent(content);
         // cons
 
         // console.log( this.base64Content, content)
@@ -329,16 +327,29 @@ export default {
       this.transactionPage.currentPage = val;
       this.getListsData(0);
     },
+    removeHTMLTag(str) {
+      str = str.replace(/<\/?[^>]*>/g, ""); //去除HTML tag
+      // str = str.replace(/[ | ]*\n/g, "\n"); //去除行尾空白
+      //str = str.replace(/\n[\s| | ]*\r/g,'\n'); //去除多余空行
+      // str = str.replace(/ /gi, ""); //去掉
+      return str;
+    },
+    escape2Html(str) {
+      let arrEntities = { lt: "<", gt: ">", nbsp: " ", amp: "&", quot: '"' };
+      return str.replace(/&(lt|gt|nbsp|amp|quot);/gi, function(all, t) {
+        return arrEntities[t];
+      });
+    },
     sendNotification() {
       let params = {
         pushTime: "",
         isCustom: "",
-        content: "",
         team: "",
         project: "",
         audience: "",
         title: this.sendForm.title,
-        content: this.sendForm.content
+        content: this.sendForm.content,
+        intro: ""
       };
       if (this.sendForm.timeType == 2) {
         params.pushTime = this.sendForm.sendTime;
@@ -353,10 +364,19 @@ export default {
         params.project = this.sendForm.project;
         params.audience = this.sendForm.audience;
       }
+      if (this.sendForm.content) {
+        let str = this.removeHTMLTag(this.sendForm.content);
+        let npStr = this.escape2Html(str);
+        if(npStr.length > 41) {
+         params.intro = npStr.slice(0, 40)
+        } else {
+          params.intro = npStr
+        }
+      }
       params.content = this.$contentToBase64(this.sendForm.content);
       this.$Posting(this.$api.insertPushLog, params).then(res => {
         if (res.code == 0) {
-          this.beforeSaveCheckImage()
+          this.beforeSaveCheckImage();
           this.$notify.success({
             title: this.$t("alert.alert_success_title"),
             message: this.$t("alert.operate_success_title")
@@ -369,9 +389,9 @@ export default {
         }
       });
     },
-     //保存前先读取服务端返回的富文本编辑器里面的内容，晒选出图片存在缓存中
+    //保存前先读取服务端返回的富文本编辑器里面的内容，晒选出图片存在缓存中
     beforeSaveGetInitEdit() {
-      console.log(arguments,'2321223')
+      console.log(arguments, "2321223");
       for (let i = 0; i < arguments.length; i++) {
         this.editorArr = this.editorArr.concat(
           this.$changeHtmlStr(arguments[i])
@@ -390,9 +410,7 @@ export default {
     beforeSaveCheckImage() {
       let editorImg =
         JSON.parse(window.sessionStorage.getItem("editorImg")) || [];
-      this.beforeSaveGetEdit(
-        this.sendForm.content
-      );
+      this.beforeSaveGetEdit(this.sendForm.content);
 
       let allEditorArr = [...editorImg, ...this.editorArr]; //将缓存里面的图片和获取的富文本编辑器的图片进行整合
       allEditorArr.length &&
@@ -605,8 +623,8 @@ export default {
     .base64_no_data {
       text-align: center;
     }
-    .base64_content{
-      img{
+    .base64_content {
+      img {
         max-width: 100%;
       }
     }
