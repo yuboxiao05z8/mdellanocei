@@ -367,8 +367,8 @@ export default {
       if (this.sendForm.content) {
         let str = this.removeHTMLTag(this.sendForm.content);
         let npStr = this.escape2Html(str);
-        if(npStr.length > 41) {
-         params.intro = npStr.slice(0, 40)
+        if(npStr.length > 101) {
+         params.intro = npStr.slice(0, 100)
         } else {
           params.intro = npStr
         }
