@@ -93,7 +93,7 @@
           <el-input type="textarea" class="input_375" :rows="4" v-model.trim="ruleForm.content"></el-input>
         </el-form-item>
         <el-form-item :label="$t('picture')" prop="calendayImgs">
-          <uploaderImg :backData="ruleForm.calendayImgs" :id="'calendayImg'" :mixLength='3' folder="CalendarImg" :maxSize="150"></uploaderImg>
+          <uploaderImg :backData="ruleForm.calendayImgs" :id="'calendayImg'" :mixLength='3' folder="CalendarImg" :maxSize="1000"></uploaderImg>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">

@@ -45,9 +45,9 @@
             <span slot="title">{{$t('navLeft.otherSellingEntities')}}</span>
           </el-menu-item>
         </el-submenu> -->
-        <el-menu-item index="/home/report.html">
+        <!-- <el-menu-item index="/home/report.html">
           <span slot="title">{{$t('navLeft.report')}}</span>
-        </el-menu-item>
+        </el-menu-item> -->
       </el-submenu>
       <el-menu-item v-if="isAdmin == 0" index="/home/versionList.html">
         <span slot="title">{{$t('navLeft.version_manage')}}</span>

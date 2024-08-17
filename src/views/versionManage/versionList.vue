@@ -1,15 +1,24 @@
 <template >
   <div class="version_manage">
-    <h1 class="hint_site">
-      {{$t('current_position')}}： {{$t('version_manage')}} > {{$t('version_lists')}}
-    </h1>
+    <h1
+      class="hint_site"
+    >{{$t('current_position')}}： {{$t('version_manage')}} > {{$t('version_lists')}}</h1>
     <div class="appFind_conter">
       <div class="appFind_conter_input">
-        <el-button type="primary" @click="goVersion(null)" icon="el-icon-circle-plus">{{$t('add_version')}}</el-button>
+        <el-button
+          type="primary"
+          @click="goVersion(null)"
+          icon="el-icon-circle-plus"
+        >{{$t('add_version')}}</el-button>
       </div>
     </div>
     <div class="find_tab">
-      <el-table :data="tableData" border style="width: 100%" size="small" >
+      <el-table :data="tableData" border style="width: 100%" size="small">
+        <el-table-column label="App Name">
+          <template slot-scope="scope">
+            <span >{{ scope.row.appName}}</span>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('ios_ver')">
           <template slot-scope="scope">
             <span v-if="scope.row.type==0">{{ scope.row.versionNo}}</span>
@@ -58,15 +67,32 @@
         </el-table-column>
         <el-table-column :label="$t('operation')" width="300px">
           <template slot-scope="scope">
-            <el-button type="info" plain  size="mini" v-if="scope.row.status==1"  @click="changeVersion('0',scope.row)">{{$t('Enable')}}</el-button>
-            <el-button type="success" plain v-else size="mini" @click="changeVersion('1',scope.row)">{{$t('Prohibit')}}</el-button>
+            <el-button
+              type="info"
+              plain
+              size="mini"
+              v-if="scope.row.status==1"
+              @click="changeVersion('0',scope.row)"
+            >{{$t('Enable')}}</el-button>
+            <el-button
+              type="success"
+              plain
+              v-else
+              size="mini"
+              @click="changeVersion('1',scope.row)"
+            >{{$t('Prohibit')}}</el-button>
             <el-button size="mini" @click="goVersion(scope.row)">{{$t("Edit")}}</el-button>
           </template>
         </el-table-column>
       </el-table>
       <div class="block tab_paging">
-        <el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="total,prev, pager, next" :current-page.sync="currentPage" :total="total">
-        </el-pagination>
+        <el-pagination
+          @current-change="handleCurrentChange"
+          :page-size="pageSize"
+          layout="total,prev, pager, next"
+          :current-page.sync="currentPage"
+          :total="total"
+        ></el-pagination>
       </div>
     </div>
   </div>
@@ -89,29 +115,28 @@ export default {
   },
   methods: {
     //启用当前版本
-    changeVersion(type,row) {
+    changeVersion(type, row) {
       // console.log(row)
       let _this = this;
-        this.$Posting(this.$api.startProhibit, {
-          verId: row.verId,
-          type:row.type,
-          status:type
-        }).then(res => {
-          if (res.code == 0) {
-            this.$notify.success({
-              title: this.$t("alert.alert_success_title"),
-              message: this.$t("alert.operate_success_title")
-            });
-            this.getListData(this.currentPage);
-          } else {
-            this.$notify.error({
-              title: this.$t("alert.fail"),
-              message: this.$t("alert.operate_fail_title")
-            });
-            return false;
-          }
-        });
-     
+      this.$Posting(this.$api.startProhibit, {
+        verId: row.verId,
+        type: row.type,
+        status: type
+      }).then(res => {
+        if (res.code == 0) {
+          this.$notify.success({
+            title: this.$t("alert.alert_success_title"),
+            message: this.$t("alert.operate_success_title")
+          });
+          this.getListData(this.currentPage);
+        } else {
+          this.$notify.error({
+            title: this.$t("alert.fail"),
+            message: this.$t("alert.operate_fail_title")
+          });
+          return false;
+        }
+      });
     },
     goVersion(row) {
       if (row) {

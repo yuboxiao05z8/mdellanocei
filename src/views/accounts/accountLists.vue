@@ -60,13 +60,23 @@
             <div>{{scope.row.fileNum}}</div>
           </template>
         </el-table-column>
+        <el-table-column label="Expiration Date">
+          <template slot-scope="scope">
+            <div>{{$dateFormat(scope.row.expirationDate)}}</div>
+          </template>
+        </el-table-column>
+        <el-table-column label="Theme Colors">
+          <template slot-scope="scope">
+            <div>{{scope.row.color}}</div>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('accounts.webSite')">
           <template slot-scope="scope">
             <div>{{scope.row.website}}</div>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('userLists.edit')">
+        <el-table-column fixed="right" width="300" :label="$t('userLists.edit')">
           <template slot-scope="scope">
             <template>
               <el-button
@@ -154,6 +164,19 @@
               <el-input v-model="companyForm.fileNum"></el-input>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="Theme Colors">
+              <el-input v-model="companyForm.color"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="Expiration Date">
+              <el-date-picker value-format="timestamp" v-model="companyForm.expirationDate" type="date" placeholder="Select Date"></el-date-picker>
+            </el-form-item>
+          </el-col>
         </el-row>
 
         <el-row>
@@ -216,6 +239,8 @@ export default {
         website: "",
         type: "",
         logo: [],
+        expirationDate: '',
+        color: '',
         editBrokeId: ""
       },
       detail: "",
@@ -257,6 +282,8 @@ export default {
         type: "",
         logo: [],
         editBrokeId: "",
+        expirationDate: '',
+        color: '',
         detail: ""
       }),
         (this.dialogVisible = true);
@@ -346,17 +373,17 @@ export default {
             src: this.serveUrl + row.logo
           }
         ],
+        expirationDate: row.expirationDate,
+        color: row.color,
         editBrokeId: row.brokeId,
         facebookWebsit: row.facebookWebsit
       };
-      this.detail = ''
-      this.detail = this.$base64ToContent(
-        row.detail
-      )
-      if(tinymce.editors[0]) {
+      this.detail = "";
+      this.detail = this.$base64ToContent(row.detail);
+      if (tinymce.editors[0]) {
         tinymce.editors[0].setContent(this.detail);
       }
-      
+
       this.dialogVisible = true;
     },
     managementFn(row) {
@@ -410,7 +437,7 @@ export default {
             title: this.$t("alert.alert_success_title"),
             message: this.$t("alert.operate_success_title")
           });
-          this.beforeSaveCheckImage()
+          this.beforeSaveCheckImage();
           this.dialogVisible = false;
           this.getListData();
         } else {
