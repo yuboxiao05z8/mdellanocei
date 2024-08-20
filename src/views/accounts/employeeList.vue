@@ -21,7 +21,7 @@
           style="width:300px"
           size="mini"
           :placeholder="$t('name')"
-          v-model.trim="searchName"
+          v-model="searchName"
         ></el-input>
         <el-button size="mini" @click="searchData">{{$t('inventoryLists.Search')}}</el-button>
       </div>

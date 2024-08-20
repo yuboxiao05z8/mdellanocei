@@ -17,7 +17,7 @@
       <el-table :data="buildingList" border style="width: 100%" :header-cell-style="{'background':'#f5f7fa'}" size="mini">
         <el-table-column :label="$t('buildingPhases.name')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="buildName"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="buildName"></el-input>
             <div v-else>{{scope.row.buildName}}</div>
           </template>
         </el-table-column>

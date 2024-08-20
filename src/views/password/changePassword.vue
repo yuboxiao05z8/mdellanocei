@@ -7,13 +7,13 @@
       <el-form class='demo-ruleForm' size="small" label-position="top">
         <div class="form_section">
           <el-form-item label="Old Password">
-            <el-input class='form_input_375' v-model.trim="oldPass" type="password" placeholder="Password length should not be less than 6"></el-input>
+            <el-input class='form_input_375' v-model="oldPass" type="password" placeholder="Password length should not be less than 6"></el-input>
           </el-form-item>
           <el-form-item label="New Password">
-            <el-input class='form_input_375' v-model.trim="newPass" type="password" placeholder="Password length should not be less than 6"></el-input>
+            <el-input class='form_input_375' v-model="newPass" type="password" placeholder="Password length should not be less than 6"></el-input>
           </el-form-item>
           <el-form-item label="Confirm New Password">
-            <el-input class='form_input_375' v-model.trim="confirmPass" type="password" placeholder="Password length should not be less than 6"></el-input>
+            <el-input class='form_input_375' v-model="confirmPass" type="password" placeholder="Password length should not be less than 6"></el-input>
           </el-form-item>
         </div>
         <div class="submit_form">

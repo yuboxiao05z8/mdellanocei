@@ -30,7 +30,7 @@
       <el-table border style="width: 100%" size="mini" :data="tableList">
         <el-table-column :label="$t('documentGeneration.Title')">
           <template slot-scope="scope">
-            <el-input size="mini" v-if="scope.$index === tableDataInit" v-model.trim="title"></el-input>
+            <el-input size="mini" v-if="scope.$index === tableDataInit" v-model="title"></el-input>
             <div v-else>{{scope.row.title}}</div>
           </template>
         </el-table-column>
@@ -92,7 +92,7 @@
         </el-table-column>
         <el-table-column :label="$t('documentGeneration.OTPNo')">
           <template slot-scope="scope">
-            <el-input size="mini" v-if="scope.$index === tableDataInit" v-model.trim="otpNo"></el-input>
+            <el-input size="mini" v-if="scope.$index === tableDataInit" v-model="otpNo"></el-input>
             <div v-else>{{scope.row.otpNo}}</div>
           </template>
         </el-table-column>
@@ -127,7 +127,7 @@
         </el-table-column>
         <el-table-column :label="$t('documentGeneration.DisplayOrder')">
           <template slot-scope="scope">
-            <el-input size="mini" v-if="scope.$index === tableDataInit" v-model.trim="displayOrder"></el-input>
+            <el-input size="mini" v-if="scope.$index === tableDataInit" v-model="displayOrder"></el-input>
             <div v-else>{{scope.row.displayOrder}}</div>
           </template>
         </el-table-column>

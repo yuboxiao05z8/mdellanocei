@@ -48,13 +48,13 @@
               </el-table-column>
               <el-table-column :label="$t('settings.commission')">
                 <template slot-scope="scope">
-                  <el-input v-if="scope.$index === tableDataInit" v-model.trim="defaultCommission"></el-input>
+                  <el-input v-if="scope.$index === tableDataInit" v-model="defaultCommission"></el-input>
                   <div v-else>{{scope.row.defaultCommission}}</div>
                 </template>
               </el-table-column>
               <!-- <el-table-column label="Proportion">
                 <template slot-scope="scope">
-                  <el-input type="Number" v-if="scope.$index === tableDataInit" v-model.trim="commissionNum"></el-input>
+                  <el-input type="Number" v-if="scope.$index === tableDataInit" v-model="commissionNum"></el-input>
                   <div v-else>{{scope.row.commissionNum}}</div>
                 </template>
               </el-table-column> -->
@@ -172,19 +172,19 @@
             >
               <el-table-column :label="$t('discount.discountName')">
                 <template slot-scope="scope">
-                  <el-input v-if="scope.$index === discountIndex" v-model.trim="discountName"></el-input>
+                  <el-input v-if="scope.$index === discountIndex" v-model="discountName"></el-input>
                   <div v-else>{{scope.row.discountName}}</div>
                 </template>
               </el-table-column>
               <el-table-column :label="$t('discount.describe')">
                 <template slot-scope="scope">
-                  <el-input v-if="scope.$index === discountIndex" v-model.trim="discountDescribe"></el-input>
+                  <el-input v-if="scope.$index === discountIndex" v-model="discountDescribe"></el-input>
                   <div v-else>{{scope.row.remark}}</div>
                 </template>
               </el-table-column>
               <el-table-column :label="$t('discount.Absolute')">
                 <template slot-scope="scope">
-                  <el-input v-if="scope.$index === discountIndex" v-model.trim="discount"></el-input>
+                  <el-input v-if="scope.$index === discountIndex" v-model="discount"></el-input>
                   <div v-else>{{scope.row.discount}}</div>
                 </template>
               </el-table-column>
@@ -263,13 +263,13 @@
             >
               <el-table-column :label="$t('discount.discountName')">
                 <template slot-scope="scope">
-                  <el-input v-if="scope.$index === payIndex" v-model.trim="payName"></el-input>
+                  <el-input v-if="scope.$index === payIndex" v-model="payName"></el-input>
                   <div v-else>{{scope.row.payName}}</div>
                 </template>
               </el-table-column>
               <el-table-column :label="$t('discount.describe')">
                 <template slot-scope="scope">
-                  <el-input v-if="scope.$index === payIndex" v-model.trim="remark"></el-input>
+                  <el-input v-if="scope.$index === payIndex" v-model="remark"></el-input>
                   <div v-else>{{scope.row.remark}}</div>
                 </template>
               </el-table-column>

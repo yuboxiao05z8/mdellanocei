@@ -21,16 +21,16 @@
       <el-row>
         <el-form :inline="true" size="mini">
           <el-form-item :label="$t('userLists.name')">
-            <el-input v-model.trim="filterForm.name"></el-input>
+            <el-input v-model="filterForm.name"></el-input>
           </el-form-item>
           <el-form-item :label="$t('userLists.email')">
-            <el-input v-model.trim="filterForm.email"></el-input>
+            <el-input v-model="filterForm.email"></el-input>
           </el-form-item>
           <el-form-item :label="$t('userLists.regNum')">
-            <el-input v-model.trim="filterForm.regNum"></el-input>
+            <el-input v-model="filterForm.regNum"></el-input>
           </el-form-item>
           <el-form-item :label="$t('userLists.mobile')">
-            <el-input v-model.trim="filterForm.mobile"></el-input>
+            <el-input v-model="filterForm.mobile"></el-input>
           </el-form-item>
           <el-form-item :label="$t('userLists.active')">
             <el-select v-model="filterForm.active">
@@ -61,25 +61,25 @@
       >
         <el-table-column width="150" :label="$t('userLists.name')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="name"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="name"></el-input>
             <div v-else>{{scope.row.agentName}}</div>
           </template>
         </el-table-column>
         <el-table-column width="150" :label="$t('userLists.mobile')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="mobile"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="mobile"></el-input>
             <div v-else>{{scope.row.mobile}}</div>
           </template>
         </el-table-column>
         <el-table-column width="150" :label="$t('userLists.email')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="email"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="email"></el-input>
             <div v-else>{{scope.row.email}}</div>
           </template>
         </el-table-column>
         <el-table-column width="150" :label="$t('userLists.regNumer')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="regNumer"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="regNumer"></el-input>
             <div v-else>{{scope.row.regNum}}</div>
           </template>
         </el-table-column>
@@ -113,7 +113,7 @@
         </el-table-column>
         <el-table-column width="150" :label="$t('userLists.password')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="password"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="password"></el-input>
             <div v-else>
               <div v-if="scope.row.password">********</div>
             </div>
@@ -125,7 +125,7 @@
               type="date"
               value-format="timestamp"
               v-if="scope.$index === tableDataInit"
-              v-model.trim="expirationDate"
+              v-model="expirationDate"
             ></el-date-picker>
             <div v-else>{{$dateFormatNoTime(scope.row.expirationDate)}}</div>
           </template>

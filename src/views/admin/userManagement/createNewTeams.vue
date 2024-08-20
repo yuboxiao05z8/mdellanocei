@@ -23,7 +23,7 @@
           style="width:300px"
           size="mini"
           :placeholder="$t('teamName')"
-          v-model.trim="SearTeamName"
+          v-model="SearTeamName"
         ></el-input>
         <el-button size="mini" @click="searchData">{{$t('inventoryLists.Search')}}</el-button>
       </div>
@@ -36,7 +36,7 @@
       >
         <el-table-column :label="$t('teams.teamName')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="teamName"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="teamName"></el-input>
             <div v-else>{{scope.row.teamName}}</div>
           </template>
         </el-table-column>

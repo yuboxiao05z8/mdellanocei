@@ -56,7 +56,7 @@
       >
         <el-table-column :label="$t('plan.name')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="name"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="name"></el-input>
             <div v-else>{{scope.row.sitePlanName}}</div>
           </template>
         </el-table-column>

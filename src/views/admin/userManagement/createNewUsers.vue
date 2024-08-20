@@ -12,16 +12,16 @@
     <div class="add_user_content">
       <el-form :model="ruleForm" :rules="rules" label-width="200px" size="small" ref="accountForm">
         <el-form-item :label="$t('newUser.Name')" prop="agentName">
-          <el-input v-model.trim="ruleForm.agentName" class="input_width_250px"></el-input>
+          <el-input v-model="ruleForm.agentName" class="input_width_250px"></el-input>
         </el-form-item>
         <el-form-item :label="$t('newUser.Email')" prop="email">
-          <el-input v-model.trim="ruleForm.email" class="input_width_250px"></el-input>
+          <el-input v-model="ruleForm.email" class="input_width_250px"></el-input>
         </el-form-item>
         <el-form-item :label="$t('newUser.Mobile')" prop="mobile">
-          <el-input v-model.trim="ruleForm.mobile" class="input_width_250px"></el-input>
+          <el-input v-model="ruleForm.mobile" class="input_width_250px"></el-input>
         </el-form-item>
         <el-form-item :label="$t('newUser.RefistrationNumber')" prop="refistrationNumber">
-          <el-input v-model.trim="ruleForm.refistrationNumber" class="input_width_250px"></el-input>
+          <el-input v-model="ruleForm.refistrationNumber" class="input_width_250px"></el-input>
         </el-form-item>
         <el-form-item :label="$t('newUser.DefaultTeam')" prop="teamId">
           <el-select v-model="ruleForm.teamId" class="input_width_250px">
@@ -37,7 +37,7 @@
           <el-row>
             <el-col>
               <el-radio v-model="timeSelect" label="1">{{$t('newUser.SetNumberofMonths')}}</el-radio>
-              <el-input v-model.trim="ruleForm.month" class="input_width_250px"></el-input>
+              <el-input v-model="ruleForm.month" class="input_width_250px"></el-input>
             </el-col>
             <el-col class="date_select_day">
               <el-radio v-model="timeSelect" label="2">{{$t('newUser.SetDate')}}</el-radio>

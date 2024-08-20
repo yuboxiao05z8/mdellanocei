@@ -307,60 +307,60 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item :label="$t('units.ListPrice')">
-                  <el-input v-model.trim="priceDialogDetails.price1"></el-input>
+                  <el-input v-model="priceDialogDetails.price1"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('units.Price6')">
-                  <el-input v-model.trim="priceDialogDetails.price6"></el-input>
+                  <el-input v-model="priceDialogDetails.price6"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item :label="$t('units.NettPrice')">
-                  <el-input v-model.trim="priceDialogDetails.price2"></el-input>
+                  <el-input v-model="priceDialogDetails.price2"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('units.Price7')">
-                  <el-input v-model.trim="priceDialogDetails.price7"></el-input>
+                  <el-input v-model="priceDialogDetails.price7"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item :label="$t('units.Price3')">
-                  <el-input v-model.trim="priceDialogDetails.price3"></el-input>
+                  <el-input v-model="priceDialogDetails.price3"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('units.Price8')">
-                  <el-input v-model.trim="priceDialogDetails.price8"></el-input>
+                  <el-input v-model="priceDialogDetails.price8"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item :label="$t('units.Price4')">
-                  <el-input v-model.trim="priceDialogDetails.price4"></el-input>
+                  <el-input v-model="priceDialogDetails.price4"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('units.Price9')">
-                  <el-input v-model.trim="priceDialogDetails.price9"></el-input>
+                  <el-input v-model="priceDialogDetails.price9"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
             <el-row>
               <el-col :span="12">
                 <el-form-item :label="$t('units.Price5')">
-                  <el-input v-model.trim="priceDialogDetails.price5"></el-input>
+                  <el-input v-model="priceDialogDetails.price5"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :span="12">
                 <el-form-item :label="$t('units.Price10')">
-                  <el-input v-model.trim="priceDialogDetails.price10"></el-input>
+                  <el-input v-model="priceDialogDetails.price10"></el-input>
                 </el-form-item>
               </el-col>
             </el-row>

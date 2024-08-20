@@ -67,20 +67,20 @@
       <div class="dialog_form">
         <el-form :inline="true" size="mini" label-width="180px">
           <el-form-item :label="$t('transactions.TransactionPrice')">
-            <el-input v-model.trim="editInfo.transactionPrice"></el-input>
+            <el-input v-model="editInfo.transactionPrice"></el-input>
           </el-form-item>
           <el-form-item :label="$t('transactions.OriginalUnitPrice')">
-            <el-input v-model.trim="editInfo.originalUnitPrice"></el-input>
+            <el-input v-model="editInfo.originalUnitPrice"></el-input>
           </el-form-item>
           <el-form-item :label="$t('transactions.UnitPrice')">
-            <el-input v-model.trim="editInfo.unitPrice"></el-input>
+            <el-input v-model="editInfo.unitPrice"></el-input>
           </el-form-item>
           <el-form-item :label="$t('transactions.Date')">
             <el-date-picker v-model="editInfo.reservedDate" type="date" value-format="yyyy-MM-dd" style="width:163px">
             </el-date-picker>
           </el-form-item>
           <el-form-item :label="$t('transactions.Discount')">
-            <el-input v-model.trim="editInfo.discount"></el-input>
+            <el-input v-model="editInfo.discount"></el-input>
           </el-form-item>
           <el-form-item :label="$t('transactions.DepositMode')">
             <el-select v-model="editInfo.method" style="width:163px">
@@ -90,13 +90,13 @@
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('transactions.Deposit')">
-            <el-input v-model.trim="editInfo.amount"></el-input>
+            <el-input v-model="editInfo.amount"></el-input>
           </el-form-item>
           <el-form-item :label="$t('transactions.Bank')">
-            <el-input v-model.trim="editInfo.bankName"></el-input>
+            <el-input v-model="editInfo.bankName"></el-input>
           </el-form-item>
           <el-form-item :label="$t('transactions.DepositRefNum')">
-            <el-input v-model.trim="editInfo.chequeNo"></el-input>
+            <el-input v-model="editInfo.chequeNo"></el-input>
           </el-form-item>
           <el-form-item :label="$t('transactions.Soldby')">
             <el-select v-model="editInfo.brokeName" style="width:163px">
@@ -124,26 +124,26 @@
           <template v-if="buyerList.length">
             <el-row v-for="(item,k) in buyerList" :key="k">
               <el-form-item :label="$t('transactions.Buyer')+ (k + 1) +$t('transactions.Name')">
-                <el-input v-model.trim="item.buyerName"></el-input>
+                <el-input v-model="item.buyerName"></el-input>
               </el-form-item>
               <el-form-item :label="$t('transactions.Buyer')+ (k + 1) +$t('transactions.ID')">
-                <el-input v-model.trim="item.buyerId" readonly></el-input>
+                <el-input v-model="item.buyerId" readonly></el-input>
               </el-form-item>
               <el-form-item :label="$t('transactions.Buyer')+ (k + 1) +$t('transactions.Email')">
-                <el-input v-model.trim="item.buyerEmail"></el-input>
+                <el-input v-model="item.buyerEmail"></el-input>
               </el-form-item>
               <el-form-item :label="$t('transactions.Buyer')+ (k + 1) +$t('transactions.Mobile')">
-                <el-input v-model.trim="item.buyerMobile"></el-input>
+                <el-input v-model="item.buyerMobile"></el-input>
               </el-form-item>
               <el-form-item :label="$t('transactions.Address')">
-                <el-input v-model.trim="item.address"></el-input>
+                <el-input v-model="item.address"></el-input>
               </el-form-item>
             </el-row>
           </template>
           <el-row>
             <el-col :span="24">
               <el-form-item :label="$t('transactions.Comment')">
-                <el-input type="textarea" :rows="4" style="width:520px" v-model.trim="editInfo.comment"></el-input>
+                <el-input type="textarea" :rows="4" style="width:520px" v-model="editInfo.comment"></el-input>
               </el-form-item>
             </el-col>
           </el-row>

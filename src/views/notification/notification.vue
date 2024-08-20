@@ -78,7 +78,7 @@
                   @show="editors"
                   @on-upload-success="onEditorUploadComplete"
                 ></editor>
-                <!-- <el-input type="textarea" v-model.trim="sendForm.content" style="width:340px" :rows="4"></el-input> -->
+                <!-- <el-input type="textarea" v-model="sendForm.content" style="width:340px" :rows="4"></el-input> -->
               </el-form-item>
             </el-form>
             <div class="btn">

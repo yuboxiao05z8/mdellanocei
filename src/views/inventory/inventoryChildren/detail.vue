@@ -41,12 +41,12 @@
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.currencySymbol')">
-              <el-input class="width_300px" v-model.trim="detailForm.currencySymbol"></el-input>
+              <el-input class="width_300px" v-model="detailForm.currencySymbol"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.developer')">
-              <el-input class="width_300px" v-model.trim="detailForm.developer"></el-input>
+              <el-input class="width_300px" v-model="detailForm.developer"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -65,7 +65,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.typeAltText')">
-              <el-input class="width_300px" v-model.trim="detailForm.projectTypeAltText"></el-input>
+              <el-input class="width_300px" v-model="detailForm.projectTypeAltText"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -77,7 +77,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.numberOfUnitsAltText')">
-              <el-input class="width_300px" v-model.trim="detailForm.unitsNumAltText"></el-input>
+              <el-input class="width_300px" v-model="detailForm.unitsNumAltText"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -96,7 +96,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.tenureAltText')">
-              <el-input class="width_300px" v-model.trim="detailForm.tenureAltText"></el-input>
+              <el-input class="width_300px" v-model="detailForm.tenureAltText"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -132,7 +132,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.launchAltText')">
-              <el-input class="width_300px" v-model.trim="detailForm.launchDateAltText"></el-input>
+              <el-input class="width_300px" v-model="detailForm.launchDateAltText"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -146,7 +146,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.countryAltText')">
-              <el-input class="width_300px" v-model.trim="detailForm.countryAltText"></el-input>
+              <el-input class="width_300px" v-model="detailForm.countryAltText"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -160,7 +160,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.locationAltText')">
-              <el-input class="width_300px" v-model.trim="detailForm.locationAltText"></el-input>
+              <el-input class="width_300px" v-model="detailForm.locationAltText"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -180,7 +180,7 @@
           </el-col>
           <!-- <el-col :span="12">
             <el-form-item :label="$t('edit.locationAltText')">
-              <el-input class="width_300px" v-model.trim="detailForm.locationAltText"></el-input>
+              <el-input class="width_300px" v-model="detailForm.locationAltText"></el-input>
             </el-form-item>
           </el-col>-->
         </el-row>
@@ -188,65 +188,65 @@
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.pricefrom')">
-              <el-input class="width_300px" v-model.trim="priceFrom" disabled></el-input>
+              <el-input class="width_300px" v-model="priceFrom" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.pricefromalttext')">
-              <el-input class="width_300px" v-model.trim="detailForm.priceFromText"></el-input>
+              <el-input class="width_300px" v-model="detailForm.priceFromText"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.psffrom')">
-              <el-input class="width_300px" v-model.trim="psfFrom" disabled></el-input>
+              <el-input class="width_300px" v-model="psfFrom" disabled></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.psffromalttext')">
-              <el-input class="width_300px" v-model.trim="detailForm.psfFromText"></el-input>
+              <el-input class="width_300px" v-model="detailForm.psfFromText"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.latitude')">
-              <el-input class="width_300px" v-model.trim="detailForm.latitude"></el-input>
+              <el-input class="width_300px" v-model="detailForm.latitude"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.longitude')">
-              <el-input class="width_300px" v-model.trim="detailForm.longitude"></el-input>
+              <el-input class="width_300px" v-model="detailForm.longitude"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <!-- <el-col :span="12">
             <el-form-item :label="$t('edit.propertyGroup')">
-              <el-input class="width_300px" v-model.trim="detailForm.propertyGroup"></el-input>
+              <el-input class="width_300px" v-model="detailForm.propertyGroup"></el-input>
             </el-form-item>
           </el-col>-->
           <el-col :span="12">
             <el-form-item :label="$t('edit.mapZoomLevel')">
-              <el-input class="width_300px" v-model.trim="detailForm.mapZoomLevel"></el-input>
+              <el-input class="width_300px" v-model="detailForm.mapZoomLevel"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.GalleryAdress')">
-              <el-input class="width_300px" v-model.trim="detailForm.galleryLocation"></el-input>
+              <el-input class="width_300px" v-model="detailForm.galleryLocation"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.GalleryLatitude')">
-              <el-input class="width_300px" v-model.trim="detailForm.galleryLatitude"></el-input>
+              <el-input class="width_300px" v-model="detailForm.galleryLatitude"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.GalleryLongitude')">
-              <el-input class="width_300px" v-model.trim="detailForm.galleryLongitude"></el-input>
+              <el-input class="width_300px" v-model="detailForm.galleryLongitude"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -257,13 +257,13 @@
                 class="width_300px"
                 type="textarea"
                 :rows="3"
-                v-model.trim="detailForm.streetAddress"
+                v-model="detailForm.streetAddress"
               ></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.postalCode')">
-              <el-input class="width_300px" v-model.trim="detailForm.postalCode"></el-input>
+              <el-input class="width_300px" v-model="detailForm.postalCode"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -403,60 +403,60 @@
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.customInfoLabel1')">
-              <el-input class="width_300px" v-model.trim="detailForm.customLabel1"></el-input>
+              <el-input class="width_300px" v-model="detailForm.customLabel1"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.customInfoValue1')">
-              <el-input class="width_300px" v-model.trim="detailForm.customValue1"></el-input>
+              <el-input class="width_300px" v-model="detailForm.customValue1"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.customInfoLabel2')">
-              <el-input class="width_300px" v-model.trim="detailForm.customLabel2"></el-input>
+              <el-input class="width_300px" v-model="detailForm.customLabel2"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.customInfoValue2')">
-              <el-input class="width_300px" v-model.trim="detailForm.customValue2"></el-input>
+              <el-input class="width_300px" v-model="detailForm.customValue2"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.customInfoLabel3')">
-              <el-input class="width_300px" v-model.trim="detailForm.customLabel3"></el-input>
+              <el-input class="width_300px" v-model="detailForm.customLabel3"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.customInfoValue3')">
-              <el-input class="width_300px" v-model.trim="detailForm.customValue3"></el-input>
+              <el-input class="width_300px" v-model="detailForm.customValue3"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.customInfoLabel4')">
-              <el-input class="width_300px" v-model.trim="detailForm.customLabel4"></el-input>
+              <el-input class="width_300px" v-model="detailForm.customLabel4"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.customInfoValue4')">
-              <el-input class="width_300px" v-model.trim="detailForm.customValue4"></el-input>
+              <el-input class="width_300px" v-model="detailForm.customValue4"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.customInfoLabel5')">
-              <el-input class="width_300px" v-model.trim="detailForm.customLabel5"></el-input>
+              <el-input class="width_300px" v-model="detailForm.customLabel5"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.customInfoValue5')">
-              <el-input class="width_300px" v-model.trim="detailForm.customValue5"></el-input>
+              <el-input class="width_300px" v-model="detailForm.customValue5"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
