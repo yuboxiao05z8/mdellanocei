@@ -149,7 +149,15 @@
           <div style="text-align:center">{{$t('teams.email')}}</div>
         </el-col>
         <el-col :span="17">
-          <el-select v-model="selectValue" size="mini" style="width:100%" filterable>
+          <el-select
+            v-model="selectValue"
+            size="mini"
+            style="width:100%"
+            filterable
+            remote
+            :remote-method="remoteMethod"
+            :loading="loading"
+          >
             <ul class="select_title">
               <li>{{$t('teams.email')}}</li>
               <li>{{$t('teams.name')}}</li>
@@ -164,7 +172,7 @@
                 :label="item.email"
                 :value="item.agentId"
                 class="table_option"
-              > 
+              >
                 <div :title="item.email">{{ item.email }}</div>
                 <div :title="item.agentName">{{ item.agentName }}</div>
                 <!-- <div :title="item.email">{{ item.email }}</div> -->
@@ -220,6 +228,7 @@ export default {
   data() {
     return {
       teamList: [], //team列表
+      loading: false,
       teamCurrentPage: 1, //team分页配置
       teamPageSize: 5, //team分页配置
       teamCount: 0, //team分页配置
@@ -247,6 +256,11 @@ export default {
       SearTeamName: ""
     };
   },
+  watch: {
+    selectValue(val, odVal) {
+      console.log(val, odVal);
+    }
+  },
   mounted() {
     this.getTeamLists();
     // this.queryBrokeCompany()
@@ -266,8 +280,17 @@ export default {
     //   })
     // },
     searchData() {
-      this.teamCurrentPage = 1
-      this.getTeamLists()
+      this.teamCurrentPage = 1;
+      this.getTeamLists();
+    },
+    remoteMethod(query) {
+      if(query !== "") {
+        this.loading = true;
+        this.getSelectData(query)
+      } else {
+        this.selectLists = []
+      }
+      console.log(query)
     },
     closeDialog() {
       //弹框关闭后重置表格和下拉框
@@ -295,7 +318,7 @@ export default {
     uploadAfter() {
       //文件上传完后的回调
       this.getDialogLists();
-      this.getSelectData();
+      // this.getSelectData();
     },
     deleteAllMember() {
       //删除team的所有成员
@@ -310,7 +333,7 @@ export default {
           this.dialogCurrentPage = 1;
           this.dialogPageSize = 5;
           this.getDialogLists();
-          this.getSelectData();
+          // this.getSelectData();
         } else {
           this.$notify.error({
             title: this.$t("alert.fail"),
@@ -333,7 +356,7 @@ export default {
             this.dialogCurrentPage--;
           }
           this.getDialogLists();
-          this.getSelectData();
+          // this.getSelectData();
         } else {
           this.$notify.error({
             title: this.$t("alert.fail"),
@@ -359,7 +382,7 @@ export default {
           });
           this.selectValue = "";
           this.getDialogLists();
-          this.getSelectData();
+          // this.getSelectData();
         } else {
           this.$notify.error({
             title: "fail",
@@ -377,9 +400,9 @@ export default {
         name: "teamId",
         value: row.teamId
       });
-      // console.log(this.uploadParam);
+      console.log(this.uploadParam);
       this.getDialogLists();
-      this.getSelectData();
+      // this.getSelectData();
     },
     selectImport() {
       //选择导入数据的类型
@@ -509,14 +532,17 @@ export default {
         }
       });
     },
-    getSelectData() {
+    getSelectData(query) {
       //根据用户名称查询用户列表
       this.$Geting(this.$api.getTeamsAgentByName, {
-        teamId: this.teamId
+        teamId: this.teamId,
+        agentName: query
       }).then(res => {
         if (res.code == 0) {
           this.selectLists = res.datas;
+          this.loading = false
         } else {
+          this.loading = false
           this.$notify.error({
             title: "fail",
             message: res.msg
@@ -574,7 +600,7 @@ export default {
     width: 100%;
     overflow: auto;
     padding: 15px 30px;
-    .inventory_header{
+    .inventory_header {
       margin-bottom: 15px;
     }
     .page_section {
