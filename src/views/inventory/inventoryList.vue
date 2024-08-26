@@ -8,7 +8,17 @@
           >{{$t('inventoryLists.manageProperties')}} ({{projectNum}})</span>
           <el-button size="mini" @click="getListData">{{$t('inventoryLists.refresh')}}</el-button>
         </el-col>
-        <el-col :span="16" style="text-align:right">
+        <el-col :span="8">
+          <uploader
+            fileId="projectFile"
+            :maxSize="10"
+            @uploadAfter="uploadAfterRelation"
+            :url="$api.importProjectRelation"
+            fileType=".xls,.xlsx"
+            :btnText="{select:$t('inventoryLists.selectExcelFile'),import:'Import Relation'}"
+          ></uploader>
+        </el-col>
+        <el-col :span="8" style="text-align:right">
           <uploader
             fileId="projectFile"
             :maxSize="10"
@@ -128,7 +138,7 @@ export default {
       projectId: "",
       searchName: "",
       rTitle: "",
-      userInfo: JSON.parse(sessionStorage.getItem('userInfo'))
+      userInfo: JSON.parse(sessionStorage.getItem("userInfo"))
     };
   },
   mounted() {
@@ -148,6 +158,9 @@ export default {
       this.getListData();
     },
     uploadAfter() {
+      this.getListData();
+    },
+    uploadAfterRelation() {
       this.getListData();
     },
     rename(row, type) {

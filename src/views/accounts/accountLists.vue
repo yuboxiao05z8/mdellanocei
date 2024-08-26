@@ -62,7 +62,7 @@
         </el-table-column>
         <el-table-column label="Expiration Date">
           <template slot-scope="scope">
-            <div>{{$dateFormat(scope.row.expirationDate)}}</div>
+            <div>{{$dateFormat( Number(scope.row.expirationDate))}}</div>
           </template>
         </el-table-column>
         <el-table-column label="Theme Colors">
@@ -174,10 +174,17 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="Expiration Date">
-              <el-date-picker value-format="timestamp" v-model="companyForm.expirationDate" type="date" placeholder="Select Date"></el-date-picker>
+              <el-date-picker style="width:100%" value-format="timestamp" v-model="companyForm.expirationDate" type="date" placeholder="Select Date"></el-date-picker>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="12">
+            <el-form-item label="Loan Calculator Url">
+              <el-input v-model="companyForm.calcUrl"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
+
 
         <el-row>
           <el-col :span="12">
@@ -241,7 +248,8 @@ export default {
         logo: [],
         expirationDate: '',
         color: '',
-        editBrokeId: ""
+        editBrokeId: "",
+        calcUrl: ""
       },
       detail: "",
       editorArr: [], //获取数据时富文本编辑器的图片数组
@@ -284,7 +292,8 @@ export default {
         editBrokeId: "",
         expirationDate: '',
         color: '',
-        detail: ""
+        detail: "",
+        calcUrl: ""
       }),
         (this.dialogVisible = true);
     },
@@ -376,7 +385,8 @@ export default {
         expirationDate: row.expirationDate,
         color: row.color,
         editBrokeId: row.brokeId,
-        facebookWebsit: row.facebookWebsit
+        facebookWebsit: row.facebookWebsit,
+        calcUrl: row.calcUrl
       };
       this.detail = "";
       this.detail = this.$base64ToContent(row.detail);

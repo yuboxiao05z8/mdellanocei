@@ -1,5 +1,5 @@
 <template>
-  <textarea :id='editorId' :value='value'></textarea>
+  <textarea class="textInput" :id='editorId' :value='value'></textarea>
 </template>
 <script>
 // Import TinyMCE
@@ -110,3 +110,10 @@ export default {
   }
 };
 </script>
+
+<style lang="less">
+.mce-panel{
+  width: 100% !important;
+}
+  
+</style>

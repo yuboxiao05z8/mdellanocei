@@ -209,5 +209,6 @@ Vue.api = Vue.prototype.$api = {
   deleteAllProjectContact: "/broke-manager-service/contact/deleteAllProjectContact", // 删除所有项目联系人
   deleteAllUnit: "/broke-manager-service/unit/deleteAllUnit", // 删除所有Unit
   deleteContactImage: "/broke-manager-service/brokeProject/deleteContactImage", // 删除联系人图片
+  importProjectRelation: "/broke-manager-service/import/importProjectRelation", // 导入第三方项目关联
 }
 
