@@ -10,7 +10,7 @@
         </el-col>
         <el-col :span="8">
           <uploader
-            fileId="projectFile"
+            fileId="projectFileRelation"
             :maxSize="10"
             @uploadAfter="uploadAfterRelation"
             :url="$api.importProjectRelation"
