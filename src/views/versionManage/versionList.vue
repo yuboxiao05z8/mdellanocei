@@ -129,6 +129,7 @@ export default {
             message: this.$t("alert.operate_success_title")
           });
           this.getListData(this.currentPage);
+          console.log('启用', type , row)
         } else {
           this.$notify.error({
             title: this.$t("alert.fail"),
