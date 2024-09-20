@@ -44,13 +44,13 @@
       >
         <el-table-column :label="$t('vedio.title')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="title"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="title"></el-input>
             <div v-else>{{scope.row.title}}</div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('vedio.url')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="url"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="url"></el-input>
             <div v-else>
               <div v-if="scope.row.url">{{scope.row.url}}</div>
             </div>
@@ -58,7 +58,7 @@
         </el-table-column>
         <el-table-column :label="$t('VideoMainPhoto')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="logoUrl"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="logoUrl"></el-input>
             <div v-else>
               <div v-if="scope.row.logoUrl">{{scope.row.logoUrl}}</div>
             </div>
@@ -66,7 +66,7 @@
         </el-table-column>
         <el-table-column :label="$t('vedio.description')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="description"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="description"></el-input>
             <div v-else>{{scope.row.description}}</div>
           </template>
         </el-table-column>

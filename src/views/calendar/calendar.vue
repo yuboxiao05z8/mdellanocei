@@ -16,7 +16,7 @@
     <div class="calendar_list_table calendar_section">
       <el-form :inline="true" size="mini">
         <el-form-item :label="$t('calendar.title')">
-          <el-input v-model.trim="searchForm.title"></el-input>
+          <el-input v-model="searchForm.title"></el-input>
         </el-form-item>
         <el-form-item :label="$t('calendar.startTime')">
           <el-date-picker v-model="searchForm.startTime" type="date" :placeholder="$t('calendar.startTime')" value-format="yyyy-MM-dd" format="dd-MMM-yyyy">
@@ -74,7 +74,7 @@
     <el-dialog title="Edit Calendar" :visible.sync="dialogVisible" width="700px" class="calendar_dialog">
       <el-form size="mini" label-width="120px" ref="ruleForm" :model="ruleForm" :rules="rules">
         <el-form-item :label="$t('calendar.title')" prop="title">
-          <el-input class="input_375" v-model.trim="ruleForm.title"></el-input>
+          <el-input class="input_375" v-model="ruleForm.title"></el-input>
         </el-form-item>
         <el-form-item :label="$t('calendar.calendarDate')" prop="calendarDate">
           <el-date-picker v-model="ruleForm.calendarDate" type="date" :placeholder="$t('calendar.calendarDate')" class="input_375" value-format="dd-MMM-yyyy" format="dd-MMM-yyyy">
@@ -87,10 +87,10 @@
           <el-time-select :placeholder="$t('calendar.endTime')" v-model="ruleForm.endTime" class="input_375" :picker-options="{ start: '00:00',step: '00:05',end: '23:55', minTime: ruleForm.startTime}">></el-time-select>
         </el-form-item>
         <el-form-item :label="$t('calendar.address')" prop="address">
-          <el-input class="input_375" v-model.trim="ruleForm.address"></el-input>
+          <el-input class="input_375" v-model="ruleForm.address"></el-input>
         </el-form-item>
         <el-form-item :label="$t('calendar.content')" prop="content">
-          <el-input type="textarea" class="input_375" :rows="4" v-model.trim="ruleForm.content"></el-input>
+          <el-input type="textarea" class="input_375" :rows="4" v-model="ruleForm.content"></el-input>
         </el-form-item>
         <el-form-item :label="$t('picture')" prop="calendayImgs">
           <uploaderImg :backData="ruleForm.calendayImgs" :id="'calendayImg'" :mixLength='3' folder="CalendarImg" :maxSize="1000"></uploaderImg>

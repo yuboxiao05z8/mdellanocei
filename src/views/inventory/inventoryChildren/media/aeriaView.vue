@@ -19,7 +19,7 @@
       >
         <el-table-column :label="$t('ivt.title')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="title"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="title"></el-input>
             <div v-else>{{scope.row.title}}</div>
           </template>
         </el-table-column>
@@ -30,7 +30,7 @@
         </el-table-column>
         <el-table-column :label="$t('ivt.ivtUrl')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="link"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="link"></el-input>
             <div v-else>{{scope.row.link}}</div>
           </template>
         </el-table-column>

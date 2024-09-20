@@ -130,31 +130,31 @@
       >
         <el-table-column :label="$t('ContactName')">
           <template slot-scope="scope">
-            <!-- <el-input v-if="scope.$index === tableDataInit" v-model.trim="form.agentName"></el-input> -->
+            <!-- <el-input v-if="scope.$index === tableDataInit" v-model="form.agentName"></el-input> -->
             <div>{{scope.row.agentName}}</div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('ContactEmail')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="form.email"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="form.email"></el-input>
             <div v-else>{{scope.row.email}}</div>
           </template>
         </el-table-column>
         <el-table-column label="regNum">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="form.regNum"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="form.regNum"></el-input>
             <div>{{scope.row.regNum}}</div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('contactNumber')">
           <template slot-scope="scope">
-            <!-- <el-input v-if="scope.$index === tableDataInit" v-model.trim="form.mobile"></el-input> -->
+            <!-- <el-input v-if="scope.$index === tableDataInit" v-model="form.mobile"></el-input> -->
             <div>{{scope.row.mobile}}</div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('userRole')">
           <template slot-scope="scope">
-            <!-- <el-input v-if="scope.$index === tableDataInit" v-model.trim="form.type"></el-input> -->
+            <!-- <el-input v-if="scope.$index === tableDataInit" v-model="form.type"></el-input> -->
             <el-select
               v-model="form.type"
               placeholder="placeholder"

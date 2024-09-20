@@ -29,7 +29,7 @@
       <el-table :data="pdfList" border style="width: 100%" :header-cell-style="{'background':'#f5f7fa'}" size="mini">
         <el-table-column :label="$t('generalFiles.title')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="title"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="title"></el-input>
             <div v-else>{{scope.row.title}}</div>
           </template>
         </el-table-column>
@@ -40,13 +40,13 @@
         </el-table-column>
         <el-table-column :label="$t('generalFiles.description')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="description"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="description"></el-input>
             <div v-else>{{scope.row.description}}</div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('pdf.group')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="group"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="group"></el-input>
             <div v-else>{{scope.row.groupName}}</div>
           </template>
         </el-table-column>

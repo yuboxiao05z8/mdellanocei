@@ -21,7 +21,7 @@
         <el-row>
           <el-col :span="12" class="col_padding_x">
             <el-form-item :label="$t('email.subject')">
-              <el-input class="width_300px" v-model.trim="subject1"></el-input>
+              <el-input class="width_300px" v-model="subject1"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -60,7 +60,7 @@
         <el-row>
           <el-col :span="12" class="col_padding_x">
             <el-form-item :label="$t('email.subject')">
-              <el-input class="width_300px" v-model.trim="subject2"></el-input>
+              <el-input class="width_300px" v-model="subject2"></el-input>
             </el-form-item>
           </el-col>
         </el-row>

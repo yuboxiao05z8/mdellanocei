@@ -115,22 +115,22 @@
         <el-row>
           <el-form :inline="true" size="mini">
             <el-form-item :label="$t('teams.name')">
-              <el-input v-model.trim="defaultTeam.filterForm.agentName"></el-input>
+              <el-input v-model="defaultTeam.filterForm.agentName"></el-input>
             </el-form-item>
             <el-form-item :label="$t('teams.email')">
-              <el-input v-model.trim="defaultTeam.filterForm.email"></el-input>
+              <el-input v-model="defaultTeam.filterForm.email"></el-input>
             </el-form-item>
             <el-form-item :label="$t('teams.regNum')">
-              <el-input v-model.trim="defaultTeam.filterForm.regNum"></el-input>
+              <el-input v-model="defaultTeam.filterForm.regNum"></el-input>
             </el-form-item>
             <el-form-item :label="$t('teams.active')">
-              <el-select size="mini" v-model.trim="defaultTeam.filterForm.isActive">
+              <el-select size="mini" v-model="defaultTeam.filterForm.isActive">
                 <el-option label="YES" value="YES"></el-option>
                 <el-option label="NO" value="NO"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item :label="$t('teams.isAgent')">
-              <el-select size="mini" v-model.trim="defaultTeam.filterForm.isAgent">
+              <el-select size="mini" v-model="defaultTeam.filterForm.isAgent">
                 <el-option label="YES" value="YES"></el-option>
                 <el-option label="NO" value="NO"></el-option>
               </el-select>

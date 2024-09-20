@@ -17,7 +17,7 @@
       <el-table :data="userList" border style="width: 100%" :header-cell-style="{'background':'#f5f7fa'}" size="mini">
         <el-table-column :label="$t('accounts.UserName')">
           <template slot-scope="scope">
-            <el-input size="mini" v-if="scope.$index === tableDataInit" v-model.trim="userName"></el-input>
+            <el-input size="mini" v-if="scope.$index === tableDataInit" v-model="userName"></el-input>
             <div v-else>{{scope.row.userName}}</div>
           </template>
         </el-table-column>
@@ -52,13 +52,13 @@
         </el-table-column>
         <el-table-column :label="$t('accounts.ManageName')">
           <template slot-scope="scope">
-            <el-input size="mini" v-if="scope.$index === tableDataInit" v-model.trim="manageName"></el-input>
+            <el-input size="mini" v-if="scope.$index === tableDataInit" v-model="manageName"></el-input>
             <div v-else>{{scope.row.brokeName}}</div>
           </template>
         </el-table-column>
          <el-table-column :label="$t('FileNum')">
           <template slot-scope="scope">
-            <el-input size="mini" v-if="scope.$index === tableDataInit" v-model.trim="fileNum"></el-input>
+            <el-input size="mini" v-if="scope.$index === tableDataInit" v-model="fileNum"></el-input>
             <div v-else>{{scope.row.fileNum}}</div>
           </template>
         </el-table-column>

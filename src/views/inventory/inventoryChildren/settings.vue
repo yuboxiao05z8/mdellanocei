@@ -29,10 +29,10 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.InterestExpirationTime')">
-                <!-- <el-date-picker class="width_300px" v-model.trim="settingForm.interestExpirationTime" type="datetime" value-format="yyyy-MM-dd hh:mm:ss"></el-date-picker> -->
+                <!-- <el-date-picker class="width_300px" v-model="settingForm.interestExpirationTime" type="datetime" value-format="yyyy-MM-dd hh:mm:ss"></el-date-picker> -->
                 <el-date-picker
                   class="width_300px"
-                  v-model.trim="settingForm.interestExpirationTime"
+                  v-model="settingForm.interestExpirationTime"
                   type="datetime"
                   value-format="timestamp"
                 ></el-date-picker>
@@ -40,7 +40,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.MaxInterestPerUserUnit')">
-                <el-input class="width_300px" v-model.trim="settingForm.maxInterestPerUserUnit"></el-input>
+                <el-input class="width_300px" v-model="settingForm.maxInterestPerUserUnit"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -66,67 +66,67 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.areaLabel')">
-                <el-input class="width_300px" v-model.trim="settingForm.areaLabel"></el-input>
+                <el-input class="width_300px" v-model="settingForm.areaLabel"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.customField1')">
-                <el-input class="width_300px" v-model.trim="settingForm.custom1Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.custom1Label"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.customField2')">
-                <el-input class="width_300px" v-model.trim="settingForm.custom2Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.custom2Label"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.customField3')">
-                <el-input class="width_300px" v-model.trim="settingForm.custom3Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.custom3Label"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.customField4')">
-                <el-input class="width_300px" v-model.trim="settingForm.custom4Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.custom4Label"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.customField5')">
-                <el-input class="width_300px" v-model.trim="settingForm.custom5Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.custom5Label"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.customField6')">
-                <el-input class="width_300px" v-model.trim="settingForm.custom6Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.custom6Label"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.customField7')">
-                <el-input class="width_300px" v-model.trim="settingForm.custom7Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.custom7Label"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.customField8')">
-                <el-input class="width_300px" v-model.trim="settingForm.custom8Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.custom8Label"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.customField9')">
-                <el-input class="width_300px" v-model.trim="settingForm.custom9Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.custom9Label"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.customField10')">
-                <el-input class="width_300px" v-model.trim="settingForm.custom10Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.custom10Label"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -141,14 +141,14 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.defaultTransactionPriceLabel')">
-                <el-input class="width_300px" v-model.trim="settingForm.price1Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.price1Label"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.price2Label')">
-                <el-input class="width_300px" v-model.trim="settingForm.price2Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.price2Label"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -160,7 +160,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.price3Label')">
-                <el-input class="width_300px" v-model.trim="settingForm.price3Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.price3Label"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -172,7 +172,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.price4Label')">
-                <el-input class="width_300px" v-model.trim="settingForm.price4Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.price4Label"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -184,7 +184,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.price5Label')">
-                <el-input class="width_300px" v-model.trim="settingForm.price5Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.price5Label"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -196,7 +196,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.price6Label')">
-                <el-input class="width_300px" v-model.trim="settingForm.price6Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.price6Label"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -208,7 +208,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.price7Label')">
-                <el-input class="width_300px" v-model.trim="settingForm.price7Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.price7Label"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -220,7 +220,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.price8Label')">
-                <el-input class="width_300px" v-model.trim="settingForm.price8Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.price8Label"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -232,7 +232,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.price9Label')">
-                <el-input class="width_300px" v-model.trim="settingForm.price9Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.price9Label"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -244,7 +244,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.price10Label')">
-                <el-input class="width_300px" v-model.trim="settingForm.price10Label"></el-input>
+                <el-input class="width_300px" v-model="settingForm.price10Label"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -260,12 +260,12 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.priceInstuction')">
-                <el-input class="width_300px" v-model.trim="settingForm.priceInstuction"></el-input>
+                <el-input class="width_300px" v-model="settingForm.priceInstuction"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.numofDecimalPlaces')">
-                <el-input class="width_300px" v-model.trim="settingForm.numOfDecimalPlaces"></el-input>
+                <el-input class="width_300px" v-model="settingForm.numOfDecimalPlaces"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -308,7 +308,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.SPAStampLable')">
-                <el-input class="width_300px" v-model.trim="settingForm.spaStampLable"></el-input>
+                <el-input class="width_300px" v-model="settingForm.spaStampLable"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -329,31 +329,31 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.AllowDiscountEntry')">
-                <el-input class="width_300px" v-model.trim="settingForm.allowDiscountEntry"></el-input>
+                <el-input class="width_300px" v-model="settingForm.allowDiscountEntry"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.UnitPriceLabel')">
-                <el-input class="width_300px" v-model.trim="settingForm.unitPriceLabel"></el-input>
+                <el-input class="width_300px" v-model="settingForm.unitPriceLabel"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.AdditionalPriceLabel')">
-                <el-input class="width_300px" v-model.trim="settingForm.additionalPriceLabel"></el-input>
+                <el-input class="width_300px" v-model="settingForm.additionalPriceLabel"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.TotalPriceLabel')">
-                <el-input class="width_300px" v-model.trim="settingForm.totalPriceLabel"></el-input>
+                <el-input class="width_300px" v-model="settingForm.totalPriceLabel"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.SPAPriceLabel')">
-                <el-input class="width_300px" v-model.trim="settingForm.spaPriceLabel"></el-input>
+                <el-input class="width_300px" v-model="settingForm.spaPriceLabel"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -369,7 +369,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.Depositrequiredfor')">
-                <el-select class="width_300px" v-model.trim="settingForm.depositRequiredFor">
+                <el-select class="width_300px" v-model="settingForm.depositRequiredFor">
                   <el-option label="Pending Reservation" value="Pending Reservation"></el-option>
                   <el-option label="Reserved" value="Reserved"></el-option>
                   <el-option label="Sold" value="Sold"></el-option>
@@ -385,7 +385,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.DefaultDepositAmount')">
-                <el-input class="width_300px" v-model.trim="settingForm.defaultDepositAmount"></el-input>
+                <el-input class="width_300px" v-model="settingForm.defaultDepositAmount"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -450,7 +450,7 @@
               <el-form-item :label="$t('settings.NumberofDaysforReminder')">
                 <el-input
                   class="width_300px"
-                  v-model.trim="notificationSet.preReservedDays"
+                  v-model="notificationSet.preReservedDays"
                   :maxlength="5"
                 ></el-input>
               </el-form-item>
@@ -466,7 +466,7 @@
               <el-form-item :label="$t('settings.NumberofDaysforReminder')">
                 <el-input
                   class="width_300px"
-                  v-model.trim="notificationSet.reservationDays"
+                  v-model="notificationSet.reservationDays"
                   :maxlength="5"
                 ></el-input>
               </el-form-item>
@@ -486,7 +486,7 @@
               <el-form-item :label="$t('settings.NumberofDaysforReminder')">
                 <el-input
                   class="width_300px"
-                  v-model.trim="notificationSet.sendPendingSpaSignDays"
+                  v-model="notificationSet.sendPendingSpaSignDays"
                   :maxlength="5"
                 ></el-input>
               </el-form-item>
@@ -506,7 +506,7 @@
               <el-form-item :label="$t('settings.NumberofDaysforReminder')">
                 <el-input
                   class="width_300px"
-                  v-model.trim="notificationSet.pendingSpaStampDays"
+                  v-model="notificationSet.pendingSpaStampDays"
                   :maxlength="5"
                 ></el-input>
               </el-form-item>
@@ -522,7 +522,7 @@
               <el-form-item :label="$t('settings.NumberofDaysforReminder')">
                 <el-input
                   class="width_300px"
-                  v-model.trim="notificationSet.soldDateDays"
+                  v-model="notificationSet.soldDateDays"
                   :maxlength="5"
                 ></el-input>
               </el-form-item>
@@ -544,19 +544,19 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.MaxReissue')">
-                <el-input class="width_300px" v-model.trim="settingForm.maxReissue"></el-input>
+                <el-input class="width_300px" v-model="settingForm.maxReissue"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.SectionHeader')">
-                <el-input class="width_300px" v-model.trim="settingForm.sectionHeader"></el-input>
+                <el-input class="width_300px" v-model="settingForm.sectionHeader"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.ItemLabel')">
-                <el-input class="width_300px" v-model.trim="settingForm.itemLabel"></el-input>
+                <el-input class="width_300px" v-model="settingForm.itemLabel"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -586,7 +586,7 @@
         >
           <el-table-column :label="$t('settings.name')">
             <template slot-scope="scope">
-              <!-- <el-input v-if="scope.$index === tableDataInit" v-model.trim="companyId"></el-input> -->
+              <!-- <el-input v-if="scope.$index === tableDataInit" v-model="companyId"></el-input> -->
               <el-select v-if="scope.$index === tableDataInit && isEdit" v-model="companyId" filterable placeholder="请选择">
                 <el-option
                   v-for="item in noBrokeOfProjectList"
@@ -600,7 +600,7 @@
           </el-table-column>
           <el-table-column :label="$t('settings.commission')">
             <template slot-scope="scope">
-              <el-input v-if="scope.$index === tableDataInit" v-model.trim="defaultCommission"></el-input>
+              <el-input v-if="scope.$index === tableDataInit" v-model="defaultCommission"></el-input>
               <div v-else>{{scope.row.defaultCommission}}</div>
             </template>
           </el-table-column>

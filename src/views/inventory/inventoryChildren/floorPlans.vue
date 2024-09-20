@@ -73,13 +73,13 @@
       >
         <el-table-column :label="$t('floorPlans.name')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="floorName"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="floorName"></el-input>
             <div v-else>{{scope.row.floorPlanName}}</div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('floorPlans.type')">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="floortype"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="floortype"></el-input>
             <div v-else>{{scope.row.floorPlanType}}</div>
           </template>
         </el-table-column>
@@ -90,7 +90,7 @@
         </el-table-column>
         <el-table-column label="720°">
           <template slot-scope="scope">
-            <el-input v-if="scope.$index === tableDataInit" v-model.trim="ivt"></el-input>
+            <el-input v-if="scope.$index === tableDataInit" v-model="ivt"></el-input>
             <div v-else>{{scope.row.ivt}}</div>
           </template>
         </el-table-column>
