@@ -178,11 +178,11 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <!-- <el-col :span="12">
-            <el-form-item :label="$t('edit.locationAltText')">
-              <el-input class="width_300px" v-model="detailForm.locationAltText"></el-input>
+          <el-col :span="12">
+            <el-form-item label="District">
+              <el-input class="width_300px" v-model="detailForm.district"></el-input>
             </el-form-item>
-          </el-col>-->
+          </el-col>
         </el-row>
 
         <el-row>
@@ -571,7 +571,8 @@ export default {
         customLabel5: "",
         customValue5: "",
         psfFromText: "",
-        projectArea: ''
+        projectArea: '',
+        district: ''
       },
       editorSetting: {
         // 配置富文本编辑器高

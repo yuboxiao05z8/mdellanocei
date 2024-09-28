@@ -69,7 +69,7 @@
                   <div>{{$t('units.UnitList')}}</div>
                 </el-col>
                 <el-col :span="12">
-                  <el-button size="mini" @click="DeleteAll">Delete All Unit</el-button>
+                  <el-button size="mini" :disabled="self == 0"  @click="DeleteAll">Delete All Unit</el-button>
                   <el-button size="mini" @click="refreshUnit">{{$t('Refresh')}}</el-button>
                 </el-col>
               </el-row>

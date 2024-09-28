@@ -85,7 +85,11 @@ const deleteFile = (path) => {
 const changeHtmlStr = (htmlString = '', newArr = []) => {
   let patt1 = /<img\b.*?(?:\>|\/>)/gi
   let patt2 = /\bsrc\b\s*=\s*[\'\"]?([^\'\"]*)[\'\"]?/i
-  let arr = htmlString.match(patt1)
+  let arr
+
+  if (htmlString) {
+    arr = htmlString.match(patt1)
+  }
   if (arr) {
     for (let i = 0; i < arr.length; i++) {
       newArr.push(arr[i].match(patt2)[1])
