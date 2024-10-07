@@ -189,7 +189,7 @@ export default {
       group: "",
       hostUrl: sessionStorage.getItem("serveUrl") || "",
       self:
-        JSON.parse(sessionStorage.getItem("projectDesc") || "{}").self || "",
+        JSON.parse(sessionStorage.getItem("projectDesc") || "{}").self,
       id: JSON.parse(sessionStorage.getItem("projectDesc") || "{}").id || "",
       InvitationsImg: "",
       uploadParam: [

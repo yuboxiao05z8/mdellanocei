@@ -1,6 +1,15 @@
 <template>
   <div class="sidebar-container">
-    <el-menu class="el-menu-vertical-demo" :show-timeout="200" :default-active="Site" :unique-opened="true" @select="handleSelect" background-color="#002140" text-color="hsla(0, 0%, 100%, .65)" active-text-color="#409EFF">
+    <el-menu
+      class="el-menu-vertical-demo"
+      :show-timeout="200"
+      :default-active="Site"
+      :unique-opened="true"
+      @select="handleSelect"
+      background-color="#002140"
+      text-color="hsla(0, 0%, 100%, .65)"
+      active-text-color="#409EFF"
+    >
       <el-menu-item index="/home/inventoryList.html">
         <span slot="title">{{$t('navLeft.inventory')}}</span>
       </el-menu-item>
@@ -34,7 +43,7 @@
           </el-menu-item>
           <!-- <el-menu-item index="/home/teams.html">
             <span slot="title">{{$t('navLeft.createNewTeams')}}</span>
-          </el-menu-item> -->
+          </el-menu-item>-->
           <el-menu-item index="/home/roles.html">
             <span slot="title">{{$t('navLeft.roles')}}</span>
           </el-menu-item>
@@ -44,15 +53,15 @@
           <el-menu-item index="/home/otherSellingEntities.html">
             <span slot="title">{{$t('navLeft.otherSellingEntities')}}</span>
           </el-menu-item>
-        </el-submenu> -->
+        </el-submenu>-->
         <!-- <el-menu-item index="/home/report.html">
           <span slot="title">{{$t('navLeft.report')}}</span>
-        </el-menu-item> -->
+        </el-menu-item>-->
       </el-submenu>
       <el-menu-item v-if="isAdmin == 0" index="/home/versionList.html">
         <span slot="title">{{$t('navLeft.version_manage')}}</span>
       </el-menu-item>
-       <el-menu-item index="/home/calendar.html">
+      <el-menu-item index="/home/calendar.html">
         <span slot="title">{{$t('calendar.Calendar')}}</span>
       </el-menu-item>
       <el-menu-item v-if="isAdmin == 0 || isAdmin == 2" index="/home/accountLists.html">
@@ -65,20 +74,30 @@
         <span slot="title">feedback</span>
       </el-menu-item>
       <el-submenu v-if="isAdmin == 0 || isAdmin == 2" index="allocation">
-          <span slot="title">Config</span>
-          <el-menu-item index="/home/email.html">
-            <span slot="title">Email</span>
-          </el-menu-item>
-        </el-submenu>
+        <span slot="title">Config</span>
+        <el-menu-item index="/home/email.html">
+          <span slot="title">Email</span>
+        </el-menu-item>
+      </el-submenu>
+
+      <el-submenu v-if="isAdmin == 0 || isAdmin == 2" index="marketing">
+        <span slot="title">{{$t('marketing management')}}</span>
+        <el-menu-item index="/home/advertising.html">
+          <span slot="title">{{$t('Project advertising')}}</span>
+        </el-menu-item>
+        <el-menu-item index="/home/stimulate.html">
+          <span slot="title">{{$t('Commission incentive')}}</span>
+        </el-menu-item>
+      </el-submenu>
     </el-menu>
   </div>
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations } from 'vuex'
 export default {
   computed: {
-    ...mapState(["Site"])
+    ...mapState(['Site'])
   },
   props: {
     value: {
@@ -88,7 +107,7 @@ export default {
   },
   data() {
     return {
-      isAdmin: JSON.parse(window.sessionStorage.getItem('userInfo')).isAdmin,
+      isAdmin: JSON.parse(window.sessionStorage.getItem('userInfo')).isAdmin
     }
   },
   mounted() {
@@ -96,13 +115,13 @@ export default {
     // console.log('是不是',this.isAdmin)
   },
   methods: {
-    ...mapMutations(["changeSite"]),
+    ...mapMutations(['changeSite']),
     handleSelect(key) {
-      this.changeSite(key);
-      this.$router.replace(key);
+      this.changeSite(key)
+      this.$router.replace(key)
     }
   }
-};
+}
 </script>
 
 

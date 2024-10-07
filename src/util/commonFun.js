@@ -41,13 +41,13 @@ const alertWarn = (content) => {
  */
 const deleteImg = (pathStr = "") => {
   let editorImg = JSON.parse(window.sessionStorage.getItem('editorImg'))
-  let uploadedImg = window.sessionStorage.getItem('uploadImg')
+  let uploadedImg = JSON.parse(window.sessionStorage.getItem('uploadImg'))
   if (!editorImg && !uploadedImg) {
     return false
   } else if (editorImg && !uploadedImg) {
     pathStr = editorImg.join()
   } else if (!editorImg && uploadedImg) {
-    pathStr = uploadedImg
+    pathStr = uploadedImg.join()
   } else {
     pathStr = [...editorImg, uploadedImg].join()
   }
@@ -163,6 +163,7 @@ const changeUploadImg = (uploadData = [], newData = []) => {
  */
 const changeSessionUploadImage = (useData = [], sessionData = []) => {
   sessionData = JSON.parse(window.sessionStorage.getItem('uploadImg'));
+  console.log(useData, sessionData)
   if (!sessionData || !sessionData.length || !useData.length) { //缓存里面没有数据或者提交的图片为空时直接跳出
     return false
   }
@@ -172,6 +173,7 @@ const changeSessionUploadImage = (useData = [], sessionData = []) => {
       continue;
     } else {
       sessionData.splice(index, 1)
+      console.log('222', index)
     }
 
   }

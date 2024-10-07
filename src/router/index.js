@@ -264,6 +264,18 @@ const router = new Router({
             require(['../views/allocation/email'], resolve)
           }
         },
+        {
+          path: "/home/advertising.html",
+          component: resolve => {
+            require(['../views/marketing/advertising'], resolve)
+          }
+        },
+        {
+          path: "/home/stimulate.html",
+          component: resolve => {
+            require(['../views/marketing/stimulate'], resolve)
+          }
+        },
       ]
     },
     {

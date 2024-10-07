@@ -210,5 +210,12 @@ Vue.api = Vue.prototype.$api = {
   deleteAllUnit: "/broke-manager-service/unit/deleteAllUnit", // 删除所有Unit
   deleteContactImage: "/broke-manager-service/brokeProject/deleteContactImage", // 删除联系人图片
   importProjectRelation: "/broke-manager-service/import/importProjectRelation", // 导入第三方项目关联
+  deleteProjectAdvert: "/broke-manager-service/advert/deleteProjectAdvert", // 删除项目广告
+  queryProjectAdvert: "/broke-manager-service/advert/queryProjectAdvert", // 查询项目广告列表
+  saveProjectAdvert: "/broke-manager-service/advert/saveProjectAdvert", // 保存项目广告
+  move: "/broke-manager-service/advert/move", // 移动
+  updateAdvertStatus: "/broke-manager-service/advert/updateAdvertStatus", // 项目广告 （上/下） 架
+  getBroke: "/broke-manager-service/broke/getBroke", // 查询公司列表
+  queryBrokeProject: "/broke-manager-service/advert/queryBrokeProject", // 查询项目列表
 }
 
