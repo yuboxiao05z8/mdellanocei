@@ -80,7 +80,7 @@
         </el-menu-item>
       </el-submenu>
 
-      <el-submenu v-if="isAdmin == 0 || isAdmin == 2" index="marketing">
+      <el-submenu v-if="isAdmin == 0" index="marketing">
         <span slot="title">{{$t('marketing management')}}</span>
         <el-menu-item index="/home/advertising.html">
           <span slot="title">{{$t('Project advertising')}}</span>

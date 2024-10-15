@@ -164,7 +164,7 @@
             :label="$t('title')"
             prop="title"
             :rules="[{ required: true, message: $t('The title cannot be empty'),trigger: 'blur'},
-            { min: 3, max: 40, message: $t('The length ranges from 3 to 40 characters'), trigger: 'blur' }]"
+            { min: 3, max: 60, message: $t('The length ranges from 3 to 60 characters'), trigger: 'blur' }]"
           >
             <el-input v-model="advertisingForm.title"></el-input>
           </el-form-item>
