@@ -1,0 +1,126 @@
+{
+  "Methods": [
+    "Cheque",
+    "Credit Card",
+    "Cash",
+    "TT",
+    "Cashier Order"
+  ],
+  "CustomerTypeData": [
+    {
+      "name": "Individual",
+      "value": "0"
+    },
+    {
+      "name": "Corporate",
+      "value": "1"
+    }
+  ],
+  "GenderData": [
+    {
+      "name": "Male",
+      "value": "0"
+    },
+    {
+      "name": "Female",
+      "value": "1"
+    }
+  ],
+  "countryCallingCodeData": [
+    {
+      "name": "+65(SG)",
+      "value": "+65"
+    },
+    {
+      "name": "+60(MY)",
+      "value": "+60"
+    },
+    {
+      "name": "+62(ID)",
+      "value": "+62"
+    },
+    {
+      "name": "+66(TH)",
+      "value": "+66"
+    },
+    {
+      "name": "+84(VN)",
+      "value": "+84"
+    },
+    {
+      "name": "Other",
+      "value": "Other"
+    }
+  ],
+  "CitizenshipData": [
+    "Singapore",
+    "Malaysia",
+    "Australia",
+    "Belgium",
+    "Brunei Darussalam",
+    "Cambodia",
+    "Canada",
+    "China",
+    "China - HongKong",
+    "China - Macau",
+    "China - Taiwan",
+    "Denmark",
+    "France",
+    "Germany",
+    "India",
+    "Indonesia",
+    "Japan",
+    "Korea",
+    "Repubic of Mongolia",
+    "Myanmar",
+    "Netherlands",
+    "New Zealand",
+    "Pakistan",
+    "Portugal",
+    "Sri Lanka",
+    "Switzerland",
+    "Thailand",
+    "United Kingdom",
+    "United States",
+    "Vietnam",
+    "Virgin Islands (British)",
+    "Others"
+  ],
+  "DistrictData": [
+    "D01 - Boat Quay / Raffles Place",
+    "D02 - Chinatown / Tanjong Pagar",
+    "D03 - Alexandra / Commonwealth",
+    "D04 - Harbourfront / Telok Blangah",
+    "D05 - Buona Vista / West Coast",
+    "D06 - City Hall / Clarke Quay",
+    "D07 - Beach Road / Bugis / Rochor",
+    "D08 - Farrer Park / Serangoon Rd",
+    "D09 - Orchard / River Valley",
+    "D10 - Tanglin / Holland",
+    "D11 - Newton / Novena",
+    "D12 - Balestier / Toa Payoh",
+    "D13 - Macpherson / Potong Pasir",
+    "D14 - Eunos / Geylang / Paya Lebar",
+    "D15 - East Coast / Marine Parade",
+    "D16 - Bedok / Upper East Coast",
+    "D17 - Loyang / Changi",
+    "D18 - Pasir Ris / Tampines",
+    "D19 - Hougang / Punggol / Sengkang",
+    "D20 - Ang Mo Kio / Bishan / Thomson",
+    "D21 - Clementi / Upper Bukit Timah",
+    "D22 - Boon Lay / Jurong / Tuas",
+    "D23 - Bukit Batok / Bukit Panjang",
+    "D24 - Choa Chu Kang / Tengah",
+    "D25 - Admiralty / Woodlands",
+    "D26 - Mandai / Upper Thomson",
+    "D27 - Sembawang / Yishun",
+    "D28 - Seletar / Yio Chu Kang",
+    "OverSeas"
+  ],
+  "residentialData": [
+    "HDB",
+    "Private Homes",
+    "Corporate",
+    "Overseas"
+  ]
+}

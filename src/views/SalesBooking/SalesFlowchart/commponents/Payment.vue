@@ -1,0 +1,313 @@
+<template>
+  <div class="Payment sonBox">
+    <div class="case">
+      <div class="lfLable">Payment Details</div>
+      <div class="fromDiv">
+        <div class="addTab">
+          <el-table class="tab_div_con" :data="Payment.buyerPaymentList" style="width: 100%">
+            <el-table-column label="Payment Mode" prop="method"></el-table-column>
+            <el-table-column label="Bank" prop="bankName"></el-table-column>
+            <el-table-column label="Cheque No." prop="chequeNo"></el-table-column>
+            <el-table-column label="Cheque Date" prop="chequeBankDate"></el-table-column>
+            <el-table-column label="Amount" prop="amount"></el-table-column>
+            <el-table-column label="Action">
+              <template slot="header" slot-scope="scope">
+                <el-button size="mini" icon="el-icon-plus" @click="addShow = true">ADD</el-button>
+              </template>
+              <template slot-scope="scope">
+                <el-button
+                  size="mini"
+                  type="danger"
+                  @click="handleDelete(scope.$index, scope.row)"
+                >DELETE</el-button>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
+      <div class="conclusion">
+        <el-row :gutter="20">
+          <el-col :span="12">
+            <el-form label-width="150px">
+              <el-form-item label="Adjustment Amount">
+                <el-input
+                  v-model="Payment.otherRemarks"
+                  style="width: 100%;"
+                  :autosize="{ minRows: 6, maxRows: 6}"
+                  type="textarea"
+                ></el-input>
+              </el-form-item>
+            </el-form>
+          </el-col>
+          <el-col :span="12">
+            <div class="conclusionText">
+              <div class="line">
+                <span class="lf">
+                  (Booking Fee：
+                  <span>{{ reserveObj.earnest }}</span>)
+                </span>
+                <span class="rt"></span>
+              </div>
+              <div class="line">
+                <span class="lf">Booking Fee Required</span>
+                <span class="rt">{{reserveObj.earnest}}</span>
+              </div>
+
+              <div class="line">
+                <span class="lf">Booking Fee Received</span>
+                <span class="rt">{{reserveObj.Received}}</span>
+              </div>
+              <div class="line">
+                <span class="lf">Difference</span>
+                <span class="rt Difference">{{reserveObj.Difference}}</span>
+              </div>
+              <div class="line">
+                <span class="lf">Excess Payment Raceived</span>
+                <span class="rt Excess">{{reserveObj.Excess}}</span>
+              </div>
+            </div>
+          </el-col>
+        </el-row>
+      </div>
+    </div>
+
+    <el-dialog center title="Payment Details" :visible.sync="addShow" width="40%">
+      <div>
+        <el-form :model="form" :rules="rules" ref="PaymentForm" label-width="150px">
+          <el-form-item label="Payment Mode" prop="method">
+            <el-select style="width: 100%;" v-model="form.method">
+              <el-option label="Cheque" value="Cheque"></el-option>
+              <el-option label="Cash" value="Cash"></el-option>
+              <el-option label="Cashier Order" value="Cashier Order"></el-option>
+              <el-option label="Bank Transfer" value="Bank Transfer"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Bank" prop="bankName">
+            <el-select style="width: 100%;" v-model="form.bankName">
+              <el-option
+                v-for="(item, index) in bankData"
+                :key="index"
+                :label="item.bankName"
+                :value="item.bankName"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Cheque/Ref No." prop="chequeNo">
+            <el-input style="width: 100%;" v-model="form.chequeNo"></el-input>
+          </el-form-item>
+          <el-form-item label="Date" prop="chequeBankDate">
+            <el-date-picker
+              style="width: 100%;"
+              v-model="form.chequeBankDate"
+              type="date"
+              value-format="yyyy-MM-dd"
+            ></el-date-picker>
+          </el-form-item>
+          <el-form-item label="Amount" prop="amount">
+            <el-input-number v-model="form.amount" :min="0"></el-input-number>
+          </el-form-item>
+        </el-form>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addShow = false">Cancel</el-button>
+        <el-button type="primary" @click="addDataFn">Ok</el-button>
+      </div>
+    </el-dialog>
+  </div>
+</template>
+
+<script>
+import { pick, getPrice } from '@/utils/validate'
+export default {
+  props: {
+    updaObj: {
+      type: Object
+    },
+    variate: {
+      type: Number
+    }
+  },
+  data() {
+    return {
+      tableData: [],
+      addShow: false,
+      form: {
+        method: '',
+        bankName: '',
+        chequeNo: '',
+        chequeBankDate: '',
+        amount: ''
+      },
+      rules: {
+        method: [
+          {
+            required: true,
+            message: 'Please fill in the fields',
+            trigger: 'change'
+          }
+        ],
+        bankName: [
+          {
+            required: true,
+            message: 'Please fill in the fields',
+            trigger: 'change'
+          }
+        ],
+        chequeNo: [
+          {
+            required: true,
+            message: 'Please fill in the fields',
+            trigger: 'blur'
+          }
+        ],
+        chequeBankDate: [
+          {
+            required: true,
+            message: 'Please fill in the fields',
+            trigger: 'blur'
+          }
+        ],
+        amount: [
+          {
+            required: true,
+            message: 'Please fill in the fields',
+            trigger: 'blur'
+          }
+        ]
+      },
+      Payment: {
+        buyerPaymentList: [],
+        otherRemarks: ''
+      },
+      reserveObj: {
+        earnest: this.roundNum(this.variate * 0.05),
+        Received: 0,
+        Difference: 0,
+        Excess: 0
+      },
+      bankData: []
+    }
+  },
+  watch: {
+    variate(val) {
+      if (val) {
+        this.reserveObj.earnest = this.roundNum(val * 0.05)
+      }
+    }
+  },
+  mounted() {
+    this.queryBankList()
+    if (this.updaObj) {
+      let obj = JSON.parse(JSON.stringify(this.updaObj))
+      let takeArr = new Array()
+      for (const key in JSON.parse(JSON.stringify(this.Payment))) {
+        takeArr.push(key)
+      }
+      let beforeObj = pick(obj, takeArr)
+      this.Payment = beforeObj
+      if (beforeObj.buyerPaymentList && beforeObj.buyerPaymentList.length) {
+        this.Payment.buyerPaymentList = beforeObj.buyerPaymentList
+        this.calculateFn(this.Payment.buyerPaymentList)
+      } else {
+        this.Payment.buyerPaymentList = new Array()
+      }
+    }
+  },
+  methods: {
+    handleDelete(index, row) {
+      this.Payment.buyerPaymentList.splice(index, 1)
+      this.calculateFn(this.Payment.buyerPaymentList)
+    },
+    calculateFn(arr) {
+      let totalPrice = 0, earnest = this.roundNum(this.reserveObj.earnest)
+      this.reserveObj.Received = this.roundNum(arr.reduce(
+        (totalPrice, item) => totalPrice + parseFloat(item.amount),
+        0
+      ))
+      if (this.reserveObj.Received > earnest) {
+        this.reserveObj.Excess = this.roundNum(this.reserveObj.Received - earnest)
+        this.reserveObj.Difference = 0
+      } else {
+        this.reserveObj.Difference = this.roundNum(earnest - this.reserveObj.Received)
+        this.reserveObj.Excess = 0
+      }
+    },
+    addDataFn() {
+      this.$refs['PaymentForm'].validate(valid => {
+        if (valid) {
+          this.addShow = false
+          this.Payment.buyerPaymentList.push(this.form)
+          this.calculateFn(this.Payment.buyerPaymentList)
+          this.form = {}
+        } else {
+          return false
+        }
+      })
+    },
+    roundNum(num) {
+      return Math.round(num * 100) / 100
+    },
+    queryBankList() {
+      this.$Post(this.$api.queryBankList, { pageNo: 1, pageSize: 9999 }).then(
+        res => {
+          if (res.code == 0) {
+            this.bankData = res.datas.lists
+          }
+        }
+      )
+    },
+    isNextFn() {
+      let earnest = this.reserveObj.earnest, Received = this.reserveObj.Received
+      if (earnest > Received) {
+        this.$notify.error({
+          title: 'Error',
+          message: 'The deposit is insufficient, please pay your deposit'
+        })
+        return false
+      } else {
+        return { obj: {...this.Payment,...this.reserveObj}, index: 1 }
+      }
+    }
+  }
+}
+</script>
+
+<style lang="less">
+.Payment {
+  .addTab {
+    padding: 20px;
+    .tab_div_con {
+      border: 1px solid #ddd;
+    }
+  }
+  .conclusion {
+    padding: 20px;
+    .line {
+      margin-bottom: 5px;
+      &::before {
+        content: '';
+        display: inline-block;
+        clear: both;
+      }
+      .lf {
+        float: left;
+        width: 60%;
+        color: #666;
+        text-align: right;
+      }
+      .rt {
+        float: left;
+        padding-left: 15px;
+        width: 40%;
+        color: #000;
+        &.Difference {
+          color: #ff6666;
+        }
+        &.Excess {
+          color: green;
+        }
+      }
+    }
+  }
+}
+</style>
