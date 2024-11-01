@@ -71,7 +71,7 @@
                 <el-col :span="12">
                   <el-button
                     size="mini"
-                    :disabled="isCooperate == 1 ||  CMS_Edit_Price == 2 || CMS_Edit_Price == 1"
+                    :disabled=" (isCooperate == 1&& self == 0) ||  CMS_Edit_Price == 2 || CMS_Edit_Price == 1 "
                     @click="EditPriceFn"
                   >Edit Price</el-button>
                   <el-button size="mini" :disabled="self == 0" @click="DeleteAll">Delete All Unit</el-button>
@@ -106,7 +106,7 @@
               <el-table-column :label="$t('Edit')">
                 <template slot-scope="scope">
                   <el-button
-                    :disabled="isCooperate == 1"
+                    :disabled="(isCooperate == 1&& self == 0)"
                     size="mini"
                     @click="editUnit(scope.row)"
                   >{{$t('units.edit')}}</el-button>
@@ -358,10 +358,8 @@
               </el-table-column>
               <el-table-column prop="agentName" label="Operator"></el-table-column>
               <el-table-column label="Log Time">
-                 <template slot-scope="scope">
-                  <div>
-                    {{$dateFormat(scope.row.createTime)}}
-                  </div>
+                <template slot-scope="scope">
+                  <div>{{$dateFormat(scope.row.createTime)}}</div>
                 </template>
               </el-table-column>
             </el-table>
@@ -388,10 +386,14 @@
             </el-col>
             <el-col :span="12">
               <div class="opration">
-                <el-button size="mini" :disabled="isCooperate == 1" @click="updateUnit">{{$t('update')}}</el-button>
                 <el-button
                   size="mini"
-                  :disabled="isCooperate == 1"
+                  :disabled="(isCooperate == 1 && self == 0)"
+                  @click="updateUnit"
+                >{{$t('update')}}</el-button>
+                <el-button
+                  size="mini"
+                  :disabled="(isCooperate == 1 && self == 0)"
                   @click="dialogOfPrice = false"
                 >{{$t('cancel')}}</el-button>
               </div>
@@ -598,7 +600,7 @@ import PriceChange from './component/priceChange/PriceChange'
 export default {
   components: {
     uploader,
-    PriceChange
+    PriceChange,
   },
   data() {
     return {
@@ -616,13 +618,13 @@ export default {
         //unit列表的分页配置
         currentPage: 1,
         pageSize: 5,
-        count: 0
+        count: 0,
       },
       unitManagePage: {
         //group里面的unit的分页配置
         currentPage: 1,
         pageSize: 5,
-        count: 0
+        count: 0,
       },
       priceDialogDetails: {}, //编辑价格时的弹窗信息
       unitList: [], //unit列表数据
@@ -634,28 +636,28 @@ export default {
         {
           name: 'projectId',
           value:
-            JSON.parse(sessionStorage.getItem('projectDesc') || '{}').id || ''
+            JSON.parse(sessionStorage.getItem('projectDesc') || '{}').id || '',
         },
         {
           name: 'updatePurchaseStatus',
-          value: 'NO'
-        }
+          value: 'NO',
+        },
       ],
       uploadUnitTransactionParam: [
         //上传Units Status的数据
         {
           name: 'projectId',
           value:
-            JSON.parse(sessionStorage.getItem('projectDesc') || '{}').id || ''
-        }
+            JSON.parse(sessionStorage.getItem('projectDesc') || '{}').id || '',
+        },
       ],
       importUnitGroupParam: [
         //上传group里面unit列表的数据
         {
           name: 'projectId',
           value:
-            JSON.parse(sessionStorage.getItem('projectDesc') || '{}').id || ''
-        }
+            JSON.parse(sessionStorage.getItem('projectDesc') || '{}').id || '',
+        },
       ],
       groupInit: -1, //group列表的表格初始化位置（用于往判断那条数据显示编辑状态）
       groupName: '', //groupName
@@ -671,7 +673,7 @@ export default {
       OperationLog: [],
       logCount: 0,
       logPage: 1,
-      logPageSize: 5
+      logPageSize: 5,
     }
   },
   mounted() {
@@ -686,9 +688,9 @@ export default {
       let data = {
         pageNo: this.logPage,
         pageSize: this.logPageSize,
-        projectId: this.id
+        projectId: this.id,
       }
-      this.$Posting(this.$api.queryUnitOpLog, data).then(res => {
+      this.$Posting(this.$api.queryUnitOpLog, data).then((res) => {
         if (res.code == 0) {
           this.logCount = res.datas.count
           this.OperationLog = res.datas.lists
@@ -704,7 +706,7 @@ export default {
     },
     teamChange(item) {
       //当team选择框发生变化时获取其对应的名称显示在team弹框上方
-      this.selectTeamName = item.group.selectTeamList.find(team => {
+      this.selectTeamName = item.group.selectTeamList.find((team) => {
         if (team.teamId == item.group.selectTeamId) {
           return team
         }
@@ -720,7 +722,7 @@ export default {
       //导出group关联的unit数据
       window.location.href = this.$addDownUrl(this.$api.exportUnitGroup, {
         groupId: this.groupId,
-        projectId: this.id
+        projectId: this.id,
       })
     },
     closeGroupDialog() {
@@ -740,14 +742,14 @@ export default {
     deleteGroupOfUnit(unitId) {
       //删除group关联的unit数据 不传unitId表示全部删除
       let params = {
-        groupId: this.groupId
+        groupId: this.groupId,
       }
       unitId && (params.unitId = unitId)
-      this.$Geting(this.$api.deleteUnitGroupJoin, params).then(res => {
+      this.$Geting(this.$api.deleteUnitGroupJoin, params).then((res) => {
         if (res.code == 0) {
           this.$notify.success({
             title: this.$t('alert.alert_success_title'),
-            message: this.$t('alert.alert_success_delete_title')
+            message: this.$t('alert.alert_success_delete_title'),
           })
           this.unitSelectId = ''
           if (
@@ -761,7 +763,7 @@ export default {
         } else {
           this.$notify.error({
             title: this.$t('alert.fail'),
-            message: this.$t('alert.alert_fail_delete_title')
+            message: this.$t('alert.alert_fail_delete_title'),
           })
         }
       })
@@ -771,12 +773,12 @@ export default {
       if (!this.unitSelectId) return
       this.$Posting(this.$api.insertUnitGroupJoin, {
         groupId: this.groupId,
-        unitIds: this.unitSelectId
-      }).then(res => {
+        unitIds: this.unitSelectId,
+      }).then((res) => {
         if (res.code == 0) {
           this.$notify.success({
             title: this.$t('alert.alert_success_title'),
-            message: this.$t('alert.operate_success_title')
+            message: this.$t('alert.operate_success_title'),
           })
           this.unitSelectId = ''
           this.getGroupUnderUnits(this.groupId, 'query')
@@ -784,7 +786,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'fail',
-            message: res.msg
+            message: res.msg,
           })
           return false
         }
@@ -796,7 +798,7 @@ export default {
       this.groupId = item.group.groupId
       this.importUnitGroupParam[1] = {
         name: 'groupId',
-        value: item.group.groupId
+        value: item.group.groupId,
       }
       this.getGroupUnderUnits(item.group.groupId, 'query')
       this.getGroupUnderUnits(item.group.groupId, 'add')
@@ -822,14 +824,14 @@ export default {
       this.$Geting(this.$api.queryTeamsAgentList, {
         teamId: teamId,
         pageSize: 10000,
-        pageNo: 1
-      }).then(res => {
+        pageNo: 1,
+      }).then((res) => {
         if (res.code == 0) {
           this.memberLists = res.datas.lists
         } else {
           this.$notify.error({
             title: 'fail',
-            message: res.msg
+            message: res.msg,
           })
           return false
         }
@@ -843,22 +845,22 @@ export default {
         {
           confirmButtonText: this.$t('alert.sure'),
           cancelButtonText: this.$t('alert.cancel'),
-          type: 'warning'
+          type: 'warning',
         }
       ).then(() => {
         this.$Geting(this.$api.deleteUnitGroup, {
-          groupId: item.group.groupId
-        }).then(res => {
+          groupId: item.group.groupId,
+        }).then((res) => {
           if (res.code == 0) {
             this.$notify.success({
               title: this.$t('alert.alert_success_title'),
-              message: this.$t('alert.alert_success_delete_title')
+              message: this.$t('alert.alert_success_delete_title'),
             })
             this.refreshGroup()
           } else {
             this.$notify.error({
               title: this.$t('alert.fail'),
-              message: this.$t('alert.alert_fail_delete_title')
+              message: this.$t('alert.alert_fail_delete_title'),
             })
           }
         })
@@ -876,18 +878,18 @@ export default {
         groupName: this.groupName,
         accessStatus: this.accessStatus,
         showSold: this.showSold,
-        projectId: this.id
-      }).then(res => {
+        projectId: this.id,
+      }).then((res) => {
         if (res.code == 0) {
           this.$notify.success({
             title: this.$t('alert.alert_success_title'),
-            message: this.$t('alert.operate_success_title')
+            message: this.$t('alert.operate_success_title'),
           })
           this.refreshGroup()
         } else {
           this.$notify.error({
             title: 'fail',
-            message: res.msg
+            message: res.msg,
           })
           return false
         }
@@ -897,21 +899,21 @@ export default {
       this.$confirm(this.$t('alert.alert_delete'), 'Delete All Unit?', {
         confirmButtonText: this.$t('alert.sure'),
         cancelButtonText: this.$t('alert.cancel'),
-        type: 'warning'
+        type: 'warning',
       }).then(() => {
         this.$Geting(this.$api.deleteAllUnit, {
-          projectId: this.id
-        }).then(res => {
+          projectId: this.id,
+        }).then((res) => {
           if (res.code == 0) {
             this.$notify.success({
               title: this.$t('alert.alert_success_title'),
-              message: this.$t('alert.alert_success_delete_title')
+              message: this.$t('alert.alert_success_delete_title'),
             })
             this.getUnitListData()
           } else {
             this.$notify.error({
               title: this.$t('alert.fail'),
-              message: this.$t('alert.alert_fail_delete_title')
+              message: this.$t('alert.alert_fail_delete_title'),
             })
           }
         })
@@ -925,23 +927,23 @@ export default {
         {
           confirmButtonText: this.$t('alert.sure'),
           cancelButtonText: this.$t('alert.cancel'),
-          type: 'warning'
+          type: 'warning',
         }
       ).then(() => {
         this.$Geting(this.$api.deleteUnitGroupTeam, {
           groupId: item.group.groupId,
-          teamId: team.teamId
-        }).then(res => {
+          teamId: team.teamId,
+        }).then((res) => {
           if (res.code == 0) {
             this.$notify.success({
               title: this.$t('alert.alert_success_title'),
-              message: this.$t('alert.alert_success_delete_title')
+              message: this.$t('alert.alert_success_delete_title'),
             })
             this.getSelectTeam(item, 'query')
           } else {
             this.$notify.error({
               title: this.$t('alert.fail'),
-              message: this.$t('alert.alert_fail_delete_title')
+              message: this.$t('alert.alert_fail_delete_title'),
             })
           }
         })
@@ -952,18 +954,18 @@ export default {
       let groupId = item.group.groupId || -1
       this.$Posting(this.$api.insertUnitGroupTeam, {
         groupId: groupId,
-        teamId: item.group.selectTeamId
-      }).then(res => {
+        teamId: item.group.selectTeamId,
+      }).then((res) => {
         if (res.code == 0) {
           this.$notify.success({
             title: this.$t('alert.alert_success_title'),
-            message: this.$t('alert.operate_success_title')
+            message: this.$t('alert.operate_success_title'),
           })
           this.getSelectTeam(item, 'query')
         } else {
           this.$notify.error({
             title: 'fail',
-            message: res.msg
+            message: res.msg,
           })
           return false
         }
@@ -1019,9 +1021,9 @@ export default {
           unitNum: 0,
           isAddTeam: true,
           selectTeamList: [],
-          selectTeamId: ''
+          selectTeamId: '',
         },
-        teams: []
+        teams: [],
       })
       this.groupInit = 0
     },
@@ -1050,20 +1052,20 @@ export default {
         price8: this.priceDialogDetails.price8,
         price9: this.priceDialogDetails.price9,
         price10: this.priceDialogDetails.price10,
-        projectId: this.id
+        projectId: this.id,
       }
-      this.$Posting(this.$api.editUnit, params).then(res => {
+      this.$Posting(this.$api.editUnit, params).then((res) => {
         if (res.code == 0) {
           this.dialogOfPrice = false
           this.$notify.success({
             title: this.$t('alert.alert_success_title'),
-            message: this.$t('alert.operate_success_title')
+            message: this.$t('alert.operate_success_title'),
           })
           this.getUnitListData()
         } else {
           this.$notify.error({
             title: 'fail',
-            message: res.msg
+            message: res.msg,
           })
           return false
         }
@@ -1098,13 +1100,13 @@ export default {
         {
           confirmButtonText: this.$t('alert.sure'),
           cancelButtonText: this.$t('alert.cancel'),
-          type: 'warning'
+          type: 'warning',
         }
       ).then(() => {
         this.$Geting(this.$api.deleteUnit, {
           unitId: row.unitId,
-          projectId: row.projectId
-        }).then(res => {
+          projectId: row.projectId,
+        }).then((res) => {
           if (res.code == 0) {
             let self = this
             if (self.unitList.length == 1 && self.unitPage.currentPage !== 1) {
@@ -1114,7 +1116,7 @@ export default {
           } else {
             this.$notify.error({
               title: this.$t('alert.fail'),
-              message: this.$t('alert.alert_fail_delete_title')
+              message: this.$t('alert.alert_fail_delete_title'),
             })
           }
         })
@@ -1131,13 +1133,13 @@ export default {
     exportUnitTransaction() {
       //导出数据
       window.location.href = this.$addDownUrl(this.$api.exportUnitTransaction, {
-        projectId: this.id
+        projectId: this.id,
       })
     },
     exportUnit() {
       //导出数据
       window.location.href = this.$addDownUrl(this.$api.exportUnit, {
-        projectId: this.id
+        projectId: this.id,
       })
     },
     getUnitListData() {
@@ -1145,15 +1147,15 @@ export default {
       this.$Geting(this.$api.queryUnitList, {
         projectId: this.id,
         pageSize: this.unitPage.pageSize,
-        pageNo: this.unitPage.currentPage
-      }).then(res => {
+        pageNo: this.unitPage.currentPage,
+      }).then((res) => {
         if (res.code == 0) {
           this.unitList = res.datas.lists
           this.unitPage.count = res.datas.count
         } else {
           this.$notify.error({
             title: 'fail',
-            message: res.msg
+            message: res.msg,
           })
           return false
         }
@@ -1162,8 +1164,8 @@ export default {
     getUnitAccessListData() {
       //获取unitAccess列表数据
       this.$Geting(this.$api.queryUnitGroupList, {
-        projectId: this.id
-      }).then(res => {
+        projectId: this.id,
+      }).then((res) => {
         if (res.code == 0) {
           let datas = res.datas
           for (let i = 0; i < datas.length; i++) {
@@ -1175,7 +1177,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'fail',
-            message: res.msg
+            message: res.msg,
           })
           return false
         }
@@ -1186,8 +1188,8 @@ export default {
       let groupId = item.group.groupId || -1
       this.$Geting(this.$api.queryUnitGroupTeam, {
         groupId: groupId,
-        action: type
-      }).then(res => {
+        action: type,
+      }).then((res) => {
         if (res.code == 0) {
           if (type == 'add') {
             item.group.selectTeamList = res.datas
@@ -1198,7 +1200,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'fail',
-            message: res.msg
+            message: res.msg,
           })
           return false
         }
@@ -1209,7 +1211,7 @@ export default {
       let params = {
         groupId: groupId,
         action: type,
-        projectId: this.id
+        projectId: this.id,
       }
       if (type == 'query') {
         params.pageSize = this.unitManagePage.pageSize
@@ -1218,7 +1220,7 @@ export default {
         params.pageSize = 10000
         params.pageNo = 1
       }
-      this.$Geting(this.$api.queryUnitGroupJoin, params).then(res => {
+      this.$Geting(this.$api.queryUnitGroupJoin, params).then((res) => {
         if (res.code == 0) {
           if (type == 'query') {
             this.unitsManageList = res.datas.lists
@@ -1229,13 +1231,13 @@ export default {
         } else {
           this.$notify.error({
             title: 'fail',
-            message: res.msg
+            message: res.msg,
           })
           return false
         }
       })
-    }
-  }
+    },
+  },
 }
 </script>
 <style lang="less">
