@@ -106,7 +106,7 @@
               <el-table-column :label="$t('Edit')">
                 <template slot-scope="scope">
                   <el-button
-                    :disabled="self == 0"
+                    :disabled="isCooperate == 1"
                     size="mini"
                     @click="editUnit(scope.row)"
                   >{{$t('units.edit')}}</el-button>
@@ -388,10 +388,10 @@
             </el-col>
             <el-col :span="12">
               <div class="opration">
-                <el-button size="mini" :disabled="self == 0" @click="updateUnit">{{$t('update')}}</el-button>
+                <el-button size="mini" :disabled="isCooperate == 1" @click="updateUnit">{{$t('update')}}</el-button>
                 <el-button
                   size="mini"
-                  :disabled="self == 0"
+                  :disabled="isCooperate == 1"
                   @click="dialogOfPrice = false"
                 >{{$t('cancel')}}</el-button>
               </div>
