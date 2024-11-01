@@ -28,6 +28,16 @@
         :model="detailForm"
         :rules="rules"
       >
+       <el-row>
+          <el-col :span="12">
+            <el-form-item label="Developer Ecoprop">
+              <el-checkbox
+                :disabled="userInfo.type !==2 && userInfo.isAdmin!==0"
+                v-model="detailForm.cooperate"
+              ></el-checkbox>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.syncToMobile')">
@@ -507,6 +517,7 @@ export default {
   data() {
     return {
       hostUrl: sessionStorage.getItem('serveUrl') || '',
+      userInfo: JSON.parse(sessionStorage.getItem('userInfo')) || {},
       typeData: selsectData.typeData,
       tenureData: selsectData.tenureData,
       locationData: selsectData.locationData,
@@ -529,6 +540,7 @@ export default {
       dialogVisible: false, // 弹窗show
       projectAreaList: ['CCR', 'RCR', 'OCR'],
       detailForm: {
+        cooperate: false,
         projectName: '',
         mobileSync: false,
         currencySymbol: '',
@@ -794,6 +806,8 @@ export default {
             this.priceFrom = res.datas.project.priceFrom
             this.psfFrom = res.datas.project.psfFrom
             this.fillDataToForm()
+            let projectDesc = JSON.parse(sessionStorage.getItem('projectDesc'))
+            sessionStorage.setItem('projectDesc',JSON.stringify({...projectDesc, cooperate: res.datas.project.cooperate}))
           } else {
             this.$notify.error({
               title: 'fail',
@@ -805,92 +819,6 @@ export default {
       )
     },
     updateDetail() {
-      // if (!this.detailForm.currencySymbol) {
-      //   this.$alertWarn('currencySymbol')
-      // } else if (!this.detailForm.developer) {
-      //   this.$alertWarn('developer')
-      // } else if (
-      //   !this.detailForm.projectType &&
-      //   !this.detailForm.projectTypeAltText
-      // ) {
-      //   this.$alertWarn('projectType')
-      // } else if (
-      //   !this.detailForm.unitsNum &&
-      //   !this.detailForm.unitsNumAltText
-      // ) {
-      //   this.$alertWarn('unitsNum')
-      // } else if (!this.detailForm.tenure && !this.detailForm.tenureAltText) {
-      //   this.$alertWarn('tenure')
-      // } else if (
-      //   !this.detailForm.completionDate &&
-      //   !this.detailForm.completionDateAltText
-      // ) {
-      //   this.$alertWarn('completionDate')
-      // } else if (
-      //   !this.detailForm.launchDate &&
-      //   !this.detailForm.launchDateAltText
-      // ) {
-      //   this.$alertWarn('launchDate')
-      // } else if (!this.detailForm.country && !this.detailForm.countryAltText) {
-      //   this.$alertWarn('country')
-      // } else if (
-      //   !this.detailForm.location &&
-      //   !this.detailForm.locationAltText
-      // ) {
-      //   this.$alertWarn('currencySymbol')
-      // } else if (!this.detailForm.postalCode) {
-      //   this.$alertWarn('postalCode')
-      // } else if (!this.detailForm.streetAddress) {
-      //   this.$alertWarn('streetAddress')
-      // } else {
-      //   let submitData = this.getSubmitData()
-      //   this.$Posting(this.$api.updateProject, submitData).then(res => {
-      //     if (res.code == 0) {
-      //       this.beforeSaveCheckImage()
-      //       this.editorArr = []
-      //       this.updateEditorArr = []
-      //       this.$notify({
-      //         title: 'success',
-      //         message: this.$t('alert.operate_success_title'),
-      //         type: 'success'
-      //       })
-      //       this.queryProjectDetail()
-      //       if (window.sessionStorage.getItem('uploadImg')) {
-      //         window.sessionStorage.removeItem('uploadImg')
-      //       }
-      //     } else {
-      //       this.$notify.error({
-      //         title: 'fail',
-      //         message: res.msg
-      //       })
-      //       return false
-      //     }
-      //   })
-      // }
-
-      // let submitData = this.getSubmitData()
-      //   this.$Posting(this.$api.updateProject, submitData).then(res => {
-      //     if (res.code == 0) {
-      //       this.beforeSaveCheckImage()
-      //       this.editorArr = []
-      //       this.updateEditorArr = []
-      //       this.$notify({
-      //         title: 'success',
-      //         message: this.$t('alert.operate_success_title'),
-      //         type: 'success'
-      //       })
-      //       this.queryProjectDetail()
-      //       if (window.sessionStorage.getItem('uploadImg')) {
-      //         window.sessionStorage.removeItem('uploadImg')
-      //       }
-      //     } else {
-      //       this.$notify.error({
-      //         title: 'fail',
-      //         message: res.msg
-      //       })
-      //       return false
-      //     }
-      //   })
       this.$refs['ruleForm'].validate(valid => {
         if (valid) {
           let submitData = this.getSubmitData()
@@ -926,6 +854,7 @@ export default {
       this.detailForm.mobileSync =
         this.detailForm.mobileSync == 'YES' ? true : false
       this.detailForm.featured = this.detailForm.featured == '1' ? false : true
+      this.detailForm.cooperate = this.detailForm.cooperate != 0 ? true : false
       this.detailForm.description = this.$base64ToContent(
         this.detailForm.description
       )
@@ -975,6 +904,7 @@ export default {
       let submitData = Object.assign({}, this.detailForm)
       submitData.mobileSync = submitData.mobileSync ? 'YES' : 'NO'
       submitData.featured = submitData.featured ? '0' : '1'
+      submitData.cooperate = submitData.cooperate ? '1' : '0'
       submitData.description = this.$contentToBase64(submitData.description)
       submitData.keyPoints = this.$contentToBase64(submitData.keyPoints)
       submitData.facilities = this.$contentToBase64(submitData.facilities)

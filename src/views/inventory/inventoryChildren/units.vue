@@ -71,7 +71,7 @@
                 <el-col :span="12">
                   <el-button
                     size="mini"
-                    :disabled="self == 0 || CMS_Edit_Price == 2 || CMS_Edit_Price == 1"
+                    :disabled="isCooperate == 1 ||  CMS_Edit_Price == 2 || CMS_Edit_Price == 1"
                     @click="EditPriceFn"
                   >Edit Price</el-button>
                   <el-button size="mini" :disabled="self == 0" @click="DeleteAll">Delete All Unit</el-button>
@@ -603,6 +603,7 @@ export default {
   data() {
     return {
       self: JSON.parse(sessionStorage.getItem('projectDesc')).self,
+      isCooperate: JSON.parse(sessionStorage.getItem('projectDesc')).cooperate,
       CMS_Edit_Price:
         JSON.parse(sessionStorage.getItem('jurisdiction') || '{}')
           .CMS_Edit_Price || 1,
