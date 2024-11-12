@@ -10,12 +10,12 @@
             :uploadParam="uploadUnitParam"
             @uploadAfter="uploadUnitsAfter"
             :url="$api.importUnit"
-            :selfNum="self"
+            :selfNum="(isCooperate == 1 && self == 0) ? 0 : 1"
             fileType=".xls,.xlsx"
             :btnText="{select:$t('units.selectFile'),import:$t('units.importUnitList')}"
           ></uploader>
           <el-button
-            :disabled="self == 0"
+            :disabled="(isCooperate == 1 && self == 0)"
             size="mini"
             @click="exportUnit"
           >{{$t('units.exportUnitList')}}</el-button>
@@ -71,7 +71,7 @@
                 <el-col :span="12">
                   <el-button
                     size="mini"
-                    :disabled=" (isCooperate == 1&& self == 0) ||  CMS_Edit_Price == 2 || CMS_Edit_Price == 1 "
+                    :disabled=" (isCooperate == 1 && self == 0) ||  CMS_Edit_Price == 2 || CMS_Edit_Price == 1 "
                     @click="EditPriceFn"
                   >Edit Price</el-button>
                   <el-button size="mini" :disabled="self == 0" @click="DeleteAll">Delete All Unit</el-button>

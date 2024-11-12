@@ -19,14 +19,14 @@
           :closable="false"
         ></el-alert>
         <el-row>
-          <el-col :span="12" class="col_padding_x">
+          <el-col :span="18" class="col_padding_x">
             <el-form-item :label="$t('email.subject')">
-              <el-input class="width_300px" v-model="subject1"></el-input>
+              <el-input style="width: 300px" class="width_300px" v-model="subject1"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12" class="col_padding_x">
+          <el-col :span="18" class="col_padding_x">
             <el-form-item :label="$t('email.welcomeMessage')">
               <editor
                 editorId="unitEdit"
@@ -39,7 +39,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12" class="col_padding_x">
+          <el-col :span="18" class="col_padding_x">
             <el-form-item :label="$t('email.emailTemplate')">
               <editor
                 editorId="unitEdit1"
@@ -58,14 +58,14 @@
           :closable="false"
         ></el-alert>
         <el-row>
-          <el-col :span="12" class="col_padding_x">
+          <el-col :span="18" class="col_padding_x">
             <el-form-item :label="$t('email.subject')">
-              <el-input class="width_300px" v-model="subject2"></el-input>
+              <el-input style="width: 300px" class="width_300px" v-model="subject2"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12" class="col_padding_x">
+          <el-col :span="18" class="col_padding_x">
             <el-form-item :label="$t('email.welcomeMessage')">
               <editor
                 editorId="propertyEdit"
@@ -78,7 +78,7 @@
           </el-col>
         </el-row>
         <el-row>
-          <el-col :span="12" class="col_padding_x">
+          <el-col :span="18" class="col_padding_x">
             <el-form-item :label="$t('email.emailTemplate')">
               <editor
                 editorId="propertyEdit1"
@@ -289,6 +289,9 @@ export default {
     padding: 15px 30px;
     .el-alert__title {
       font-size: 14px !important;
+    }
+    .el-form-item__content{
+      display: block;
     }
   }
   .col_padding_x {
