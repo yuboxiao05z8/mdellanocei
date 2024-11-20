@@ -28,7 +28,7 @@
         :model="detailForm"
         :rules="rules"
       >
-       <el-row>
+        <el-row>
           <el-col :span="12">
             <el-form-item label="Developer Ecoprop">
               <el-checkbox
@@ -109,6 +109,15 @@
           <el-col :span="12">
             <el-form-item :label="$t('edit.tenureAltText')">
               <el-input class="width_300px" v-model="detailForm.tenureAltText"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item  label="Deferred Payment">
+              <el-checkbox
+                v-model="detailForm.deferredPayment"
+              ></el-checkbox>
             </el-form-item>
           </el-col>
         </el-row>
@@ -512,7 +521,7 @@ import tinymce from 'tinymce/tinymce'
 export default {
   components: {
     editor,
-    uploader
+    uploader,
   },
   data() {
     return {
@@ -527,12 +536,13 @@ export default {
       uploadParam: [
         {
           name: 'type',
-          value: 'projectImg'
+          value: 'projectImg',
         },
         {
           name: 'projectId',
-          value: JSON.parse(sessionStorage.getItem('projectDesc') || '{}').id || ''
-        }
+          value:
+            JSON.parse(sessionStorage.getItem('projectDesc') || '{}').id || '',
+        },
       ],
       fileData: [],
       priceFrom: '',
@@ -545,6 +555,7 @@ export default {
         mobileSync: false,
         currencySymbol: '',
         featured: false,
+        deferredPayment: false,
         developer: '',
         projectType: '',
         projectTypeAltText: '',
@@ -585,115 +596,116 @@ export default {
         customValue5: '',
         psfFromText: '',
         projectArea: '',
-        district: ''
+        district: '',
       },
       rules: {
         currencySymbol: [
           {
             required: true,
             message: 'This field cannot be empty',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         developer: [
           {
             required: true,
             message: 'This field cannot be empty',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         projectType: [
           {
             required: true,
             message: 'This field cannot be empty',
-            trigger: 'change'
-          }
+            trigger: 'change',
+          },
         ],
         unitsNum: [
           {
             required: true,
             message: 'This field cannot be empty',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         tenure: [
           {
             required: true,
             message: 'This field cannot be empty',
-            trigger: 'change'
-          }
+            trigger: 'change',
+          },
         ],
         completionDate: [
           {
             required: true,
             message: 'This field cannot be empty',
-            trigger: 'change'
-          }
+            trigger: 'change',
+          },
         ],
         launchDate: [
           {
             required: true,
             message: 'This field cannot be empty',
-            trigger: 'change'
-          }
+            trigger: 'change',
+          },
         ],
         country: [
           {
             required: true,
             message: 'This field cannot be empty',
-            trigger: 'change'
-          }
+            trigger: 'change',
+          },
         ],
         location: [
           {
             required: true,
             message: 'This field cannot be empty',
-            trigger: 'change'
-          }
+            trigger: 'change',
+          },
         ],
         projectArea: [
           {
             required: true,
             message: 'This field cannot be empty',
-            trigger: 'change'
-          }
+            trigger: 'change',
+          },
         ],
         latitude: [
           {
             required: true,
             message: 'This field cannot be empty',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         longitude: [
           {
             required: true,
             message: 'This field cannot be empty',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         streetAddress: [
           {
             required: true,
             message: 'This field cannot be empty',
-            trigger: 'blur'
-          }
+            trigger: 'blur',
+          },
         ],
         postalCode: [
           {
             required: true,
             message: 'This field cannot be empty',
-            trigger: 'blur'
-          }
-        ]
+            trigger: 'blur',
+          },
+        ],
       },
       editorSetting: {
         // 配置富文本编辑器高
         height: 120,
-        width: 900
+        width: 900,
       },
-      id: JSON.parse(sessionStorage.getItem('projectDesc') || '{}').id || '' ,
-      self: JSON.parse(sessionStorage.getItem('projectDesc') || '{}').self || '',
+      id: JSON.parse(sessionStorage.getItem('projectDesc') || '{}').id || '',
+      self:
+        JSON.parse(sessionStorage.getItem('projectDesc') || '{}').self || '',
       callbackList: [],
       linkmanData: {
         domains: [
@@ -701,10 +713,12 @@ export default {
             userName: '',
             mobile: '',
             mail: '',
-            projectId: JSON.parse(sessionStorage.getItem('projectDesc') || '{}').id || '',
-          }
-        ]
-      }
+            projectId:
+              JSON.parse(sessionStorage.getItem('projectDesc') || '{}').id ||
+              '',
+          },
+        ],
+      },
     }
   },
   mounted() {
@@ -713,8 +727,8 @@ export default {
   methods: {
     deleteImg() {
       this.$Geting(this.$api.deleteFile, {
-        path: this.hostUrl + this.fileData[0].path
-      }).then(res => {
+        path: this.hostUrl + this.fileData[0].path,
+      }).then((res) => {
         if (res.code == 0) {
           this.fileData = []
           if (window.sessionStorage.getItem('uploadImg')) {
@@ -723,7 +737,7 @@ export default {
         } else {
           this.$notify.error({
             title: 'fail',
-            message: res.msg
+            message: res.msg,
           })
           return false
         }
@@ -734,7 +748,7 @@ export default {
         this.dialogVisible = true
       }
       this.$Get(this.$api.queryContactPerson, { projectId: this.id }).then(
-        res => {
+        (res) => {
           if (res.code == 0) {
             if (res.datas.length != 0) {
               this.linkmanData.domains = res.datas
@@ -755,12 +769,12 @@ export default {
           userName: '',
           mobile: '',
           mail: '',
-          projectId: this.id
+          projectId: this.id,
         })
       } else {
         this.$notify.error({
           title: 'fail',
-          message: 'No more than eight contacts'
+          message: 'No more than eight contacts',
         })
       }
     },
@@ -772,19 +786,19 @@ export default {
       let data = JSON.stringify(this.linkmanData.domains)
       this.$Get(this.$api.saveContactPerson, {
         projectId: this.id,
-        paramJson: data
-      }).then(res => {
+        paramJson: data,
+      }).then((res) => {
         if (res.code == 0) {
           this.$notify({
             title: 'success',
             message: res.msg,
-            type: 'success'
+            type: 'success',
           })
           this.dialogVisible = false
         } else {
           this.$notify.error({
             title: 'fail',
-            message: res.msg
+            message: res.msg,
           })
         }
       })
@@ -800,18 +814,24 @@ export default {
     },
     queryProjectDetail() {
       this.$Geting(this.$api.queryProjectDetail, { projectId: this.id }).then(
-        res => {
+        (res) => {
           if (res.code == 0) {
             this.detailForm = Object.assign({}, res.datas.project)
             this.priceFrom = res.datas.project.priceFrom
             this.psfFrom = res.datas.project.psfFrom
             this.fillDataToForm()
             let projectDesc = JSON.parse(sessionStorage.getItem('projectDesc'))
-            sessionStorage.setItem('projectDesc',JSON.stringify({...projectDesc, cooperate: res.datas.project.cooperate}))
+            sessionStorage.setItem(
+              'projectDesc',
+              JSON.stringify({
+                ...projectDesc,
+                cooperate: res.datas.project.cooperate,
+              })
+            )
           } else {
             this.$notify.error({
               title: 'fail',
-              message: res.msg
+              message: res.msg,
             })
             return false
           }
@@ -819,10 +839,10 @@ export default {
       )
     },
     updateDetail() {
-      this.$refs['ruleForm'].validate(valid => {
+      this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
           let submitData = this.getSubmitData()
-          this.$Posting(this.$api.updateProject, submitData).then(res => {
+          this.$Posting(this.$api.updateProject, submitData).then((res) => {
             if (res.code == 0) {
               this.beforeSaveCheckImage()
               this.editorArr = []
@@ -830,7 +850,7 @@ export default {
               this.$notify({
                 title: 'success',
                 message: this.$t('alert.operate_success_title'),
-                type: 'success'
+                type: 'success',
               })
               this.queryProjectDetail()
               if (window.sessionStorage.getItem('uploadImg')) {
@@ -839,7 +859,7 @@ export default {
             } else {
               this.$notify.error({
                 title: 'fail',
-                message: res.msg
+                message: res.msg,
               })
               return false
             }
@@ -854,7 +874,8 @@ export default {
       this.detailForm.mobileSync =
         this.detailForm.mobileSync == 'YES' ? true : false
       this.detailForm.featured = this.detailForm.featured == '1' ? false : true
-      this.detailForm.cooperate = this.detailForm.cooperate != 0 ? true : false
+      this.detailForm.cooperate = this.detailForm.cooperate == 1 ? true : false
+      this.detailForm.deferredPayment = this.detailForm.deferredPayment == 1 ? true : false
       this.detailForm.description = this.$base64ToContent(
         this.detailForm.description
       )
@@ -886,7 +907,7 @@ export default {
       if (this.detailForm.contactImage) {
         this.fileData.push({
           path: this.detailForm.contactImage,
-          url: `${this.hostUrl}${this.detailForm.contactImage}`
+          url: `${this.hostUrl}${this.detailForm.contactImage}`,
         })
       }
       this.beforeSaveGetInitEdit(
@@ -905,6 +926,7 @@ export default {
       submitData.mobileSync = submitData.mobileSync ? 'YES' : 'NO'
       submitData.featured = submitData.featured ? '0' : '1'
       submitData.cooperate = submitData.cooperate ? '1' : '0'
+      submitData.deferredPayment = submitData.deferredPayment ? '1' : '0'
       submitData.description = this.$contentToBase64(submitData.description)
       submitData.keyPoints = this.$contentToBase64(submitData.keyPoints)
       submitData.facilities = this.$contentToBase64(submitData.facilities)
@@ -954,11 +976,11 @@ export default {
       allEditorArr.length &&
         window.sessionStorage.setItem('editorImg', JSON.stringify(allEditorArr)) //点击时将之前富文本编辑器里面的图片进行缓存
       this.$changeSession(this.updateEditorArr)
-    }
+    },
   },
   beforeDestroy() {
     this.$deleteImg()
-  }
+  },
 }
 </script>
 <style lang="less">
