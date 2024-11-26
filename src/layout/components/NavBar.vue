@@ -10,7 +10,7 @@
       text-color="#ddd"
     >
       <sidebar-item
-        v-for="route in permission_routes"
+        v-for="route in different_routes"
         :key="route.path"
         :item="route"
         :base-path="route.path"
@@ -26,8 +26,8 @@ export default {
   components: { SidebarItem },
   props: {
     isCollapse: {
-      type: Boolean
-    }
+      type: Boolean,
+    },
   },
   computed: {
     ...mapGetters(['permission_routes']),
@@ -39,26 +39,56 @@ export default {
         return meta.activeMenu
       }
       return path
-    }
+    },
+    different_routes() {
+      // 区分用户属性 ['MixGo','Developers','Agency']
+      let type = JSON.parse(sessionStorage.getItem('userInfo') || '{}').type, classify, routeObj
+      switch (type) {
+        case 1:
+          classify = 'MixGo'
+          break
+        case 2:
+          classify = 'Developers'
+          break
+        case 3:
+          classify = 'Agency'
+          break
+      }
+      routeObj = filterAsyncRoutes(this.permission_routes, [classify])
+      return routeObj
+    },
   },
   data() {
     return {
       routerObj: [],
-      userInfo: JSON.parse(window.sessionStorage.getItem('userInfo') || '{}')
+      userInfo: JSON.parse(window.sessionStorage.getItem('userInfo') || '{}'),
     }
   },
+  // mounted() {
+  //   console.log('243', this.different_routes)
+  // },
+}
 
-  mounted() {
-    // console.log('获取到的', this.permission_routes)
-  },
-  methods: {
-    handleOpen(val) {
-      console.log(val)
-    },
-    handleClose(val) {
-      console.log(val)
-    }
+function hasPermission(roles, route) {
+  if (route.type && route.type) {
+    return roles.some((role) => route.type.includes(role))
+  } else {
+    return true
   }
+}
+
+function filterAsyncRoutes(routes, roles) {
+  const res = []
+  routes.forEach((route) => {
+    const tmp = { ...route }
+    if (hasPermission(roles, tmp)) {
+      if (tmp.children) {
+        tmp.children = filterAsyncRoutes(tmp.children, roles)
+      }
+      res.push(tmp)
+    }
+  })
+  return res
 }
 </script>
 
@@ -76,8 +106,8 @@ export default {
     text-overflow: ellipsis;
     white-space: nowrap;
     position: relative;
-    &::before{
-      content: "";
+    &::before {
+      content: '';
       position: absolute;
       left: 0;
       right: 0;

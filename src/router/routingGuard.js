@@ -13,8 +13,8 @@ router.beforeEach(async (to, from, next) => {
       } else {
         try {
           let isAdmin = JSON.parse(sessionStorage.getItem('userInfo') || '{}').isAdmin
-          let accountType = JSON.parse(sessionStorage.getItem('userInfo') || '{}').accountType
-          let roles = '', classify = ''
+          
+          let roles = ''
           switch (isAdmin) {
             case 0:
               roles = 'admin'
@@ -26,17 +26,7 @@ router.beforeEach(async (to, from, next) => {
               roles = 'areaManager'
               break;
           }
-          switch (accountType) {
-            case 1:
-              classify = 'MixGo'
-              break;
-            case 2:
-              classify = 'Developers'
-              break;
-            case 3:
-              classify = 'agency'
-              break;
-          }
+
           const accessRoutes = await store.dispatch('permission/generateRoutes', [roles])
           router.addRoutes(accessRoutes)
           // console.log('创建导航', accessRoutes)

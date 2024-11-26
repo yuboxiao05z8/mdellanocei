@@ -40,9 +40,14 @@
         :placeholder="$t('inventoryLists.projectName')"
         v-model="searchName"
       ></el-input>
-      
-      <el-form v-if="userInfo.accountType != 2" ref="form" style="display: inline-block;margin:0 20px"  label-width="80px">
-        <el-form-item size="mini" label="Allocated">
+
+      <el-form
+        v-if="userInfo.accountType != 2"
+        ref="form"
+        style="display: inline-block;margin:0 20px"
+        label-width="80px"
+      >
+        <el-form-item size="mini" label="Allocated" style="margin-bottom: 0">
           <el-select v-model="allocated" placeholder="Allocated">
             <el-option label="ALL" value="ALL"></el-option>
             <el-option label="YES" value="YES"></el-option>
@@ -53,7 +58,7 @@
       <el-button size="mini" @click="searchData">{{$t('inventoryLists.Search')}}</el-button>
     </div>
     <div class="inventory_list_table">
-      <el-table :data="projectList" border style="width: 100%" size="mini">
+      <el-table :data="projectList" border max-height="620px" size="mini">
         <el-table-column width="200" prop="projectName" :label="$t('inventoryLists.name')"></el-table-column>
         <el-table-column
           width="200"
@@ -88,7 +93,7 @@
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('inventoryLists.edit')" fixed="right" width="400">
+        <el-table-column :label="$t('inventoryLists.edit')" fixed="right" width="550">
           <template slot-scope="scope">
             <el-button size="mini" plain @click="edit(scope.row)">{{$t('inventoryLists.edit')}}</el-button>
             <el-button
@@ -114,6 +119,12 @@
               v-if="scope.row.self == 0 && scope.row.syncUnit == 'YES' && userInfo.isAdmin == 0"
               @click="syncFn(scope.row,'NO')"
             >{{$t('not Sync')}}</el-button>
+            <el-button
+              size="mini"
+              plain
+              v-if="userInfo.type !== 3"
+              @click="GoBooking(scope.row)"
+            >Appointment Booking</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -144,7 +155,7 @@
 import uploader from '@/components/uploader'
 export default {
   components: {
-    uploader
+    uploader,
   },
   data() {
     return {
@@ -158,7 +169,7 @@ export default {
       searchName: '',
       rTitle: '',
       userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
-      allocated: ''
+      allocated: '',
     }
   },
   mounted() {
@@ -206,7 +217,7 @@ export default {
           api = this.$api.updateProjectName
           data = {
             projectId: this.projectId,
-            projectName: this.inputVal
+            projectName: this.inputVal,
           }
           break
 
@@ -214,22 +225,22 @@ export default {
           api = this.$api.updatePropertyGroup
           data = {
             projectId: this.projectId,
-            propertyGroup: this.inputVal
+            propertyGroup: this.inputVal,
           }
           break
       }
-      this.$Posting(api, data).then(res => {
+      this.$Posting(api, data).then((res) => {
         if (res.code == 0) {
           this.$notify.success({
             title: this.$t('alert.alert_success_title'),
-            message: this.$t('alert.operate_success_title')
+            message: this.$t('alert.operate_success_title'),
           })
           this.dialogVisible = false
           this.getListData()
         } else {
           this.$notify.error({
             title: 'fail',
-            message: res.msg
+            message: res.msg,
           })
           return false
         }
@@ -241,15 +252,15 @@ export default {
         pageSize: this.pageSize,
         pageNo: this.currentPage,
         projectName: this.searchName,
-        allocated: this.allocated == 'ALL'? '' : this.allocated
-      }).then(res => {
+        allocated: this.allocated == 'ALL' ? '' : this.allocated,
+      }).then((res) => {
         if (res.code == 0) {
           this.projectList = res.datas.lists
           this.projectNum = res.datas.count
         } else {
           this.$notify.error({
             title: 'fail',
-            message: res.msg
+            message: res.msg,
           })
           return false
         }
@@ -272,7 +283,7 @@ export default {
       let projectDesc = JSON.stringify({
         name: row.projectName,
         id: row.projectId,
-        self: row.self
+        self: row.self,
       })
       sessionStorage.setItem('projectDesc', projectDesc)
     },
@@ -284,23 +295,23 @@ export default {
       this.$confirm(text, 'Alert', {
         confirmButtonText: 'Ok',
         cancelButtonText: 'Cancel',
-        type: 'warning'
+        type: 'warning',
       })
         .then(() => {
           this.$Post(this.$api.syncUnit, {
             projectId: row.projectId,
-            sync: type
-          }).then(res => {
+            sync: type,
+          }).then((res) => {
             if (res.code == 0) {
               this.$message({
                 type: 'success',
-                message: res.msg
+                message: res.msg,
               })
               this.getListData()
             } else {
               this.$message({
                 type: 'info',
-                message: res.msg
+                message: res.msg,
               })
             }
           })
@@ -308,11 +319,20 @@ export default {
         .catch(() => {
           this.$message({
             type: 'info',
-            message: 'error!'
+            message: 'error!',
           })
         })
-    }
-  }
+    },
+    GoBooking(row) {
+      this.$router.push({
+        path: '/inventory/booking',
+        query: {
+          id: row.projectId,
+          name: row.projectName
+        },
+      })
+    },
+  },
 }
 </script>
 <style lang='less'>

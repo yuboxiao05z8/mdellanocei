@@ -245,5 +245,10 @@ Vue.api = Vue.prototype.$api = {
   uploadTransactionFile: "/trade-service/upload/uploadTransactionFile", // 上传交易文件
   transactionGenerate: "/trade-service/document/transactionGenerate", // 生成交易文件
   queryDocumentsVersion: "/trade-service/document/queryDocumentsVersion", // 获取交易文件历史版本
+  saveAppointment: "/broke-manager-service/appointment/saveAppointment", // 保存项目预约设置
+  deleteAppointment: "/broke-manager-service/appointment/deleteAppointment", // 删除项目预约设置列表
+  queryAppointmentDetails: "/broke-manager-service/appointment/queryAppointmentDetails", // 查询项目预约设置详情
+  queryAppointmentList: "/broke-manager-service/appointment/queryAppointmentList", // 查询项目预约设置列表
+  saveAppointmentDetails: "/broke-manager-service/appointment/saveAppointmentDetails", // 保存中介公司预约明细
 }
 

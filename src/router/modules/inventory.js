@@ -5,12 +5,13 @@ const inventoryRouter = [
     path: '/inventory',
     component: Layout,
     redirect: '/inventory/inventoryList',
+    meta: {title: 'Inventory'},
     children: [
       {
         path: "inventoryList",
         component: () => import('@/views/inventory/inventoryList'),
         name: 'inventoryList',
-        meta: { title: 'Inventory', icon: 'el-icon-tickets' },
+        meta: { title: 'Inventory List', icon: 'el-icon-tickets' },
       },
       {
         path: "inventoryChildren",
@@ -117,6 +118,14 @@ const inventoryRouter = [
             meta: { title: 'Edit Map' }
           },
         ]
+      },
+      {
+        path: "booking",
+        hidden: true,
+        component: () => import('@/views/inventory/AppointmentBooking/booking'),
+        name: 'booking',
+        type: ['Developers'],
+        meta: {title: 'Appointment Booking'}
       }
     ]
   }

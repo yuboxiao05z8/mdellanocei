@@ -1,5 +1,6 @@
 <template>
   <div v-if="!item.hidden">
+    <!-- 匹配只有一个父或者只有一个子的情况 -->
     <template
       v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow"
     >
@@ -16,6 +17,7 @@
       </app-link>
     </template>
 
+    <!-- 匹配多级别导航 -->
     <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
       <template slot="title">
         <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
@@ -25,7 +27,7 @@
         :key="child.path"
         :is-nest="true"
         :item="child"
-        :class="{'vanish':child.name == 'TransactionList' && accountType == 3}"
+        
         :base-path="resolvePath(child.path)"
         class="nest-menu"
       />
@@ -64,9 +66,6 @@ export default {
       accountType: JSON.parse(sessionStorage.getItem('userInfo') || '{}')
         .type
     }
-  },
-  mounted() {
-    // console.log('1111', this.item)
   },
   methods: {
     hasOneShowingChild(children = [], parent) {

@@ -226,6 +226,7 @@ const dynamicRouter = [
         path: 'TransactionList',
         component: () => import('@/views/SalesBooking/TransactionList/index'),
         name: 'TransactionList',
+        type: ['Developers'],
         meta: {
           title: 'Transaction List',
         },
