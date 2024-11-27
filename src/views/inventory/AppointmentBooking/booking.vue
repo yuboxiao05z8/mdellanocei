@@ -28,10 +28,7 @@
           <el-table-column label="End of appointmen" prop="endTime"></el-table-column>
           <el-table-column label="Agency Project Appointment Management">
             <template slot-scope="scope">
-              <el-button
-                size="mini"
-                @click="EditMediationFn(scope.row.appointmentId)"
-              >To Manage</el-button>
+              <el-button size="mini" @click="EditMediationFn(scope.row.appointmentId)">To Manage</el-button>
             </template>
           </el-table-column>
           <el-table-column label="Edit">
@@ -110,6 +107,15 @@ export default {
         })
     },
     addBooking() {
+      this.activeItem = {
+        appointmentId: '',
+        endTime: '',
+        maxGroup: '',
+        maxNum: '',
+        projectId: '',
+        startTime: '',
+        time: '',
+      }
       this.$refs.compile.dialogVisible = true
     },
     goBack() {
@@ -151,8 +157,9 @@ export default {
     height: calc(100% - 80px);
     .table_div {
       height: 100%;
-      // padding: 10px;
-      // background: #fff;
+      .cell {
+        word-break: break-word;
+      }
     }
   }
 }

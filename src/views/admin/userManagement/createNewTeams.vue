@@ -40,30 +40,6 @@
             <div v-else>{{scope.row.teamName}}</div>
           </template>
         </el-table-column>
-        <!-- <el-table-column :label="$t('teams.sellingEntity')">
-          <template slot-scope="scope">
-            <el-select v-if="scope.$index === tableDataInit"  v-model="sellingEntities" filterable placeholder="请选择">
-              <el-option
-                v-for="item in entitiesList"
-                :key="item.companyName"
-                :label="item.companyName"
-                :value="item.companyName"
-              ></el-option>
-            </el-select>
-            <div v-else>{{scope.row.sellingEntities}}</div>
-          </template>
-        </el-table-column>-->
-        <!-- <el-table-column :label="$t('teams.isSensitive')">
-          <template slot-scope="scope">
-            <template v-if="scope.$index === tableDataInit">
-              <el-checkbox v-model="isSensitive" :true-label="1" :false-label="0"></el-checkbox>
-            </template>
-            <template v-else>
-              <i class="el-icon-check" v-if="scope.row.isSensitive == '1'"></i>
-              <i class="el-icon-close" v-else></i>
-            </template>
-          </template>
-        </el-table-column>-->
         <el-table-column :label="$t('teams.manageMembership')">
           <template slot-scope="scope">
             <el-button
@@ -158,7 +134,7 @@
             :remote-method="remoteMethod"
             :loading="loading"
           >
-            <ul class="select_title">
+            <ul class="teams_select_title">
               <li>{{$t('teams.email')}}</li>
               <li>{{$t('teams.name')}}</li>
               <!-- <li>{{$t('teams.email')}}</li> -->
@@ -619,13 +595,15 @@ export default {
     }
   }
 }
-.select_title {
+.teams_select_title {
   height: 34px !important;
   position: absolute;
   width: 100%;
   background-color: rgb(245, 247, 250);
   top: 0;
   z-index: 999;
+  list-style: none;
+  padding-left: 0;
   li {
     float: left;
     width: 25%;

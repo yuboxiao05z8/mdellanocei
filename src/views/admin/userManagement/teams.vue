@@ -45,7 +45,7 @@
           </el-col>
           <el-col :span="15">
             <el-select v-model="icTeam.agentModel" size="mini" style="width:100%" placeholder="" filterable>
-              <ul class="select_title">
+              <ul class="teams_select_title">
                 <li>{{$t('teams.name')}}</li>
                 <li>{{$t('teams.ic')}}</li>
                 <li>{{$t('teams.email')}}</li>
@@ -64,7 +64,6 @@
                   <div :title="item.regNum">{{ item.regNum }}</div>
                 </el-option>
               </div>
-
             </el-select>
           </el-col>
           <el-col :span="7" class="col_button">
@@ -673,13 +672,14 @@ export default {
     text-align: center;
   }
 }
-.select_title {
+.teams_select_title {
   height: 34px !important;
   position: absolute;
   width: 100%;
   background-color: rgb(245, 247, 250);
   top: 0;
   z-index: 999;
+  list-style: none;
   li {
     float: left;
     width: 20%;
@@ -688,6 +688,7 @@ export default {
     text-align: center;
     font-size: 14px;
     color: #606266;
+    // list-style: none;
   }
 }
 .el_checkbox_group {

@@ -44,7 +44,7 @@ const adminRouter = [
             meta: { title: 'Create New Users' }
           },
           {
-            path: 'teams',
+            path: 'createNewTeams',
             component: () => import('@/views/admin/userManagement/createNewTeams'),
             name: 'teams',
             meta: { title: 'Teams' }

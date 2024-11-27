@@ -90,7 +90,6 @@ export default {
   },
   watch: {
     activeItem(item) {
-      console.log(item)
       this.form = {
         pickerTiem: [item.startTime, item.endTime],
         time: item.time,
@@ -102,7 +101,6 @@ export default {
   },
   methods: {
     closeFn() {
-      this.form = {}
       this.$refs.form.resetFields()
     },
     onUpdate() {
