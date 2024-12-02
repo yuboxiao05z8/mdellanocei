@@ -610,73 +610,6 @@
           </el-row>
         </div>
       </el-form>
-      <!-- <div class="div_padding_x">
-        <el-row class="row_header">
-          <el-col :span="12" class="col_text">
-            <div>{{$t('settings.otherSellingEntities')}} ({{brokeOfProjectNum}})</div>
-          </el-col>
-          <el-col :span="12" class="col_button">
-            <el-button
-              size="mini"
-              @click="addBrokeLists"
-              :disabled="isUpdataDisabled"
-            >{{$t('settings.addOtherSellingEntity')}}</el-button>
-            <el-button size="mini" @click="refresh">{{$t('settings.refresh')}}</el-button>
-          </el-col>
-        </el-row>
-
-        <el-table
-          :data="brokeOfProjectList"
-          border
-          style="width: 100%"
-          :header-cell-style="{'background':'#f5f7fa'}"
-          size="mini"
-        >
-          <el-table-column :label="$t('settings.name')">
-            <template slot-scope="scope">
-              <el-select v-if="scope.$index === tableDataInit && isEdit" v-model="companyId" filterable placeholder="请选择">
-                <el-option
-                  v-for="item in noBrokeOfProjectList"
-                  :key="item.companyId"
-                  :label="item.companyName"
-                  :value="item.companyId"
-                ></el-option>
-              </el-select>
-              <div v-else>{{scope.row.companyName}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('settings.commission')">
-            <template slot-scope="scope">
-              <el-input v-if="scope.$index === tableDataInit" v-model="defaultCommission"></el-input>
-              <div v-else>{{scope.row.defaultCommission}}</div>
-            </template>
-          </el-table-column>
-          <el-table-column :label="$t('settings.setting')">
-            <template slot-scope="scope">
-              <template v-if="scope.$index === tableDataInit">
-                <el-button size="mini" plain @click="update(scope.row)">{{$t('update')}}</el-button>
-                <el-button
-                  size="mini"
-                  plain
-                  @click="cancel(scope.row,scope.$index)"
-                >{{$t('cancel')}}</el-button>
-              </template>
-              <template v-else>
-                <el-button
-                  size="mini"
-                  plain
-                  @click="edit(scope.row,scope.$index)"
-                >{{$t('otherSellingEntities.edit')}}</el-button>
-                <el-button
-                  size="mini"
-                  plain
-                  @click="deleteData(scope.row)"
-                >{{$t('otherSellingEntities.delete')}}</el-button>
-              </template>
-            </template>
-          </el-table-column>
-        </el-table>
-      </div>-->
     </div>
   </div>
 </template>
@@ -782,45 +715,9 @@ export default {
   mounted() {
     if (this.id) {
       this.getSetting()
-      // this.getProjectOfBrokeLists('query');
-      // this.getProjectOfBrokeLists('add');
-      // this.getBrokeLists();
     }
   },
   methods: {
-    // deleteData(row) {
-    //   //删除
-    //   // console.log(row);
-    //   this.$confirm(
-    //     this.$t("alert.alert_delete"),
-    //     this.$t("alert.alert_command"),
-    //     {
-    //       confirmButtonText: this.$t("alert.sure"),
-    //       cancelButtonText: this.$t("alert.cancel"),
-    //       type: "warning"
-    //     }
-    //   ).then(() => {
-    //     this.$Posting(this.$api.deleteProjectCompany, {
-    //       projectId: this.id,
-    //       companyId: row.companyId
-    //     }).then(res => {
-    //       if (res.code == 0) {
-    //         this.$notify.success({
-    //           title: this.$t("alert.alert_success_title"),
-    //           message: this.$t("alert.alert_success_delete_title")
-    //         });
-    //         this.cancel();
-    //         this.getProjectOfBrokeLists('query');
-    //         this.getProjectOfBrokeLists('add');
-    //       } else {
-    //         this.$notify.error({
-    //           title: this.$t("alert.fail"),
-    //           message: this.$t("alert.alert_fail_delete_title")
-    //         });
-    //       }
-    //     });
-    //   });
-    // },
     getSetting() {
       //查询设置
       this.$Geting(this.$api.queryProjectSet, { projectId: this.id }).then(
@@ -888,104 +785,6 @@ export default {
         }
       })
     }
-    // refresh() {
-    //   this.tableDataInit = -1;
-    //   this.checkedBrokes = [];
-    //   this.isUpdataDisabled = false
-    //   this.companyId = ''
-    //   this.defaultCommission = ''
-    //   this.commissionListId = ''
-    //   this.getProjectOfBrokeLists('query');
-    //   this.getProjectOfBrokeLists('add');
-    // },
-    // getProjectOfBrokeLists(type) { //查询项目下经纪公司列表
-    //   this.$Posting(this.$api.queryProjectCompany, {
-    //     projectId: this.id,
-    //     action: type,
-    //     pageNo: 1,
-    //     pageSize: 10000
-    //   }).then(res => {
-    //     if (res.code == 0) {
-    //       if (type == 'query') {
-    //         this.brokeOfProjectList = res.datas.lists;
-    //         this.brokeOfProjectNum = res.datas.count;
-    //       } else {
-    //         this.noBrokeOfProjectList = res.datas.lists
-    //         console.log(this.noBrokeOfProjectList,'123')
-    //       }
-    //     } else {
-    //       this.$notify.error({
-    //         title: "fail",
-    //         message: res.msg
-    //       });
-    //       return false;
-    //     }
-    //   });
-    // },
-    // getBrokeLists() {
-    //   //查询经纪公司列表
-    //   this.$Posting(this.$api.queryBrokeCompany, {
-    //     pageNo: 1,
-    //     pageSize: 10000
-    //   }).then(res => {
-    //     if (res.code == 0) {
-    //       this.brokeList = res.datas.lists;
-    //     } else {
-    //       this.$notify.error({
-    //         title: "fail",
-    //         message: res.msg
-    //       });
-    //       return false;
-    //     }
-    //   });
-    // },
-
-    // update() {
-    //   this.$Posting(this.$api.saveProjectCompany, {
-    //     projectId: this.id,
-    //     companyId: this.companyId,
-    //     defaultCommission: this.defaultCommission,
-    //     id: this.commissionListId
-    //   }).then(res => {
-    //     if (res.code == 0) {
-    //       this.$notify.success({
-    //         title: this.$t("alert.alert_success_title"),
-    //         message: this.$t("alert.operate_success_title")
-    //       });
-    //       this.tableDataInit = -1;
-    //       this.getProjectOfBrokeLists('query');
-    //       this.getProjectOfBrokeLists('add');
-    //       this.isUpdataDisabled = false
-    //       this.companyId = ''
-    //       this.defaultCommission = ''
-    //       this.commissionListId = ''
-    //     } else {
-    //       this.$notify.error({
-    //         title: "fail",
-    //         message: res.msg
-    //       });
-    //       return false;
-    //     }
-    //   });
-    // },
-    // addBrokeLists() { // 添加关联公司设计佣金
-    //   this.isEdit = true
-    //   this.isUpdataDisabled = true
-    //   this.brokeOfProjectList.unshift({})
-    //   this.tableDataInit = 0;
-    // },
-    // cancel() {
-    //   this.tableDataInit = -1;
-    // },
-    // edit(row, index) {
-    //   this.isEdit = false
-    //   this.companyId = row.companyId
-    //   this.defaultCommission = row.defaultCommission
-    //   if (row.id) {
-    //     this.commissionListId = row.id
-    //   }
-    //   this.tableDataInit = index;
-    // }
   }
 }
 </script>

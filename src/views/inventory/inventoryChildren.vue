@@ -12,48 +12,32 @@
         <span>{{$t('navTop.propertiesDetails')}}</span>
         <span class="project_name">{{projectName}}</span>
       </div>
+
+      <!-- 导航 -->
       <el-menu
         class="el-menu-demo"
         mode="horizontal"
         :default-active="actinveInde"
         active-text-color="#409EFF"
         router
-        @select="selectPage"
       >
-        <el-menu-item index="/Inventory/inventoryChildren/detail">{{$t('navTop.detail')}}</el-menu-item>
-        <el-menu-item
-          index="/Inventory/inventoryChildren/buildingPhases"
-        >{{$t('navTop.buildingPhases')}}</el-menu-item>
-        <el-menu-item index="/Inventory/inventoryChildren/floorPlans">{{$t('navTop.floorPlans')}}</el-menu-item>
-        <el-menu-item index="/Inventory/inventoryChildren/units">{{$t('navTop.untils')}}</el-menu-item>
-        <el-menu-item index="/Inventory/inventoryChildren/plan">{{$t('navTop.siteStackPlans')}}</el-menu-item>
-        <el-submenu index="media">
-          <template slot="title">{{$t('navTop.media')}}</template>
-          <el-menu-item index="/Inventory/inventoryChildren/image">{{$t('navTop.image')}}</el-menu-item>
-          <el-menu-item index="/Inventory/inventoryChildren/pdf">{{$t('navTop.pdf')}}</el-menu-item>
-          <el-menu-item index="/Inventory/inventoryChildren/video">{{$t('navTop.video')}}</el-menu-item>
-          <el-menu-item index="/Inventory/inventoryChildren/aeriaView">{{$t('navTop.aeriaView')}}</el-menu-item>
-        </el-submenu>
-        <!-- <el-menu-item index="/Inventory/inventoryChildren/email">{{$t('navTop.email')}}</el-menu-item> -->
-        <el-submenu index="settings">
-          <template slot="title">{{$t('navTop.settings')}}</template>
+        <div class="template_nav_div" v-for="(route,index) in routerObj" :key="index">
           <el-menu-item
-            index="/Inventory/inventoryChildren/GeneralSettings"
-          >{{$t('navTop.GeneralSettings')}}</el-menu-item>
-          <el-menu-item
-            index="/Inventory/inventoryChildren/commission"
-          >{{$t('navTop.SalesPromotion')}}</el-menu-item>
-          <el-menu-item
-            index="/Inventory/inventoryChildren/contactInformation"
-          >{{$t('contactInformation')}}</el-menu-item>
-          <el-menu-item index="/Inventory/inventoryChildren/CustomSettings">{{$t('CustomSettings')}}</el-menu-item>
-        </el-submenu>
-        <!-- <el-menu-item index="/Inventory/inventoryChildren/settings">{{$t('navTop.settings')}}</el-menu-item> -->
-        <el-menu-item index="/Inventory/inventoryChildren/permissions">{{$t('navTop.permissions')}}</el-menu-item>
-        <el-menu-item
-          index="/Inventory/inventoryChildren/documentGeneration"
-        >{{$t('navTop.documentGeneration')}}</el-menu-item>
+            v-if="!route.children && !route.hidden"
+            :index="`/Inventory/inventoryChildren/${route.path}`"
+          >{{route.meta.title}}</el-menu-item>
+
+          <el-submenu :index="route.path" v-if="route.children && !route.hidden">
+            <template slot="title">{{route.meta.title}}</template>
+            <el-menu-item
+              v-for="(v, key) in route.children"
+              :key="key"
+              :index="`/Inventory/inventoryChildren/${route.path}/${v.path}`"
+            >{{v.meta.title}}</el-menu-item>
+          </el-submenu>
+        </div>
       </el-menu>
+
     </div>
     <div class="child_content">
       <router-view></router-view>
@@ -61,18 +45,30 @@
   </div>
 </template>
 <script>
+import inventoryRouter from '@/router/modules/inventory'
 export default {
   data() {
     return {
       projectName: '',
       isToPath: '',
-      activeMenu: '/Inventory/inventoryChildren/detail'
+      routerObj: [],
     }
   },
   computed: {
     actinveInde() {
-      return sessionStorage.getItem('ChildernMun') || this.activeMenu
-    }
+      const route = this.$route
+      const { meta, path } = route
+      return path
+    },
+  },
+  created() {
+    this.routerObj = JSON.parse(
+      JSON.stringify(
+        inventoryRouter[0].children.filter(
+          (i) => i.path == 'inventoryChildren'
+        )[0].children
+      )
+    )
   },
   mounted() {
     this.projectName = JSON.parse(sessionStorage.getItem('projectDesc')).name
@@ -82,9 +78,6 @@ export default {
     goBack() {
       this.$router.replace('/inventory/inventoryList')
     },
-    selectPage(val) {
-      sessionStorage.setItem('ChildernMun', val)
-    },
     getUnitRoleAccess() {
       let projectId = JSON.parse(sessionStorage.getItem('projectDesc') || '{}')
         .id
@@ -92,13 +85,13 @@ export default {
         .agentId
       this.$Post(this.$api.getUnitRoleAccess, {
         projectId: projectId,
-        agentId: agentId
-      }).then(res => {
+        agentId: agentId,
+      }).then((res) => {
         if (res.code == 0) {
           sessionStorage.setItem('jurisdiction', JSON.stringify(res.datas))
         }
       })
-    }
+    },
   },
   beforeRouteLeave(to, from, next) {
     let str = '/Inventory/inventoryChildren'
@@ -108,7 +101,7 @@ export default {
       sessionStorage.removeItem('ChildernMun')
     }
     next()
-  }
+  },
 }
 </script>
 
@@ -132,12 +125,23 @@ export default {
       }
     }
     .el-menu {
+      .template_nav_div {
+        display: inline-block;
+        width: 10%;
+        // &:last-child {
+        //   width: 14.5%;
+        // }
+      }
       .el-menu-item,
       .el-submenu {
-        width: 9.5%;
+        width: 100%;
         text-align: center;
-        &:last-child {
-          width: 14.5%;
+      }
+      .el-submenu__title,
+      .el-menu-item,
+      .el-submenu {
+        &:hover {
+          background: #fff;
         }
       }
       .el-submenu {

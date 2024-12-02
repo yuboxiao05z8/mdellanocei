@@ -250,5 +250,8 @@ Vue.api = Vue.prototype.$api = {
   queryAppointmentDetails: "/broke-manager-service/appointment/queryAppointmentDetails", // 查询项目预约设置详情
   queryAppointmentList: "/broke-manager-service/appointment/queryAppointmentList", // 查询项目预约设置列表
   saveAppointmentDetails: "/broke-manager-service/appointment/saveAppointmentDetails", // 保存中介公司预约明细
+  uploadProjectPromoImage: "/broke-manager-service/upload/uploadProjectPromoImage", // 上传Project Promo Image
+  queryProjectPromo: "/broke-manager-service/project/queryProjectPromo", // 查询项目promo信息
+  saveProjectPromo: "/broke-manager-service/project/saveProjectPromo", // 保存项目promo信息
 }
 

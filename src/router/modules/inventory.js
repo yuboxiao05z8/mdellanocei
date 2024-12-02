@@ -2,10 +2,10 @@ import Layout from '@/layout'
 
 const inventoryRouter = [
   {
-    path: '/inventory',
+    path: '/Inventory',
     component: Layout,
     redirect: '/inventory/inventoryList',
-    meta: {title: 'Inventory'},
+    meta: { title: 'Inventory' },
     children: [
       {
         path: "inventoryList",
@@ -52,52 +52,78 @@ const inventoryRouter = [
             meta: { title: 'Plan' }
           },
           {
-            path: "image",
-            component: () => import('@/views/inventory/inventoryChildren/media/image'),
-            name: 'image',
-            meta: { title: 'Image' }
+            path: "media",
+            component: () => import('@/views/inventory/inventoryChildren/media/media'),
+            name: 'media',
+            meta: { title: 'Media' },
+            redirect: '/Inventory/inventoryChildren/media/image',
+            children: [
+              {
+                path: "image",
+                component: () => import('@/views/inventory/inventoryChildren/media/image'),
+                name: 'image',
+                meta: { title: 'Image' }
+              },
+              {
+                path: "pdf",
+                component: () => import('@/views/inventory/inventoryChildren/media/pdf'),
+                name: 'pdf',
+                meta: { title: 'Pdf' }
+              },
+              {
+                path: "video",
+                component: () => import('@/views/inventory/inventoryChildren/media/video'),
+                name: 'video',
+                meta: { title: 'Video' },
+
+              },
+              {
+                path: "aeriaView",
+                component: () => import('@/views/inventory/inventoryChildren/media/aeriaView'),
+                name: 'aeriaView',
+                meta: { title: 'Aeria View' }
+              },
+            ]
           },
           {
-            path: "pdf",
-            component: () => import('@/views/inventory/inventoryChildren/media/pdf'),
-            name: 'pdf',
-            meta: { title: 'Pdf' }
-          },
-          {
-            path: "video",
-            component: () => import('@/views/inventory/inventoryChildren/media/video'),
-            name: 'video',
-            meta: { title: 'Video' }
-          },
-          {
-            path: "aeriaView",
-            component: () => import('@/views/inventory/inventoryChildren/media/aeriaView'),
-            name: 'aeriaView',
-            meta: { title: 'Aeria View' }
-          },
-          {
-            path: "commission",
-            component: () => import('@/views/inventory/inventoryChildren/setTing/commission'),
-            name: 'commission',
-            meta: { title: 'commission' }
-          },
-          {
-            path: "GeneralSettings",
-            component: () => import('@/views/inventory/inventoryChildren/setTing/GeneralSettings'),
-            name: 'GeneralSettings',
-            meta: { title: 'General Settings' }
-          },
-          {
-            path: "contactInformation",
-            component: () => import('@/views/inventory/inventoryChildren/setTing/contactInformation'),
-            name: 'contactInformation',
-            meta: { title: 'Contact In Formation' }
-          },
-          {
-            path: "CustomSettings",
-            component: () => import('@/views/inventory/inventoryChildren/setTing/CustomSettings'),
-            name: 'CustomSettings',
-            meta: { title: 'Custom Settings' }
+            path: "settings",
+            component: () => import('@/views/inventory/inventoryChildren/setTing/index'),
+            name: 'settings',
+            meta: { title: 'Settings' },
+            redirect: '/Inventory/inventoryChildren/settings/GeneralSettings',
+            children: [
+              {
+                path: "GeneralSettings",
+                component: () => import('@/views/inventory/inventoryChildren/setTing/GeneralSettings'),
+                name: 'GeneralSettings',
+                meta: { title: 'General Settings' }
+              },
+              {
+                path: "commission",
+                component: () => import('@/views/inventory/inventoryChildren/setTing/commission'),
+                name: 'commission',
+                meta: { title: 'commission' }
+              },
+             
+              {
+                path: "PromoSettings",
+                component: () => import('@/views/inventory/inventoryChildren/setTing/PromoSettings'),
+                name: 'PromoSettings',
+                meta: { title: 'Promo Settings' }
+              },
+              {
+                path: "contactInformation",
+                component: () => import('@/views/inventory/inventoryChildren/setTing/contactInformation'),
+                name: 'contactInformation',
+                meta: { title: 'Contact In Formation' }
+              },
+              {
+                path: "CustomSettings",
+                component: () => import('@/views/inventory/inventoryChildren/setTing/CustomSettings'),
+                name: 'CustomSettings',
+                meta: { title: 'Custom Settings' }
+              },
+            ]
           },
           {
             path: "permissions",
@@ -115,7 +141,8 @@ const inventoryRouter = [
             path: "editMap",
             component: () => import('@/views/inventory/inventoryChildren/mapping/editMap'),
             name: 'editMap',
-            meta: { title: 'Edit Map' }
+            meta: { title: 'Edit Map' },
+            hidden: true,
           },
         ]
       },
@@ -125,7 +152,7 @@ const inventoryRouter = [
         component: () => import('@/views/inventory/AppointmentBooking/booking'),
         name: 'booking',
         type: ['Developers'],
-        meta: {title: 'Appointment Booking'}
+        meta: { title: 'Appointment Booking' },
       }
     ]
   }
