@@ -42,7 +42,12 @@
             ></el-date-picker>
           </el-col>
           <el-col :span="12" class="upImg_img">
-            <el-image fit="contain" :src="hostUrl+item.src" class="imgBox" :preview-src-list="[hostUrl+item.src]">
+            <el-image
+              fit="contain"
+              :src="hostUrl+item.src"
+              class="imgBox"
+              :preview-src-list="[hostUrl+item.src]"
+            >
               <div slot="placeholder" class="image-slot">
                 loading
                 <span class="dot">...</span>
@@ -125,19 +130,11 @@ export default {
       let data = {
         promoId: this.PromoId,
         projectId: this.projectId.value,
-        starbuyStartTime: this.promoInfo[0].time.length
-          ? this.promoInfo[0].time[0]
-          : '',
-        starbuyEndTime: this.promoInfo[0].time.length
-          ? this.promoInfo[0].time[1]
-          : '',
+        starbuyStartTime: getTime(this.promoInfo[0].time, 0),
+        starbuyEndTime: getTime(this.promoInfo[0].time, 1),
         starbuyImg: this.promoInfo[0].src,
-        popStartTime: this.promoInfo[1].time.length
-          ? this.promoInfo[1].time[0]
-          : '',
-        popEndTime: this.promoInfo[1].time.length
-          ? this.promoInfo[1].time[1]
-          : '',
+        popStartTime: getTime(this.promoInfo[1].time, 0),
+        popEndTime: getTime(this.promoInfo[1].time, 1),
         popImg: this.promoInfo[1].src,
       }
 
@@ -158,6 +155,9 @@ export default {
       })
     },
   },
+}
+function getTime(params, index) {
+  return params.length ? params[index] : ''
 }
 </script>
 

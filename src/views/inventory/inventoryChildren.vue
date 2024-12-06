@@ -15,7 +15,7 @@
 
       <!-- 导航 -->
       <el-menu
-        class="el-menu-demo"
+        class="Children_menu"
         mode="horizontal"
         :default-active="actinveInde"
         active-text-color="#409EFF"
@@ -37,7 +37,6 @@
           </el-submenu>
         </div>
       </el-menu>
-
     </div>
     <div class="child_content">
       <router-view></router-view>
@@ -113,6 +112,9 @@ export default {
     position: absolute;
     top: 0;
     width: 100%;
+    .Children_menu {
+      min-width: 1000px;
+    }
     .project_title {
       height: 60px;
       padding: 15px 30px;
@@ -127,28 +129,34 @@ export default {
     .el-menu {
       .template_nav_div {
         display: inline-block;
-        width: 10%;
-        // &:last-child {
-        //   width: 14.5%;
-        // }
+        width: auto;
+        &:first-child {
+          padding-left: 30px;
+        }
       }
       .el-menu-item,
       .el-submenu {
         width: 100%;
         text-align: center;
+        padding-right: 45px;
+        padding-left: 0;
       }
       .el-submenu__title,
       .el-menu-item,
       .el-submenu {
         &:hover {
-          background: #fff;
+          background: transparent;
         }
       }
       .el-submenu {
-        .el-submenu__title i {
-          color: #909399 !important;
+        .el-submenu__title {
+          padding: 0;
+          i {
+            color: #909399 !important;
+            right: -15px;
+          }
         }
-        .el-menu-item {
+        .el-submenu__title .el-menu-item {
           text-align: center;
         }
       }

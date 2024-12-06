@@ -13,7 +13,7 @@ router.beforeEach(async (to, from, next) => {
       } else {
         try {
           let isAdmin = JSON.parse(sessionStorage.getItem('userInfo') || '{}').isAdmin
-          
+
           let roles = ''
           switch (isAdmin) {
             case 0:
