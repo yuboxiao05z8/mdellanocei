@@ -38,10 +38,15 @@
 </template>
 
 <script>
+const stepObj = ['00','15','30','45']
 const tiemObj = () => {
   let item = []
   for (let index = 7; index < 23; index++) {
-    item.push(`${index}:00`)
+    for (let j = 0; j < stepObj.length; j++) {
+      item.push(`${index}:${stepObj[j]}`)
+      
+    }
+    // item.push(`${index}:00`)
   }
   return item
 }
