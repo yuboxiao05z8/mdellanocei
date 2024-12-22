@@ -6,7 +6,7 @@ module.exports = {
   pluginOptions: {
     'style-resources-loader': {
       preProcessor: 'less',
-      patterns: [path.resolve(__dirname, "./src/less/index.less")]
+      patterns: [path.resolve(__dirname, "./src/less/PublicVariable.less")]
     }
   },
   configureWebpack: (config) => {

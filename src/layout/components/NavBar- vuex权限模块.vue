@@ -20,6 +20,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import SidebarItem from './sidebar/SidebarItem'
 export default {
   components: { SidebarItem },
@@ -29,6 +30,7 @@ export default {
     },
   },
   computed: {
+    ...mapGetters(['permission_routes']),
     activeMenu() {
       const route = this.$route
       const { meta, path } = route
@@ -38,29 +40,56 @@ export default {
       }
       return path
     },
+    different_routes() {
+      // 区分用户属性 ['MixGo','Developers','Agency']
+      let type = JSON.parse(sessionStorage.getItem('userInfo') || '{}').type, classify, routeObj
+      switch (type) {
+        case 1:
+          classify = 'MixGo'
+          break
+        case 2:
+          classify = 'Developers'
+          break
+        case 3:
+          classify = 'Agency'
+          break
+      }
+      routeObj = filterAsyncRoutes(this.permission_routes, [classify])
+      return routeObj
+    },
   },
   data() {
     return {
       routerObj: [],
       userInfo: JSON.parse(window.sessionStorage.getItem('userInfo') || '{}'),
-      different_routes: []
     }
   },
-  created() {
-    this.queryUserMenu()
-  },
-  methods: {
-    queryUserMenu() {
-      this.$Posting(this.$api.queryUserMenu).then(res => {
-        if(res.code == 0) {
-          this.different_routes = res.datas
-        }
-      })
-    }
-  },
+  // mounted() {
+  //   console.log('243', this.different_routes)
+  // },
 }
 
+function hasPermission(roles, route) {
+  if (route.type && route.type) {
+    return roles.some((role) => route.type.includes(role))
+  } else {
+    return true
+  }
+}
 
+function filterAsyncRoutes(routes, roles) {
+  const res = []
+  routes.forEach((route) => {
+    const tmp = { ...route }
+    if (hasPermission(roles, tmp)) {
+      if (tmp.children) {
+        tmp.children = filterAsyncRoutes(tmp.children, roles)
+      }
+      res.push(tmp)
+    }
+  })
+  return res
+}
 </script>
 
 <style lang="less">

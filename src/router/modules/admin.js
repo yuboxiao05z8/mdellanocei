@@ -58,6 +58,31 @@ const adminRouter = [
         ]
       }
     ]
+  },
+  {
+    path: '/navigation',
+    component: Layout,
+    redirect: '/navigation/creationNav',
+    name: 'navigation',
+    meta: {
+      title: 'Navigation',
+      icon: 'el-icon-guide',
+      roles: ['admin', 'areaManager']
+    },
+    children: [
+      {
+        path: "creationNav",
+        component: () => import('@/views/navigation/creationNav/creationNav'),
+        name: 'creationNav',
+        meta: { title: 'Creation Navigation' }
+      },
+      {
+        path: "allotNav",
+        component: () => import('@/views/navigation/allotNav/allotNav'),
+        name: 'allotNav',
+        meta: { title: 'Management of navigation' }
+      },
+    ]
   }
 ]
 

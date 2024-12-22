@@ -5,4 +5,5 @@
 </template>
 
 <style lang="less">
+@import 'less/index.less';
 </style>

@@ -1,34 +1,32 @@
 <template>
-  <div v-if="!item.hidden">
+  <div>
     <!-- 匹配只有一个父或者只有一个子的情况 -->
     <template
-      v-if="hasOneShowingChild(item.children,item) && (!onlyOneChild.children||onlyOneChild.noShowingChildren)&&!item.alwaysShow"
+      v-if="!item.childMenus"
     >
-      <app-link v-if="onlyOneChild.meta" :to="resolvePath(onlyOneChild.path)">
+      <app-link v-if="item.link" :to="resolvePath(item.link)">
         <el-menu-item
-          :index="resolvePath(onlyOneChild.path)"
-          :class="{'submenu-title-noDropdown':!isNest}"
+          :index="resolvePath(item.link)"
         >
           <item
-            :icon="onlyOneChild.meta.icon||(item.meta&&item.meta.icon)"
-            :title="onlyOneChild.meta.title"
+            :icon="item.icon"
+            :title="item.menuName"
           />
         </el-menu-item>
       </app-link>
     </template>
 
     <!-- 匹配多级别导航 -->
-    <el-submenu v-else ref="subMenu" :index="resolvePath(item.path)" popper-append-to-body>
+    <el-submenu v-else ref="subMenu" :index="resolvePath(item.link)" popper-append-to-body>
       <template slot="title">
-        <item v-if="item.meta" :icon="item.meta && item.meta.icon" :title="item.meta.title" />
+        <item  :icon="item.icon" :title="item.menuName" />
       </template>
       <sidebar-item
-        v-for="child in item.children"
-        :key="child.path"
+        v-for="child in item.childMenus"
+        :key="child.link"
         :is-nest="true"
         :item="child"
-        
-        :base-path="resolvePath(child.path)"
+        :base-path="resolvePath(child.link)"
         class="nest-menu"
       />
     </el-submenu>
@@ -45,53 +43,24 @@ export default {
   components: { Item, AppLink },
   name: 'SidebarItem',
   props: {
-    // route object
     item: {
       type: Object,
-      required: true
-    },
-    isNest: {
-      type: Boolean,
-      default: false
+      required: true,
     },
     basePath: {
       type: String,
-      default: ''
-    }
+      default: '',
+    },
   },
   data() {
-    // TODO: refactor with render function
-    this.onlyOneChild = null
+    // // TODO: refactor with render function
+    // this.onlyOneChild = null
     return {
-      accountType: JSON.parse(sessionStorage.getItem('userInfo') || '{}')
-        .type
+      accountType: JSON.parse(sessionStorage.getItem('userInfo') || '{}').type,
     }
   },
+  
   methods: {
-    hasOneShowingChild(children = [], parent) {
-      const showingChildren = children.filter(item => {
-        if (item.hidden) {
-          return false
-        } else {
-          // Temp set(will be used if only has one showing child)
-          this.onlyOneChild = item
-          return true
-        }
-      })
-
-      // When there is only one child router, the child router is displayed by default
-      if (showingChildren.length === 1) {
-        return true
-      }
-
-      // Show parent if there are no child router to display
-      if (showingChildren.length === 0) {
-        this.onlyOneChild = { ...parent, path: '', noShowingChildren: true }
-        return true
-      }
-
-      return false
-    },
     resolvePath(routePath) {
       if (isExternal(routePath)) {
         return routePath
@@ -100,13 +69,8 @@ export default {
         return this.basePath
       }
       return path.resolve(this.basePath, routePath)
-    }
-  }
+    },
+  },
 }
 </script>
 
-<style lang="less">
-.vanish {
-  display: none;
-}
-</style>

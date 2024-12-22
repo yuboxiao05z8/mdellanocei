@@ -1,6 +1,9 @@
 import Layout from '@/layout'
 import inventoryRouter from './inventory'
 
+import adminRouter from './admin'
+import dynamicRouter from './dynamic'
+
 export default [
   {
     path: '/',
@@ -74,5 +77,7 @@ export default [
         meta: { title: 'Transactions', icon: 'el-icon-sell' }
       }
     ]
-  }
+  },
+  ...adminRouter,
+  ...dynamicRouter
 ]
