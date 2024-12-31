@@ -9,10 +9,13 @@
         <div class="table">
           <div class="thead">
             <div class="th">{{$t('role.RoleName')}}</div>
-            <div class="th">{{$t('role.EditPermissions')}}</div>
-            <div class="th">{{$t('role.Copy')}}</div>
-            <div class="th">{{$t('Edit')}}</div>
-            <div class="th">{{$t('Delete')}}</div>
+            <div class="thead_rt">
+              <div class="th">{{$t('role.EditPermissions')}}</div>
+              <div class="th">Navigation</div>
+              <div class="th">{{$t('role.Copy')}}</div>
+              <div class="th">{{$t('Edit')}}</div>
+              <div class="th">{{$t('Delete')}}</div>
+            </div>
           </div>
           <div class="tbody">
             <div class="tbody_item flex" v-for="(item,k) in roleLists">
@@ -252,7 +255,7 @@ export default {
     },
     getNavigation(item) {
       this.sendObj = {
-        roleId: item.role.roleId
+        roleId: item.role.roleId,
       }
       this.$refs.SelectNav.dialogVisible = true
     },
@@ -536,6 +539,12 @@ export default {
     .right_item.opration_column
     .opration_column_children {
     width: 20%;
+  }
+  .thead_rt{
+    width: 80%;
+    
+    float: right;
+
   }
 }
 // .roles_wrapper

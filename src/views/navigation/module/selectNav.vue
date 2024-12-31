@@ -107,7 +107,3 @@ function getActiveData(params, accept) {
 }
 </script>
 
-<style lang="less">
-.selectNav_page {
-}
-</style>

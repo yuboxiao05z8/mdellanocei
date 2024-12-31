@@ -43,7 +43,7 @@ export default {
     return {
       routerObj: [],
       userInfo: JSON.parse(window.sessionStorage.getItem('userInfo') || '{}'),
-      different_routes: []
+      different_routes: [],
     }
   },
   created() {
@@ -51,16 +51,49 @@ export default {
   },
   methods: {
     queryUserMenu() {
-      this.$Posting(this.$api.queryUserMenu).then(res => {
-        if(res.code == 0) {
+      this.$Posting(this.$api.queryUserMenu).then((res) => {
+        if (res.code == 0) {
           this.different_routes = res.datas
+
+          if (res.datas.length) {
+            this.setActiveOne(res.datas)
+          }
+          
         }
       })
+    },
+    setActiveOne(objs) {
+      let link = []
+      let isLogin = sessionStorage.getItem('logInSign')
+
+      forEachLinkFn(objs, link)
+
+      if (isLogin) {
+        if (link.join(',') != this.activeMenu) {
+          console.log('不同', link.join(','), this.activeMenu)
+          this.$router.replace(link.join(','))
+        }
+        sessionStorage.removeItem('logInSign')
+        console.log('相同', link.join(','), this.activeMenu)
+      }
+
+      console.log('进入方法', link.join(','), this.activeMenu)
     }
   },
 }
 
-
+/*
+ * arr 数组
+ * 获取第一个Link
+ */
+function forEachLinkFn(arr, str) {
+  let obj = arr[0]
+  if (!obj.childMenus) {
+    str.push(obj.link)
+  } else {
+    forEachLinkFn(obj.childMenus, str)
+  }
+}
 </script>
 
 <style lang="less">

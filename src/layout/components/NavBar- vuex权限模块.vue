@@ -64,9 +64,6 @@ export default {
       userInfo: JSON.parse(window.sessionStorage.getItem('userInfo') || '{}'),
     }
   },
-  // mounted() {
-  //   console.log('243', this.different_routes)
-  // },
 }
 
 function hasPermission(roles, route) {

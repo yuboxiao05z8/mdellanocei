@@ -103,7 +103,8 @@ export default {
               let userInfo = res
               sessionStorage.setItem('userInfo', JSON.stringify(userInfo.datas))
               sessionStorage.setItem('serveUrl', res.url)
-              this.$router.push('/inventory')
+              sessionStorage.setItem('logInSign', '1')
+              this.$router.push('/dashboard')
             } else {
               this.$notify.error({
                 title: 'fail',
