@@ -5,20 +5,25 @@
         <el-row>
           <el-col :span="12">
             <el-input
-              style="width:300px"
+              style="width: 300px"
               size="mini"
               :placeholder="$t('accounts.findCompany')"
               v-model="searchName"
             ></el-input>
-            <el-button style="margin-left:20px;" size="mini" @click="searchData">{{$t('inventoryLists.Search')}}</el-button>
-          </el-col>
-          <el-col :span="12" style="text-align:right">
             <el-button
-              v-if="isAdmin == 0"
+              style="margin-left: 20px"
               size="mini"
-              @click="addAccount"
-            >{{$t('accounts.AddAccount')}}</el-button>
-            <el-button size="mini" @click="refresh">{{$t('Refresh')}}</el-button>
+              @click="searchData"
+              >{{ $t('inventoryLists.Search') }}</el-button
+            >
+          </el-col>
+          <el-col :span="12" style="text-align: right">
+            <el-button v-if="isAdmin == 0" size="mini" @click="addAccount">{{
+              $t('accounts.AddAccount')
+            }}</el-button>
+            <el-button size="mini" @click="refresh">{{
+              $t('Refresh')
+            }}</el-button>
           </el-col>
         </el-row>
       </div>
@@ -28,19 +33,19 @@
         :data="userList"
         border
         style="width: 100%"
-        :header-cell-style="{'background':'#f5f7fa'}"
+        :header-cell-style="{ background: '#f5f7fa' }"
         size="mini"
       >
         <el-table-column :label="$t('accounts.companyName')">
           <template slot-scope="scope">
-            <div>{{scope.row.brokeName}}</div>
+            <div>{{ scope.row.brokeName }}</div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('accounts.companyLogo')">
           <template slot-scope="scope">
             <img
-              @click.stop="$imgPreview(serveUrl+scope.row.logo)"
-              :src="serveUrl+scope.row.logo"
+              @click.stop="$imgPreview(serveUrl + scope.row.logo)"
+              :src="serveUrl + scope.row.logo"
               alt
             />
           </template>
@@ -48,32 +53,36 @@
         <el-table-column :label="$t('accounts.companyType')">
           <template slot-scope="scope">
             <div v-if="scope.row.type == 1">MixGo</div>
-            <div v-if="scope.row.type == 2">{{$t('accounts.Developer')}}</div>
-            <div v-if="scope.row.type == 3">{{$t('accounts.Agency')}}</div>
+            <div v-if="scope.row.type == 2">{{ $t('accounts.Developer') }}</div>
+            <div v-if="scope.row.type == 3">{{ $t('accounts.Agency') }}</div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('FileNum')">
           <template slot-scope="scope">
-            <div>{{scope.row.fileNum}}</div>
+            <div>{{ scope.row.fileNum }}</div>
           </template>
         </el-table-column>
         <el-table-column label="Expiration Date">
           <template slot-scope="scope">
-            <div>{{$dateFormat( Number(scope.row.expirationDate))}}</div>
+            <div>{{ $dateFormat(Number(scope.row.expirationDate)) }}</div>
           </template>
         </el-table-column>
         <el-table-column label="Theme Colors">
           <template slot-scope="scope">
-            <div>{{scope.row.color}}</div>
+            <div>{{ scope.row.color }}</div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('accounts.webSite')">
           <template slot-scope="scope">
-            <div>{{scope.row.website}}</div>
+            <div>{{ scope.row.website }}</div>
           </template>
         </el-table-column>
 
-        <el-table-column fixed="right" width="300" :label="$t('userLists.edit')">
+        <el-table-column
+          fixed="right"
+          width="300"
+          :label="$t('userLists.edit')"
+        >
           <template slot-scope="scope">
             <template>
               <el-button
@@ -81,18 +90,21 @@
                 size="mini"
                 plain
                 @click="editData(scope.row)"
-              >{{$t('transactions.Edit')}}</el-button>
+                >{{ $t('transactions.Edit') }}</el-button
+              >
               <el-button
                 size="mini"
                 plain
-                @click="managementFn(scope.row,scope.$index)"
-              >{{$t('accounts.EmployeeList')}}</el-button>
+                @click="managementFn(scope.row, scope.$index)"
+                >{{ $t('accounts.EmployeeList') }}</el-button
+              >
               <el-button
                 v-if="isAdmin == 0"
                 size="mini"
                 plain
-                @click="deleteData(scope.row,scope.$index)"
-              >{{$t('accounts.delete')}}</el-button>
+                @click="deleteData(scope.row, scope.$index)"
+                >{{ $t('accounts.delete') }}</el-button
+              >
             </template>
           </template>
         </el-table-column>
@@ -104,13 +116,15 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page.sync="currentPage"
-          :page-sizes="[5,10,30,50,100]"
+          :page-sizes="[5, 10, 30, 50, 100]"
           :page-size="pageSize"
           layout="prev, pager, next,sizes,total"
           :total="userNum"
         ></el-pagination>
       </div>
     </div>
+
+    <!-- 表单 -->
     <el-dialog
       title="Edit Properties"
       :visible.sync="dialogVisible"
@@ -127,7 +141,7 @@
           <el-col :span="12">
             <el-form-item :label="$t('accounts.companyType')">
               <el-select
-                style="width:100%"
+                style="width: 100%"
                 v-model="companyForm.type"
                 :placeholder="$t('pleaseSelect')"
               >
@@ -172,7 +186,7 @@
           <el-col :span="12">
             <el-form-item label="Expiration Date">
               <el-date-picker
-                style="width:100%"
+                style="width: 100%"
                 value-format="timestamp"
                 v-model="companyForm.expirationDate"
                 type="date"
@@ -200,6 +214,26 @@
               ></uploaderImg>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item label="Country">
+              <el-select
+                v-model="companyForm.country"
+                filterable
+                style="width:100%"
+                allow-create
+                default-first-option
+                placeholder="Choose the country"
+              >
+                <el-option
+                  v-for="item in CountryList"
+                  :key="item"
+                  :label="item"
+                  :value="item"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
         </el-row>
 
         <el-row>
@@ -217,8 +251,12 @@
         </el-row>
 
         <el-form-item>
-          <el-button @click="dialogVisible = false">{{$t('cancel')}}</el-button>
-          <el-button type="primary" @click="onSubmit">{{$t('update')}}</el-button>
+          <el-button @click="dialogVisible = false">{{
+            $t('cancel')
+          }}</el-button>
+          <el-button type="primary" @click="onSubmit">{{
+            $t('update')
+          }}</el-button>
         </el-form-item>
       </el-form>
     </el-dialog>
@@ -232,7 +270,7 @@ import tinymce from 'tinymce/tinymce'
 export default {
   components: {
     uploaderImg,
-    editor
+    editor,
   },
   data() {
     return {
@@ -251,7 +289,8 @@ export default {
         expirationDate: '',
         color: '',
         editBrokeId: '',
-        calcUrl: ''
+        calcUrl: '',
+        country: ''
       },
       detail: '',
       editorArr: [], //获取数据时富文本编辑器的图片数组
@@ -259,25 +298,26 @@ export default {
       editorSetting: {
         // 配置富文本编辑器高
         height: 120,
-        width: 900
+        width: 900,
       },
       options: [
         {
           value: '1',
-          label: 'MixGo'
+          label: 'MixGo',
         },
         {
           value: '2',
-          label: this.$t('accounts.Developer')
+          label: this.$t('accounts.Developer'),
         },
         {
           value: '3',
-          label: this.$t('accounts.Agency')
-        }
+          label: this.$t('accounts.Agency'),
+        },
       ],
       searchName: '',
       serveUrl: sessionStorage.getItem('serveUrl'),
-      isAdmin: JSON.parse(window.sessionStorage.getItem('userInfo')).isAdmin
+      isAdmin: JSON.parse(window.sessionStorage.getItem('userInfo')).isAdmin,
+      CountryList: ['Singapore', 'Malaysia', 'Cambodia', 'Australia', 'UK']
     }
   },
   mounted() {
@@ -295,7 +335,8 @@ export default {
         expirationDate: '',
         color: '',
         detail: '',
-        calcUrl: ''
+        calcUrl: '',
+        country: ''
       }),
         (this.dialogVisible = true)
     },
@@ -350,15 +391,15 @@ export default {
       this.$Geting(this.$api.queryBroke, {
         pageSize: this.pageSize,
         pageNo: this.currentPage,
-        content: this.searchName
-      }).then(res => {
+        content: this.searchName,
+      }).then((res) => {
         if (res.code == 0) {
           this.userList = res.datas.lists
           this.userNum = res.datas.count
         } else {
           this.$notify.error({
             title: 'fail',
-            message: res.msg
+            message: res.msg,
           })
           return false
         }
@@ -378,15 +419,20 @@ export default {
         logo: [
           {
             url: row.logo,
-            src: this.serveUrl + row.logo
-          }
+            src: this.serveUrl + row.logo,
+          },
         ],
         expirationDate: row.expirationDate,
         color: row.color,
         editBrokeId: row.brokeId,
         facebookWebsit: row.facebookWebsit,
-        calcUrl: row.calcUrl
+        calcUrl: row.calcUrl,
+        country: row.country
       }
+      if(!this.CountryList.includes(row.country) && row.country) {
+        this.CountryList.push(row.country)
+      }
+
       this.detail = ''
       this.detail = this.$base64ToContent(row.detail)
       if (tinymce.editors[0]) {
@@ -398,7 +444,7 @@ export default {
     managementFn(row) {
       // 管理公司
       let data = {
-        editBrokeId: row.brokeId
+        editBrokeId: row.brokeId,
       }
       this.$router.replace({ path: '/account/employeeList', query: data })
     },
@@ -408,21 +454,21 @@ export default {
       this.$confirm(this.$t('deleteIt'), this.$t('alert.alert_command'), {
         confirmButtonText: this.$t('alert.sure'),
         cancelButtonText: this.$t('alert.cancel'),
-        type: 'warning'
+        type: 'warning',
       })
         .then(() => {
           this.$Get(this.$api.deleteBroke, { editBrokeId: row.brokeId }).then(
-            res => {
+            (res) => {
               if (res.code == 0) {
                 this.$message({
                   type: 'success',
-                  message: this.$t('alert.alert_success_delete_title')
+                  message: this.$t('alert.alert_success_delete_title'),
                 })
                 this.getListData()
               } else {
                 this.$notify.error({
                   title: 'fail',
-                  message: res.msg
+                  message: res.msg,
                 })
               }
             }
@@ -431,7 +477,7 @@ export default {
         .catch(() => {
           this.$message({
             type: 'info',
-            message: this.$t('cancel')
+            message: this.$t('cancel'),
           })
         })
     },
@@ -440,11 +486,11 @@ export default {
       let data = { ...this.companyForm }
       data.logo = this.companyForm.logo[0].url
       data.detail = this.$contentToBase64(this.detail)
-      this.$Posting(this.$api.saveBroke, data).then(res => {
+      this.$Posting(this.$api.saveBroke, data).then((res) => {
         if (res.code == 0) {
           this.$notify.success({
             title: this.$t('alert.alert_success_title'),
-            message: this.$t('alert.operate_success_title')
+            message: this.$t('alert.operate_success_title'),
           })
           this.beforeSaveCheckImage()
           this.dialogVisible = false
@@ -452,15 +498,15 @@ export default {
         } else {
           this.$notify.error({
             title: 'fail',
-            message: res.msg
+            message: res.msg,
           })
         }
       })
     },
     beforeDestroy() {
       this.$deleteImg()
-    }
-  }
+    },
+  },
 }
 </script>
 

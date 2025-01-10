@@ -188,7 +188,7 @@
 
         <el-row>
           <el-col :span="12">
-            <el-form-item prop="projectArea" :label="$t('Range')">
+            <el-form-item  :label="$t('Range')">
               <el-select
                 size="mini"
                 v-model="detailForm.projectArea"
