@@ -11,12 +11,15 @@
         >{{$t('editMap.goBack')}}</el-button>
         <span>{{$t('navTop.propertiesDetails')}}</span>
         <span class="project_name">Appointment Booking: {{linkInfo.name}}</span>
-        <el-button size="mini" @click="addBooking" class="addBooking">Add Time</el-button>
+        <!-- <el-button size="mini" @click="addBooking" class="addBooking">Add Time</el-button> -->
       </div>
     </div>
     <div class="AppointmentBooking_content">
+      <div class="setting_box">
+        <setting-box></setting-box>
+      </div>
       <div class="table_div">
-        <el-table height="100%" border :data="tableData" class="table_div_content">
+        <el-table center border :data="tableData" class="table_div_content">
           <el-table-column label="Appointment time">
             <template slot-scope="scope">
               <span style="margin-left: 10px">{{ scope.row.time }}</span>
@@ -32,6 +35,9 @@
             </template>
           </el-table-column>
           <el-table-column label="Edit">
+            <template slot="header" slot-scope="scope">
+              Edit <el-button size="mini" @click="addBooking" class="addBooking">Add Time</el-button>
+            </template>
             <template slot-scope="scope">
               <el-button size="mini" @click="handleEdit(scope.row)">Edit</el-button>
               <el-button size="mini" @click="handleDelete(scope.row.appointmentId)">Delete</el-button>
@@ -48,8 +54,9 @@
 <script>
 import CompileBooking from './model/CompileBooking'
 import SetMediation from './model/SetMediation'
+import SettingBox from './model/SettingBox'
 export default {
-  components: { CompileBooking, SetMediation },
+  components: { CompileBooking, SetMediation, SettingBox },
   data() {
     return {
       linkInfo: this.$route.query,
@@ -155,10 +162,13 @@ export default {
 
   .AppointmentBooking_content {
     height: calc(100% - 80px);
+    overflow-y: auto;
+    background: #fff;
+    padding: 10px;
     .table_div {
-      height: 100%;
       .cell {
         word-break: break-word;
+        text-align: center;
       }
     }
   }

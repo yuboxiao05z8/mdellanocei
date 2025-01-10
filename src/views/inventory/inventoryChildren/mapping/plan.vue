@@ -179,7 +179,7 @@ export default {
       this.$router.push({ path: "/Inventory/inventoryChildren/editMap", query: params });
     },
     uploadPlanAfter(data) {
-      this.serverAlert = data;
+      this.serverAlert = [];
       if (!data.length) {
         this.getListData();
       }
