@@ -11,7 +11,6 @@
         >{{$t('editMap.goBack')}}</el-button>
         <span>{{$t('navTop.propertiesDetails')}}</span>
         <span class="project_name">Appointment Booking: {{linkInfo.name}}</span>
-        <!-- <el-button size="mini" @click="addBooking" class="addBooking">Add Time</el-button> -->
       </div>
     </div>
     <div class="AppointmentBooking_content">
@@ -122,6 +121,7 @@ export default {
         projectId: '',
         startTime: '',
         time: '',
+        time2: ''
       }
       this.$refs.compile.dialogVisible = true
     },
