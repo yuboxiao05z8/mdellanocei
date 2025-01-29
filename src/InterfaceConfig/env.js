@@ -17,7 +17,7 @@ switch (env) {
     break
   case 'production': 
     baseURL = 'https://api.singmap.com'
-    socketLink = 'ws://47.88.212.170:4447/websocket'
+    socketLink = 'wss://scoket.singmap.com/websocket'
     break
 }
 

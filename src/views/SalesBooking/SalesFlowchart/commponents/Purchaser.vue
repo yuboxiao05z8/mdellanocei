@@ -11,10 +11,10 @@
           >
             <el-table-column label="Name" prop="buyerName"></el-table-column>
             <el-table-column label="Customer Type" prop="customerType">
-              <template slot-scope="scope">{{
-                SellBlockData.CustomerTypeData[Number(scope.row.customerType)]
-                  .name
-              }}</template>
+              <template slot-scope="scope">
+                <span v-if="scope.row.customerType == 0">Individual</span>
+                <span v-if="scope.row.customerType == 1">Corporate</span>
+              </template>
             </el-table-column>
             <el-table-column
               label="Nationality"
@@ -34,21 +34,26 @@
                 <el-button
                   size="mini"
                   icon="el-icon-plus"
-                  v-if="(!isOpening || developers == 2) && PurchaserObj.buyerList.length < 5"
+                  v-if="
+                    (!isOpening || developers == 2) &&
+                    PurchaserObj.buyerList.length < 5
+                  "
                   @click="showDialog"
                   >ADD</el-button
                 >
               </template>
               <template slot-scope="scope">
                 <el-button
-               
                   size="mini"
                   type="primary"
                   @click="editFn(scope.$index, scope.row)"
                   >EDIT</el-button
                 >
                 <el-button
-                  v-if="(!isOpening || developers == 2) && PurchaserObj.buyerList.length > 1"
+                  v-if="
+                    (!isOpening || developers == 2) &&
+                    PurchaserObj.buyerList.length > 1
+                  "
                   size="mini"
                   type="danger"
                   @click="handleDelete(scope.$index, scope.row)"
@@ -124,21 +129,24 @@
       <div class="lfLable">Remark</div>
       <div class="fromDiv">
         <el-form :model="PurchaserObj" label-width="150px">
-              <el-form-item label="Buyer Remark">
-                <el-input
-                  class="input_80"
-                  size="mini"
-                  type="textarea"
-                  v-model="PurchaserObj.buyerRemark"
-                ></el-input>
-              </el-form-item>
+          <el-form-item label="Buyer Remark">
+            <el-input
+              class="input_80"
+              size="mini"
+              type="textarea"
+              v-model="PurchaserObj.buyerRemark"
+            ></el-input>
+          </el-form-item>
         </el-form>
       </div>
 
       <!-- 邮寄地址 -->
       <div class="lfLable" style="width: 250px">
         Correspondent Address
-        <el-button class="use_Residential_Address" size="mini" @click="copyAddress"
+        <el-button
+          class="use_Residential_Address"
+          size="mini"
+          @click="copyAddress"
           >Use Residential Address</el-button
         >
       </div>
@@ -464,10 +472,10 @@ export default {
         postalCode: '',
         streetName: '',
         unitNo: '',
-        buyerRemark: ''
+        buyerRemark: '',
       },
       editIndex: undefined,
-      developers: JSON.parse(sessionStorage.getItem('userInfo')).type
+      developers: JSON.parse(sessionStorage.getItem('userInfo')).type,
     }
   },
   computed: {
@@ -515,7 +523,7 @@ export default {
         projectId: this.$route.query.projectId,
       }).then((res) => {
         if (res.code == 0) {
-          this.isOpening = res.datas.projectSet.launchStatus
+          this.isOpening = !!res.datas.projectSet.launchStatus
           console.log('是否开盘状态', this.isOpening)
         }
       })
@@ -642,7 +650,7 @@ export default {
       this.PurchaserObj.block = this.PurchaserObj.buyerBlock
       this.PurchaserObj.unitNo = this.PurchaserObj.buyerUnit
       this.PurchaserObj.streetName = this.PurchaserObj.buyerStreetName
-    }
+    },
   },
 }
 </script>

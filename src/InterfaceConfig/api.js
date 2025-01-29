@@ -279,5 +279,8 @@ Vue.api = Vue.prototype.$api = {
   querySignPdiList: "/trade-service/sign/querySignPdiList", // 查询pdi列表
   queryRepeatBuyer: "/broke-manager-service/interest/queryRepeatBuyer", // 查询项目的意向列表（买家信息重复
   queryRepeatChequeNum: "/broke-manager-service/interest/queryRepeatChequeNum", // 查询项目的意向列表（支票号码重复）
+  uploadSignPdiFile: "/trade-service/sign/uploadSignPdiFile",  //上传签名文件
+  deleteSignPdiFile: "/trade-service/sign/deleteSignPdiFile", // 删除签名文件
+  querySignPdiFile: "/trade-service/sign/querySignPdiFile", // 查询签名附件
 }
 

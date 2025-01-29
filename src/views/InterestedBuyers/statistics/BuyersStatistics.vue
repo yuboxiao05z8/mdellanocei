@@ -18,6 +18,7 @@
 
         <el-col :span="12" v-if="activePageName == 'default'">
           <uploader
+            v-if="!isOpening"
             fileId="transactionsFile"
             :maxSize="100"
             :uploadParam="uploadParam"
@@ -66,7 +67,7 @@
               v-for="(item, index) in buildingData"
               :key="index"
               :label="item.buildName"
-              :value="item.buildId"
+              :value="item.buildName"
             ></el-option>
           </el-select>
         </div>
@@ -115,7 +116,7 @@
           <el-tabs
             type="card"
             v-model="repeatType"
-            @tab-click="queryRepeatBuyers"
+            @tab-click="repeatNavTabFn"
             class="repeatNavTab"
           >
             <el-tab-pane
@@ -266,10 +267,10 @@ export default {
     },
     queryInterest() {
       let from = JSON.parse(JSON.stringify(this.form))
-      if (this.form.building) {
-        let obj = this.buildingData.filter((item) => item.buildId)
-        from.building = obj[0].buildName
-      }
+      // if (this.form.building) {
+      //   let obj = this.buildingData.filter((item) => item.buildId == this.form.building)
+      //   from.building = obj[0].buildName
+      // }
 
       let data = {
         pageNo: this.defaultPageObj.pageNo,
@@ -300,9 +301,11 @@ export default {
       }
     },
     queryUnit(name) {
+      let obj = this.buildingData.filter((item) => item.buildName == name)
+    
       let data = {
         projectId: this.$route.query.id,
-        building: name,
+        building: obj[0].buildId,
       }
       this.$Post(this.$api.queryUnit, data).then((res) => {
         if (res.code == 0) {
@@ -349,14 +352,19 @@ export default {
         }
       })
     },
-
+    
+    repeatNavTabFn() {
+      this.RepeatPageObj.pageNo = 1
+      this.$refs.RepeatTemplate.pageNo = 1
+      this.queryRepeatBuyers()
+    },
     queryRepeatBuyers() {
       let api = this.$api.queryRepeatBuyer
       let from = JSON.parse(JSON.stringify(this.form))
-      if (this.form.building) {
-        let obj = this.buildingData.filter((item) => item.buildId)
-        from.building = obj[0].buildName
-      }
+      // if (this.form.building) {
+      //   let obj = this.buildingData.filter((item) => item.buildId == this.form.building)
+      //   from.building = obj[0].buildName
+      // }
       let data = {
         pageNo: this.RepeatPageObj.pageNo,
         pageSize: this.RepeatPageObj.pageSize,

@@ -286,9 +286,9 @@ export default {
   },
   destroyed() {
     socket.close()
-    console.log('==> 关闭连接前 <==', socket)
+    // console.log('==> 关闭连接前 <==', socket)
     socket = null
-    console.log('==> socket连接已经关闭 <==', socket)
+    console.log('==> socket连接已经关闭 <==')
   },
 }
 

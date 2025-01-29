@@ -235,7 +235,7 @@ export default {
                 break
               case 3:
                 this.SummaryData = this.childObj
-                console.log('处理完成', this.SummaryData)
+                // console.log('处理完成', this.SummaryData)
                 break
               default:
                 break
@@ -264,12 +264,15 @@ export default {
             if (obj.buyerPaymentList.length) {
               newObj.buyerPaymentList = JSON.stringify(obj.buyerPaymentList)
             }
+            if(this.updaObj.recordId) {
+              newObj.recordId = this.updaObj.recordId
+            }
             newObj.interested = Number(obj.interested)
             this.$Posting(this.$api.addTransaction, {
               ...newObj,
               type: type,
               unitId: this.query.unitId,
-              projectId: this.query.projectId,
+              projectId: this.query.projectId
             })
               .then((res) => {
                 this.isDisabled = false

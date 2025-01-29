@@ -92,7 +92,12 @@
           <el-table-column
             label="Customer Type"
             prop="customerType"
-          ></el-table-column>
+          >
+            <template slot-scope="scope">
+              <span v-if="scope.row.customerType == 0">Individual</span>
+              <span v-if="scope.row.customerType == 1">Corporate</span>
+            </template>
+          </el-table-column>
           <el-table-column
             label="Nationality"
             prop="nationality"
@@ -104,7 +109,7 @@
       </div>
     </div>
 
-    <div class="lfLable">Mailing Address</div>
+    <div class="lfLable" style="width: 250px">Correspondent Address</div>
     <div class="fromDiv">
       <el-form :model="SummaryForm" label-width="150px">
         <el-row :gutter="20">
@@ -114,7 +119,7 @@
                 disabled
                 class="input_80"
                 size="mini"
-                v-model="SummaryForm.buyerCountry"
+                v-model="SummaryForm.country"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -124,7 +129,7 @@
                 disabled
                 class="input_80"
                 size="mini"
-                v-model="SummaryForm.buyerPostalCode"
+                v-model="SummaryForm.postalCode"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -134,7 +139,7 @@
                 disabled
                 class="input_80"
                 size="mini"
-                v-model="SummaryForm.buyerBlock"
+                v-model="SummaryForm.block"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -144,7 +149,7 @@
                 disabled
                 class="input_80"
                 size="mini"
-                v-model="SummaryForm.buyerUnit"
+                v-model="SummaryForm.unitNo"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -154,7 +159,7 @@
                 disabled
                 class="input_80"
                 size="mini"
-                v-model="SummaryForm.buyerStreetName"
+                v-model="SummaryForm.streetName"
               ></el-input>
             </el-form-item>
           </el-col>
@@ -180,9 +185,9 @@ export default {
   },
   activated() {
     let arr = [].concat(...this.SummaryData)
-    this.SummaryForm = Object.assign(...arr)
-  },
-  methods: {},
+    this.SummaryForm = Object.assign({}, ...arr)
+    console.log('编辑',this.SummaryForm)
+  }
 }
 </script>
 

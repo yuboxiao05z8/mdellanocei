@@ -36,6 +36,12 @@
               <template slot-scope="scope">
                 <el-button
                   size="mini"
+                  type="primary"
+                  @click="editFn(scope.$index, scope.row)"
+                  >EDIT</el-button
+                >
+                <el-button
+                  size="mini"
                   type="danger"
                   @click="handleDelete(scope.$index, scope.row)"
                   >DELETE</el-button
@@ -49,7 +55,7 @@
         <el-row :gutter="20">
           <el-col :span="12">
             <el-form label-width="150px">
-              <el-form-item label="Adjustment Amount">
+              <el-form-item label="Payment Remarks">
                 <el-input
                   v-model="Payment.otherRemarks"
                   style="width: 100%"
@@ -140,8 +146,8 @@
             ></el-input>
           </el-form-item>
           <el-form-item
-            v-if="form.method == 'Cheque'"
-            label="Cheque/Ref No."
+            v-if="form.method !== 'Cash'"
+            label="Ref No."
             prop="chequeNo"
           >
             <el-input style="width: 100%" v-model="form.chequeNo"></el-input>
@@ -205,6 +211,7 @@ export default {
         Excess: 0,
       },
       bankData: [],
+      editIndex: null
     }
   },
   computed: {
@@ -241,14 +248,22 @@ export default {
   },
   methods: {
     getMethodType(type) {
-      this.form.chequeBankDate = ''
       if(type == 'Cheque') {
         this.form.chequeBankDate = this.$dateFormatNoTime(new Date())
+      } else {
+        this.form.chequeNo = ''
+        this.form.chequeBookNum = ''
+        this.form.chequeBankDate = ''
       }
     },
     handleDelete(index, row) {
       this.Payment.buyerPaymentList.splice(index, 1)
       this.calculateFn(this.Payment.buyerPaymentList)
+    },
+    editFn(index, row) {
+      this.editIndex = index
+      this.addShow = true
+      this.form = row
     },
     calculateFn(arr) {
       let totalPrice = 0,
@@ -276,7 +291,14 @@ export default {
         if (valid) {
           console.log(this.form)
           this.addShow = false
-          this.Payment.buyerPaymentList.push(this.form)
+
+          if(typeof this.editIndex == 'number') {
+            this.Payment.buyerPaymentList[this.editIndex] = this.form
+            this.editIndex = null
+          } else {
+            this.Payment.buyerPaymentList.push(this.form)
+          }
+          console.log(this.Payment.buyerPaymentList, this.form)
           this.calculateFn(this.Payment.buyerPaymentList)
           this.form = {
             amount: this.roundNum(this.variate * 0.05),

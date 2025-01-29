@@ -1,8 +1,8 @@
 <template>
   <div class="Document_content sonBox">
     <div class="case">
-      <div class="lfLable">Booking of Unit</div>
-      <div class="fromDiv publicity">
+      <div v-if="!location" class="lfLable">Booking of Unit</div>
+      <div v-if="!location" class="fromDiv publicity">
         <h1>
           Option Date
           <span>{{ documentObj.OptionDate }}</span>
@@ -24,26 +24,20 @@
             <template slot-scope="scope">{{ scope.$index + 1 }}</template>
           </el-table-column>
           <el-table-column label="Documet" prop="title"></el-table-column>
-          <el-table-column label="Photo" prop="chequeNo" width="300">
+          <el-table-column label="Files" prop="chequeNo" width="300">
             <template slot-scope="scope" v-if="scope.row.allowGenerate == 1">
-              <div
-                class="img_div"
-                v-for="(item, index) in scope.row.url"
+              <el-tag
+                v-for="(tag, index) in scope.row.url"
                 :key="index"
+                closable
+                v-if="tag"
+                effect="dark"
+                @close="deleteImg(scope.row, tag)"
+                @click="PreviewFn(tag)"
+                style="display: block; width: 130px; margin: 5px auto;cursor: pointer;"
               >
-                <i
-                  @click="deleteImg(scope.row, item)"
-                  class="el-icon-error"
-                ></i>
-                <el-image
-                  :src="hostUrl + item"
-                  :preview-src-list="[hostUrl + item]"
-                >
-                  <div slot="error" class="image-slot">
-                    <i class="el-icon-picture-outline"></i>
-                  </div>
-                </el-image>
-              </div>
+                #{{ index + 1 }}Pic Preview
+              </el-tag>
             </template>
           </el-table-column>
           <el-table-column label="edit" width="400">
@@ -52,13 +46,14 @@
                 size="mini"
                 v-if="scope.row.allowGenerate == 0"
                 @click="ViewFn(scope.row)"
+                :disabled="scope.row.url == ''"
                 >View</el-button
               >
 
               <el-upload
                 class="upload-demo"
                 :action="baseURL + $api.uploadTransactionFile"
-                accept="image/*"
+                accept="application/pdf,image/jpeg,image/png"
                 :data="{
                   ...upDataObj,
                   docId: scope.row.docId,
@@ -78,7 +73,7 @@
                   >Click on the upload</el-button
                 >
                 <div slot="tip" class="el-upload__tip">
-                  Only JPG/PNG files and no more than 1MB can be uploaded
+                  Only JPG/PNG/PDF files and no more than 1MB can be uploaded
                 </div>
               </el-upload>
               <el-button
@@ -128,6 +123,10 @@ export default {
     documentObj: {
       type: Object,
     },
+    location: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -150,8 +149,17 @@ export default {
       dialogVisible: false,
     }
   },
+  watch: {
+    documentObj(val) {
+      this.upDataObj.recordId = val.recordId
+      this.queryDocumentList()
+    },
+  },
   mounted() {
-    this.queryDocumentList()
+    if (this.documentObj.recordId) {
+      // this.upDataObj.recordId = this.documentObj.recordId
+      this.queryDocumentList()
+    }
   },
   methods: {
     ViewFn(row) {
@@ -217,7 +225,7 @@ export default {
           this.tableData = res.datas.map((i) => {
             return { ...i, url: i.url ? i.url.split(';') : [] }
           })
-          console.log(this.tableData)
+          // console.log('33333', this.tableData)
         }
       })
     },
@@ -248,7 +256,7 @@ export default {
         .then(() => {
           let data = {
             id: row.id,
-            url: url
+            url: url,
           }
           _this.$Post(_this.$api.deleteTransactionFile, data).then((res) => {
             if (res.code == 0) {
@@ -267,8 +275,10 @@ export default {
           })
         })
         .catch(() => {})
-      console.log(row, url)
-    }
+    },
+    PreviewFn(url) {
+      window.open(this.hostUrl + url)
+    },
   },
 }
 </script>
@@ -306,8 +316,8 @@ export default {
       display: inline-block;
       border-radius: 5px;
       position: relative;
-      &:hover{
-        .el-icon-error{
+      &:hover {
+        .el-icon-error {
           opacity: 1;
         }
       }

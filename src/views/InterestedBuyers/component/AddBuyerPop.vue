@@ -156,7 +156,7 @@
             <el-select
               size="mini"
               style="width: 100%"
-              v-model="buyerForm.citizenship"
+              v-model="buyerForm.country"
             >
               <el-option
                 v-for="(item, index) in SellBlockData.CitizenshipData"

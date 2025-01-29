@@ -5,9 +5,61 @@
       floor plans, rules and regulations, offered items and other documents
       relating to your unit.
     </div>
+    <el-table
+      border
+      :header-cell-style="{ background: '#f5f7fa' }"
+      class="Document_content_div_tab"
+      :data="filsList"
+      style="margin-bottom: 20px"
+    >
+      <el-table-column label="File Name" prop="name"></el-table-column>
+      <el-table-column label="Photo" prop="chequeNo">
+        <template slot-scope="scope">
+          <div class="pdiFileImg_box">
+            <i v-if="scope.row.url" class="el-icon-error" @click="deleteImg(scope.row)"></i>
+            <el-image
+              class="pdiFileImg"
+              :src="serveUrl + scope.row.url"
+              :preview-src-list="[serveUrl + scope.row.url]"
+            >
+              <div slot="error" class="image-slot">
+                <i class="el-icon-picture-outline"></i>
+              </div>
+            </el-image>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column label="edit">
+        <template slot-scope="scope">
+          <el-upload
+            class="upload-demo"
+            :action="baseURL + $api.uploadSignPdiFile"
+            accept="image/*"
+            :data="{
+              ...upDataObj,
+              type: scope.row.type,
+            }"
+            :limit="1"
+            auto-upload
+            :on-success="upImgSuccess"
+            :on-error="upImgError"
+            :show-file-list="false"
+          >
+            <el-button size="small" type="primary"
+              >Click on the upload</el-button
+            >
+            <div slot="tip" class="el-upload__tip">
+              Only JPG/PNG files and no more than 5MB can be uploaded
+            </div>
+          </el-upload>
+        </template>
+      </el-table-column>
+    </el-table>
     <div class="pdiTemplate_view">
       <div class="initialize_pdi" v-if="!status">
-        <el-button type="primary" @click="sign">Creation PDI</el-button>
+        <el-button class="sign_btn" type="primary" @click="sign"
+          >Generate PDI</el-button
+        >
         <p class="warning_info">
           Notice: Please check and confirm the details before generating the
           PDI. You will not be able to edit the information after PDI
@@ -54,7 +106,7 @@
                 }}</el-button>
               </template>
             </el-table-column>
-            <el-table-column label="Edit" width="300">
+            <el-table-column label="Edit" width="450">
               <template slot="header" slot-scope="scope">
                 <el-button size="mini" @click="buyerList"
                   >Refresh Status Signature</el-button
@@ -71,7 +123,13 @@
                   size="mini"
                   type="primary"
                   @click="buyerSignByEmail(scope.row)"
-                  >Email Signature</el-button
+                  >Resend Email</el-button
+                >
+                <el-button
+                  size="mini"
+                  type="primary"
+                  @click="copyLink(scope.row, $event)"
+                  >Copy Signing URL</el-button
                 >
               </template>
             </el-table-column>
@@ -80,13 +138,20 @@
 
         <div class="pdi_btns">
           <el-button
-            style="margin-right: 30px"
+            style="margin-right: 10px"
             type="primary"
             @click="buyerSign()"
             :disabled="isDisabled"
             >Signed PDI Download</el-button
           >
-          <el-button type="danger" v-if="developers == 2" @click="sign">Regenerate PDI</el-button>
+          
+          <el-button style="margin-right: 10px" type="primary"  @click="downloadFile"
+            >Annex Documents Download</el-button
+          >
+
+          <el-button type="danger" v-if="developers == 2" @click="sign"
+            >Click to regenerate and resign</el-button
+          >
         </div>
       </div>
     </div>
@@ -94,22 +159,41 @@
 </template>
 
 <script>
+import ClipboardJS from 'clipboard'
+import { baseURL } from '@/InterfaceConfig/env'
 export default {
   props: ['recordId'],
   data() {
     return {
+      baseURL: baseURL,
       status: 1,
       tableData: [],
+      filsList: [
+        { name: 'Annex A', key: 'annexa', type: 'pdiSignAnnexa', url: '' },
+        { name: 'Annex B3', key: 'annexb3', type: 'pdiSignAnnexb3', url: '' },
+      ],
       contractInfo: {},
       serveUrl: sessionStorage.getItem('serveUrl'),
       list: [],
       loading: false,
       isDisabled: false,
-      developers: JSON.parse(sessionStorage.getItem('userInfo')).type
+      developers: JSON.parse(sessionStorage.getItem('userInfo')).type,
+      clipboard: null,
+      copyText: '',
+      upDataObj: {
+        projectId: this.$route.query.projectId,
+        unitId: this.$route.query.unitId,
+        agentId: JSON.parse(sessionStorage.getItem('userInfo')).agentId,
+        brokeId: JSON.parse(sessionStorage.getItem('userInfo')).brokeId,
+        token: JSON.parse(sessionStorage.getItem('userInfo')).token,
+        source: 'manager',
+        userId: JSON.parse(sessionStorage.getItem('userInfo')).agentId,
+      },
     }
   },
   mounted() {
     this.getSignPdiInfo()
+    this.querySignPdiFile()
   },
   methods: {
     getSignPdiInfo() {
@@ -193,6 +277,7 @@ export default {
         this.loading = false
         if (res.code == 0) {
           newWindow.location.href = res.datas.url
+          console.log(res.datas.url)
         } else {
           this.$notify.error({
             title: 'error',
@@ -244,6 +329,122 @@ export default {
         }
       )
     },
+    copyLink(row, event) {
+      let data = {
+        recordId: this.recordId,
+        buyerId: row.id,
+      }
+      this.loading = true
+      this.$Post(this.$api.buyerSign, data).then((res) => {
+        this.loading = false
+        if (res.code == 0) {
+          this.copyText = res.datas.url
+
+          this.$alert(
+            'Warning: This is a DISPOSABLE URL. It will be INVALID once being used by browser for any use',
+            'Succeed',
+            {
+              confirmButtonText: 'Confirm&Copy',
+              confirmButtonClass: 'copyBtn',
+              showCancelButton: true,
+              cancelButtonText: 'Cancel',
+              center: true,
+              callback: (action) => {},
+            }
+          )
+
+          this.copyFn()
+        } else {
+          this.$notify.error({
+            title: 'error',
+            message: res.msg,
+          })
+        }
+      })
+    },
+    copyFn() {
+      let _this = this
+      this.clipboard = new ClipboardJS('.copyBtn', {
+        text: () => {
+          return _this.copyText
+        },
+      })
+      this.clipboard.on('success', (e) => {
+        this.clipboard.destroy()
+      })
+      this.clipboard.on('error', () => {
+        this.clipboard.destroy()
+      })
+    },
+    upImgSuccess(response, file, fileList) {
+      if (response.code == 0) {
+        this.querySignPdiFile()
+      } else {
+        this.$notify.error({
+          title: 'Error',
+          message: response.msg,
+        })
+      }
+    },
+    upImgError(err, file, fileList) {
+      console.log('err', err, file, fileList)
+    },
+    querySignPdiFile() {
+      let data = {
+        unitId: this.$route.query.unitId,
+      }
+      this.$Post(this.$api.querySignPdiFile, data).then((res) => {
+        if (res.code == 0) {
+          if (res.datas) {
+            this.filsList[0].url = ''
+            this.filsList[1].url = ''
+            if (res.datas.annexa) {
+              this.filsList[0].url = res.datas.annexa
+            }
+            if (res.datas.annexb3) {
+              this.filsList[1].url = res.datas.annexb3
+            }
+          }
+        }
+      })
+    },
+    deleteImg(row) {
+      let _this = this
+      this.$confirm(
+        'This action will delete the photo completly, Whether or not to continue?',
+        'Caution',
+        {
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel',
+          type: 'warning',
+        }
+      )
+        .then(() => {
+          let data = {
+            unitId: _this.$route.query.unitId,
+            type: row.type,
+          }
+          _this.$Post(_this.$api.deleteSignPdiFile, data).then((res) => {
+            if (res.code == 0) {
+              _this.$notify({
+                title: 'Success',
+                message: 'successfully delete',
+                type: 'success',
+              })
+              _this.querySignPdiFile()
+            } else {
+              _this.$notify.error({
+                title: 'error',
+                message: res.msg,
+              })
+            }
+          })
+        })
+        .catch(() => {})
+    },
+    downloadFile() {
+      window.open('https://img.singmap.com/upload/broke/template/Normanton%20Park-%20Annex%20C-G%20(Residential).pdf')
+    }
   },
 }
 </script>
@@ -258,10 +459,46 @@ export default {
     font-size: 15px;
     line-height: 1.5;
   }
+  .pdiFileImg {
+    width: 100%;
+    height: 100%;
+    background: #ddd;
+    border-radius: 5px;
+    img {
+      object-fit: contain;
+    }
+    .image-slot {
+      width: 100%;
+      height: 100%;
+      line-height: 70px;
+    }
+  }
+  .pdiFileImg_box {
+    position: relative;
+    width: 120px;
+    height: 70px;
+    margin: 0 auto;
+    .el-icon-error {
+      position: absolute;
+      font-size: 25px;
+      background: #fff;
+      border-radius: 50%;
+      color: red;
+      right: 0;
+      top: 0;
+      z-index: 100;
+      opacity: 0.2;
+    }
+    &:hover {
+      .el-icon-error {
+        opacity: 1;
+      }
+    }
+  }
   .pdiTemplate_view {
     .initialize_pdi {
       text-align: center;
-      button {
+      .sign_btn {
         width: 300px;
         height: 100px;
       }

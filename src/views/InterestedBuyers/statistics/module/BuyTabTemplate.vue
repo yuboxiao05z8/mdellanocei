@@ -1,16 +1,23 @@
 <template>
-  <div class="BuyTabTemplate" :class="{'repeatClass': bgColor}">
-    <el-table size="mini" row-class-name="repeatRow"  :data="tabList" border style="width: 100%">
+  <div class="BuyTabTemplate" :class="{ repeatClass: bgColor }">
+    <el-table
+      size="mini"
+      row-class-name="repeatRow"
+      :data="tabList"
+      border
+      max-height="500"
+    >
+      <el-table-column
+        prop="ballotNo"
+        label="Ballot Number"
+        width="180"
+      ></el-table-column>
       <el-table-column
         prop="brokeName"
         label="Agency"
         width="180"
       ></el-table-column>
-      <!-- <el-table-column
-          prop="interestId"
-          label="InterestID"
-          width="180"
-        ></el-table-column> -->
+
       <el-table-column
         prop="buyerName"
         label="Buyer Name"
@@ -101,10 +108,10 @@ export default {
 </script>
 
 <style lang="less">
-.repeatClass{
+.repeatClass {
   .el-table .repeatRow {
     background: oldlace;
-    .cell{
+    .cell {
       color: red;
     }
   }

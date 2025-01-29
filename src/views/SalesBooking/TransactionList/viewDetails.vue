@@ -48,7 +48,10 @@
           <div class="lfLable" style="width: 200px">
             Success Booking of Unit
           </div>
-          <div class="tabBox Document_content_div">
+
+          <DocumentTemplate :documentObj="detailsObj" location="viewDetails" />
+
+          <!-- <div class="tabBox Document_content_div">
             <el-table
               border
               :header-cell-style="{ background: '#f5f7fa' }"
@@ -89,7 +92,7 @@
                 </template>
               </el-table-column>
             </el-table>
-          </div>
+          </div> -->
         </div>
         <div class="viewDetails_content_btn">
           <el-button type="primary" @click="getData('PDI')">PDI</el-button>
@@ -173,8 +176,9 @@ import { pick, getPrice } from '@/utils/validate'
 import RowTab from './commponents/RowTab'
 import BuyersDiv from '../SalesFlowchart/commponents/module/BuyersDiv'
 import PidTemplate from './commponents/pdiTemplate'
+import DocumentTemplate from '../SalesFlowchart/commponents/Document'
 export default {
-  components: { RowTab, BuyersDiv, PidTemplate },
+  components: { RowTab, BuyersDiv, PidTemplate, DocumentTemplate },
   data() {
     return {
       query: this.$route.query,
@@ -310,7 +314,7 @@ export default {
             },
           ]
           this.recordId = this.detailsObj.recordId || ''
-          this.queryDocumentList()
+          // this.queryDocumentList()
         }
       })
     },

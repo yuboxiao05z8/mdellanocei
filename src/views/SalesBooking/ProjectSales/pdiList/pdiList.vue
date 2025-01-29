@@ -46,7 +46,13 @@
     </div>
     <div class="content_tab">
       <div class="tab__list_center">
-        <el-table :header-cell-style="{'background':'#f5f7fa'}"  :data="tabList" border size="mini">
+        <el-table
+          :header-cell-style="{ background: '#f5f7fa' }"
+          max-height="600"
+          :data="tabList"
+          border
+          size="mini"
+        >
           <el-table-column prop="brokeName" label="Time Passed">
             <template slot-scope="scope">
               <div>{{ calculateTime(scope.row.createTime) }}</div>
@@ -63,14 +69,8 @@
           ></el-table-column>
           <el-table-column prop="code" label="LOA"></el-table-column>
           <el-table-column prop="unitName" label="unitName"></el-table-column>
-          <el-table-column
-            prop="agentName"
-            label="Agent"
-          ></el-table-column>
-          <el-table-column
-            prop="email"
-            label="Agent Email"
-          ></el-table-column>
+          <el-table-column prop="agentName" label="Agent"></el-table-column>
+          <el-table-column prop="email" label="Agent Email"></el-table-column>
 
           <el-table-column width="250" :label="$t('userLists.edit')">
             <template slot-scope="scope">
@@ -181,7 +181,7 @@ export default {
             unitId: row.unitId,
             projectId: row.projectId,
             type: 4,
-            recordId: row.recordId
+            recordId: row.recordId,
           }
           this.$Posting(this.$api.addTransaction, data).then((res) => {
             if (res.code == 0) {

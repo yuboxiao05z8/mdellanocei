@@ -30,7 +30,7 @@
         border
         :header-cell-style="{'background':'#f5f7fa'}"
         :data="tableData"
-        style="width: 100%"
+        style="width: 100%; max-height: 600px"
         size="mini"
       >
         <el-table-column label="System No.">
@@ -101,7 +101,7 @@ export default {
         projectName: '',
         status: '',
         pageNo: 1,
-        pageSize: 8,
+        pageSize: 12,
         count: 0
       },
       tableData: [],
