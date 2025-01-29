@@ -12,7 +12,7 @@ const axiosX = axios.create({
   baseURL: baseURL
 })
 const axiosY = axios.create({
-  withCredentials: true
+  // withCredentials: true
 })
 
 // 检验登陆信息
@@ -65,12 +65,6 @@ const XHR = ({
           window.sessionStorage.removeItem('userInfo');
           window.sessionStorage.removeItem('serveUrl');
           router.replace('/login')
-          // router.replace({
-          //   name: "/login",
-          //   params: {
-          //     isOut: 'yes'
-          //   }
-          // });
         }
       })
     } else {
@@ -81,7 +75,6 @@ const XHR = ({
 
   // 成功执行方法
   const sucFunC = res => {
-    // console.log(res)
     if (res.data.code === '-2') {
       Vue.prototype.$alert('Repeat login or logon failure', 'Alert', {
         confirmButtonText: 'Confirm',
@@ -260,3 +253,27 @@ const PostFormData = function (url = '', formData, allowHTML = false) {
 }
 Vue.prototype.$PostFormData = PostFormData
 Vue.PostFormData = PostFormData
+
+const PostY = function (url = '', data = {}, allowHTML = false) {
+  if (!allowHTML && hasHTML(data)) {
+    return Promise.resolve({
+      msg: '您的填写的数据带有非法字符，请改正后重试'
+    })
+  }
+  let {
+    user,
+    sucFun,
+    errFun
+  } = XHR({
+    loading: false
+  })
+  let reqData = qs.stringify({
+    ...user,
+    ...data
+  })
+  return axiosY.post(url, reqData).then(sucFun).catch(errFun)
+}
+
+
+Vue.prototype.$PostY = PostY
+Vue.PostY = PostY

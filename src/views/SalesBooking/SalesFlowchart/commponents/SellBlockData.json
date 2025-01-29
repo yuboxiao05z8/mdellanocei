@@ -9,21 +9,21 @@
   "CustomerTypeData": [
     {
       "name": "Individual",
-      "value": "0"
+      "value": 0
     },
     {
       "name": "Corporate",
-      "value": "1"
+      "value": 1
     }
   ],
   "GenderData": [
     {
       "name": "Male",
-      "value": "0"
+      "value": 0
     },
     {
       "name": "Female",
-      "value": "1"
+      "value": 1
     }
   ],
   "countryCallingCodeData": [

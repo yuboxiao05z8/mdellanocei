@@ -70,7 +70,7 @@
               </el-row>
             </div>
             <div class="announcements" v-show="secondNavIndex == 1">
-              <el-table :data="announcementList" border style="width: 100%" size="mini" :header-cell-style="{'background':'#f5f7fa'}">
+              <el-table size="mini" :data="announcementList" border style="width: 100%" size="mini" :header-cell-style="{'background':'#f5f7fa'}">
                 <el-table-column prop="content" :label="$t('notification.Message')">
                   <template slot-scope="scope">
                     <div class="base64_title" @click="showContent(scope.row.content)">{{scope.row.title}}</div>

@@ -22,7 +22,7 @@
       </el-row>
     </div>
     <div class="transactions_list_table transactions_section">
-      <el-table :data="transactionsList" border style="width: 100%" :header-cell-style="{'background':'#f5f7fa'}" size="mini">
+      <el-table   :data="transactionsList" border style="width: 100%" :header-cell-style="{'background':'#f5f7fa'}" size="mini">
         <!-- <el-table-column type="selection" width="55">
         </el-table-column> -->
         <el-table-column :label="$t('transactions.SalesRep')" prop="agentName">
@@ -183,8 +183,9 @@ export default {
   },
   methods: {
     downloadFils(row) {
+      let newWindow = window.open()
       let urlSite = baseURL + this.$api.downLoadTransactionFile + `?id=${row.id}`
-      window.location.href = urlSite
+      newWindow.location.href = urlSite
     },
     refreshData() {
       this.getActiveData();

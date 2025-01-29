@@ -7,39 +7,73 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="List Price">
-                <el-input class="input_80" size="mini" disabled v-model="updaObj.price"></el-input>
+                <el-input
+                  class="input_80"
+                  size="mini"
+                  disabled
+                  v-model="updaObj.price"
+                ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="Design Type">
-                <el-input class="input_80" size="mini" disabled v-model="updaObj.floorPlan"></el-input>
+                <el-input
+                  class="input_80"
+                  size="mini"
+                  disabled
+                  v-model="updaObj.floorPlan"
+                ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="List Price(PSM)">
-                <el-input class="input_80" size="mini" disabled v-model="updaObj.sqm_price"></el-input>
+                <el-input
+                  class="input_80"
+                  size="mini"
+                  disabled
+                  v-model="updaObj.sqm_price"
+                ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="Area(SQM)">
-                <el-input class="input_80" size="mini" disabled v-model="updaObj.sqm_area"></el-input>
+                <el-input
+                  class="input_80"
+                  size="mini"
+                  disabled
+                  v-model="updaObj.sqm_area"
+                ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="List Price(PSF)">
-                <el-input class="input_80" size="mini" disabled v-model="updaObj.sqf_price"></el-input>
+                <el-input
+                  class="input_80"
+                  size="mini"
+                  disabled
+                  v-model="updaObj.sqf_price"
+                ></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="Area(SQF)">
-                <el-input size="mini" class="input_80" disabled v-model="updaObj.sqf_area"></el-input>
+                <el-input
+                  size="mini"
+                  class="input_80"
+                  disabled
+                  v-model="updaObj.sqf_area"
+                ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="Transacted Price" class="verifyFrom">
-                <el-select size="mini" class="input_80" v-model="SaleDetails.priceCode">
+                <el-select
+                  size="mini"
+                  class="input_80"
+                  v-model="SaleDetails.priceCode"
+                >
                   <el-option
                     v-for="(item, index) in updaObj.priceList"
                     :key="index"
@@ -54,7 +88,7 @@
       </div>
 
       <div class="fromDiv">
-        <el-form label-width="150px" >
+        <el-form label-width="150px">
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="System No.">
@@ -67,8 +101,13 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="Interested Party">
-                <el-checkbox v-model="SaleDetails.interested"></el-checkbox>
+              <el-form-item label="Ballot Buyer">
+                <el-checkbox
+                  :disabled="
+                    isAgentCompany == 3 && updaObj.purchaseStatus != 'AVAILABLE'
+                  "
+                  v-model="SaleDetails.interested"
+                ></el-checkbox>
               </el-form-item>
             </el-col>
           </el-row>
@@ -91,20 +130,35 @@
                   class="input_80"
                   v-model="SaleDetails.payment"
                 >
-                  <el-option v-for="(item, index) in updaObj.paymentList || []" :key="index" :label="item.payName" :value="item.payName"></el-option>
+                  <el-option
+                    v-for="(item, index) in updaObj.paymentList || []"
+                    :key="index"
+                    :label="item.payName"
+                    :value="item.payName"
+                  ></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
           </el-row>
 
           <el-form-item label="Adjustment Amount">
-            <el-input-number v-model="SaleDetails.adjustmentAmount"></el-input-number>
+            <el-input-number
+              :disabled="
+                isAgentCompany == 3 && updaObj.purchaseStatus != 'AVAILABLE'
+              "
+              v-model="SaleDetails.adjustmentAmount"
+            ></el-input-number>
           </el-form-item>
 
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="Option Price">
-                <el-input disabled size="mini" class="input_80" v-model="SaleDetails.transactionPrice"></el-input>
+                <el-input
+                  disabled
+                  size="mini"
+                  class="input_80"
+                  v-model="SaleDetails.transactionPrice"
+                ></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -119,8 +173,8 @@ import { pick, getPrice } from '@/utils/validate'
 export default {
   props: {
     updaObj: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
@@ -131,9 +185,10 @@ export default {
         transactionDate: '',
         payment: '',
         adjustmentAmount: '',
-        transactionPrice: 0
+        transactionPrice: 0,
       },
-      defaultTxt: 'New sale...booking in progress'
+      defaultTxt: 'New sale...booking in progress',
+      isAgentCompany: JSON.parse(sessionStorage.getItem('userInfo')).type,
     }
   },
   watch: {
@@ -145,9 +200,14 @@ export default {
         for (const key in JSON.parse(JSON.stringify(this.SaleDetails))) {
           takeArr.push(key)
         }
+
         this.SaleDetails = pick(obj, takeArr)
+        // console.log('111',this.SaleDetails, val)
         this.SaleDetails.interested = Boolean(this.SaleDetails.interested)
-        console.log(this.SaleDetails)
+
+        if (!this.SaleDetails.priceCode && val.priceList.length) {
+          this.SaleDetails.priceCode = val.priceList[0].priceCode
+        }
       }
     },
     'SaleDetails.adjustmentAmount'(val) {
@@ -159,11 +219,11 @@ export default {
       if (val) {
         this.selectPrice(val)
       }
-    }
+    },
   },
   methods: {
     selectPrice(val) {
-      let item = this.updaObj.priceList.find(item => {
+      let item = this.updaObj.priceList.find((item) => {
         return item.priceCode == val
       })
 
@@ -176,17 +236,17 @@ export default {
       }
     },
     isNextFn() {
-      if(!this.SaleDetails.priceCode || !this.SaleDetails.transactionDate) {
+      if (!this.SaleDetails.priceCode || !this.SaleDetails.transactionDate) {
         this.$notify.error({
           title: 'Error',
-          message: 'Transacted Price and Option Date Can not be empty!'
+          message: 'Transacted Price and Option Date Can not be empty!',
         })
         return false
       } else {
-        return {obj: this.SaleDetails, index: 0}
+        return { obj: this.SaleDetails, index: 0 }
       }
     },
-  }
+  },
 }
 </script>
 

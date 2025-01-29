@@ -12,7 +12,8 @@ const imgPreview = (src) => {
   let close = document.createElement('i')
   div.className = 'body__img__preview'
   img.src = src
-  close.className = 'body__img__close'
+  img.className = 'body__img__img'
+  close.className = 'body__img__close el-icon-error'
   close.onclick = () => {
     document.body.removeChild(div)
   }

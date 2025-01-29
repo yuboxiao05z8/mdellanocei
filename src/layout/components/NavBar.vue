@@ -70,14 +70,14 @@ export default {
 
       if (isLogin) {
         if (link.join(',') != this.activeMenu) {
-          console.log('不同', link.join(','), this.activeMenu)
+          // console.log('不同', link.join(','), this.activeMenu)
           this.$router.replace(link.join(','))
         }
         sessionStorage.removeItem('logInSign')
-        console.log('相同', link.join(','), this.activeMenu)
+        // console.log('相同', link.join(','), this.activeMenu)
       }
 
-      console.log('进入方法', link.join(','), this.activeMenu)
+      // console.log('进入方法', link.join(','), this.activeMenu)
     }
   },
 }

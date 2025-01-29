@@ -10,6 +10,7 @@
               class="input_300px"
               @change="selectBroke"
               v-model="AgentForm.buyBrokeId"
+              :disabled="accountType == 3"
             >
               <el-option
                 v-for="(item, index) in updaObj.projectBrokeList"
@@ -28,20 +29,35 @@
             ></el-input>
           </el-form-item>
           <el-form-item label="Agent Name">
-            <el-input disabled class="input_300px" size="mini" v-model="AgentForm.agentName"></el-input>
+            <el-input
+              disabled
+              class="input_300px"
+              size="mini"
+              v-model="AgentForm.agentName"
+            ></el-input>
           </el-form-item>
           <el-form-item label="Tel No">
-            <el-input disabled class="input_300px" size="mini" v-model="AgentForm.agentContact"></el-input>
+            <el-input
+              disabled
+              class="input_300px"
+              size="mini"
+              v-model="AgentForm.agentContact"
+            ></el-input>
           </el-form-item>
           <el-form-item label="Commission (%)">
-            <el-input-number size="mini" v-model="AgentForm.commission" :min="0" :max="100"></el-input-number>
+            <el-input-number
+              size="mini"
+              v-model="AgentForm.commission"
+              :min="0"
+              :max="100"
+            ></el-input-number>
           </el-form-item>
 
           <el-form-item label="Remarks">
             <el-input
-              style="width: 100%;"
+              style="width: 100%"
               v-model="AgentForm.comment"
-              :autosize="{ minRows: 4, maxRows: 4}"
+              :autosize="{ minRows: 4, maxRows: 4 }"
               type="textarea"
             ></el-input>
           </el-form-item>
@@ -52,14 +68,18 @@
       <div class="fromDiv">
         <el-form ref="form" :model="AgentForm" label-width="150px">
           <el-form-item label="Referral Name">
-            <el-input class="input_300px" size="mini" v-model="AgentForm.referralName"></el-input>
+            <el-input
+              class="input_300px"
+              size="mini"
+              v-model="AgentForm.referralName"
+            ></el-input>
           </el-form-item>
 
           <el-form-item label="Remarks">
             <el-input
-              style="width: 100%;"
+              style="width: 100%"
               v-model="AgentForm.referralRemark"
-              :autosize="{ minRows: 4, maxRows: 4}"
+              :autosize="{ minRows: 4, maxRows: 4 }"
               type="textarea"
             ></el-input>
           </el-form-item>
@@ -74,8 +94,8 @@ import { pick, getPrice } from '@/utils/validate'
 export default {
   props: {
     updaObj: {
-      type: Object
-    }
+      type: Object,
+    },
   },
   data() {
     return {
@@ -87,9 +107,10 @@ export default {
         commission: '',
         comment: '',
         referralName: '',
-        referralRemark: ''
+        referralRemark: '',
       },
-      // brokeData: []
+      accountType: JSON.parse(sessionStorage.getItem('userInfo')).type,
+      brokeId: JSON.parse(sessionStorage.getItem('userInfo')).brokeId,
     }
   },
   mounted() {
@@ -102,11 +123,16 @@ export default {
       }
       let beforeObj = pick(obj, takeArr)
       this.AgentForm = beforeObj
+      if (!this.AgentForm.buyBrokeId) {
+        this.AgentForm.buyBrokeId = this.brokeId
+      }
     }
   },
   methods: {
     getBroke() {
-      this.$Post(this.$api.queryBrokeByProjectId, { projectId:this.$route.query.projectId }).then(res => {
+      this.$Post(this.$api.queryBrokeByProjectId, {
+        projectId: this.$route.query.projectId,
+      }).then((res) => {
         if (res.code == 0) {
           this.brokeData = res.datas
         }
@@ -119,7 +145,7 @@ export default {
       if (this.AgentForm.buyBrokeId) {
         let data = {
           buyBrokeId: this.AgentForm.buyBrokeId,
-          regNum: val
+          regNum: val,
         }
         let obj = await this.$Post(this.$api.queryAgentByRegNum, data)
         if (obj.datas) {
@@ -130,7 +156,7 @@ export default {
           this.AgentForm.agentContact = ''
           this.$notify.error({
             title: 'Error',
-            message: 'CEA License No.  not found, please re-enter'
+            message: 'CEA License No.  not found, please re-enter',
           })
         }
       }
@@ -139,14 +165,20 @@ export default {
       if (!this.AgentForm.buyBrokeId || !this.AgentForm.regNum) {
         this.$notify.error({
           title: 'Error',
-          message: 'Appointed Agency and CEA License No. cannot be empty'
+          message: 'Appointed Agency and CEA License No. cannot be empty',
+        })
+        return false
+      } else if(!this.AgentForm.agentName) {
+        this.$notify.error({
+          title: 'Error',
+          message: 'CEA License No.  not found, please re-enter',
         })
         return false
       } else {
         return { obj: this.AgentForm, index: 3 }
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

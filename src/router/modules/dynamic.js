@@ -213,6 +213,15 @@ const dynamicRouter = [
             name: 'SalesChart',
             meta: { title: 'Sales Chart' }
           },
+          {
+            path: 'PDIList',
+            component: () => import('@/views/SalesBooking/ProjectSales/pdiList/pdiList'),
+            name: 'PDIList',
+            type: ['Developers'],
+            meta: {
+              title: 'PDI List',
+            },
+          },
         ]
       },
       {

@@ -18,7 +18,7 @@
         <setting-box></setting-box>
       </div>
       <div class="table_div">
-        <el-table center border :data="tableData" class="table_div_content">
+        <el-table size="mini" center border :data="tableData" class="table_div_content">
           <el-table-column label="Appointment time">
             <template slot-scope="scope">
               <span style="margin-left: 10px">{{ scope.row.time }}</span>

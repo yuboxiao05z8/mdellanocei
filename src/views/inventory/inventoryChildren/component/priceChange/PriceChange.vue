@@ -160,7 +160,7 @@
           <span v-if="form.updateType == 2">fixed Amount: {{form.updateValue}}</span>
         </div>
         <div class="tabar" v-if="conversion">
-          <el-table :data="unitTab" height="400" border style="width: 100%">
+          <el-table size="mini" :data="unitTab" height="400" border style="width: 100%">
             <el-table-column prop="unitName" label="Name"></el-table-column>
             <el-table-column prop="purchaseStatus" label="Status"></el-table-column>
             <el-table-column label="Price Base">

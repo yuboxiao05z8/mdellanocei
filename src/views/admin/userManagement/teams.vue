@@ -151,7 +151,7 @@
             </el-form-item>
           </el-form>
         </el-row>
-        <el-table ref="multipleTable" :data="defaultTeam.agentList" border style="width: 100%" :header-cell-style="{'background':'#f5f7fa'}" size="mini" key="table2" @selection-change="handleSelectionChange">
+        <el-table size="mini" ref="multipleTable" :data="defaultTeam.agentList" border style="width: 100%" :header-cell-style="{'background':'#f5f7fa'}" size="mini" key="table2" @selection-change="handleSelectionChange">
           <el-table-column prop="agentName" :label="$t('teams.name')">
           </el-table-column>
           <el-table-column prop="mobile" :label="$t('teams.mobile')">

@@ -21,6 +21,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -30,6 +31,7 @@ export default {
     };
   },
   methods: {
+    ...mapActions({ clearRoutes: 'permission/clearRoutes' }),
     //修改密码
     submitForm() {
       if (!this.oldPass || this.oldPass.length < 6) {
@@ -47,16 +49,10 @@ export default {
             this.$notify.success({
               title: this.$t("alert.alert_success_title"),
               message: this.$t("alert.operate_success_title")
-            });
-            this.$router.replace({
-              name: "login",
-              params: {
-                isOut: "yes"
-              }
-            });
-            window.sessionStorage.removeItem("Site");
-            window.sessionStorage.removeItem("userInfo");
-            window.sessionStorage.removeItem("serveUrl");
+            })
+            sessionStorage.clear()
+            this.clearRoutes()
+            this.$router.replace({ path: '/login' })
           } else {
             this.$notify.error({
               title: this.$t("alert.fail"),

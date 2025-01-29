@@ -56,6 +56,7 @@
         <el-table-column width="150" :label="$t('illustration')">
           <template slot-scope="scope">
             <img
+              class="Photo_Service"
               @click.stop="$imgPreview(serveUrl+scope.row.logo)"
               :src="serveUrl+scope.row.logo"
               alt
@@ -572,8 +573,12 @@ export default {
     text-align: center;
     padding: 10px;
     background: #fff;
-    img {
-      width: 100%;
+    .Photo_Service {
+      width: 130px;
+      height: 70px;
+      background: #999;
+      object-fit: contain;
+      border-radius: 5px;
     }
   }
   .mainImgDiv {

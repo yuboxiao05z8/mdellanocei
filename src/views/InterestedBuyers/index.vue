@@ -22,7 +22,7 @@
       </el-row>
     </div>
     <div class="InterestedIndex_tab">
-      <el-table :header-cell-style="{'background':'#f5f7fa'}" :data="tableData" border>
+      <el-table size="mini" :header-cell-style="{'background':'#f5f7fa'}" :data="tableData" border>
         <el-table-column prop="projectName" label="Project Name"></el-table-column>
         <el-table-column label="Launch Date">
           <template slot-scope="scope">

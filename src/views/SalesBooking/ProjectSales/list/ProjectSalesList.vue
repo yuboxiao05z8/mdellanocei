@@ -6,7 +6,7 @@
     </div>
 
     <div class="ProjectSalesList_tab">
-      <el-table border :header-cell-style="{'background':'#f5f7fa'}" border :data="tableData" style="width: 100%">
+      <el-table size="mini" border :header-cell-style="{'background':'#f5f7fa'}" border :data="tableData" style="width: 100%">
         <el-table-column prop="projectName" label="Project Name"></el-table-column>
         <el-table-column prop="location" label="Location"></el-table-column>
         <el-table-column prop="availNum" label="Available"></el-table-column>

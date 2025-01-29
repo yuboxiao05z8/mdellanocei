@@ -31,14 +31,17 @@
         ></el-alert>
         <div style="padding:10px; text-align: center">
           <el-row>
-            <el-col :span="8">
+            <el-col :span="6">
               <el-checkbox v-model="settingForm.showBroke" label="Co-Broke" border></el-checkbox>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="6">
               <el-checkbox v-model="settingForm.soldApprove" label="Sales approval" border></el-checkbox>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="6">
               <el-checkbox v-model="settingForm.showAvailable" label="Show Available" border></el-checkbox>
+            </el-col>
+            <el-col :span="6">
+              <el-checkbox v-model="settingForm.launchStatus" label="OpenedDealMsg" border></el-checkbox>
             </el-col>
           </el-row>
           <!-- <el-checkbox v-model="checked3" label="备选项1" border></el-checkbox>
@@ -679,7 +682,8 @@ export default {
         itemLabel: '',
         showBroke: 0,
         soldApprove: 0,
-        showAvailable: 0
+        showAvailable: 0,
+        launchStatus: 0
       },
       notificationSet: {
         reserve: '',
@@ -731,6 +735,7 @@ export default {
             this.settingForm.soldApprove = !!res.datas.projectSet.soldApprove
             this.settingForm.showAvailable = !!res.datas.projectSet
               .showAvailable
+            this.settingForm.launchStatus = !! res.datas.projectSet.launchStatus
             this.notificationSet = res.datas.notificationSet || {}
             this.bookTime = res.datas.projectSet.bookTime
             this.radio = this.bookTime == 20? '1': '2'
@@ -749,6 +754,7 @@ export default {
       this.settingForm.showBroke = Number(this.settingForm.showBroke)
       this.settingForm.soldApprove = Number(this.settingForm.soldApprove)
       this.settingForm.showAvailable = Number(this.settingForm.showAvailable)
+      this.settingForm.launchStatus = Number(this.settingForm.launchStatus)
 
       //保存设置
       this.$Posting(this.$api.saveProjectSet, {

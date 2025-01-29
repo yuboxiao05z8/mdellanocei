@@ -151,7 +151,6 @@ export default {
             projectId: this.$route.query.id,
             appointmentId: this.form.appointmentId || '',
           }
-          // console.log('222',data)
           this.$Posting(this.$api.saveAppointment, data).then((res) => {
             if (res.code == 0) {
               this.$emit('UpSucceed')

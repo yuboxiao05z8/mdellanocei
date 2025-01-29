@@ -81,7 +81,7 @@ export default {
           this.navArr = res.datas
           let arr = []
           getActiveData(res.datas, arr)
-          console.log('收到的', arr)
+          // console.log('收到的', arr)
           this.$nextTick(() => {
             this.$refs.elTree.setCheckedKeys(arr)
           })

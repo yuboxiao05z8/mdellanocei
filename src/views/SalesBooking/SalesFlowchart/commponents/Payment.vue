@@ -4,22 +4,42 @@
       <div class="lfLable">Payment Details</div>
       <div class="fromDiv">
         <div class="addTab">
-          <el-table class="tab_div_con" :data="Payment.buyerPaymentList" style="width: 100%">
-            <el-table-column label="Payment Mode" prop="method"></el-table-column>
+          <el-table
+            class="tab_div_con"
+            :data="Payment.buyerPaymentList"
+            style="width: 100%"
+          >
+            <el-table-column
+              label="Payment Mode"
+              prop="method"
+            ></el-table-column>
             <el-table-column label="Bank" prop="bankName"></el-table-column>
-            <el-table-column label="Cheque No." prop="chequeNo"></el-table-column>
-            <el-table-column label="Cheque Date" prop="chequeBankDate"></el-table-column>
+            <el-table-column
+              label="Cheque No."
+              prop="chequeNo"
+            ></el-table-column>
+            <el-table-column label="Cheque Date">
+              <template slot-scope="scope">
+                <div>{{ $dateFormatNoTime(scope.row.chequeBankDate) }}</div>
+              </template>
+            </el-table-column>
             <el-table-column label="Amount" prop="amount"></el-table-column>
             <el-table-column label="Action">
               <template slot="header" slot-scope="scope">
-                <el-button size="mini" icon="el-icon-plus" @click="addShow = true">ADD</el-button>
+                <el-button
+                  size="mini"
+                  icon="el-icon-plus"
+                  @click="addShow = true"
+                  >ADD</el-button
+                >
               </template>
               <template slot-scope="scope">
                 <el-button
                   size="mini"
                   type="danger"
                   @click="handleDelete(scope.$index, scope.row)"
-                >DELETE</el-button>
+                  >DELETE</el-button
+                >
               </template>
             </el-table-column>
           </el-table>
@@ -32,8 +52,8 @@
               <el-form-item label="Adjustment Amount">
                 <el-input
                   v-model="Payment.otherRemarks"
-                  style="width: 100%;"
-                  :autosize="{ minRows: 6, maxRows: 6}"
+                  style="width: 100%"
+                  :autosize="{ minRows: 6, maxRows: 6 }"
                   type="textarea"
                 ></el-input>
               </el-form-item>
@@ -44,26 +64,27 @@
               <div class="line">
                 <span class="lf">
                   (Booking Fee：
-                  <span>{{ reserveObj.earnest }}</span>)
+                  <span>{{ reserveObj.earnest }}</span
+                  >)
                 </span>
                 <span class="rt"></span>
               </div>
               <div class="line">
                 <span class="lf">Booking Fee Required</span>
-                <span class="rt">{{reserveObj.earnest}}</span>
+                <span class="rt">{{ reserveObj.earnest }}</span>
               </div>
 
               <div class="line">
                 <span class="lf">Booking Fee Received</span>
-                <span class="rt">{{reserveObj.Received}}</span>
+                <span class="rt">{{ reserveObj.Received }}</span>
               </div>
               <div class="line">
                 <span class="lf">Difference</span>
-                <span class="rt Difference">{{reserveObj.Difference}}</span>
+                <span class="rt Difference">{{ reserveObj.Difference }}</span>
               </div>
               <div class="line">
                 <span class="lf">Excess Payment Raceived</span>
-                <span class="rt Excess">{{reserveObj.Excess}}</span>
+                <span class="rt Excess">{{ reserveObj.Excess }}</span>
               </div>
             </div>
           </el-col>
@@ -71,19 +92,35 @@
       </div>
     </div>
 
-    <el-dialog center title="Payment Details" :visible.sync="addShow" width="40%">
+    <el-dialog
+      center
+      title="Payment Details"
+      :visible.sync="addShow"
+      width="40%"
+    >
       <div>
-        <el-form :model="form" :rules="rules" ref="PaymentForm" label-width="150px">
+        <el-form
+          :model="form"
+          :rules="rules"
+          ref="PaymentForm"
+          label-width="180px"
+        >
           <el-form-item label="Payment Mode" prop="method">
-            <el-select style="width: 100%;" v-model="form.method">
+            <el-select style="width: 100%" v-model="form.method" @change="getMethodType">
               <el-option label="Cheque" value="Cheque"></el-option>
               <el-option label="Cash" value="Cash"></el-option>
-              <el-option label="Cashier Order" value="Cashier Order"></el-option>
-              <el-option label="Bank Transfer" value="Bank Transfer"></el-option>
+              <el-option
+                label="Cashier Order"
+                value="Cashier Order"
+              ></el-option>
+              <el-option
+                label="Bank Transfer"
+                value="Bank Transfer"
+              ></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="Bank" prop="bankName">
-            <el-select style="width: 100%;" v-model="form.bankName">
+            <el-select style="width: 100%" v-model="form.bankName">
               <el-option
                 v-for="(item, index) in bankData"
                 :key="index"
@@ -92,12 +129,30 @@
               ></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="Cheque/Ref No." prop="chequeNo">
-            <el-input style="width: 100%;" v-model="form.chequeNo"></el-input>
+          <el-form-item
+            v-if="form.method == 'Cheque'"
+            label="Cheque Book A/C No."
+            prop="chequeBookNum"
+          >
+            <el-input
+              style="width: 100%"
+              v-model="form.chequeBookNum"
+            ></el-input>
           </el-form-item>
-          <el-form-item label="Date" prop="chequeBankDate">
+          <el-form-item
+            v-if="form.method == 'Cheque'"
+            label="Cheque/Ref No."
+            prop="chequeNo"
+          >
+            <el-input style="width: 100%" v-model="form.chequeNo"></el-input>
+          </el-form-item>
+          <el-form-item
+            v-if="form.method == 'Cheque'"
+            label="Cheque Date"
+            prop="chequeBankDate"
+          >
             <el-date-picker
-              style="width: 100%;"
+              style="width: 100%"
               v-model="form.chequeBankDate"
               type="date"
               value-format="yyyy-MM-dd"
@@ -117,15 +172,15 @@
 </template>
 
 <script>
-import { pick, getPrice } from '@/utils/validate'
+import { pick, getPrice, setRulesData } from '@/utils/validate'
 export default {
   props: {
     updaObj: {
-      type: Object
+      type: Object,
     },
     variate: {
-      type: Number
-    }
+      type: Number,
+    },
   },
   data() {
     return {
@@ -135,57 +190,28 @@ export default {
         method: '',
         bankName: '',
         chequeNo: '',
+        chequeBookNum: '',
         chequeBankDate: '',
-        amount: ''
-      },
-      rules: {
-        method: [
-          {
-            required: true,
-            message: 'Please fill in the fields',
-            trigger: 'change'
-          }
-        ],
-        bankName: [
-          {
-            required: true,
-            message: 'Please fill in the fields',
-            trigger: 'change'
-          }
-        ],
-        chequeNo: [
-          {
-            required: true,
-            message: 'Please fill in the fields',
-            trigger: 'blur'
-          }
-        ],
-        chequeBankDate: [
-          {
-            required: true,
-            message: 'Please fill in the fields',
-            trigger: 'blur'
-          }
-        ],
-        amount: [
-          {
-            required: true,
-            message: 'Please fill in the fields',
-            trigger: 'blur'
-          }
-        ]
+        amount: this.roundNum(this.variate * 0.05),
       },
       Payment: {
         buyerPaymentList: [],
-        otherRemarks: ''
+        otherRemarks: '',
       },
       reserveObj: {
         earnest: this.roundNum(this.variate * 0.05),
         Received: 0,
         Difference: 0,
-        Excess: 0
+        Excess: 0,
       },
-      bankData: []
+      bankData: [],
+    }
+  },
+  computed: {
+    rules() {
+      let blurArr = ['chequeBookNum', 'chequeNo', 'chequeBankDate', 'amount']
+      let changeArr = ['method', 'bankName', '']
+      return  {...setRulesData('blur', blurArr), ...setRulesData('change', changeArr)}
     }
   },
   watch: {
@@ -193,7 +219,7 @@ export default {
       if (val) {
         this.reserveObj.earnest = this.roundNum(val * 0.05)
       }
-    }
+    },
   },
   mounted() {
     this.queryBankList()
@@ -214,61 +240,81 @@ export default {
     }
   },
   methods: {
+    getMethodType(type) {
+      this.form.chequeBankDate = ''
+      if(type == 'Cheque') {
+        this.form.chequeBankDate = this.$dateFormatNoTime(new Date())
+      }
+    },
     handleDelete(index, row) {
       this.Payment.buyerPaymentList.splice(index, 1)
       this.calculateFn(this.Payment.buyerPaymentList)
     },
     calculateFn(arr) {
-      let totalPrice = 0, earnest = this.roundNum(this.reserveObj.earnest)
-      this.reserveObj.Received = this.roundNum(arr.reduce(
-        (totalPrice, item) => totalPrice + parseFloat(item.amount),
-        0
-      ))
+      let totalPrice = 0,
+        earnest = this.roundNum(this.reserveObj.earnest)
+      this.reserveObj.Received = this.roundNum(
+        arr.reduce(
+          (totalPrice, item) => totalPrice + parseFloat(item.amount),
+          0
+        )
+      )
       if (this.reserveObj.Received > earnest) {
-        this.reserveObj.Excess = this.roundNum(this.reserveObj.Received - earnest)
+        this.reserveObj.Excess = this.roundNum(
+          this.reserveObj.Received - earnest
+        )
         this.reserveObj.Difference = 0
       } else {
-        this.reserveObj.Difference = this.roundNum(earnest - this.reserveObj.Received)
+        this.reserveObj.Difference = this.roundNum(
+          earnest - this.reserveObj.Received
+        )
         this.reserveObj.Excess = 0
       }
     },
     addDataFn() {
-      this.$refs['PaymentForm'].validate(valid => {
+      this.$refs['PaymentForm'].validate((valid) => {
         if (valid) {
+          console.log(this.form)
           this.addShow = false
           this.Payment.buyerPaymentList.push(this.form)
           this.calculateFn(this.Payment.buyerPaymentList)
-          this.form = {}
+          this.form = {
+            amount: this.roundNum(this.variate * 0.05),
+          }
         } else {
           return false
         }
       })
     },
     roundNum(num) {
-      return Math.round(num * 100) / 100
+      return Math.ceil(num * 100) / 100
     },
     queryBankList() {
-      this.$Post(this.$api.queryBankList, { pageNo: 1, pageSize: 9999 }).then(
-        res => {
-          if (res.code == 0) {
-            this.bankData = res.datas.lists
-          }
+      let data = {
+        pageNo: 1,
+        pageSize: 9999,
+        projectId: this.$route.query.projectId || '',
+      }
+      this.$Post(this.$api.queryBankList, data).then((res) => {
+        if (res.code == 0) {
+          this.bankData = res.datas.lists
         }
-      )
+      })
     },
     isNextFn() {
-      let earnest = this.reserveObj.earnest, Received = this.reserveObj.Received
+      let earnest = this.reserveObj.earnest,
+        Received = this.reserveObj.Received
       if (earnest > Received) {
         this.$notify.error({
           title: 'Error',
-          message: 'The deposit is insufficient, please pay your deposit'
+          message: 'The deposit is insufficient, please pay your deposit',
         })
         return false
       } else {
-        return { obj: {...this.Payment,...this.reserveObj}, index: 1 }
+        return { obj: { ...this.Payment, ...this.reserveObj }, index: 1 }
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

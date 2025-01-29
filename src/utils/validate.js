@@ -1,5 +1,6 @@
 
 
+
 /**
  * @param {string} path
  * @returns {Boolean}
@@ -90,15 +91,50 @@ export function isArray(arg) {
  */
 
 export const pick = (obj, arr) =>
-    arr.reduce((iter, val) => (val in obj && (iter[val] = obj[val]), iter), {});
+  arr.reduce((iter, val) => (val in obj && (iter[val] = obj[val]), iter), {})
 
 /** 
   * @param {string}
   * @returns {num}
  */
 export function getPrice(str) {
-  if(!str) {
+  if (!str) {
     return 0
   }
   return str.replace(/[^\d.]/g, '')
-} 
+}
+
+/** 
+  * @param {string, arr}
+  * @returns {object}
+ */
+export function setRulesData(type, arr) {
+  let rulesObj = {
+    message: 'Please fill in the fields',
+    required: true,
+  }
+
+  let obj = {}
+
+  arr.forEach(i => obj[i] = [{ ...rulesObj, trigger: type }])
+
+  return obj
+}
+
+export function TimeDifference(PastTense) {
+  let newDate = new Date().getTime()
+  let differenceTime = newDate - PastTense
+  let minute = 1000 * 60
+  let hour = minute * 60
+  let day = hour * 24
+
+
+  let dayC = parseInt(differenceTime / day)
+  let hourC = parseInt(differenceTime / hour - parseInt(dayC) * 24)
+  let minC = parseInt(differenceTime / minute - parseInt(dayC) * 24 * 60 - parseInt(hourC) * 60)
+
+  
+
+  return `${parseInt(dayC)} days, ${parseInt(hourC)} hours and ${parseInt(minC)} minutes `
+
+}

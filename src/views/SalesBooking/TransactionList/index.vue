@@ -31,6 +31,7 @@
         :header-cell-style="{'background':'#f5f7fa'}"
         :data="tableData"
         style="width: 100%"
+        size="mini"
       >
         <el-table-column label="System No.">
           <template slot-scope="scope">
@@ -154,11 +155,12 @@ export default {
         path: '/SalesBooking/viewDetails',
         query: {
           projectName: row.projectName,
-          recordId: row.recordId,
+          // recordId: row.recordId,
           unitName: row.unitName,
           unitId: row.unitId,
           projectId: row.projectId,
-          Status: status
+          Status: status,
+          link: '/SalesBooking/TransactionList'
         }
       })
     },

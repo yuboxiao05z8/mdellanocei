@@ -2,7 +2,7 @@
   <div class="allotNav">
     <div class="allotNav_nav_bar">Management of navigation</div>
     <div class="allotNav_tab">
-      <el-table border :data="tableData" style="width: 100%">
+      <el-table  size="mini" border :data="tableData" style="width: 100%">
         <el-table-column label="Type" prop="name"></el-table-column>
         <el-table-column label="Edit">
           <template slot-scope="scope">

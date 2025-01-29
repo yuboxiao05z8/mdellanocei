@@ -11,7 +11,7 @@
       </el-row>
     </div>
     <div class="bankTab">
-      <el-table :header-cell-style="{'background':'#f5f7fa'}" border :data="tableData" style="width: 100%">
+      <el-table size="mini" :header-cell-style="{'background':'#f5f7fa'}" border :data="tableData" style="width: 100%">
         <el-table-column label="Payer Bank Code" prop="bankCode"></el-table-column>
         <el-table-column label="Payer Bank  Description" prop="bankName"></el-table-column>
         <el-table-column label="Edit">

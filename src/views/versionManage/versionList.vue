@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="find_tab">
-      <el-table :data="tableData" border style="width: 100%" size="small">
+      <el-table :data="tableData" border style="width: 100%" size="mini">
         <el-table-column label="App Name">
           <template slot-scope="scope">
             <span>{{ scope.row.appName}}</span>

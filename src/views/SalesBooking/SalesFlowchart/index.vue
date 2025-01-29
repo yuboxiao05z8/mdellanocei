@@ -7,22 +7,38 @@
             size="mini"
             type="info"
             class="btn el-icon-back"
-            style="margin-right: 30px;"
+            style="margin-right: 30px"
             @click="goBack"
-          >{{$t('editMap.goBack')}}</el-button>
+            >{{ $t('editMap.goBack') }}</el-button
+          >
         </el-col>
         <el-col :span="6">
           <div
-            style="line-height:28px;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;"
-          >{{query.projectName}} : {{query.unitName}}</div>
+            style="
+              line-height: 28px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            "
+          >
+            {{ query.projectName }} : {{ query.unitName }}
+          </div>
         </el-col>
         <el-col :span="15">
-          <div class="keepTime" v-if="query.countDown && isOutTime">
+          <div class="ballotNo" v-if="updaObj.ballotNo">Ballot No. {{updaObj.ballotNo}}</div>
+          <div class="keepTime" v-if="query.countDown && isOutTime && updaObj.purchaseStatus == 'AVAILABLE'">
             <span class="el-icon-time"></span>
-            <span style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 90%;">
+            <span
+              style="
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                width: 90%;
+              "
+            >
               Your booking will expire in
-              <b>{{time.minutes}}</b> mins
-              <b>{{time.seconds}}</b> second. Re-entry is required upon time expiry.
+              <b>{{ time.minutes }}</b> mins <b>{{ time.seconds }}</b> second.
+              Re-entry is required upon time expiry.
             </span>
           </div>
         </el-col>
@@ -58,20 +74,36 @@
             type="primary"
             v-if="stepsActive > 0 && stepsActive < 5"
             @click="nextFn('back')"
-          >Previous</el-button>
-          <el-button type="primary" v-if="stepsActive < 4" @click="nextFn('next')">Next</el-button>
+            >Previous</el-button
+          >
           <el-button
             type="primary"
-            v-if="(stepsActive == 4 && query.type == 'AVAILABLE') || (stepsActive == 4 && query.type == 'RESERVED')"
+            v-if="stepsActive < 4"
+            @click="nextFn('next')"
+            >Next</el-button
+          >
+          <el-button
+            type="primary"
+            v-if="
+              stepsActive == 4 &&
+              (query.type == 'AVAILABLE' || query.type == 'RESERVED')
+            "
             @click="soldFn(3)"
-          >Sold</el-button>
+            >Sold</el-button
+          >
           <el-button
             type="primary"
             :disabled="isDisabled"
-            v-if="(stepsActive == 4  && query.type == 'SOLD')"
+            v-if="
+              stepsActive == 4 &&
+              (query.type == 'SOLD' || query.type == 'RESERVED')
+            "
             @click="soldFn(10)"
-          >Update</el-button>
-          <el-button type="primary" @click="goBack" v-if="stepsActive == 5">Finish</el-button>
+            >Update</el-button
+          >
+          <el-button type="primary" @click="goBack" v-if="stepsActive == 5"
+            >Finish</el-button
+          >
         </el-footer>
       </el-container>
     </div>
@@ -85,7 +117,7 @@ import {
   Payment,
   Purchaser,
   SaleDetails,
-  Summary
+  Summary,
 } from './commponents'
 
 /*
@@ -100,14 +132,14 @@ export default {
     Payment,
     Purchaser,
     SaleDetails,
-    Summary
+    Summary,
   },
   data() {
     return {
       query: this.$route.query,
       time: {
         minutes: '',
-        seconds: ''
+        seconds: '',
       },
       stepsActive: 0,
       sonView: 'SaleDetails',
@@ -119,33 +151,62 @@ export default {
       isDisabled: false,
       documentObj: '', // 文档页面数据
       isOutTime: true,
-      setIn: null
+      setIn: null,
+      Edit_Price_jurisdiction: null,
     }
   },
   mounted() {
     this.getTransaction()
     this.bookingUnit(1)
-    console.log(this.query)
+    // this.getUnitRoleAccess()
+    console.log('query流程', this.query)
   },
   methods: {
+    // 获取修改价格权限，暂不处理
+    getUnitRoleAccess() {
+      this.$Post(this.$api.getUnitRoleAccess, {
+        projectId: this.query.projectId,
+      }).then((res) => {
+        if (res.code == 0) {
+          let { Edit_Unit_Price } = res.datas
+          console.log(Edit_Unit_Price)
+        }
+      })
+    },
     goBack() {
-      if (this.query.link == '/SalesBooking/ProjectSales/SalesChart') {
-        this.$router.replace({
-          path: this.query.link,
-          query: { id: this.query.projectId }
-        })
-      } else {
-        this.$router.replace({
-          path: this.query.link
-          // query: { id: this.query.projectId }
-        })
+      switch (this.query.link) {
+        case '/SalesBooking/ProjectSales/SalesChart':
+          this.$router.replace({
+            path: this.query.link,
+            query: { id: this.query.projectId },
+          })
+          break
+
+        case '/SalesBooking/viewDetails':
+          let querys = {
+            ...this.query,
+            Status: this.query.type,
+            link: this.query.superiorLink
+              ? this.query.superiorLink
+              : '/SalesBooking/TransactionList',
+          }
+          this.$router.replace({
+            path: this.query.link,
+            query: { ...querys },
+          })
+          break
+        case '/SalesBooking/TransactionList':
+          this.$router.replace({
+            path: this.query.link
+          })
+          break
       }
     },
     bookingUnit(type) {
       let data = {
         projectId: this.query.projectId,
         unitId: this.query.unitId,
-        status: type
+        status: type,
       }
       this.$Post(this.$api.bookingUnit, data)
     },
@@ -156,7 +217,7 @@ export default {
         'Purchaser',
         'Agent',
         'Summary',
-        'Document'
+        'Document',
       ]
       switch (type) {
         case 'back':
@@ -174,6 +235,7 @@ export default {
                 break
               case 3:
                 this.SummaryData = this.childObj
+                console.log('处理完成', this.SummaryData)
                 break
               default:
                 break
@@ -189,7 +251,7 @@ export default {
       this.$confirm('To submit?', 'Alert', {
         confirmButtonText: 'Confirm',
         cancelButtonText: 'Cancel',
-        type: 'warning'
+        type: 'warning',
       })
         .then(() => {
           if (this.childObj.length == 4) {
@@ -207,9 +269,9 @@ export default {
               ...newObj,
               type: type,
               unitId: this.query.unitId,
-              projectId: this.query.projectId
+              projectId: this.query.projectId,
             })
-              .then(res => {
+              .then((res) => {
                 this.isDisabled = false
                 if (res.code == 0) {
                   this.sonView = 'Document'
@@ -218,26 +280,26 @@ export default {
                     OptionDate: newObj.transactionDate,
                     SystemNo: res.datas.seqNo,
                     recordId: res.datas.recordId,
-                    Status: res.datas.purchaseStatus
+                    Status: res.datas.purchaseStatus,
                   }
                   this.$notify({
                     title: 'Success',
                     message: 'Submit Successfully',
-                    type: 'success'
+                    type: 'success',
                   })
                   window.clearTimeout(this.setIn)
                   this.isOutTime = false
                 } else {
                   this.$notify.error({
                     title: 'Error',
-                    message: res.msg
+                    message: res.msg,
                   })
                 }
               })
               .catch(() => {
                 this.$notify.error({
                   title: 'Error',
-                  message: 'server error '
+                  message: 'server error ',
                 })
               })
             console.log('处理的', newObj)
@@ -247,16 +309,16 @@ export default {
           this.isDisabled = false
           this.$message({
             type: 'info',
-            message: 'Cancel'
+            message: 'Cancel',
           })
         })
     },
     getTransaction() {
       let data = {
         projectId: this.query.projectId,
-        unitId: this.query.unitId
+        unitId: this.query.unitId,
       }
-      this.$Posting(this.$api.getTransaction, data).then(res => {
+      this.$Posting(this.$api.getTransaction, data).then((res) => {
         if (res.code == 0) {
           this.updaObj = res.datas
           if (this.query.countDown) {
@@ -280,12 +342,12 @@ export default {
         }
       }
       this.setIn = window.setInterval(subtraction, 1000)
-    }
+    },
   },
   beforeDestroy() {
     window.clearTimeout(this.setIn)
     this.bookingUnit(2)
-  }
+  },
 }
 </script>
 
@@ -318,6 +380,10 @@ export default {
           font-size: 16px;
         }
       }
+    }
+    .ballotNo{
+      padding: 5px 10px;
+      color: #F56C6C;
     }
     .el-step__title.is-process,
     .el-step__head.is-process {

@@ -262,5 +262,22 @@ Vue.api = Vue.prototype.$api = {
   saveAppointmentSet: "/broke-manager-service/appointment/saveAppointmentSet", // 保存预约必填
   exportAppointment: "/broke-manager-service/export/exportAppointment", // 导出预约
   queryAppointmentSet: "/broke-manager-service/appointment/queryAppointmentSet", // 查询预约设置
+  queryProjectSalesByBroke: "/trade-service/project/queryProjectSalesByBroke", // 查询所有单位相应中介公司的销售数量
+  queryInterestQueue: "/trade-service/interest/queryInterestQueue", // 查询意向买家选房列表
+  nextBuyer: "/trade-service/interest/nextBuyer", // 更改意向买家选房状态
+  saveInterestDetail: "/broke-manager-service/interest/saveInterestDetail", // 保存买家意向信息
+  validateInterestBuyInfo: "/broke-manager-service/interest/validateInterestBuyInfo", // 验证意向买家信息是否重复
+  validateInterestInfo: "/broke-manager-service/interest/validateInterestInfo", // 验证意向信息是否重复
+  buyerSign: "/trade-service/sign/buyerSign", // 买家签名
+  sign: "/trade-service/sign/sign", // 生成签名文件
+  buyerList: "/trade-service/sign/buyerList", //查询买家签名列表
+  getSignPdiInfo: "/trade-service/sign/getSignPdiInfo", // 查询签名信息
+  buyerSignByEmail: "/trade-service/sign/buyerSignByEmail" , // 买家签名 By Email
+  downloadSign: "/trade-service/sign/downloadSign", // 下载签名
+  querySignStatus: "/trade-service/sign/querySignStatus", // 签名状态
+  deleteTransactionFile: "/trade-service/upload/deleteTransactionFile", // 删除交易文件
+  querySignPdiList: "/trade-service/sign/querySignPdiList", // 查询pdi列表
+  queryRepeatBuyer: "/broke-manager-service/interest/queryRepeatBuyer", // 查询项目的意向列表（买家信息重复
+  queryRepeatChequeNum: "/broke-manager-service/interest/queryRepeatChequeNum", // 查询项目的意向列表（支票号码重复）
 }
 

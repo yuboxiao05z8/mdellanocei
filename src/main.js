@@ -18,6 +18,7 @@ import i18n from './assets/i18n/index'
 Vue.use(ElementUI, {
   i18n: (key, value) => i18n.t(key, value)
 })
+
 Vue.config.productionTip = false
 
 new Vue({

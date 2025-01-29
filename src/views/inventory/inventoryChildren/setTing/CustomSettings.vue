@@ -6,7 +6,7 @@
         <el-button class="addBtn" @click="AddFieldsFn">{{$t('AddFields')}}</el-button>
       </h1>
       <div class="CustomInformationFields-Tab">
-        <el-table border :data="customInformationFieldsTab" style="width: 100%">
+        <el-table size="mini" border :data="customInformationFieldsTab" style="width: 100%">
           <el-table-column :label="$t('CustomInfoLabel')" prop="label"></el-table-column>
           <el-table-column :label="$t('CustomInfoValue')" prop="value"></el-table-column>
           <el-table-column :label="$t('Edit')">

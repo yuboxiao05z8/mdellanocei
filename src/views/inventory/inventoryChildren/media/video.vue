@@ -52,7 +52,12 @@
           <template slot-scope="scope">
             <el-input v-if="scope.$index === tableDataInit" v-model="url"></el-input>
             <div v-else>
-              <div v-if="scope.row.url">{{scope.row.url}}</div>
+              <div v-if="scope.row.url">
+                <p v-if="sliceFn(scope.row.url)">{{hostUrl+scope.row.url}}</p>
+                <p v-else>
+                  {{scope.row.url}}
+                </p>
+              </div>
             </div>
           </template>
         </el-table-column>
@@ -60,7 +65,12 @@
           <template slot-scope="scope">
             <el-input v-if="scope.$index === tableDataInit" v-model="logoUrl"></el-input>
             <div v-else>
-              <div v-if="scope.row.logoUrl">{{scope.row.logoUrl}}</div>
+              <div v-if="scope.row.logoUrl">
+                <p v-if="sliceFn(scope.row.logoUrl)">{{hostUrl+scope.row.logoUrl}}</p>
+                <p v-else>
+                  {{scope.row.logoUrl}}
+                </p>
+              </div>
             </div>
           </template>
         </el-table-column>
@@ -275,25 +285,16 @@ export default {
     edit(row, index) {
       this.tableDataInit = index;
       this.title = row.title;
-      // console.log(row)
-      this.url = row.url;
-      this.logoUrl = row.logoUrl;
-      // if (this.sliceFn(row.url)) {
-      //   this.url = this.hostUrl + row.url;
-      // } else {
-      //   this.url = row.url;
-      // }
-      // if (this.sliceFn(row.logoUrl)) {
-      //   this.logoUrl = this.hostUrl + row.logoUrl;
-      // } else {
-      //   this.logoUrl = row.logoUrl;
-      // }
+      this.url = row.url
+      this.logoUrl = row.logoUrl
+      // this.sliceFn(row.url) ? this.url = this.hostUrl + row.url : this.url = row.url
+      // this.sliceFn(row.logoUrl) ? this.logoUrl = this.hostUrl + row.logoUrl: this.logoUrl = row.logoUrl;
       this.uploadTableParam[1].brokeId = row.brokeId;
       this.description = row.description;
     },
     sliceFn(str) {
       let isShow = true;
-      if (str.indexOf("http://") != -1 || str.indexOf("https://") != -1) {
+      if (str.indexOf("http://") != -1 || str.indexOf("https://") != -1 || !str) {
         isShow = false;
       }
       return isShow;

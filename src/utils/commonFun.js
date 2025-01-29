@@ -6,14 +6,15 @@ import {
   Base64
 } from "js-base64";
 const addDownUrl = (url = '', params = {}) => {
-  let userId = JSON.parse(window.sessionStorage.getItem('userInfo') || '{}').userId || ''
-  let token = JSON.parse(window.sessionStorage.getItem('userInfo') || '{}').token || ''
-  let brokeId = JSON.parse(window.sessionStorage.getItem('userInfo') || '{}').brokeId || ''
+  let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo')) || {}
+  let userId = userInfo.userId || ''
+  let token = userInfo.token || ''
+  let brokeId = userInfo.brokeId || ''
   let str = "";
   for (let key in params) {
     str += `${key}=${params[key]}&`
   }
-  return `${baseURL}${url}?${str}userId=${userId}&token=${token}&brokeId=${brokeId}`
+  return `${baseURL}${url}?${str}userId=${userId}&token=${token}&brokeId=${brokeId}&source=manager&agentId=${userId}`
 
 }
 const base64ToContent = (content) => {
