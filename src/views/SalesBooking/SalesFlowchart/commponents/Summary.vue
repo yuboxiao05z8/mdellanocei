@@ -186,7 +186,7 @@ export default {
   activated() {
     let arr = [].concat(...this.SummaryData)
     this.SummaryForm = Object.assign({}, ...arr)
-    console.log('编辑',this.SummaryForm)
+    // console.log('编辑',this.SummaryForm)
   }
 }
 </script>

@@ -103,6 +103,7 @@
       title="Payment Details"
       :visible.sync="addShow"
       width="40%"
+      @closed="form={}"
     >
       <div>
         <el-form
@@ -112,7 +113,11 @@
           label-width="180px"
         >
           <el-form-item label="Payment Mode" prop="method">
-            <el-select style="width: 100%" v-model="form.method" @change="getMethodType">
+            <el-select
+              style="width: 100%"
+              v-model="form.method"
+              @change="getMethodType"
+            >
               <el-option label="Cheque" value="Cheque"></el-option>
               <el-option label="Cash" value="Cash"></el-option>
               <el-option
@@ -211,15 +216,18 @@ export default {
         Excess: 0,
       },
       bankData: [],
-      editIndex: null
+      editIndex: null,
     }
   },
   computed: {
     rules() {
       let blurArr = ['chequeBookNum', 'chequeNo', 'chequeBankDate', 'amount']
       let changeArr = ['method', 'bankName', '']
-      return  {...setRulesData('blur', blurArr), ...setRulesData('change', changeArr)}
-    }
+      return {
+        ...setRulesData('blur', blurArr),
+        ...setRulesData('change', changeArr),
+      }
+    },
   },
   watch: {
     variate(val) {
@@ -248,7 +256,7 @@ export default {
   },
   methods: {
     getMethodType(type) {
-      if(type == 'Cheque') {
+      if (type == 'Cheque') {
         this.form.chequeBankDate = this.$dateFormatNoTime(new Date())
       } else {
         this.form.chequeNo = ''
@@ -263,6 +271,9 @@ export default {
     editFn(index, row) {
       this.editIndex = index
       this.addShow = true
+      if (row.chequeBankDate) {
+        row.chequeBankDate = this.$dateFormatNoTime(new Date())
+      }
       this.form = row
     },
     calculateFn(arr) {
@@ -292,7 +303,7 @@ export default {
           console.log(this.form)
           this.addShow = false
 
-          if(typeof this.editIndex == 'number') {
+          if (typeof this.editIndex == 'number') {
             this.Payment.buyerPaymentList[this.editIndex] = this.form
             this.editIndex = null
           } else {

@@ -36,22 +36,33 @@
     </div>
     <div class="head">
       <div class="colDiv">
-        <!-- <div class="inputDiv">
+        <div class="inputDiv">
           <el-input
             size="mini"
             v-model="form.ballotNo"
             placeholder="InterestID"
           ></el-input>
-        </div> -->
+        </div>
 
         <div class="inputDiv">
           <el-input
             size="mini"
-            v-model="form.brokeName"
-            placeholder="Agency"
+            v-model="form.loa"
+            placeholder="LOA"
           ></el-input>
         </div>
-
+        <div class="inputDiv">
+          Status
+          <el-select size="mini" v-model="form.status">
+            <el-option
+              v-for="(item, index) in StatusList"
+              :key="index"
+              :label="item.test"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </div>
+        <!-- 
         <div class="inputDiv">
           <el-input
             size="mini"
@@ -60,17 +71,7 @@
           ></el-input>
         </div>
 
-        <div class="inputDiv">
-          Building
-          <el-select size="mini" v-model="form.building" @change="queryUnit">
-            <el-option
-              v-for="(item, index) in buildingData"
-              :key="index"
-              :label="item.buildName"
-              :value="item.buildName"
-            ></el-option>
-          </el-select>
-        </div>
+        
 
         <div class="inputDiv">
           Unit
@@ -82,7 +83,7 @@
               :value="item.unitId"
             ></el-option>
           </el-select>
-        </div>
+        </div> -->
 
         <div class="inputDiv">
           <el-button size="mini" @click="searchFn">Search</el-button>
@@ -157,7 +158,7 @@ export default {
   data() {
     return {
       uploadParam: [],
-      form: {},
+      form: { },
       buildingData: [],
       tableData: [],
       defaultPageObj: {
@@ -178,6 +179,20 @@ export default {
         pageNo: 1,
       },
       RepeatCount: 0,
+      StatusList: [
+        {
+          test: 'ALL',
+          value: ''
+        },
+        {
+          test: 'Active EOI',
+          value: '1'
+        },
+        {
+          test: 'Deleted',
+          value: '-1'
+        }
+      ]
     }
   },
   provide() {
@@ -238,11 +253,13 @@ export default {
         })
     },
     exportData() {
+      let from = JSON.parse(JSON.stringify(this.form))
       let params = {
         projectId: this.$route.query.id,
         projectName: this.$route.query.name,
         islaunch: 1,
         isCheck: 0,
+        ...from
       }
       window.location.href = this.$addDownUrl(
         this.$api.exportUnitInterest,
@@ -267,10 +284,6 @@ export default {
     },
     queryInterest() {
       let from = JSON.parse(JSON.stringify(this.form))
-      // if (this.form.building) {
-      //   let obj = this.buildingData.filter((item) => item.buildId == this.form.building)
-      //   from.building = obj[0].buildName
-      // }
 
       let data = {
         pageNo: this.defaultPageObj.pageNo,
@@ -361,10 +374,6 @@ export default {
     queryRepeatBuyers() {
       let api = this.$api.queryRepeatBuyer
       let from = JSON.parse(JSON.stringify(this.form))
-      // if (this.form.building) {
-      //   let obj = this.buildingData.filter((item) => item.buildId == this.form.building)
-      //   from.building = obj[0].buildName
-      // }
       let data = {
         pageNo: this.RepeatPageObj.pageNo,
         pageSize: this.RepeatPageObj.pageSize,

@@ -39,13 +39,22 @@
             </el-select>
           </el-form-item>
           <el-form-item label="Date of Birth" prop="dateOfBirth">
-            <el-date-picker
+            <!-- <el-date-picker
               value-format="yyyy-MM-dd"
               size="mini"
               type="date"
               v-model="buyerForm.dateOfBirth"
               style="width: 100%"
-            ></el-date-picker>
+            ></el-date-picker> -->
+            <datepicker
+              class="buyerFormDatePicker"
+              :disabled-dates="disabledDates"
+              inputClass="DatePickerInputClass"
+              v-model="buyerForm.dateOfBirth"
+              :minimumView="'day'"
+              :maximumView="'year'"
+              :initialView="'year'"
+            ></datepicker>
           </el-form-item>
           <el-form-item label="Gender" prop="gender">
             <el-select
@@ -206,8 +215,10 @@
 
 <script>
 import SellBlockData from '../../SalesBooking/SalesFlowchart/commponents/SellBlockData.json'
-import {setRulesData } from '@/utils/validate'
+import { setRulesData } from '@/utils/validate'
+import Datepicker from 'vuejs-datepicker'
 export default {
+  components: { Datepicker },
   props: {
     buyFom: {
       type: Object,
@@ -220,20 +231,37 @@ export default {
       show: false,
       buyerForm: {},
       SellBlockData: SellBlockData,
-      developers: JSON.parse(sessionStorage.getItem('userInfo')).type
+      developers: JSON.parse(sessionStorage.getItem('userInfo')).type,
+      disabledDates: {
+        from: new Date(),
+      },
     }
   },
   computed: {
     rules() {
-      let blurArr = ['buyerName', 'buyerMobile', 'buyerEmail', 'nationality', 'nricPassport']
-      let changeArr = ['customerType', 'dateOfBirth' , 'gender', 'countryCallingCode']
-      return {...setRulesData('blur', blurArr), ...setRulesData('change', changeArr)}
-    }
+      let blurArr = [
+        'buyerName',
+        'buyerMobile',
+        'buyerEmail',
+        'nationality',
+        'nricPassport',
+      ]
+      let changeArr = [
+        'customerType',
+        'dateOfBirth',
+        'gender',
+        'countryCallingCode',
+      ]
+      return {
+        ...setRulesData('blur', blurArr),
+        ...setRulesData('change', changeArr),
+      }
+    },
   },
   watch: {
     buyFom(val) {
       this.buyerForm = val
-    }
+    },
   },
   methods: {
     addDataFn() {
@@ -241,7 +269,7 @@ export default {
         if (valid) {
           this.$emit('EditSuccess', this.buyerForm)
           this.show = false
-          console.log(this.buyerForm)
+          // console.log(this.buyerForm)
         } else {
           console.log('error submit!!')
           return false
@@ -250,7 +278,7 @@ export default {
     },
     closedForm() {
       this.buyerForm = {}
-    }
+    },
   },
 }
 </script>
@@ -260,5 +288,36 @@ export default {
   height: 550px;
   overflow-y: scroll;
   padding: 15px;
+  .buyerFormDatePicker {
+    .DatePickerInputClass {
+      width: 100%;
+      height: 28px;
+      padding: 0 15px;
+      outline: none;
+      border: 1px solid #dcdfe6;
+      color: #606266;
+      border-radius: 4px;
+      transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+      &:focus {
+        border: 1px solid #409eff;
+      }
+      &:hover {
+        border: 1px solid #b8babe;
+      }
+    }
+    .cell {
+      &.selected {
+        background: #409eff;
+        color: #fff;
+        &:hover {
+          background: #409eff;
+        }
+
+        &.highlighted {
+          background: #409eff;
+        }
+      }
+    }
+  }
 }
 </style>

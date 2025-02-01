@@ -1,7 +1,12 @@
 <template>
   <div class="buyerList_page">
     <div class="addTab">
-      <el-table size="mini" class="tab_div_con" :data="buyerList" style="width: 100%">
+      <el-table
+        size="mini"
+        class="tab_div_con"
+        :data="buyerList"
+        style="width: 100%"
+      >
         <el-table-column label="Name" prop="buyerName"></el-table-column>
         <el-table-column label="Customer Type" prop="customerType">
           <template slot-scope="scope">{{
@@ -19,7 +24,10 @@
           <template slot="header" slot-scope="scope">
             <el-button
               size="mini"
-              v-if="(!porjectInfo.isOpening || developers == 2) && buyerList.length < 5"
+              v-if="
+                (!porjectInfo.isOpening || developers == 2) &&
+                buyerList.length < 5
+              "
               icon="el-icon-plus"
               @click="showDialog"
               >ADD</el-button
@@ -33,7 +41,10 @@
               >EDIT</el-button
             >
             <el-button
-              v-if="(!porjectInfo.isOpening || developers == 2) && buyerList.length > 1"
+              v-if="
+                (!porjectInfo.isOpening || developers == 2) &&
+                buyerList.length > 1
+              "
               size="mini"
               type="danger"
               @click="handleDelete(scope.$index, scope.row)"
@@ -64,7 +75,7 @@ export default {
       SellBlockData: SellBlockData,
       buyerList: [],
       buyFom: {},
-      developers: JSON.parse(sessionStorage.getItem('userInfo')).type
+      developers: JSON.parse(sessionStorage.getItem('userInfo')).type,
     }
   },
   watch: {
@@ -100,13 +111,29 @@ export default {
     },
     EditSuccess(data) {
       let { editIndex } = data
+
+      if (data.dateOfBirth) {
+        let dateOfBirth = this.$dateFormatNoTime(data.dateOfBirth).split('-')
+        let newDate = this.$todayFormat().split('-')
+
+        if (!this.computeNumber(newDate, dateOfBirth)) {
+          this.$notify.error({
+            title: 'Error',
+            message: 'Buyers must not be younger than 21',
+          })
+          return false
+        }
+      }
+
       if (typeof editIndex === 'number') {
         this.$set(this.buyerList, editIndex, data)
         return
       }
 
       let repetitive = this.buyerList.findIndex((i) => {
-        return data.nricPassport == i.nricPassport || data.buyerName == i.buyerName
+        return (
+          data.nricPassport == i.nricPassport || data.buyerName == i.buyerName
+        )
       })
 
       if (repetitive != '-1') {
@@ -131,17 +158,49 @@ export default {
       if (res.code == -1) {
         this.warningFn(`(${res.datas.join(' / ')})`)
       }
-
     },
     warningFn(msg) {
       this.$notify({
         title: 'Warning',
         message: 'Duplicate Alert - Buyer Name or NRIC/Passport' + msg,
         type: 'warning',
-        duration: 0
+        duration: 0,
       })
     },
-    
+
+    computeNumber(newDate, oldDate) {
+      let year = newDate[0] - oldDate[0]
+      if (year > 21) {
+        return true // 年份大于21 true
+      } else {
+        if (year == 21) {
+          // 年份等于21
+
+          if (newDate[1] > oldDate[1]) {
+            // 年份等于21，月份大于。true
+            return true
+          } else {
+            if (newDate[1] == oldDate[1]) {
+              // 年份等于21，月份等于
+
+              if (newDate[2] > oldDate[2]) {
+                // 年份等于21，月份等于，天数大于 true
+                return true
+              } else {
+                // 年份等于21，月份等于，天数小于等于 false
+                return false
+              }
+            } else {
+              // 月份小于， false
+              return false
+            }
+          }
+        } else {
+          // 年份小于 , false
+          return false
+        }
+      }
+    },
   },
 }
 </script>

@@ -48,6 +48,9 @@
             <el-input-number
               size="mini"
               v-model="AgentForm.commission"
+              :disabled="
+                accountType == 3 && updaObj.purchaseStatus != 'AVAILABLE'
+              "
               :min="0"
               :max="100"
             ></el-input-number>

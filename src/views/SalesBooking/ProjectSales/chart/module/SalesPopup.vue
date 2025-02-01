@@ -38,11 +38,11 @@
           <el-button v-if="AccessData.Mark_Sold == 1" @click="BookUnitFn"
             >Book Unit</el-button
           >
-          <el-button
+          <!-- <el-button
             @click="StatusPartitive(3, 'Mark sold')"
             v-if="AccessData.Mark_Sold == 1"
             >Mark sold</el-button
-          >
+          > -->
           <el-button
             @click="StatusPartitive(2, 'Reserved')"
             v-if="AccessData.Mark_Reserved == 1"
@@ -192,7 +192,7 @@ export default {
             projectId: this.unitObj.projectId,
             type: type,
           }
-          if (type == 3 || type == 2) {
+          if (type == 3 || type == 2 ) {
             data.interestId = this.interestId
           }
           this.$Posting(this.$api.addTransaction, data).then((res) => {
@@ -255,7 +255,7 @@ export default {
         float: left;
         width: 40%;
         &.text {
-          color: #999;
+          color: #000;
           width: 60%;
         }
       }

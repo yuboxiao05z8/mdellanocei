@@ -159,7 +159,7 @@ export default {
     this.getTransaction()
     this.bookingUnit(1)
     // this.getUnitRoleAccess()
-    console.log('query流程', this.query)
+    // console.log('query流程', this.query)
   },
   methods: {
     // 获取修改价格权限，暂不处理
@@ -240,6 +240,7 @@ export default {
               default:
                 break
             }
+            // console.log('回来', childData)
             this.stepsActive++
           }
           break

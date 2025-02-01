@@ -65,13 +65,32 @@
         </div>
       </div>
 
+      <div class="lfLable">Remark</div>
+      <div class="fromDiv">
+        <el-form :model="PurchaserObj" label-width="150px">
+          <el-form-item label="Buyer Remark">
+            <el-input
+              class="input_80"
+              size="mini"
+              type="textarea"
+              v-model="PurchaserObj.buyerRemark"
+            ></el-input>
+          </el-form-item>
+        </el-form>
+      </div>
+
       <!-- 住宅地址 -->
       <div class="lfLable">Residential Address</div>
       <div class="fromDiv">
-        <el-form :model="PurchaserObj" label-width="150px">
+        <el-form
+          ref="addressForm"
+          :rules="addressRules"
+          :model="PurchaserObj"
+          label-width="150px"
+        >
           <el-row :gutter="20">
             <el-col :span="12">
-              <el-form-item label="Country">
+              <el-form-item prop="buyerCountry" label="Country">
                 <el-select
                   size="mini"
                   class="input_80"
@@ -87,7 +106,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="Postal Code">
+              <el-form-item prop="buyerPostalCode" label="Postal Code">
                 <el-input
                   class="input_80"
                   size="mini"
@@ -96,7 +115,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="Block">
+              <el-form-item prop="buyerBlock" label="Block">
                 <el-input
                   class="input_80"
                   size="mini"
@@ -105,7 +124,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="Unit">
+              <el-form-item prop="buyerUnit" label="Unit">
                 <el-input
                   class="input_80"
                   size="mini"
@@ -114,7 +133,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="Street Name">
+              <el-form-item prop="buyerStreetName" label="Street Name">
                 <el-input
                   class="input_80"
                   size="mini"
@@ -123,20 +142,6 @@
               </el-form-item>
             </el-col>
           </el-row>
-        </el-form>
-      </div>
-
-      <div class="lfLable">Remark</div>
-      <div class="fromDiv">
-        <el-form :model="PurchaserObj" label-width="150px">
-          <el-form-item label="Buyer Remark">
-            <el-input
-              class="input_80"
-              size="mini"
-              type="textarea"
-              v-model="PurchaserObj.buyerRemark"
-            ></el-input>
-          </el-form-item>
         </el-form>
       </div>
 
@@ -246,13 +251,22 @@
               </el-select>
             </el-form-item>
             <el-form-item label="Date of Birth" prop="dateOfBirth">
-              <el-date-picker
+              <!-- <el-date-picker
                 value-format="yyyy-MM-dd"
                 size="mini"
                 type="date"
                 v-model="buyerForm.dateOfBirth"
                 style="width: 100%"
-              ></el-date-picker>
+              ></el-date-picker> -->
+              <datepicker
+                class="buyerFormDatePicker"
+                :disabled-dates="disabledDates"
+                inputClass="DatePickerInputClass"
+                v-model="buyerForm.dateOfBirth"
+                :minimumView="'day'"
+                :maximumView="'year'"
+                :initialView="'year'"
+              ></datepicker>
             </el-form-item>
             <el-form-item label="Gender" prop="gender">
               <el-select
@@ -416,8 +430,9 @@
 import BuyersDiv from './module/BuyersDiv'
 import SellBlockData from './SellBlockData.json'
 import { pick, getPrice, setRulesData } from '@/utils/validate'
+import Datepicker from 'vuejs-datepicker'
 export default {
-  components: { BuyersDiv },
+  components: { BuyersDiv, Datepicker },
   props: {
     updaObj: {
       type: Object,
@@ -476,6 +491,9 @@ export default {
       },
       editIndex: undefined,
       developers: JSON.parse(sessionStorage.getItem('userInfo')).type,
+      disabledDates: {
+        from: new Date(),
+      },
     }
   },
   computed: {
@@ -493,6 +511,19 @@ export default {
         'gender',
         'countryCallingCode',
       ]
+      return {
+        ...setRulesData('blur', blurArr),
+        ...setRulesData('change', changeArr),
+      }
+    },
+    addressRules() {
+      let blurArr = [
+        'buyerPostalCode',
+        'buyerBlock',
+        'buyerUnit',
+        'buyerStreetName',
+      ]
+      let changeArr = ['buyerCountry']
       return {
         ...setRulesData('blur', blurArr),
         ...setRulesData('change', changeArr),
@@ -528,7 +559,7 @@ export default {
         }
       })
     },
-    handleDelete(index, row) {
+    handleDelete(index) {
       this.PurchaserObj.buyerList.splice(index, 1)
     },
     resetFromFn() {
@@ -562,14 +593,28 @@ export default {
         default:
           this.$refs.form.validate((valid) => {
             if (valid) {
-              this.$notify({
-                title: 'Success',
-                message: 'Success!',
-                type: 'success',
-              })
+              let data = this.buyerForm
+
+              if (data.dateOfBirth) {
+                let dateOfBirth = this.$dateFormatNoTime(
+                  data.dateOfBirth
+                ).split('-')
+              
+                let newDate = this.$todayFormat().split('-')
+
+                
+
+                if (!this.computeNumber(newDate, dateOfBirth)) {
+                  this.$notify.error({
+                    title: 'Error',
+                    message: 'Buyers must not be younger than 21',
+                  })
+                  return false
+                }
+              }
 
               if (this.editIndex != undefined) {
-                this.PurchaserObj.buyerList[this.editIndex] = this.buyerForm
+                this.$set(this.PurchaserObj.buyerList, this.editIndex, data)
                 this.editIndex = undefined
               } else {
                 this.PurchaserObj.buyerList.push(this.buyerForm)
@@ -578,6 +623,12 @@ export default {
               if (type == 'close') {
                 this.NoRecordShow = false
               }
+
+              this.$notify({
+                title: 'Success',
+                message: 'Success!',
+                type: 'success',
+              })
             } else {
               return false
             }
@@ -587,7 +638,7 @@ export default {
       }
     },
     editFn(index, row) {
-      this.buyerForm = row
+      this.buyerForm = JSON.parse(JSON.stringify(row))
       this.NoRecordShow = true
       this.editIndex = index
     },
@@ -642,7 +693,21 @@ export default {
         })
         return false
       }
-      return { obj: this.PurchaserObj, index: 2 }
+
+      let data = null
+
+      this.$refs['addressForm'].validate((valid) => {
+        if (valid) {
+          data = { obj: this.PurchaserObj, index: 2 }
+        } else {
+          data = null
+          return false
+        }
+      })
+
+      if (data) {
+        return data
+      }
     },
     copyAddress() {
       this.PurchaserObj.country = this.PurchaserObj.buyerCountry
@@ -650,6 +715,39 @@ export default {
       this.PurchaserObj.block = this.PurchaserObj.buyerBlock
       this.PurchaserObj.unitNo = this.PurchaserObj.buyerUnit
       this.PurchaserObj.streetName = this.PurchaserObj.buyerStreetName
+    },
+    computeNumber(newDate, oldDate) {
+      let year = newDate[0] - oldDate[0]
+      if (year > 21) {
+        return true // 年份大于21 true
+      } else {
+        if (year == 21) {
+          // 年份等于21
+
+          if (newDate[1] > oldDate[1]) {
+            // 年份等于21，月份大于。true
+            return true
+          } else {
+            if (newDate[1] == oldDate[1]) {
+              // 年份等于21，月份等于
+
+              if (newDate[2] > oldDate[2]) {
+                // 年份等于21，月份等于，天数大于 true
+                return true
+              } else {
+                // 年份等于21，月份等于，天数小于等于 false
+                return false
+              }
+            } else {
+              // 月份小于， false
+              return false
+            }
+          }
+        } else {
+          // 年份小于 , false
+          return false
+        }
+      }
     },
   },
 }
@@ -673,6 +771,37 @@ export default {
   .case {
     .el-form-item {
       margin-bottom: 10px;
+      .buyerFormDatePicker {
+        .DatePickerInputClass {
+          width: 100%;
+          height: 28px;
+          padding: 0 15px;
+          outline: none;
+          border: 1px solid #dcdfe6;
+          color: #606266;
+          border-radius: 4px;
+          transition: border-color 0.2s cubic-bezier(0.645, 0.045, 0.355, 1);
+          &:focus {
+            border: 1px solid #409eff;
+          }
+          &:hover {
+            border: 1px solid #b8babe;
+          }
+        }
+        .cell {
+          &.selected {
+            background: #409eff;
+            color: #fff;
+            &:hover {
+              background: #409eff;
+            }
+
+            &.highlighted {
+              background: #409eff;
+            }
+          }
+        }
+      }
     }
   }
   .seekDiv {
