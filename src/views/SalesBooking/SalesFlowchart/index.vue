@@ -25,8 +25,17 @@
           </div>
         </el-col>
         <el-col :span="15">
-          <div class="ballotNo" v-if="updaObj.ballotNo">Ballot No. {{updaObj.ballotNo}}</div>
-          <div class="keepTime" v-if="query.countDown && isOutTime && updaObj.purchaseStatus == 'AVAILABLE'">
+          <div class="ballotNo" v-if="updaObj.ballotNo">
+            Ballot No. {{ updaObj.ballotNo }}
+          </div>
+          <div
+            class="keepTime"
+            v-if="
+              query.countDown &&
+              isOutTime &&
+              updaObj.purchaseStatus == 'AVAILABLE'
+            "
+          >
             <span class="el-icon-time"></span>
             <span
               style="
@@ -197,7 +206,7 @@ export default {
           break
         case '/SalesBooking/TransactionList':
           this.$router.replace({
-            path: this.query.link
+            path: this.query.link,
           })
           break
       }
@@ -265,7 +274,7 @@ export default {
             if (obj.buyerPaymentList.length) {
               newObj.buyerPaymentList = JSON.stringify(obj.buyerPaymentList)
             }
-            if(this.updaObj.recordId) {
+            if (this.updaObj.recordId) {
               newObj.recordId = this.updaObj.recordId
             }
             newObj.interested = Number(obj.interested)
@@ -273,7 +282,7 @@ export default {
               ...newObj,
               type: type,
               unitId: this.query.unitId,
-              projectId: this.query.projectId
+              projectId: this.query.projectId,
             })
               .then((res) => {
                 this.isDisabled = false
@@ -293,6 +302,22 @@ export default {
                   })
                   window.clearTimeout(this.setIn)
                   this.isOutTime = false
+
+                  let imgArr = []
+                  if (newObj.buyerList) {
+                    imgArr.push(
+                      ...this.getUpImgArr(newObj.buyerList, 'nricPassportImg')
+                    )
+                  }
+                  if (newObj.buyerPaymentList) {
+                    imgArr.push(
+                      ...this.getUpImgArr(newObj.buyerPaymentList, 'payerImg')
+                    )
+                  }
+
+                  if(imgArr.length) {
+                    this.$changeSessionUploadImage(imgArr)
+                  }
                 } else {
                   this.$notify.error({
                     title: 'Error',
@@ -306,7 +331,6 @@ export default {
                   message: 'server error ',
                 })
               })
-            console.log('处理的', newObj)
           }
         })
         .catch(() => {
@@ -316,6 +340,20 @@ export default {
             message: 'Cancel',
           })
         })
+    },
+    getUpImgArr(obj, key) {
+      let arr = JSON.parse(obj)
+      let hostUlr = sessionStorage.getItem('serveUrl')
+      let newArr = arr
+        .filter((i) => i[key])
+        .map((i) => {
+          return i[key].split(',').map((j) => {
+            return hostUlr + j
+          })
+        })
+      let linearArray = [].concat.apply([], newArr)
+      console.log(linearArray)
+      return linearArray
     },
     getTransaction() {
       let data = {
@@ -351,6 +389,7 @@ export default {
   beforeDestroy() {
     window.clearTimeout(this.setIn)
     this.bookingUnit(2)
+    this.$deleteImg()
   },
 }
 </script>
@@ -385,9 +424,9 @@ export default {
         }
       }
     }
-    .ballotNo{
+    .ballotNo {
       padding: 5px 10px;
-      color: #F56C6C;
+      color: #f56c6c;
     }
     .el-step__title.is-process,
     .el-step__head.is-process {

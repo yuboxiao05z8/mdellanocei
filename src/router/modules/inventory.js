@@ -35,9 +35,25 @@ const inventoryRouter = [
           },
           {
             path: "floorPlans",
-            component: () => import('@/views/inventory/inventoryChildren/floorPlans'),
+            component: () => import('@/views/inventory/inventoryChildren/floorPlans/index'),
             name: 'floorPlans',
-            meta: { title: 'Floor Plans' }
+            meta: { title: 'Floor Plans' },
+            redirect: '/Inventory/inventoryChildren/floorPlans/floorPlan',
+            children: [
+              {
+                path: "floorPlan",
+                component: () => import('@/views/inventory/inventoryChildren/floorPlans/floorPlans'),
+                name: 'floorPlan',
+                meta: { title: 'floor Plan' }
+              },
+              {
+                path: "PDIFilesList",
+                component: () => import('@/views/inventory/inventoryChildren/floorPlans/PDIFilesList'),
+                name: 'PDIFilesList',
+                meta: { title: 'PDI Files List' }
+              }
+            ]
+
           },
           {
             path: "units",
@@ -104,7 +120,7 @@ const inventoryRouter = [
                 name: 'commission',
                 meta: { title: 'commission' }
               },
-             
+
               {
                 path: "PromoSettings",
                 component: () => import('@/views/inventory/inventoryChildren/setTing/PromoSettings'),

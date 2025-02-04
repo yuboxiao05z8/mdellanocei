@@ -34,7 +34,12 @@
                 effect="dark"
                 @close="deleteImg(scope.row, tag)"
                 @click="PreviewFn(tag)"
-                style="display: block; width: 130px; margin: 5px auto;cursor: pointer;"
+                style="
+                  display: block;
+                  width: 130px;
+                  margin: 5px auto;
+                  cursor: pointer;
+                "
               >
                 #{{ index + 1 }}Pic Preview
               </el-tag>
@@ -85,9 +90,16 @@
               <el-button
                 size="mini"
                 v-if="scope.row.allowGenerate == 0"
-                @click="GenerateFn(scope.row)"
-                :disabled="isDisabled"
+                @click="OpenContractSettings(scope.row)"
+                :disabled="(isAgentCompany == 3 && scope.row.type == 2)"
                 >Generate</el-button
+              >
+              <el-button
+                size="mini"
+                :disabled="scope.row.url == ''"
+                v-if="scope.row.allowGenerate == 0 && scope.row.type == 1"
+                @click="PDIFn(scope.row)"
+                >PDI Signature</el-button
               >
             </template>
           </el-table-column>
@@ -113,12 +125,47 @@
         </el-table>
       </div>
     </el-dialog>
+    <el-dialog title="PDI" center :visible.sync="PdiVisible" width="70%">
+      <PdiTemplate :recordId="upDataObj.recordId" />
+    </el-dialog>
+
+    <!-- 合同编号生产弹窗 -->
+    <el-dialog title="OTP Settings" width="30%" center :visible.sync="outerVisible">
+      <div>
+        <p v-if="acitveGontractInfon.otp">Current OTP No. {{acitveGontractInfon.otp}}</p>
+        <p>Please select OTP No. output</p>
+        <div style="text-align: center;">
+          <el-button type="warning" style="margin-top: 20px" :disabled="isDisabled" @click="GenerateFn(1)">System generated OTP no. </el-button>
+          </br>
+          <el-button type="primary" style="margin-top: 20px" :disabled="isDisabled" @click="GenerateFn(2)">Select previous OTP no.</el-button>
+          </br>
+          <el-button type="danger" style="margin-top: 20px" @click="innerVisible = true">Manual input OTP no.</el-button>
+        </div>
+      </div>
+      <el-dialog
+        width="30%"
+        title="OTP Settings"
+        :visible.sync="innerVisible"
+        append-to-body
+        center
+        @closed="otpNo = ''"
+      >
+        <div style="text-align: center;">
+          <el-input placeholder="Please key in OTP no." v-model="otpNo">
+            <template slot="prepend">Please key in OTP no.</template>
+          </el-input>
+          <el-button type="primary" style="margin-top: 20px" :disabled="isDisabled"  @click="GenerateFn(3)">Generate OTP</el-button>
+        </div>
+      </el-dialog>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { baseURL } from '@/InterfaceConfig/env'
+import PdiTemplate from './module/pdiTemplate'
 export default {
+  components: { PdiTemplate },
   props: {
     documentObj: {
       type: Object,
@@ -147,6 +194,12 @@ export default {
       isDisabled: false,
       VersionData: [],
       dialogVisible: false,
+      PdiVisible: false,
+      acitveGontractInfon: {},
+      outerVisible: false,
+      innerVisible: false,
+      otpNo: '',
+      isAgentCompany: JSON.parse(sessionStorage.getItem('userInfo')).type,
     }
   },
   watch: {
@@ -190,12 +243,22 @@ export default {
         }
       })
     },
-    GenerateFn(row) {
+    OpenContractSettings(row) {
+      this.acitveGontractInfon = row
+      if (row.allowGenerate == 0 && row.type == 2) {
+        this.outerVisible = true
+      } else {
+        this.GenerateFn()
+      }
+    },
+    GenerateFn(type) {
       let data = {
-        docId: row.docId,
+        docId: this.acitveGontractInfon.docId,
         projectId: this.$route.query.projectId,
         unitId: this.$route.query.unitId,
         recordId: this.documentObj.recordId,
+        genType: type,
+        otpNo: this.otpNo,
       }
       this.isDisabled = true
       this.$Posting(this.$api.transactionGenerate, data).then((res) => {
@@ -206,6 +269,8 @@ export default {
             message: 'Generated File!',
             type: 'success',
           })
+          this.outerVisible = false
+          this.innerVisible = false
           this.queryDocumentList()
         } else {
           this.$notify.error({
@@ -278,6 +343,9 @@ export default {
     },
     PreviewFn(url) {
       window.open(this.hostUrl + url)
+    },
+    PDIFn() {
+      this.PdiVisible = true
     },
   },
 }

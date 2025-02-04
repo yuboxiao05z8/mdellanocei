@@ -29,6 +29,24 @@
               label="Mobile"
               prop="buyerMobile"
             ></el-table-column>
+            <el-table-column label="ID/Passport Photo" width="200">
+              <template slot-scope="scope">
+                <div
+                  class="nricPassportImg_div"
+                  v-if="scope.row.nricPassportImg"
+                >
+                  <img
+                    v-for="(item, index) in scope.row.nricPassportImg.split(
+                      ','
+                    )"
+                    @click.stop="$imgPreview(hostUrl + item)"
+                    :key="index"
+                    :src="hostUrl + item"
+                    alt=""
+                  />
+                </div>
+              </template>
+            </el-table-column>
             <el-table-column label="Action" width="200">
               <template slot="header" slot-scope="scope">
                 <el-button
@@ -124,7 +142,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item prop="buyerUnit" label="Unit">
+              <el-form-item prop="buyerUnit" label="# Unit">
                 <el-input
                   class="input_80"
                   size="mini"
@@ -193,7 +211,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="Unit">
+              <el-form-item label="# Unit">
                 <el-input
                   class="input_80"
                   size="mini"
@@ -220,6 +238,7 @@
         title="Purchaser Details"
         :visible.sync="NoRecordShow"
         width="40%"
+        @closed="closedFn"
       >
         <div>
           <el-form
@@ -368,6 +387,15 @@
                 ></el-option>
               </el-select>
             </el-form-item>
+            <el-form-item label="ID/Passport Photo">
+              <uploaderImg
+                :backData="nricPassportImg"
+                :id="'certificateImg'"
+                :mixLength="2"
+                :maxSize="2000"
+                folder="transactionImg"
+              ></uploaderImg>
+            </el-form-item>
           </el-form>
         </div>
         <div slot="footer" class="dialog-footer">
@@ -431,8 +459,9 @@ import BuyersDiv from './module/BuyersDiv'
 import SellBlockData from './SellBlockData.json'
 import { pick, getPrice, setRulesData } from '@/utils/validate'
 import Datepicker from 'vuejs-datepicker'
+import uploaderImg from '@/components/uploaderImg.vue'
 export default {
-  components: { BuyersDiv, Datepicker },
+  components: { BuyersDiv, Datepicker, uploaderImg },
   props: {
     updaObj: {
       type: Object,
@@ -451,6 +480,7 @@ export default {
   },
   data() {
     return {
+      hostUrl: sessionStorage.getItem('serveUrl'),
       isOpening: false,
       onRecordShow: false,
       NoRecordShow: false,
@@ -494,6 +524,7 @@ export default {
       disabledDates: {
         from: new Date(),
       },
+      nricPassportImg: [],
     }
   },
   computed: {
@@ -578,6 +609,10 @@ export default {
         buyerName: '',
       }
     },
+    closedFn() {
+      this.resetFromFn()
+      this.nricPassportImg = []
+    },
     addDataFn(type) {
       switch (type) {
         case 'ref':
@@ -599,10 +634,8 @@ export default {
                 let dateOfBirth = this.$dateFormatNoTime(
                   data.dateOfBirth
                 ).split('-')
-              
-                let newDate = this.$todayFormat().split('-')
 
-                
+                let newDate = this.$todayFormat().split('-')
 
                 if (!this.computeNumber(newDate, dateOfBirth)) {
                   this.$notify.error({
@@ -612,12 +645,19 @@ export default {
                   return false
                 }
               }
+              if (this.nricPassportImg.length) {
+                data.nricPassportImg = this.nricPassportImg
+                  .map((i) => {
+                    return i.url
+                  })
+                  .join(',')
+              }
 
               if (this.editIndex != undefined) {
                 this.$set(this.PurchaserObj.buyerList, this.editIndex, data)
                 this.editIndex = undefined
               } else {
-                this.PurchaserObj.buyerList.push(this.buyerForm)
+                this.PurchaserObj.buyerList.push(data)
               }
 
               if (type == 'close') {
@@ -638,7 +678,16 @@ export default {
       }
     },
     editFn(index, row) {
-      this.buyerForm = JSON.parse(JSON.stringify(row))
+      let data = JSON.parse(JSON.stringify(row))
+      if(data.nricPassportImg) {
+        this.nricPassportImg = data.nricPassportImg.split(',').map(i => {
+          return {
+            url: i,
+            src: this.hostUrl+i
+          }
+        })
+      }
+      this.buyerForm = data
       this.NoRecordShow = true
       this.editIndex = index
     },
@@ -664,7 +713,7 @@ export default {
     },
     showDialog() {
       this.editIndex = undefined
-      this.resetFromFn()
+      
       switch (this.type) {
         case 1:
           this.onRecordShow = true
@@ -768,9 +817,20 @@ export default {
       border: 1px solid #ddd;
     }
   }
+  .nricPassportImg_div {
+    img {
+      width: 80px;
+      margin: 0 5px;
+      height: 50px;
+      border-radius: 5px;
+      object-fit: contain;
+      background: #ddd;
+    }
+  }
   .case {
     .el-form-item {
       margin-bottom: 10px;
+
       .buyerFormDatePicker {
         .DatePickerInputClass {
           width: 100%;

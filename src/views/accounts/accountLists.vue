@@ -204,14 +204,8 @@
 
         <el-row>
           <el-col :span="12">
-            <el-form-item :label="$t('accounts.companyLogo')">
-              <uploaderImg
-                :backData="companyForm.logo"
-                :id="'calendayImg'"
-                :mixLength="1"
-                folder="brokeLogo"
-                :maxSize="500"
-              ></uploaderImg>
+            <el-form-item label="Abbreviation">
+              <el-input v-model="companyForm.brokeAlias"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -219,7 +213,7 @@
               <el-select
                 v-model="companyForm.country"
                 filterable
-                style="width:100%"
+                style="width: 100%"
                 allow-create
                 default-first-option
                 placeholder="Choose the country"
@@ -234,6 +228,21 @@
               </el-select>
             </el-form-item>
           </el-col>
+        </el-row>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item :label="$t('accounts.companyLogo')">
+              <uploaderImg
+                :backData="companyForm.logo"
+                :id="'calendayImg'"
+                :mixLength="1"
+                folder="brokeLogo"
+                :maxSize="500"
+              ></uploaderImg>
+            </el-form-item>
+          </el-col>
+         
         </el-row>
 
         <el-row>
@@ -290,7 +299,8 @@ export default {
         color: '',
         editBrokeId: '',
         calcUrl: '',
-        country: ''
+        country: '',
+        brokeAlias: '',
       },
       detail: '',
       editorArr: [], //获取数据时富文本编辑器的图片数组
@@ -317,7 +327,7 @@ export default {
       searchName: '',
       serveUrl: sessionStorage.getItem('serveUrl'),
       isAdmin: JSON.parse(window.sessionStorage.getItem('userInfo')).isAdmin,
-      CountryList: ['Singapore', 'Malaysia', 'Cambodia', 'Australia', 'UK']
+      CountryList: ['Singapore', 'Malaysia', 'Cambodia', 'Australia', 'UK'],
     }
   },
   mounted() {
@@ -325,7 +335,10 @@ export default {
   },
   methods: {
     addAccount() {
-      ;(this.companyForm = {
+      if (tinymce.editors[0]) {
+        tinymce.editors[0].setContent('')
+      }
+      this.companyForm = {
         brokeName: '',
         fileNum: '',
         website: '',
@@ -336,9 +349,10 @@ export default {
         color: '',
         detail: '',
         calcUrl: '',
-        country: ''
-      }),
-        (this.dialogVisible = true)
+        country: '',
+        brokeAlias: '',
+      }
+      this.dialogVisible = true
     },
     editors(obj) {
       // editor组件传过来的值赋给content
@@ -427,9 +441,10 @@ export default {
         editBrokeId: row.brokeId,
         facebookWebsit: row.facebookWebsit,
         calcUrl: row.calcUrl,
-        country: row.country
+        country: row.country,
+        brokeAlias: row.brokeAlias,
       }
-      if(!this.CountryList.includes(row.country) && row.country) {
+      if (!this.CountryList.includes(row.country) && row.country) {
         this.CountryList.push(row.country)
       }
 

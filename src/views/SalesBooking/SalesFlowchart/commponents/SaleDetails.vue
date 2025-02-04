@@ -73,6 +73,9 @@
                   size="mini"
                   class="input_80"
                   v-model="SaleDetails.priceCode"
+                  :disabled="
+                    isAgentCompany == 3
+                  "
                 >
                   <el-option
                     v-for="(item, index) in updaObj.priceList"

@@ -24,6 +24,13 @@
               </template>
             </el-table-column>
             <el-table-column label="Amount" prop="amount"></el-table-column>
+            <el-table-column label="Payment Reference">
+              <template slot-scope="scope">
+                <div class="pryerImg" v-if="scope.row.payerImg">
+                  <img @click.stop="$imgPreview(hostUrl + scope.row.payerImg)" :src="hostUrl+scope.row.payerImg" alt="">
+                </div>
+              </template>
+            </el-table-column>
             <el-table-column label="Action">
               <template slot="header" slot-scope="scope">
                 <el-button
@@ -103,14 +110,14 @@
       title="Payment Details"
       :visible.sync="addShow"
       width="40%"
-      @closed="form={}"
+      @closed="form = {}; payerImg = []"
     >
       <div>
         <el-form
           :model="form"
           :rules="rules"
           ref="PaymentForm"
-          label-width="180px"
+          label-width="200px"
         >
           <el-form-item label="Payment Mode" prop="method">
             <el-select
@@ -140,7 +147,7 @@
               ></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item
+          <!-- <el-form-item
             v-if="form.method == 'Cheque'"
             label="Cheque Book A/C No."
             prop="chequeBookNum"
@@ -149,10 +156,10 @@
               style="width: 100%"
               v-model="form.chequeBookNum"
             ></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <el-form-item
             v-if="form.method !== 'Cash'"
-            label="Ref No."
+            label="Cheque No./Transfer Ref."
             prop="chequeNo"
           >
             <el-input style="width: 100%" v-model="form.chequeNo"></el-input>
@@ -172,6 +179,15 @@
           <el-form-item label="Amount" prop="amount">
             <el-input-number v-model="form.amount" :min="0"></el-input-number>
           </el-form-item>
+          <el-form-item label="Payment Reference">
+            <uploaderImg
+              :backData="payerImg"
+              :id="'payerImg'"
+              :mixLength="1"
+              :maxSize="2000"
+              folder="transactionImg"
+            ></uploaderImg>
+          </el-form-item>
         </el-form>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -183,8 +199,10 @@
 </template>
 
 <script>
+import uploaderImg from '@/components/uploaderImg.vue'
 import { pick, getPrice, setRulesData } from '@/utils/validate'
 export default {
+  components: {uploaderImg},
   props: {
     updaObj: {
       type: Object,
@@ -217,12 +235,14 @@ export default {
       },
       bankData: [],
       editIndex: null,
+      payerImg: [],
+      hostUrl: sessionStorage.getItem('serveUrl')
     }
   },
   computed: {
     rules() {
       let blurArr = ['chequeBookNum', 'chequeNo', 'chequeBankDate', 'amount']
-      let changeArr = ['method', 'bankName', '']
+      let changeArr = ['method', 'bankName']
       return {
         ...setRulesData('blur', blurArr),
         ...setRulesData('change', changeArr),
@@ -274,6 +294,14 @@ export default {
       if (row.chequeBankDate) {
         row.chequeBankDate = this.$dateFormatNoTime(new Date())
       }
+      if(row.payerImg) {
+        this.payerImg = row.payerImg.split(',').map(i => {
+          return {
+            url: i,
+            src: this.hostUrl + i
+          }
+        })
+      }
       this.form = row
     },
     calculateFn(arr) {
@@ -302,7 +330,15 @@ export default {
         if (valid) {
           console.log(this.form)
           this.addShow = false
+          
 
+          if (this.payerImg.length) {
+                this.form.payerImg = this.payerImg
+                  .map((i) => {
+                    return i.url
+                  })
+                  .join(',')
+              }
           if (typeof this.editIndex == 'number') {
             this.Payment.buyerPaymentList[this.editIndex] = this.form
             this.editIndex = null
@@ -320,8 +356,28 @@ export default {
       })
     },
     roundNum(num) {
-      return Math.ceil(num * 100) / 100
+      let NewNumber = Math.round(num * 1000) / 1000
+      let retNum = this.returnFloat(Math.ceil(NewNumber * 100) / 100)
+      return retNum
     },
+
+    returnFloat(valueNum) {
+      let value = Math.round(parseFloat(valueNum) * 100) / 100
+      let s = value.toString().split('.')
+      if (s.length == 1) {
+        value = value.toString() + '.00'
+        return value
+      }
+      if (s.length > 1) {
+        if (s[1].length < 2) {
+          value = value.toString() + '0'
+        }
+        return value
+      }
+
+      return value
+    },
+
     queryBankList() {
       let data = {
         pageNo: 1,
@@ -357,6 +413,16 @@ export default {
     padding: 20px;
     .tab_div_con {
       border: 1px solid #ddd;
+    }
+  }
+  .pryerImg{
+    img {
+      width: 80px;
+      margin: 0 5px;
+      height: 50px;
+      border-radius: 5px;
+      object-fit: contain;
+      background: #ddd;
     }
   }
   .conclusion {

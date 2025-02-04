@@ -18,7 +18,9 @@
           }"
           >{{ status }}</span
         >
-        <span class="ballotNo"  v-if="unitData.ballotNo">Ballot No. {{unitData.ballotNo}}</span>
+        <span class="ballotNo" v-if="unitData.ballotNo"
+          >Ballot No. {{ unitData.ballotNo }}</span
+        >
       </div>
       <div class="bodySlot">
         <el-row :gutter="20" v-if="tabList.length">
@@ -34,15 +36,15 @@
         </el-row>
       </div>
       <div slot="footer" class="footerSlot">
-        <div v-if="status == 'AVAILABLE'">
+        <div v-if="status == 'AVAILABLE' && (!unitData.cooperate || isAgentCompany == 2)">
           <el-button v-if="AccessData.Mark_Sold == 1" @click="BookUnitFn"
             >Book Unit</el-button
           >
-          <!-- <el-button
+          <el-button
             @click="StatusPartitive(3, 'Mark sold')"
             v-if="AccessData.Mark_Sold == 1"
             >Mark sold</el-button
-          > -->
+          >
           <el-button
             @click="StatusPartitive(2, 'Reserved')"
             v-if="AccessData.Mark_Reserved == 1"
@@ -79,6 +81,14 @@
             >Book Unit</el-button
           >
         </div>
+        <div v-if="status == 'SOLD'">
+          <el-button v-if="AccessData.Mark_Sold == 1" @click="GoPdiFn"
+            >PDI</el-button
+          >
+          <el-button v-if="AccessData.Mark_Sold == 1" @click="BookUnitFn"
+            >Book unit</el-button
+          >
+        </div>
       </div>
     </el-dialog>
   </div>
@@ -112,6 +122,7 @@ export default {
       tabList: [],
       unitData: {},
       AccessData: {},
+      isAgentCompany: JSON.parse(sessionStorage.getItem('userInfo')).type,
     }
   },
   mounted() {},
@@ -176,7 +187,7 @@ export default {
           unitId: this.unitObj.unitId,
           projectId: this.unitObj.projectId,
           Status: 'RESERVED',
-          link: '/SalesBooking/ProjectSales/SalesChart'
+          link: '/SalesBooking/ProjectSales/SalesChart',
         },
       })
     },
@@ -192,7 +203,7 @@ export default {
             projectId: this.unitObj.projectId,
             type: type,
           }
-          if (type == 3 || type == 2 ) {
+          if (type == 3 || type == 2) {
             data.interestId = this.interestId
           }
           this.$Posting(this.$api.addTransaction, data).then((res) => {
@@ -241,8 +252,8 @@ export default {
       font-size: 12px;
       font-weight: 600;
     }
-    .ballotNo{
-      color: #F56C6C;
+    .ballotNo {
+      color: #f56c6c;
       font-size: 14px;
       margin-left: 15px;
     }

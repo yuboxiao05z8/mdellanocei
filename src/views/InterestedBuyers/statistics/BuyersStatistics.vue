@@ -110,7 +110,7 @@
             ref="defaultTemplate"
             @queryInterestDetail="queryInterestDetail"
             @handleCurrentChange="PagingPageNo"
-            @Delete="Delete"
+            @UpStatusFn="upStatusFn"
           />
         </el-tab-pane>
         <el-tab-pane name="repetition" label="Buyer Duplicates List">
@@ -132,7 +132,7 @@
             :count="RepeatCount"
             ref="RepeatTemplate"
             @queryInterestDetail="queryInterestDetail"
-            @Delete="Delete"
+            @UpStatusFn="upStatusFn"
             @handleCurrentChange="PagingPageNo"
             :bgColor="true"
           />
@@ -158,7 +158,9 @@ export default {
   data() {
     return {
       uploadParam: [],
-      form: { },
+      form: { 
+        status: '1'
+      },
       buildingData: [],
       tableData: [],
       defaultPageObj: {
@@ -218,15 +220,20 @@ export default {
     uploadAfter() {
       this.queryInterest()
     },
-    Delete(row) {
-      this.$confirm('Are you sure to delete it?', 'Warn', {
+    upStatusFn(row) {
+      let text = 'Are you sure to delete it?'
+      if(row.operate == '1') {
+        text = 'Do you want to activate this buyer?'
+      }
+      this.$confirm(text, 'Warn', {
         confirmButtonText: 'OK',
         cancelButtonText: 'Cancel',
         type: 'warning',
       })
         .then(() => {
-          this.$Post(this.$api.delUnitInterest, {
+          this.$Post(this.$api.updateUnitInterestStatus, {
             interestId: row.interestId,
+            status: row.operate
           }).then((res) => {
             if (res.code == 0) {
               this.queryInterest()

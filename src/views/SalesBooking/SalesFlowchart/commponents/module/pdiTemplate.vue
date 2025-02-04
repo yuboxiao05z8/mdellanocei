@@ -5,56 +5,6 @@
       floor plans, rules and regulations, offered items and other documents
       relating to your unit.
     </div>
-    <el-table
-      border
-      :header-cell-style="{ background: '#f5f7fa' }"
-      class="Document_content_div_tab"
-      :data="filsList"
-      style="margin-bottom: 20px"
-    >
-      <el-table-column label="File Name" prop="name"></el-table-column>
-      <el-table-column label="Photo" prop="chequeNo">
-        <template slot-scope="scope">
-          <div class="pdiFileImg_box">
-            <i v-if="scope.row.url" class="el-icon-error" @click="deleteImg(scope.row)"></i>
-            <el-image
-              class="pdiFileImg"
-              :src="serveUrl + scope.row.url"
-              :preview-src-list="[serveUrl + scope.row.url]"
-            >
-              <div slot="error" class="image-slot">
-                <i class="el-icon-picture-outline"></i>
-              </div>
-            </el-image>
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column label="edit">
-        <template slot-scope="scope">
-          <el-upload
-            class="upload-demo"
-            :action="baseURL + $api.uploadSignPdiFile"
-            accept="image/*"
-            :data="{
-              ...upDataObj,
-              type: scope.row.type,
-            }"
-            :limit="1"
-            auto-upload
-            :on-success="upImgSuccess"
-            :on-error="upImgError"
-            :show-file-list="false"
-          >
-            <el-button size="small" type="primary"
-              >Click on the upload</el-button
-            >
-            <div slot="tip" class="el-upload__tip">
-              Only JPG/PNG files and no more than 5MB can be uploaded
-            </div>
-          </el-upload>
-        </template>
-      </el-table-column>
-    </el-table>
     <div class="pdiTemplate_view">
       <div class="initialize_pdi" v-if="!status">
         <el-button class="sign_btn" type="primary" @click="sign"
@@ -168,10 +118,6 @@ export default {
       baseURL: baseURL,
       status: 1,
       tableData: [],
-      filsList: [
-        { name: 'Annex A', key: 'annexa', type: 'pdiSignAnnexa', url: '' },
-        { name: 'Annex B3', key: 'annexb3', type: 'pdiSignAnnexb3', url: '' },
-      ],
       contractInfo: {},
       serveUrl: sessionStorage.getItem('serveUrl'),
       list: [],
@@ -193,7 +139,6 @@ export default {
   },
   mounted() {
     this.getSignPdiInfo()
-    this.querySignPdiFile()
   },
   methods: {
     getSignPdiInfo() {
@@ -375,72 +320,6 @@ export default {
       this.clipboard.on('error', () => {
         this.clipboard.destroy()
       })
-    },
-    upImgSuccess(response, file, fileList) {
-      if (response.code == 0) {
-        this.querySignPdiFile()
-      } else {
-        this.$notify.error({
-          title: 'Error',
-          message: response.msg,
-        })
-      }
-    },
-    upImgError(err, file, fileList) {
-      console.log('err', err, file, fileList)
-    },
-    querySignPdiFile() {
-      let data = {
-        unitId: this.$route.query.unitId,
-      }
-      this.$Post(this.$api.querySignPdiFile, data).then((res) => {
-        if (res.code == 0) {
-          if (res.datas) {
-            this.filsList[0].url = ''
-            this.filsList[1].url = ''
-            if (res.datas.annexa) {
-              this.filsList[0].url = res.datas.annexa
-            }
-            if (res.datas.annexb3) {
-              this.filsList[1].url = res.datas.annexb3
-            }
-          }
-        }
-      })
-    },
-    deleteImg(row) {
-      let _this = this
-      this.$confirm(
-        'This action will delete the photo completly, Whether or not to continue?',
-        'Caution',
-        {
-          confirmButtonText: 'Confirm',
-          cancelButtonText: 'Cancel',
-          type: 'warning',
-        }
-      )
-        .then(() => {
-          let data = {
-            unitId: _this.$route.query.unitId,
-            type: row.type,
-          }
-          _this.$Post(_this.$api.deleteSignPdiFile, data).then((res) => {
-            if (res.code == 0) {
-              _this.$notify({
-                title: 'Success',
-                message: 'successfully delete',
-                type: 'success',
-              })
-              _this.querySignPdiFile()
-            } else {
-              _this.$notify.error({
-                title: 'error',
-                message: res.msg,
-              })
-            }
-          })
-        })
-        .catch(() => {})
     },
     downloadFile() {
       window.open('https://img.singmap.com/upload/broke/template/Normanton%20Park-%20Annex%20C-G%20(Residential).pdf')

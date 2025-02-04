@@ -271,6 +271,8 @@
             </el-form-item>
           </el-col>
         </el-row>
+
+
         <el-row>
           <el-col :span="12">
             <el-form-item prop="streetAddress" :label="$t('edit.streetAdress')">
@@ -288,6 +290,85 @@
             </el-form-item>
           </el-col>
         </el-row>
+
+        <el-row>
+          <el-col :span="12">
+            <el-form-item  label="Tenure Date">
+              <el-input
+                class="width_300px"
+                v-model="detailForm.tenureDate"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item  label="Developer License">
+              <el-input
+                class="width_300px"
+                v-model="detailForm.developerLicense"
+              ></el-input>
+              </el-form-item>
+          </el-col>
+        </el-row>
+
+              <el-row>
+          <el-col :span="12">
+            <el-form-item  label="Developer License Date">
+              <el-input
+                class="width_300px"
+                v-model="detailForm.developerLicenseDate"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item  label="Project Lot">
+              <el-input
+                class="width_300px"
+                v-model="detailForm.projectLot"
+              ></el-input>
+              </el-form-item>
+          </el-col>
+        </el-row>
+
+              <el-row>
+          <el-col :span="12">
+            <el-form-item  label="MK/TS">
+              <el-input
+                class="width_300px"
+                v-model="detailForm.mukim"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item  label="MF Per Share (Before GST)">
+              <el-input
+                class="width_300px"
+                v-model="detailForm.mfPerShare"
+              ></el-input>
+              </el-form-item>
+          </el-col>
+        </el-row>
+
+          <el-row>
+          <el-col :span="12">
+            <el-form-item  label="EC Project Code">
+              <el-input
+                class="width_300px"
+                v-model="detailForm.ecProjectCode"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <!-- <el-form-item  label="MF Per Share (Before GST)">
+              <el-input
+                class="width_300px"
+                v-model="detailForm.streetAddress"
+              ></el-input> -->
+          </el-col>
+        </el-row>
+
+
+
+
         <div style="border-bottom:1px solid #dcdfe6;margin:5px 0;"></div>
         <el-row>
           <el-col :span="18">
@@ -597,6 +678,13 @@ export default {
         psfFromText: '',
         projectArea: '',
         district: '',
+        tenureDate: '',
+        developerLicense: '',
+        developerLicenseDate: '',
+        projectLot: '',
+        mukim: '',
+        mfPerShare: '',
+        ecProjectCode: ''
       },
       rules: {
         currencySymbol: [

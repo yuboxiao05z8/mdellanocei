@@ -65,8 +65,11 @@
           <el-button size="mini" plain @click="queryInterestDetail(scope.row)"
             >Buyers Preview</el-button
           >
-          <el-button size="mini" plain @click="Delete(scope.row)"
-            >Delete</el-button
+          <el-button v-if="scope.row.status == '1'" size="mini" plain @click="upStatusFn(scope.row, '-1')"
+            >Remove</el-button
+          >
+           <el-button v-if="scope.row.status == '-1'" size="mini" plain @click="upStatusFn(scope.row, '1')"
+            >Reinstate</el-button
           >
         </template>
       </el-table-column>
@@ -100,8 +103,9 @@ export default {
     queryInterestDetail(row) {
       this.$emit('queryInterestDetail', row)
     },
-    Delete(row) {
-      this.$emit('Delete', row)
+    upStatusFn(row, type) {
+      console.log(row, type)
+      this.$emit('UpStatusFn', {...row, operate: type})
     },
   },
 }

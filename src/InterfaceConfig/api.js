@@ -149,7 +149,7 @@ Vue.api = Vue.prototype.$api = {
   queryRoleAccess: "/broke-manager-service/access/queryRoleAccess",//查询role关联的权限
   saveRoleAccess: "/broke-manager-service/access/saveRoleAccess",//保存role关联的权限
   //interest
-  delUnitInterest: "/broke-manager-service/interest/delUnitInterest",//delete unit interest
+  updateUnitInterestStatus: "/broke-manager-service/interest/updateUnitInterestStatus",// 更改意向买家状态
   queryInterest: "/broke-manager-service/interest/queryInterest",//Active Interests
   updateAction: "/broke-manager-service/interest/updateAction",//Active
   importUnitInterest: "/broke-manager-service/import/importUnitInterest",//import Unit Interest
@@ -282,5 +282,9 @@ Vue.api = Vue.prototype.$api = {
   uploadSignPdiFile: "/trade-service/sign/uploadSignPdiFile",  //上传签名文件
   deleteSignPdiFile: "/trade-service/sign/deleteSignPdiFile", // 删除签名文件
   querySignPdiFile: "/trade-service/sign/querySignPdiFile", // 查询签名附件
+  uploadPdiFile: "/broke-manager-service/upload/uploadPdiFile", // 增加PDI文件上传
+  queryPdiFileList: "/broke-manager-service/floorplan/queryPdiFileList", // 查询pdi文件列表
+  deletePdiFile: "/broke-manager-service/floorplan/deletePdiFile", // 删除pdi文件
+  // uploadFile: "/broke-manager-service/upload/uploadFile", // 上传证件
 }
 

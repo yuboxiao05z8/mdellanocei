@@ -112,18 +112,7 @@ export default {
     EditSuccess(data) {
       let { editIndex } = data
 
-      if (data.dateOfBirth) {
-        let dateOfBirth = this.$dateFormatNoTime(data.dateOfBirth).split('-')
-        let newDate = this.$todayFormat().split('-')
-
-        if (!this.computeNumber(newDate, dateOfBirth)) {
-          this.$notify.error({
-            title: 'Error',
-            message: 'Buyers must not be younger than 21',
-          })
-          return false
-        }
-      }
+     
 
       if (typeof editIndex === 'number') {
         this.$set(this.buyerList, editIndex, data)
@@ -168,39 +157,7 @@ export default {
       })
     },
 
-    computeNumber(newDate, oldDate) {
-      let year = newDate[0] - oldDate[0]
-      if (year > 21) {
-        return true // 年份大于21 true
-      } else {
-        if (year == 21) {
-          // 年份等于21
-
-          if (newDate[1] > oldDate[1]) {
-            // 年份等于21，月份大于。true
-            return true
-          } else {
-            if (newDate[1] == oldDate[1]) {
-              // 年份等于21，月份等于
-
-              if (newDate[2] > oldDate[2]) {
-                // 年份等于21，月份等于，天数大于 true
-                return true
-              } else {
-                // 年份等于21，月份等于，天数小于等于 false
-                return false
-              }
-            } else {
-              // 月份小于， false
-              return false
-            }
-          }
-        } else {
-          // 年份小于 , false
-          return false
-        }
-      }
-    },
+    
   },
 }
 </script>
