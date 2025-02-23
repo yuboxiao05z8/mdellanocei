@@ -86,7 +86,6 @@
               class="input_300px"
               @change="selectTaggerBroke"
               v-model="AgentForm.taggerBuyBrokeId"
-              :disabled="accountType == 3"
             >
               <el-option
                 v-for="(item, index) in updaObj.projectBrokeList"
@@ -325,12 +324,6 @@ export default {
       console.log('333', this.AgentForm)
       if (!this.AgentForm.buyBrokeId) {
         this.AgentForm.buyBrokeId = this.brokeId
-      }
-      if (!this.AgentForm.taggerBuyBrokeId) {
-        this.AgentForm.taggerBuyBrokeId = this.brokeId
-      }
-      if (!this.AgentForm.internalBuyBrokeId) {
-        this.AgentForm.internalBuyBrokeId = this.brokeId
       }
     }
   },
