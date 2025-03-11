@@ -97,6 +97,13 @@
             </div>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('plan.Img')">
+          <template slot-scope="scope">
+            <div>
+              <img style="width:65px" @click.stop="$imgPreview(hostUrl + scope.row.img)" :src="hostUrl+scope.row.img" alt="">
+              </div>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('plan.editMapping')">
           <template slot-scope="scope">
             <el-button
@@ -148,6 +155,7 @@ export default {
       name: "",
       showInMobile: "no",
       // accessLimit: "no",
+      hostUrl: sessionStorage.getItem("serveUrl") || "",
       showInterest: "no",
       self: JSON.parse(sessionStorage.getItem("projectDesc")).self,
       id: JSON.parse(sessionStorage.getItem("projectDesc") || "{}").id || "",

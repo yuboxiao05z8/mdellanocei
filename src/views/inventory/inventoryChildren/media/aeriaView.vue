@@ -25,7 +25,11 @@
         </el-table-column>
         <el-table-column :label="$t('ivt.backgroundImage')">
           <template slot-scope="scope">
-            <div v-if="scope.row.url">{{hostUrl+scope.row.url}}</div>
+            <div v-if="scope.row.url">
+              <!-- {{hostUrl+scope.row.url}} -->
+          <img style="width:65px" @click.stop="$imgPreview(hostUrl + scope.row.url)" :src="hostUrl+scope.row.url" alt="">
+
+            </div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('ivt.ivtUrl')">

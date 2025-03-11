@@ -13,8 +13,8 @@
   },
   "footer": {
     "mixgo": "Mixgo Pte Ltd",
-    "desc1": "69 Ubi Road 1, #08-30, Oxley Bizhub",
-    "desc2": "Singapore 408731",
+    "desc1": "63 Ubi Ave 1, 63@Ubi, #07-02 Singapore",
+    "desc2": "408937",
     "desc3": "Main: 6749 9810 \\ Fax: 6749 9178",
     "desc4": "版权 2017 mixgo. 保留权利"
   },
@@ -105,7 +105,7 @@
     "mapZoomLevel": "Map Zoom Level",
     "latitude": "Latitude",
     "longitude": "Longitude",
-    "streetAdress": "Street Adress",
+    "streetAdress": "Street Address",
     "postalCode": "Postal Code",
     "description": "Description",
     "keyPoints": "Key Points",
@@ -133,7 +133,7 @@
     "customInfoValue5": "Custom info value 5",
     "GalleryLatitude": "Gallery Latitude",
     "GalleryLongitude": "Gallery Longitude",
-    "GalleryAdress": "Sales Gallery Adress"
+    "GalleryAdress": "Sales Gallery Address"
   },
   "buildingPhases": {
     "buildingName": "Building Name",
@@ -242,7 +242,8 @@
     "edit": "Edit",
     "showInterest": "Show Interest",
     "surroundings": "Add Surroundings",
-    "AddStorey": "Add Storey"
+    "AddStorey": "Add Storey",
+    "Img":"Picture"
   },
   "image": {
     "importImages": "Import Images",
@@ -823,7 +824,7 @@
   "teamName": "Team Name",
   "addInvitations": "Add Invitation CARDS",
   "addInvitationCommand": "Add invitation CARDS in.jpg or .jpeg or .png or .gif formats. Recommended resolution 770 x 700 px.",
-  "Range": "Range",
+  "Range": "Region",
   "CustomSettings": "Custom Settings",
   "AddFields": "Add Fields",
   "CustomInfoLabel": "Custom Info Label",

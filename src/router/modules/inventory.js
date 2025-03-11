@@ -44,7 +44,7 @@ const inventoryRouter = [
                 path: "floorPlan",
                 component: () => import('@/views/inventory/inventoryChildren/floorPlans/floorPlans'),
                 name: 'floorPlan',
-                meta: { title: 'floor Plan' }
+                meta: { title: 'Floor Plan' }
               },
               {
                 path: "PDIFilesList",
@@ -84,7 +84,7 @@ const inventoryRouter = [
                 path: "pdf",
                 component: () => import('@/views/inventory/inventoryChildren/media/pdf'),
                 name: 'pdf',
-                meta: { title: 'Pdf' }
+                meta: { title: 'Files' }
               },
               {
                 path: "video",
@@ -97,7 +97,7 @@ const inventoryRouter = [
                 path: "aeriaView",
                 component: () => import('@/views/inventory/inventoryChildren/media/aeriaView'),
                 name: 'aeriaView',
-                meta: { title: 'Aeria View' }
+                meta: { title: 'Virtual Tour' }
               },
             ]
           },
@@ -118,20 +118,20 @@ const inventoryRouter = [
                 path: "commission",
                 component: () => import('@/views/inventory/inventoryChildren/setTing/commission'),
                 name: 'commission',
-                meta: { title: 'commission' }
+                meta: { title: 'JMA / Comms' }
               },
 
               {
                 path: "PromoSettings",
                 component: () => import('@/views/inventory/inventoryChildren/setTing/PromoSettings'),
                 name: 'PromoSettings',
-                meta: { title: 'Promo Settings' }
+                meta: { title: 'Pop-up-Promo' }
               },
               {
                 path: "contactInformation",
                 component: () => import('@/views/inventory/inventoryChildren/setTing/contactInformation'),
                 name: 'contactInformation',
-                meta: { title: 'Contact In Formation' }
+                meta: { title: 'Contact Info' }
               },
               {
                 path: "CustomSettings",

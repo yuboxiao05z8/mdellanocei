@@ -85,7 +85,10 @@
         </el-table-column>
         <el-table-column :label="$t('floorPlans.imgUrl')">
           <template slot-scope="scope">
-            <div v-if="scope.row.img">{{hostUrl+scope.row.img}}</div>
+            <div v-if="scope.row.img">
+              <!-- {{hostUrl+scope.row.img}} -->
+            <img style="width:65px" @click.stop="$imgPreview(hostUrl + scope.row.img)" :src="hostUrl+scope.row.img" alt="">
+            </div>
           </template>
         </el-table-column>
         <el-table-column label="720°">

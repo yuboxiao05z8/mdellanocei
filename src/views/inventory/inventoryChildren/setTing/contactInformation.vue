@@ -81,7 +81,11 @@
         </el-row>
         <el-row>
           <el-col :span="15">
-            <p class="Purl" v-if="contactImage">{{hostUrl+contactImage}}</p>
+            <!-- <p class="Purl" v-if="contactImage">
+              {{hostUrl+contactImage}}
+            </p> -->
+            <img v-if="contactImage" style="width:65px"  @click.stop="$imgPreview(hostUrl + contactImage)" :src="hostUrl+contactImage" alt="">
+
             <el-alert
               title="Add the Tagger Image in .jpg or .jpeg or .png or .gif formats"
               type="info"
@@ -248,8 +252,8 @@ export default {
           label: "Marketing"
         },
         {
-          value: "Project ICs",
-          label: "Project ICs"
+          value: "Project IC",
+          label: "Project IC"
         },
         {
           value: "Tagger",

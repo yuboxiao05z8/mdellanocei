@@ -219,6 +219,32 @@
             >
           </template>
         </el-table-column>
+        <!-- <el-table-column :label="$t('附件')">
+          <template slot-scope="scope">
+            <uploader
+              v-if="scope.$index == tableDataInit"
+              :isDisabled="
+                Boolean(scope.$index == tableDataInit && scope.row.docId)
+              "
+              :fileId="'documentTable' + scope.row.docId"
+              :maxSize="100"
+              :uploadParam="uploadTableParam"
+              @uploadAfter="uploadTableAfter"
+              :url="$api.uploadDocument"
+              fileType=".pdf"
+              :selfNum="self"
+              :btnText="{ import: '上传' }"
+              :showType="1"
+            ></uploader>
+            <el-button 
+            v-else
+            size="mini"
+            @click="downDocument(scope.row)"
+            >
+              下载
+            </el-button>
+          </template>
+        </el-table-column> -->
         <el-table-column :label="$t('Delete')">
           <template slot-scope="scope">
             <el-button
@@ -348,6 +374,7 @@ export default {
   methods: {
     downDocument(row) {
       if (!row.path) {
+        console.log(row)
         this.$alertWarn(this.$t('documentGeneration.noFile'))
       } else {
         window.location.href = this.hostUrl + row.path

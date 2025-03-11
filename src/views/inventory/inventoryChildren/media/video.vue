@@ -57,6 +57,7 @@
                 <p v-else>
                   {{scope.row.url}}
                 </p>
+                
               </div>
             </div>
           </template>
@@ -66,10 +67,14 @@
             <el-input v-if="scope.$index === tableDataInit" v-model="logoUrl"></el-input>
             <div v-else>
               <div v-if="scope.row.logoUrl">
-                <p v-if="sliceFn(scope.row.logoUrl)">{{hostUrl+scope.row.logoUrl}}</p>
+                <p v-if="sliceFn(scope.row.logoUrl)">
+                  <img style="width:65px" @click.stop="$imgPreview(hostUrl + scope.row.logoUrl)" :src="hostUrl+scope.row.logoUrl" alt="">
+                </p>
                 <p v-else>
                   {{scope.row.logoUrl}}
                 </p>
+                
+                
               </div>
             </div>
           </template>

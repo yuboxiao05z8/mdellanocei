@@ -44,7 +44,8 @@
       </el-row>
       <el-row>
         <el-col :span="15">
-          <p class="Purl" v-if="mainImage">{{hostUrl+mainImage}}</p>
+          <!-- <p class="Purl" v-if="mainImage">{{hostUrl+mainImage}}</p> -->
+          <img style="width:65px" @click.stop="$imgPreview(hostUrl + mainImage)" :src="hostUrl+mainImage" alt="">
           <el-alert :title="$t('image.addtheMainImageCommand')" type="info" :closable="false"></el-alert>
         </el-col>
       </el-row>
@@ -72,7 +73,8 @@
       </el-row>
       <el-row>
         <el-col :span="15">
-          <p class="Purl" v-if="InvitationsImg">{{hostUrl+InvitationsImg}}</p>
+          <!-- <p class="Purl" v-if="InvitationsImg">{{hostUrl+InvitationsImg}}</p> -->
+          <img style="width:65px" @click.stop="$imgPreview(hostUrl + InvitationsImg)" :src="hostUrl+InvitationsImg" alt="">
           <el-alert :title="$t('addInvitationCommand')" type="info" :closable="false"></el-alert>
         </el-col>
       </el-row>
@@ -108,7 +110,8 @@
         <el-table-column :label="$t('image.url')">
           <template slot-scope="scope">
             <el-input v-if="scope.$index === tableDataInit" v-model="url"></el-input>
-            <div v-else>{{hostUrl+scope.row.url}}</div>
+            <!-- <div v-else>{{hostUrl+scope.row.url}}</div> -->
+            <img v-else style="width:45px" @click.stop="$imgPreview(hostUrl + scope.row.url)" :src="hostUrl +scope.row.url" alt="">
           </template>
         </el-table-column>
         <el-table-column :label="$t('image.group')">
