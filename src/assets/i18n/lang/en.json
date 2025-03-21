@@ -69,7 +69,7 @@
     "email": "Email",
     "settings": "Settings",
     "permissions": "Permissions",
-    "propertiesDetails": "PROPERTIES DETAILS:",
+    "propertiesDetails": "PROPERTIES DETAILS: ",
     "documentGeneration": "Document Generation",
     "aeriaView":"AeriaView",
     "GeneralSettings": "General Settings",
@@ -80,7 +80,7 @@
     "pricefrom": "Price From",
     "psffromalttext": "PSF From Alt Text",
     "psffrom": "PSF From",
-    "name": "Name:",
+    "name": "Name: ",
     "update": "Update",
     "cancel": "Cancel",
     "syncToMobile": "Sync To Mobile",
@@ -556,8 +556,11 @@
     "Download": "Download",
     "DeleteWatermarkImage": "Delete Watermark Image",
     "waterImageCommand": "*Watermarking image resolution should be around 500×500, the image format is PNG, opacity is around 100 and transparent background.",
-    "noFile": "No File"
-  },
+    "noFile": "No File",
+    "template":"Template",
+    "upload": "Upload",
+    "attachment":"Attachment"
+    },
   "notification": {
     "SendNotification": "Send Notification",
     "HistoryMessages": "History Messages",

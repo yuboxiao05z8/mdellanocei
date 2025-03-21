@@ -45,6 +45,17 @@
               </el-tag>
             </template>
           </el-table-column>
+          <el-table-column label="Attachment" prop="attachment">
+            <template  slot-scope="scope">
+              <el-button 
+              v-if="scope.row.attachment" 
+              size="mini"
+              @click="PreviewFn(scope.row.attachment)"
+              >
+                View
+              </el-button>
+            </template>
+          </el-table-column>
           <el-table-column label="edit" width="400">
             <template slot-scope="scope">
               <el-button
@@ -126,7 +137,7 @@
       </div>
     </el-dialog>
     <el-dialog title="PDI" center :visible.sync="PdiVisible" width="70%">
-      <PdiTemplate :recordId="upDataObj.recordId" />
+      <PdiTemplate :recordId="upDataObj.recordId" :attachment="attachmentpath" :docid="nowdocid" />
     </el-dialog>
 
     <!-- 合同编号生产弹窗 -->
@@ -179,6 +190,8 @@ export default {
     return {
       tableData: [],
       SystemNo: '',
+      attachmentpath:'',
+      nowdocid:'',
       upDataObj: {
         projectId: this.$route.query.projectId,
         unitId: this.$route.query.unitId,
@@ -344,8 +357,10 @@ export default {
     PreviewFn(url) {
       window.open(this.hostUrl + url)
     },
-    PDIFn() {
+    PDIFn(row) {
       this.PdiVisible = true
+      this.attachmentpath = row.attachment
+      this.nowdocid = row.docId
     },
   },
 }

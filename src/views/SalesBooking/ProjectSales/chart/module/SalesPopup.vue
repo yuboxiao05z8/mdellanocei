@@ -36,7 +36,8 @@
         </el-row>
       </div>
       <div slot="footer" class="footerSlot">
-        <div v-if="status == 'AVAILABLE' && (!unitData.cooperate || isAgentCompany == 2)">
+        <div v-if="status == 'AVAILABLE' ">
+          <!-- && (!unitData.cooperate || isAgentCompany == 2)  -->
           <el-button v-if="AccessData.Mark_Sold == 1" @click="BookUnitFn"
             >Book Unit</el-button
           >

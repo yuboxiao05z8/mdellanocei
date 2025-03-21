@@ -396,7 +396,9 @@
                 folder="transactionImg"
               ></uploaderImg>
             </el-form-item>
+            </el-col>
           </el-form>
+
         </div>
         <div slot="footer" class="dialog-footer">
           <el-button @click="NoRecordShow = false">Cancel</el-button>

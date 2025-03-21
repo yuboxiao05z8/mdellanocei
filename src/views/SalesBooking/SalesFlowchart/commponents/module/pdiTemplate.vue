@@ -95,7 +95,7 @@
             >Signed PDI Download</el-button
           >
           
-          <el-button style="margin-right: 10px" type="primary"  @click="downloadFile"
+          <el-button v-if="attachment" style="margin-right: 10px" type="primary"  @click="downloadFile(attachment)"
             >Annex Documents Download</el-button
           >
 
@@ -112,7 +112,7 @@
 import ClipboardJS from 'clipboard'
 import { baseURL } from '@/InterfaceConfig/env'
 export default {
-  props: ['recordId'],
+  props: ['recordId','attachment','docid'],
   data() {
     return {
       baseURL: baseURL,
@@ -178,7 +178,7 @@ export default {
     },
     sign() {
       this.loading = true
-      this.$Post(this.$api.sign, { recordId: this.recordId }).then((res) => {
+      this.$Post(this.$api.sign, { recordId: this.recordId,docId:this.docid }).then((res) => {
         this.loading = false
         if (res.code == 0) {
           this.getSignPdiInfo()
@@ -235,6 +235,7 @@ export default {
       let data = {
         buyerId: row.id,
         recordId: this.recordId,
+        docId: this.docid
       }
       this.loading = true
       this.$Post(this.$api.buyerSignByEmail, data).then((res) => {
@@ -321,8 +322,9 @@ export default {
         this.clipboard.destroy()
       })
     },
-    downloadFile() {
-      window.open('https://img.singmap.com/upload/broke/template/Normanton%20Park-%20Annex%20C-G%20(Residential).pdf')
+    downloadFile(attachmentpath) {
+      // window.open('https://img.singmap.com/upload/broke/template/Normanton%20Park-%20Annex%20C-G%20(Residential).pdf')
+      window.open(this.serveUrl + attachmentpath)
     }
   },
 }

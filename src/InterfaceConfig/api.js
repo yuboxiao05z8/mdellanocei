@@ -82,6 +82,7 @@ Vue.api = Vue.prototype.$api = {
   deleteWatermark: "/broke-manager-service/document/deleteWatermark",//删除Watermark
   uploadWatermark: "/broke-manager-service/upload/uploadWatermark",//上传Watermark
   uploadDocument: "/broke-manager-service/upload/uploadDocument",//上传Document
+  uploadDocumentAttachment: "/broke-manager-service/upload/uploadDocumentAttachment",//上传Document 附件
   putOffOn: "/broke-manager-service/floorplan/putOffOn",//putOffOn
   downFloorPlan: "/broke-manager-service/floorplan/downFloorPlan",//下载Floor Plan
   // admin

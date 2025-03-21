@@ -190,25 +190,34 @@
             <div v-else>{{ scope.row.displayOrder }}</div>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('update')" width="120">
+        <el-table-column :label="$t('documentGeneration.template')" width="120">
           <template slot-scope="scope">
             <uploader
+            v-if="scope.$index == tableDataInit"
               :isDisabled="
                 Boolean(scope.$index == tableDataInit && scope.row.docId)
               "
-              :fileId="'documentTable' + scope.row.docId"
+              :fileId="'documentTable0' + scope.row.docId"
               :maxSize="100"
               :uploadParam="uploadTableParam"
               @uploadAfter="uploadTableAfter"
               :url="$api.uploadDocument"
               fileType=".docx"
               :selfNum="self"
-              :btnText="{ import: $t('documentGeneration.SelectFile') }"
+              :btnText="{ import: $t('documentGeneration.upload') }"
               :showType="1"
             ></uploader>
+              <el-button
+              v-else
+              size="mini"
+              plain
+              :disabled="scope.$index === tableDataInit || self == 0"
+              @click="downDocument(scope.row,0)"
+              >{{ $t('documentGeneration.Download') }}</el-button
+            >
           </template>
         </el-table-column>
-        <el-table-column :label="$t('documentGeneration.Download')">
+        <!-- <el-table-column :label="$t('documentGeneration.Download')">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -218,33 +227,31 @@
               >{{ $t('documentGeneration.Download') }}</el-button
             >
           </template>
-        </el-table-column>
-        <!-- <el-table-column :label="$t('附件')">
+        </el-table-column> -->
+        <el-table-column :label="$t('documentGeneration.attachment')">
           <template slot-scope="scope">
             <uploader
               v-if="scope.$index == tableDataInit"
-              :isDisabled="
-                Boolean(scope.$index == tableDataInit && scope.row.docId)
-              "
-              :fileId="'documentTable' + scope.row.docId"
+              :isDisabled="Boolean(scope.$index == tableDataInit && scope.row.docId)"
+              :fileId="'documentTable1' + scope.row.docId"
               :maxSize="100"
               :uploadParam="uploadTableParam"
               @uploadAfter="uploadTableAfter"
-              :url="$api.uploadDocument"
+              :url="$api.uploadDocumentAttachment"
               fileType=".pdf"
               :selfNum="self"
-              :btnText="{ import: '上传' }"
+              :btnText="{ import: $t('documentGeneration.upload') }"
               :showType="1"
             ></uploader>
             <el-button 
             v-else
             size="mini"
-            @click="downDocument(scope.row)"
+            @click="downDocument(scope.row,1)"
             >
-              下载
+              {{$t('documentGeneration.Download') }}
             </el-button>
           </template>
-        </el-table-column> -->
+        </el-table-column>
         <el-table-column :label="$t('Delete')">
           <template slot-scope="scope">
             <el-button
@@ -372,13 +379,29 @@ export default {
     ]
   },
   methods: {
-    downDocument(row) {
-      if (!row.path) {
-        console.log(row)
-        this.$alertWarn(this.$t('documentGeneration.noFile'))
-      } else {
-        window.location.href = this.hostUrl + row.path
+    downDocument(row,index) {
+    console.log(row,index)
+      if(index ==0){
+        if (!row.path){this.$alertWarn(this.$t('documentGeneration.noFile'))}
+        else{window.location.href = this.hostUrl + row.path}
+      }else if(index ==1){
+        if (!row.attachment){this.$alertWarn(this.$t('documentGeneration.noFile'))}
+        else{window.open(this.hostUrl + row.attachment)}
+      }else{
+        this.$alertWarn(this.$t('error!!'))
       }
+
+      //   console.log(row,index)
+      // if (!row.path) {
+      //   this.$alertWarn(this.$t('documentGeneration.noFile'))
+      // }
+      // if(!row){
+      //   window.open(this.hostUrl + path)
+      // }
+      // else {
+      //   window.location.href = this.hostUrl + row.path
+      // }
+
     },
     uploadTableAfter() {},
     cancel(row, index) {

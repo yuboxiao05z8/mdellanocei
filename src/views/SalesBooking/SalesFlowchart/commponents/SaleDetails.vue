@@ -72,7 +72,7 @@
                 <el-select
                   size="mini"
                   class="input_80"
-                  v-model="SaleDetails.priceCode"
+                  v-model="updaObj._transactionPrice ? updaObj._transactionPrice : SaleDetails.priceCode"
                   :disabled="
                     isAgentCompany == 3
                   "
@@ -84,6 +84,23 @@
                     :value="item.priceCode"
                   ></el-option>
                 </el-select>
+
+
+                <!-- <el-select
+                  size="mini"
+                  class="input_80"
+                  v-model="SaleDetails.priceCode"
+                  :disabled="
+                    isAgentCompany == 3
+                  "
+                >
+                  <el-option
+                    v-for="(item, index) in updaObj.priceList"
+                    :key="index"
+                    :label="`${item.key}: ${item.value}`"
+                    :value="item.priceCode"
+                  ></el-option>
+                </el-select> -->
               </el-form-item>
             </el-col>
           </el-row>

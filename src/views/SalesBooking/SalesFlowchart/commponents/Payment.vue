@@ -110,7 +110,7 @@
       title="Payment Details"
       :visible.sync="addShow"
       width="40%"
-      @closed="form = {}; payerImg = []"
+      @closed="form = {amount: roundNum(variate * 0.05)}; payerImg = []"
     >
       <div>
         <el-form
