@@ -78,6 +78,32 @@ export default [
       }
     ]
   },
+  {
+    path: "/architect",
+    component: Layout,
+    redirect: '/architect',
+    children: [
+      {
+        path: '/architect',
+        component: () => import('@/views/architect/architect'),
+        name: 'architect',
+        meta: { title: 'architect', icon: 'el-icon-sell' }
+      }
+    ]
+  },
+  {
+    path: "/lawyer",
+    component: Layout,
+    redirect: '/lawyer',
+    children: [
+      {
+        path: '/lawyer',
+        component: () => import('@/views/lawyer/lawyer'),
+        name: 'lawyer',
+        meta: { title: 'lawyer', icon: 'el-icon-sell' }
+      }
+    ]
+  },
   ...adminRouter,
   ...dynamicRouter
 ]

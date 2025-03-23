@@ -287,5 +287,8 @@ Vue.api = Vue.prototype.$api = {
   queryPdiFileList: "/broke-manager-service/floorplan/queryPdiFileList", // 查询pdi文件列表
   deletePdiFile: "/broke-manager-service/floorplan/deletePdiFile", // 删除pdi文件
   // uploadFile: "/broke-manager-service/upload/uploadFile", // 上传证件
+
+  //建筑师
+  queryProgressList: '/broke-manager-service/progress/queryProgressList' , //查询建筑师进度列表
 }
 
