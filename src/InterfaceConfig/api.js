@@ -290,5 +290,12 @@ Vue.api = Vue.prototype.$api = {
 
   //建筑师
   queryProgressList: '/broke-manager-service/progress/queryProgressList' , //查询建筑师进度列表
+  saveProgress: '/broke-manager-service/progress/saveProgressList', //保存建筑师进度
+  queryProgressKey: '/broke-manager-service/progress/queryProgressKey', //查询进度下拉列表
+  queryProgressUnit: '/broke-manager-service/progress/queryProgressUnit', //查询单位列表
+  updateProgressStatus: '/broke-manager-service/progress/updateProgressStatus', //更新建筑师进度状态
+
+  //律师
+  queryProgressDetailsList: '/broke-manager-service/progress/queryProgressDetailsList', //查询律师单位列表
 }
 
