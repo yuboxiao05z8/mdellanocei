@@ -41,7 +41,7 @@
             <el-button v-if="scope.row.status != 2" @click="updateProgress(scope.row)" type="text" size="mini"
               >编辑</el-button
             >
-            <el-button type="text" size="mini" @click="updateStatus(scope.row)"
+            <el-button v-if="scope.row.status != 2" type="text" size="mini" @click="updateStatus(scope.row)"
               >通知律师</el-button
             >
           </template>
@@ -222,6 +222,7 @@ export default {
     },
     createProgress() {
       this.dialogFormVisible = true
+      this.resetCreat()
     },
     selectProject(val) {
       this.projectId = val
@@ -257,6 +258,13 @@ export default {
       this.dialogFormVisible = true
       console.log(tab, event)
     },
+    resetCreat(){
+      this.progressKey = ''
+      this.logoUrl = ''
+      this.id = ''
+      this.progressDesc = []
+      this.scopeList = []
+    },
     // 创建进度提交
     submitUpload() {
       let buildList = []
@@ -286,10 +294,10 @@ export default {
       if(this.id){
         param.id = this.id
       }
-      console.log(param)
       this.$Posting(this.$api.saveProgress, param).then(res => {
         if (res.code == 0) {
           console.log(res)
+          this.getQueryProgressList()
           this.dialogFormVisible = false
         } else {
           this.$notify.error({

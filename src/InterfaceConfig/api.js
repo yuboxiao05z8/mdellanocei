@@ -297,5 +297,9 @@ Vue.api = Vue.prototype.$api = {
 
   //律师
   queryProgressDetailsList: '/broke-manager-service/progress/queryProgressDetailsList', //查询律师单位列表
+  queryProgressDetails: '/broke-manager-service/progress/queryProgressDetails', //律师查询进度详情
+  saveProgressDetails: '/broke-manager-service/progress/saveProgressDetails', //律师更新进度状态
+  queryProgressDetailsPage: '/broke-manager-service/progress/queryProgressDetailsPage', //律师搜索单位列表
+  queryProgressDetailsByCount: '/broke-manager-service/progress/queryProgressDetailsByCount', //统计单位处理数量
 }
 
