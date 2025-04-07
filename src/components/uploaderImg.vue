@@ -133,7 +133,7 @@ export default {
       formData.append("token", user.token);
       formData.append("userId", user.userId);
       formData.append("file", imgBlob.upImgData);
-      formData.append("type", "calendarImg");
+      formData.append("type", "transactionImg");
       this.$PostFormData(this.$api.uploadFile, formData).then(res => {
         if (res.code === "0") {
           let item = {

@@ -7,9 +7,7 @@
     </div>
     <div class="pdiTemplate_view">
       <div class="initialize_pdi" v-if="!status">
-        <el-button class="sign_btn" type="primary" @click="sign"
-          >Generate PDI</el-button
-        >
+        <el-button class="sign_btn" type="primary" @click="sign">Generate PDI</el-button>
         <p class="warning_info">
           Notice: Please check and confirm the details before generating the
           PDI. You will not be able to edit the information after PDI
@@ -21,13 +19,7 @@
         <el-card class="box-card" shadow="never">
           <div>
             PDI
-            <el-button
-              style="margin-left: 20px"
-              size="mini"
-              type="primary"
-              @click="downloadFn('template')"
-              >PDI Template Download</el-button
-            >
+            <el-button style="margin-left: 20px" size="mini" type="primary" @click="downloadFn('template')">PDI Template Download</el-button>
           </div>
           <div>PDI Reference No. : {{ contractInfo.code }}</div>
           <div>
@@ -37,71 +29,41 @@
         </el-card>
         <el-card shadow="never" class="Pdi_table">
           <el-table :data="tableData" size="mini">
-            <el-table-column label="Buyer Name" prop="name"> </el-table-column>
+            <el-table-column label="Buyer Name" prop="name"></el-table-column>
+            <el-table-column label="Buyer Email" prop="email"></el-table-column>
             <el-table-column label="Signature Status">
               <template slot-scope="scope">
-                <el-button
-                  v-if="
+                <el-button v-if="
                     scope.row.status == 'signed' ||
                     scope.row.status == 'completed' ||
                     scope.row.status == 'faxpending'
-                  "
-                  type="success"
-                  size="mini"
-                  round
-                  >{{ scope.row.status }}</el-button
-                >
-                <el-button v-else type="danger" size="mini" round>{{
+                  " type="success" size="mini" round>{{ scope.row.status }}</el-button>
+                <el-button v-else type="danger" size="mini" round>
+                  {{
                   scope.row.status
-                }}</el-button>
+                  }}
+                </el-button>
               </template>
             </el-table-column>
             <el-table-column label="Edit" width="450">
               <template slot="header" slot-scope="scope">
-                <el-button size="mini" @click="buyerList"
-                  >Refresh Status Signature</el-button
-                >
+                <el-button size="mini" @click="buyerList">Refresh Status Signature</el-button>
               </template>
               <template slot-scope="scope">
-                <el-button
-                  size="mini"
-                  type="primary"
-                  @click="buyerSign(scope.row)"
-                  >Preview Signature</el-button
-                >
-                <el-button
-                  size="mini"
-                  type="primary"
-                  @click="buyerSignByEmail(scope.row)"
-                  >Resend Email</el-button
-                >
-                <el-button
-                  size="mini"
-                  type="primary"
-                  @click="copyLink(scope.row, $event)"
-                  >Copy Signing URL</el-button
-                >
+                <el-button size="mini" type="primary" @click="buyerSign(scope.row)">Preview Signature</el-button>
+                <el-button size="mini" type="primary" @click="buyerSignByEmail(scope.row)">Resend Email</el-button>
+                <el-button size="mini" type="primary" @click="copyLink(scope.row, $event)">Copy Signing URL</el-button>
               </template>
             </el-table-column>
           </el-table>
         </el-card>
 
         <div class="pdi_btns">
-          <el-button
-            style="margin-right: 10px"
-            type="primary"
-            @click="buyerSign()"
-            :disabled="isDisabled"
-            >Signed PDI Download</el-button
-          >
-          
-          <el-button v-if="attachment" style="margin-right: 10px" type="primary"  @click="downloadFile(attachment)"
-            >Annex Documents Download</el-button
-          >
+          <el-button style="margin-right: 10px" type="primary" @click="buyerSign()" :disabled="isDisabled">Signed PDI Download</el-button>
 
-          <el-button type="danger" v-if="developers == 2" @click="sign"
-            >Click to regenerate and resign</el-button
-          >
+          <el-button v-if="attachment" style="margin-right: 10px" type="primary" @click="downloadFile(attachment)">Annex Documents Download</el-button>
+
+          <el-button type="danger" v-if="developers == 2" @click="sign">Click to regenerate and resign</el-button>
         </div>
       </div>
     </div>
@@ -112,7 +74,7 @@
 import ClipboardJS from 'clipboard'
 import { baseURL } from '@/InterfaceConfig/env'
 export default {
-  props: ['recordId','attachment','docid'],
+  props: ['recordId', 'attachment', 'docid'],
   data() {
     return {
       baseURL: baseURL,
@@ -178,7 +140,10 @@ export default {
     },
     sign() {
       this.loading = true
-      this.$Post(this.$api.sign, { recordId: this.recordId,docId:this.docid }).then((res) => {
+      this.$Post(this.$api.sign, {
+        recordId: this.recordId,
+        docId: this.docid,
+      }).then((res) => {
         this.loading = false
         if (res.code == 0) {
           this.getSignPdiInfo()
@@ -235,7 +200,7 @@ export default {
       let data = {
         buyerId: row.id,
         recordId: this.recordId,
-        docId: this.docid
+        docId: this.docid,
       }
       this.loading = true
       this.$Post(this.$api.buyerSignByEmail, data).then((res) => {
@@ -325,7 +290,7 @@ export default {
     downloadFile(attachmentpath) {
       // window.open('https://img.singmap.com/upload/broke/template/Normanton%20Park-%20Annex%20C-G%20(Residential).pdf')
       window.open(this.serveUrl + attachmentpath)
-    }
+    },
   },
 }
 </script>

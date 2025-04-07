@@ -2,12 +2,12 @@
   <div class="lawyer-wrapper">
     <div class="lawyer-section" v-show="!showStatusList">
       <div class="project-select-wrap">
-        <div class="project-select-label">项目选择:</div>
+        <div class="project-select-label">{{$t('lawyer.project')}}：</div>
         <el-select
           v-model="projectId"
           @change="getProgressDetailsList"
           size="mini"
-          placeholder="请选择1"
+          :placeholder="$t('lawyer.kindlySelect')"
         >
           <el-option
             v-for="item in projects"
@@ -19,47 +19,43 @@
       </div>
       <div class="perject-table-wrap">
         <div class="screen-box">
-          <!-- [ '未完成', '已收款', '代付款', '延期付款', '待通知', '超时未付款'] -->
+          <!-- [ '未完成', '已收款', '待付款', '延期付款', '待通知', '超时未付款'] -->
           <el-button class="stay-informed" @click="showStatusListClick(4)"
-            >待通知 {{progressCount.num4}}</el-button
+            >{{$t('lawyer.pendingNotification')}} {{progressCount.num4}}</el-button
           >
           <el-button class="stay-payment" @click="showStatusListClick(2)"
-            >待付款 {{progressCount.num2}}</el-button
+            >{{$t("lawyer.pendingPaymentReceivable")}} {{progressCount.num2}}</el-button
           >
           <el-button class="overdue-payment" @click="showStatusListClick(5)"
-            >超时未付款 {{progressCount.num5}}</el-button
+            >{{$t("lawyer.latePaymentAlert")}} {{progressCount.num5}}</el-button
           >
           <el-button class="receiving" @click="showStatusListClick(1)"
-            >已收款 {{progressCount.num1}}</el-button
+            >{{$t("lawyer.paymentReceive")}} {{progressCount.num1}}</el-button
           >
           <el-button class="deferred-payment" @click="showStatusListClick(3)"
-            >延期收款 {{progressCount.num3}}</el-button
+            >{{$t("lawyer.paymentDeferment")}} {{progressCount.num3}}</el-button
           >
-          <el-button class="screen-all">全部</el-button>
+          <el-button class="screen-all" @click="showStatusListClick(0)">{{$t("lawyer.all")}}</el-button>
         </div>
 
-        <el-table
-          :data="progressDetailList"
-          border
-          style=""
-        >
-          <el-table-column prop="building" label="楼栋" width="60">
+        <el-table :data="progressDetailList" ref='showDetailTable' border height="580" style="width: 100%">
+          <el-table-column prop="building" :label="$t('lawyer.building')" fixed width="90">
           </el-table-column>
-          <el-table-column prop="unitName" label="单位" width="60">
+          <el-table-column prop="unitName" :label="$t('lawyer.unit')" fixed width="90">
           </el-table-column>
-          <el-table-column label="总售价格" width="130">
+          <el-table-column :label="$t('lawyer.paymentInformation')" fixed width="220">
             <template slot-scope="scope">
               <div class="total-price-box">
-                <p class="">售价:{{ scope.row.transactionPrice1 }}</p>
-                <p class="total-price-received">已收:{{ scope.row.price2 }}</p>
-                <p class="total-price-receive">待收:{{ scope.row.price1 }}</p>
+                <p class="">{{$t("lawyer.transactedPrice")}}:{{ scope.row.transactionPrice1 }}</p>
+                <p class="total-price-received">{{$t("lawyer.paymentReceive")}}:{{ scope.row.price2 }}</p>
+                <p class="total-price-receive">{{$t("lawyer.pending")}}:{{ scope.row.price1 }}</p>
               </div>
             </template>
           </el-table-column>
           <el-table-column
             prop="firstPhase"
-            v-for="(payment, paymentIndex) in progressKeys"
-          >
+            width="240"
+            v-for="(payment, paymentIndex) in progressKeys">
             <template slot="header" slot-scope="scope">
               <span>{{ payment.title }}</span>
 
@@ -82,6 +78,7 @@
                     'deferred-payment': scope.row['status_' + payment.key] == 3,
                     'stay-informed': scope.row['status_' + payment.key] == 4,
                     'overdue-payment': scope.row['status_' + payment.key] == 5,
+                    'phase-wrap-show': scope.row['status_' + payment.key] != -1
                   }"
                 >
                   <p class="phase-wrap-price">
@@ -100,7 +97,7 @@
                     {{ statusMap[scope.row['status_' + payment.key]] }}
                   </p>
                 </div>
-                <div class="phase-operate-wrap">
+                <div class='phase-operate-wrap' :class="{'phase-operate-wrap-show': scope.row['status_' + payment.key] != -1}">
                   <p
                     class="phase-operate-detail"
                     @click="
@@ -111,10 +108,10 @@
                       )
                     "
                   >
-                    查看详情
+                    {{$t('lawyer.viewDetails')}}
                   </p>
-                  <p class="phase-operate-update" @click="changeStatusClick(payment, scope.row,scope.row['transactionPrice_' + payment.key])">
-                    更改状态
+                  <p class="phase-operate-update" @click="changeStatusClick(payment, scope.row, scope.row.transactionPrice * scope.row['proportion_' + payment.key], scope.row['status_' + payment.key])">
+                    {{$t('lawyer.updateStatus')}}
                   </p>
                 </div>
               </div>
@@ -147,23 +144,23 @@
     >
       <div class="change-status-wrap">
         <p>
-          <span>选择时间：</span>
+          <span>{{$t('lawyer.selectDate')}}：</span>
           <el-date-picker
             v-model="changeProgressStatuParam.time"
             type="date"
             value-format='yyyy-MM-dd'
-            placeholder="选择日期">
+            :placeholder="$t('lawyer.selectDate')">
           </el-date-picker>
           </el-date-picker>
         </p>
-        <p>
-          <el-button type="primary" @click='updateProgressDetails(2)'>标记已通知</el-button>
+        <p v-if="statusNow == 4 && userRoleAccess && userRoleAccess['Mark_Notify']>1">
+          <el-button type="primary" @click='updateProgressDetails(2)'>{{$t('lawyer.markNotify')}}</el-button>
         </p>
-        <p>
-          <el-button type="primary" @click='updateProgressDetails(1)'>标记已付款</el-button>
+        <p v-if="userRoleAccess && userRoleAccess['Mark_Payment_Receive']>1">
+          <el-button type="primary" @click='updateProgressDetails(1)'>{{$t('lawyer.markPaymentReceive')}}</el-button>
         </p>
-        <p>
-          <el-button type="primary" @click='updateProgressDetails(3)'>标记延期</el-button>
+        <p v-if="statusNow != 1 && userRoleAccess && userRoleAccess['Deferement_Request']>1">
+          <el-button type="primary" @click='updateProgressDetails(3)'>{{$t('lawyer.markPaymentDeferement')}}</el-button>
         </p>
       </div>
     </el-dialog>
@@ -176,63 +173,71 @@
       :before-close="showDetailClose"
     >
       <div class="show-detail-wrap">
-        <p class="detail-title">成交信息</p>
+        <p class="detail-title">{{$t('lawyer.saleDetails')}}</p>
         <el-row>
           <el-col
-            ><span>单位名称：</span
+            ><span class="detail-desc-title">{{$t('lawyer.unit')}}：</span
             ><span>{{ progressDetail.unitName }}</span></el-col
           >
           <el-col
-            ><span>楼栋名称：</span
+            ><span class="detail-desc-title">{{$t('lawyer.building')}}：</span
             ><span>{{ progressDetail.building }}</span></el-col
           >
         </el-row>
         <el-row>
           <el-col
-            ><span>售价：</span
-            ><span>{{ progressDetail.transactionPrice1 }}</span></el-col
+            ><span class="detail-desc-title">{{$t('lawyer.transactedPrice')}}：</span
+            ><span>{{ progressDetail.transactionPrice1}}</span></el-col
           >
           <el-col
-            ><span>成交时间：</span
-            ><span>{{
-              $dateFormat(Number(progressDetail.transactionDate))
+            ><span class="detail-desc-title">{{$t('lawyer.transactedDate')}}：</span
+            ><span >{{
+              $dateFormatNoTime(Number(progressDetail.transactionDate))
             }}</span></el-col
           >
         </el-row>
         <el-row>
           <el-col
-            ><span>主买家名称：</span><span>{{ buyer.buyerName }}</span></el-col
+            ><span class="detail-desc-title">{{$t('lawyer.mainBuyer')}}：</span><span>{{ buyer.buyerName }}</span></el-col
           >
           <el-col
-            ><span>买家邮箱：</span><span>{{ buyer.buyerEmail }}</span></el-col
+            ><span class="detail-desc-title">{{$t('lawyer.mainBuyerEmail')}}：</span><span>{{ buyer.buyerEmail }}</span></el-col
           >
         </el-row>
-        <p class="detail-title">当前进度信息</p>
+        <p class="detail-title">{{$t('lawyer.currentStatusInformation')}}</p>
         <el-row>
-          <el-col
-            ><span>进度名称：</span
+          <el-col class="all_width"
+            ><span class="detail-desc-title">{{$t('lawyer.progressiveStatus')}}：</span
             ><span>{{ progressDetail.title }}</span></el-col
           >
-          <el-col
-            ><span class="detail-desc-title">描述：</span>
+        </el-row>
+        <el-row> 
+          <el-col class="all_width"
+            ><span class="detail-desc-title">{{$t('lawyer.progressiveDescription')}}：</span>
             <div>
               <p v-for="(tip, index) in paymentDesc">{{ tip }}</p>
             </div></el-col
           >
         </el-row>
         <el-row>
-          <el-col
-            ><span>当前进度应支付：</span
-            ><span>{{ progressDetail.priceNow }}</span></el-col
+          <el-col class="all_width"
+            ><span class="detail-desc-title">{{$t('lawyer.currentPaymentAmount')}}：</span
+            ><span >{{ progressDetail.priceNow }}</span></el-col
           >
-          <el-col
-            ><span>最晚支付时间： </span><span>{{paymentTime}}</span></el-col
+        </el-row>
+        <el-row>
+          <el-col class="all_width"
+            ><span class="detail-desc-title">{{$t('lawyer.paymentDueDate')}}： </span>
+            <span>{{$dateFormatNoTime(Number(paymentTime))}}</span></el-col
           >
         </el-row>
 
         <el-row>
-          <div>
-            <p class="progress-title">进度：</p>
+          <el-col class="all_width" v-if="progressDetail.path"><span class="detail-desc-title">{{$t('lawyer.certificateofCompletion')}}：</span><a :href="hostUrl + progressDetail.path" target="_blank">{{hostUrl + progressDetail.path}}</a></el-col>
+        </el-row>
+        <el-row>
+          <div class="progress-wrap">
+            <p class="progress-title detail-desc-title">{{$t('lawyer.statusProgress')}}：</p>
             <el-timeline :reverse="false">
               <el-timeline-item
                 v-for="(activity, index) in progressTimeLine"
@@ -246,31 +251,31 @@
           </div>
         </el-row>
         <el-row>
-          <el-col> <el-button type="primary" @click="changeStatusClick(progressDetail, progressDetail)">状态更新</el-button></el-col>
+          <el-col> <el-button type="primary" @click="changeStatusClick(progressDetail, progressDetail, progressDetail.transactionPrice * progressDetail['proportion_' + progressDetail.key], progressDetail['status_' + progressDetail.key])">{{$t('lawyer.statusUpdate')}}</el-button></el-col>
         </el-row>
       </div>
     </el-dialog>
 
     <div class="show-status-wrap" v-show="showStatusList">
-      <p class="back-btn" @click="backClick()">返回</p>
+      <p class="back-btn" @click="backClick()">{{$t('lawyer.goBack')}}</p>
       <el-row class="row-header">
         <el-col :span="4" class="col-text"
           ><el-input
             v-model="searchProgress.building"
             size="mini"
-            placeholder="楼栋"
+            :placeholder="$t('lawyer.building')"
           />
         </el-col>
         <el-col :span="4" class="col-text"
           ><el-input
             v-model="searchProgress.unitName"
             size="mini"
-            placeholder="单位"
+            :placeholder="$t('lawyer.unit')"
           />
         </el-col>
         <el-col :span="6" class="col-button">
-          <span class="progress-status-title">进度状态</span>
-          <el-select v-model="searchProgress.status" size="mini" placeholder="进度状态">
+          <span class="progress-status-title">{{$t('lawyer.progressiveStatus')}}</span>
+          <el-select v-model="searchProgress.status" size="mini" :placeholder="$t('lawyer.progressiveStatus')">
             <el-option
               v-for="item in statusOptions"
               :key="item.value"
@@ -281,28 +286,29 @@
         </el-col>
         <el-col :span="4" class="col-text"
           >
-          <el-button size="mini" @click='searchProgressList()'>查询</el-button>
+          <el-button size="mini" @click='searchProgressList()'>{{$t('lawyer.search')}}</el-button>
+          <el-button size="mini" @click='reset()'>{{$t('lawyer.reset')}}</el-button>
         </el-col>
       </el-row>
-      <el-table :data="progressDetailPageList" style="width: 100%;height: 800px" border>
-        <el-table-column fixed prop="building" label="楼栋" width="90">
+      <el-table :data="progressDetailPageList" ref="progressListPage" height="570" style="width: 100%;" border>
+        <el-table-column fixed prop="building" :label="$t('lawyer.building')">
         </el-table-column>
-        <el-table-column prop="unitName" label="单位" width="90"> </el-table-column>
-        <el-table-column prop="transactionPrice" label="成交价" width="150">
+        <el-table-column prop="unitName" :label="$t('lawyer.unit')"> </el-table-column>
+        <el-table-column prop="transactionPrice1" :label="$t('lawyer.transactedPrice')">
         </el-table-column>
-        <el-table-column prop="city" label="当前进度" width="120">
+        <el-table-column prop="title" :label="$t('lawyer.currentStatus')">
         </el-table-column>
-        <el-table-column prop="address" label="当前进度应付款" width="300">
+        <el-table-column prop="price" :label="$t('lawyer.currentStatusPaymentAmount')">
         </el-table-column>
-        <el-table-column prop="transactionDate" label="进度更新时间" width="120">
+        <el-table-column prop="transactionDate" :label="$t('lawyer.updateDate')">
           <template slot-scope="scope">
-            <span>{{$dateFormat(Number(scope.row.transactionDate))}}</span>
+            <span>{{$dateFormatNoTime(Number(scope.row.createTime))}}</span>
           </template>
         </el-table-column>
-        <el-table-column fixed="right" label="操作">
+        <el-table-column :label="$t('lawyer.edit')" width="240">
           <template slot-scope="scope">
-            <el-button type="text" size="small"> 查看详情 </el-button>
-            <el-button type="text" size="small"> 状态更新 </el-button>
+            <el-button size="mini" @click='showDetailByPageClick(scope.row)'> {{$t('lawyer.viewDetails')}} </el-button>
+            <el-button size="mini" @click="changeStatusByPageClick(scope.row)"> {{$t('lawyer.updateStatus')}} </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -327,39 +333,43 @@
 <script>
 export default {
   data() {
+    let self = this
     return {
       progressDetailPageList: [],
-      statusMap: [ '未完成', '已收款', '代付款', '延期付款', '待通知', '超时未付款'],
-      changeStatusVisible: false, //更改状态弹框
-      showDetailVisible: false, //查看详情弹框
-      value1: '',
-      progressTimeLine: [
-        {
-          content: '活动按期开始',
-          timestamp: '2018-04-15',
-          color: '#00D2C8',
-        },
+      statusMap: [
+        self.$t('lawyer.pendingCompletion'),
+        self.$t('lawyer.paymentReceive'),
+        self.$t('lawyer.pendingPaymentReceivable'),
+        self.$t('lawyer.paymentDeferment'),
+        self.$t('lawyer.pendingNotification'),
+        self.$t('lawyer.latePaymentAlert'),
       ],
+      changeStatusVisible: false, //更改状态弹框
+      statusNow: 0, //更改进度状态的当前状态
+      showDetailVisible: false, //查看详情弹框
+      hostUrl: sessionStorage.getItem("serveUrl") || "",
+      value1: '',
+      progressTimeLine: [],
       statusOptions: [
         {
           value: 1,
-          label: '已收款',
+          label: self.$t('lawyer.paymentReceive'),
         },
         {
           value: 2,
-          label: '代付款',
+          label: self.$t('lawyer.pendingPaymentReceivable'),
         },
         {
           value: 3,
-          label: '延期付款',
+          label: self.$t('lawyer.paymentDeferment'),
         },
         {
           value: 4,
-          label: '待通知',
+          label: self.$t('lawyer.pendingNotification'),
         },
         {
           value: 5,
-          label: '超时未付款',
+          label: self.$t('lawyer.latePaymentAlert'),
         },
       ],
       statusValue: 0,
@@ -374,6 +384,7 @@ export default {
       searchProgressTotalCurrentPage: 1, //搜索单位列表当前页
       searchProgressTotalPageSize: 10, //搜索单位列表每页数量
       progressKeys: [], //进度列表
+      progressKey: {}, //查看详情当前进度
       progressDetail: {}, //进度详情
       paymentDesc: [], //进度说明详情
       buyer: {}, //进度详情买家信息
@@ -381,15 +392,19 @@ export default {
       changeProgressStatuParam: {}, //更改当前进度状态参数
       progressCount: {}, //各种状态对应的数量
       searchProgress: {
-        building: '', 
-        unitName: '', 
+        building: '',
+        unitName: '',
         status: '',
-      }
+      },
+      userRoleAccess: {}, //用户权限
     }
   },
   created() {
     this.getProjectList()
     this.getProgressKeys()
+  },
+  mounted(){
+
   },
   methods: {
     //获取项目列表
@@ -400,7 +415,6 @@ export default {
             this.projects = res.datas.lists
             this.projectId = res.datas.lists[0].projectId
             this.getProgressDetailsList()
-            this.getCount()
           } else {
             this.$notify.error({
               title: 'fail',
@@ -411,17 +425,32 @@ export default {
         }
       )
     },
+    //获取用户权限
+    async getUnitRoleAccess(){
+      let projectId = this.projectId
+      let agentId = JSON.parse(sessionStorage.getItem('userInfo') || '{}').agentId
+      this.$Post(this.$api.getUnitRoleAccess, {
+        projectId: projectId,
+        agentId: agentId,
+      }).then((res) => {
+        if (res.code == 0) {
+          this.userRoleAccess = res.datas
+        }
+      })
+    },
     //获取律师列表
-    getProgressDetailsList() {
+    async getProgressDetailsList() {
+      await this.getUnitRoleAccess()
       this.$Geting(this.$api.queryProgressDetailsList, {
         projectId: this.projectId,
         pageNo: this.progressDetailListCurrentPage,
         pageSize: this.progressDetailListPageSize,
       }).then((res) => {
-        console.log(res)
         this.progressDetailListTotal = res.datas.count
         this.progressDetailList = res.datas.lists
+        this.$refs.showDetailTable.doLayout()
       })
+      this.getCount()
     },
     //获取进度下拉列表
     getProgressKeys() {
@@ -439,9 +468,10 @@ export default {
         }
       })
     },
-    getCount(){
-      this.$Geting(this.$api.queryProgressDetailsByCount, {projectId: this.projectId})
-      .then(res=>{
+    getCount() {
+      this.$Geting(this.$api.queryProgressDetailsByCount, {
+        projectId: this.projectId,
+      }).then((res) => {
         if (res.code == 0) {
           this.progressCount = res.datas
         } else {
@@ -453,22 +483,23 @@ export default {
         }
       })
     },
-    changeStatusClick(payment, row, price) {
+    changeStatusClick(payment, row, price , status) {
+      this.statusNow = status
       let changeProgressStatuParam = {
         key: payment.key,
         projectId: this.projectId,
         unitId: row.unitId,
         time: '',
         status: '',
-        price: row.transactionPrice * row['proportion_' + payment.key],
-        progressId: row.progressId
+        price: price,
+        progressId: row.progressId,
       }
       this.changeProgressStatuParam = changeProgressStatuParam
       this.changeStatusVisible = true
     },
     //查看详情
     showDetailClick(payment, row, price) {
-      this.progressDetail = Object.assign(row) 
+      this.progressDetail = Object.assign(row)
       this.progressDetail.title = payment.title
       this.progressDetail.key = payment.key
       this.progressDetail.priceNow = price
@@ -478,20 +509,23 @@ export default {
         key: payment.key,
         unitId: row.unitId,
       }).then((res) => {
-        console.log(res)
         this.buyer = res.datas.buyer
+        this.paymentTime = res.datas.time
         if (res.datas.details.length > 0) {
           this.progressTimeLine = []
-          res.datas.details.forEach((detail, index)=>{
+          res.datas.details.forEach((detail, index) => {
             let content = ''
-            if(detail.status == 2){
-              content = '通知付款 时间' + this.$dateFormat(Number(detail.time))
-            }else if(detail.status == 1){
-              content = '已付款 付款时间' + this.$dateFormat(Number(detail.time))
-            }else if(detail.status == 3){
-              content = '申请延期到' + this.$dateFormat(Number(detail.time))
-            }else{
-              content = '进度更新'
+            if (detail.status == 2) {
+              content =
+                this.$t('lawyer.informBuyerPaymentDate') + this.$dateFormatNoTime(Number(detail.time))
+            } else if (detail.status == 1) {
+              content =
+                this.$t('lawyer.paymentReceiveDate')  + this.$dateFormatNoTime(Number(detail.time))
+            } else if (detail.status == 3) {
+              content =
+                this.$t('lawyer.requestPaymentDeferment') + this.$dateFormatNoTime(Number(detail.time))
+            } else {
+              content = this.$t('lawyer.statusUpdate')
             }
             this.progressTimeLine.push({
               content: content,
@@ -503,7 +537,7 @@ export default {
           this.paymentTime = ''
           this.progressTimeLine = [
             {
-              content: '进度未更新',
+              content: this.$t('lawyer.progressiveStatusNotUpdated'),
               timestamp: '',
               color: '#9EA7B4',
             },
@@ -512,11 +546,34 @@ export default {
       })
       this.showDetailVisible = true
     },
+    //单位列表搜索页查看详情
+    showDetailByPageClick(row) {
+      let detailByPage = row
+      let progressKeys = this.progressKeys
+      this.progressKey = progressKeys.filter((item) => {
+        return item.key == detailByPage.key
+      })[0]
+      this.showDetailClick(this.progressKey, row, row.price)
+    },
+    //单位列表搜索页更新状态
+    changeStatusByPageClick(row) {
+      console.log(row)
+      let detailByPage = row
+      let progressKeys = this.progressKeys
+      this.progressKey = progressKeys.filter((item) => {
+        return item.key == detailByPage.key
+      })[0]
+      this.changeStatusClick(
+        this.progressKey,
+        row,
+        row.proportion * row.transactionPrice
+      )
+    },
     updateProgressDetails(status) {
       if (!this.changeProgressStatuParam.time) {
         this.$notify.error({
           title: 'fail',
-          message: '请选择时间',
+          message: this.$t('lawyer.selectDate'),
         })
         return false
       }
@@ -545,23 +602,31 @@ export default {
     },
     showStatusListClick(status) {
       this.showStatusList = true
-      this.searchProgress.status = status
+      this.searchProgress.status = status === 0 ? '' : status
       this.searchProgressList()
+    },
+    //重置
+    reset() {
+      this.searchProgress = {
+        building: '',
+        unitName: '',
+        status: '',
+      }
     },
     backClick() {
       this.showStatusList = false
     },
     //律师搜索单位列表
-    searchProgressList(){
+    searchProgressList() {
       let param = Object.assign(this.searchProgress)
       param.projectId = this.projectId
       param.pageNo = this.searchProgressTotalCurrentPage
       param.pageSize = this.searchProgressTotalPageSize
-      this.$Geting(this.$api.queryProgressDetailsPage, param)
-      .then(res=>{
+      this.$Geting(this.$api.queryProgressDetailsPage, param).then((res) => {
         if (res.code == 0) {
           this.progressDetailPageList = res.datas.lists
           this.searchProgressTotal = res.datas.count
+          this.$refs.progressListPage.doLayout()
         } else {
           this.$notify.error({
             title: 'fail',
@@ -581,11 +646,11 @@ export default {
     },
     handleSizeChangeSearch(val) {
       this.searchProgressTotalPageSize = val
-      this.getProgressDetailsList()
+      this.searchProgressList()
     },
     handleCurrentChangeSearch(val) {
       this.searchProgressTotalCurrentPage = val
-      this.getProgressDetailsList()
+      this.searchProgressList()
     },
   },
 }
@@ -613,7 +678,6 @@ export default {
     }
     /deep/.perject-table-wrap {
       width: 100%;
-      height: 738px;
       // border: 1px solid rgba(187, 187, 187, 100);
       .screen-box {
         margin: 52px 20px 10px;
@@ -626,7 +690,7 @@ export default {
           font-size: 14px;
           border: none;
           color: #fff;
-          width: 155px;
+          width: 235px;
           height: 40px;
         }
         .stay-informed {
@@ -641,8 +705,8 @@ export default {
         .receiving {
           background: #00d2c8;
         }
-        .deferred-payment{
-          background:#358AD2;
+        .deferred-payment {
+          background: #358ad2;
         }
         .screen-all {
           color: rgba(16, 16, 16, 100);
@@ -655,6 +719,10 @@ export default {
           .cell {
             padding: 0;
           }
+        }
+        .el-table__fixed {
+          height:auto !important; 
+          bottom:17px !important;  
         }
       }
       .phase-wrap {
@@ -689,10 +757,10 @@ export default {
           cursor: pointer;
         }
       }
-      .phase-box:hover .phase-operate-wrap {
+      .phase-box:hover .phase-operate-wrap-show {
         display: block;
       }
-      .phase-box:hover .phase-wrap {
+      .phase-box:hover .phase-wrap-show {
         display: none;
       }
       .stay-informed {
@@ -707,8 +775,8 @@ export default {
       .receiving {
         background: #00d2c8;
       }
-      .deferred-payment{
-        background:#358AD2;
+      .deferred-payment {
+        background: #358ad2;
       }
 
       .total-price-box {
@@ -716,6 +784,11 @@ export default {
           font-size: 14px;
           height: 40px;
           line-height: 40px;
+          width: 100%;
+          padding: 0 5px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
         }
         .total-price-receive {
           color: rgba(244, 65, 68, 90);
@@ -759,15 +832,30 @@ export default {
         padding: 7px 0;
         display: flex;
         .detail-desc-title {
-          width: 40px;
-          word-break: keep-all;
+          font-weight: 700;
+          word-break: initial;
         }
       }
-      .progress-title {
-        padding: 30px 0 10px;
+      .all_width{
+        width: 90%;
       }
-      .el-timeline-item__content,.el-timeline-item__timestamp{
-        color: #101010;
+      .progress-wrap{
+        .progress-title {
+          padding: 30px 0 10px;
+        }
+        .detail-desc-title {
+          font-weight: 700;
+          word-break: initial;
+        }
+        .el-timeline{
+          width: 400px;
+          height: 224px;
+          overflow: auto;
+        }
+        .el-timeline-item__content,
+        .el-timeline-item__timestamp {
+          color: #101010;
+        }
       }
     }
   }
@@ -795,7 +883,7 @@ export default {
       .col-button {
         display: flex;
         .progress-status-title {
-          width: 60px;
+          width: 160px;
         }
       }
     }

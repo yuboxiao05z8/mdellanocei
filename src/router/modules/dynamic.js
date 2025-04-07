@@ -248,6 +248,14 @@ const dynamicRouter = [
           title: 'Transaction Details'
         },
         hidden: true
+      },
+      {
+        path: 'salesRecord',
+        component: () => import('@/views/SalesBooking/SalesRecord/index'),
+        name: 'salesRecord',
+        meta: {
+          title: 'sales Record'
+        },
       }
     ]
   },

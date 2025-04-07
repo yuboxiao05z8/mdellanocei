@@ -301,5 +301,15 @@ Vue.api = Vue.prototype.$api = {
   saveProgressDetails: '/broke-manager-service/progress/saveProgressDetails', //律师更新进度状态
   queryProgressDetailsPage: '/broke-manager-service/progress/queryProgressDetailsPage', //律师搜索单位列表
   queryProgressDetailsByCount: '/broke-manager-service/progress/queryProgressDetailsByCount', //统计单位处理数量
+
+  //项目设施管理
+  queryProjectFacility: '/broke-manager-service/facility/queryProjectFacility', //查询项目设施
+  addProjectFacility: '/broke-manager-service/facility/addProjectFacility', //保存项目设施
+  deleteProjectFacility: '/broke-manager-service/facility/deleteProjectFacility', //删除项目设施
+
+  //sales record
+  queryTransactionList: '/trade-service/transaction/queryTransactionList', //查询交易列表
+  updateTransactionStatus: '/trade-service/transaction/updateTransactionStatus', //更改交易状态
+  queryTransactionStatusSales: '/trade-service/transaction/queryTransactionStatusSales', //查询交易状态统计
 }
 

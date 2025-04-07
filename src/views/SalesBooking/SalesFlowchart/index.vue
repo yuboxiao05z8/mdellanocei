@@ -55,7 +55,7 @@
     </div>
     <div class="head">
       <el-steps :active="stepsActive" align-center finish-status="success">
-        <el-step title="Sale & Incentive"></el-step>
+        <el-step title="Unit Info"></el-step>
         <el-step title="Payment Details"></el-step>
         <el-step title="Purchaser"></el-step>
         <el-step title="Staff & Agent"></el-step>
@@ -113,6 +113,15 @@
           <el-button type="primary" @click="goBack" v-if="stepsActive == 5"
             >Finish</el-button
           >
+          <el-button type="primary" v-if="stepsActive == 5 && query.accessData['COMPLETED']== 1&&updaObj.transactionStatus=='PDI SIGNED'&&((query.cooperate===1&&userInfo.type!==3) || query.cooperate===0)" @click="updateStatus('COMPLETED')"
+            >{{ $t('COMPLETED') }}</el-button
+          >
+          <el-button type="primary" v-if="stepsActive == 5 && query.accessData['PDI_SIGNED']== 1&&(updaObj.transactionStatus=='PDI PENDING'||!updaObj.transactionStatus)" @click="updateStatus('PDI SIGNED')"
+            >{{ $t('PDI SIGNED') }}</el-button
+          >
+          <el-button type="primary" v-if="stepsActive == 5 && query.accessData['PDI_PENDING']== 1&&updaObj.transactionStatus=='PDI SIGNED'&&((query.cooperate===1&&userInfo.type!==3) ||query.cooperate===0)" @click="updateStatus('PDI PENDING')"
+            >{{ $t('PDI PENDING') }}</el-button
+          >
         </el-footer>
       </el-container>
     </div>
@@ -161,6 +170,7 @@ export default {
       documentObj: '', // 文档页面数据
       isOutTime: true,
       setIn: null,
+      userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
       Edit_Price_jurisdiction: null,
     }
   },
@@ -262,15 +272,29 @@ export default {
         confirmButtonText: 'Confirm',
         cancelButtonText: 'Cancel',
         type: 'warning',
-      })
-        .then(() => {
+      }).then(() => {
           if (this.childObj.length == 4) {
             let arr = [].concat(...this.childObj)
             let obj = Object.assign(...arr)
             let newObj = JSON.parse(JSON.stringify(obj))
             if (obj.buyerList.length) {
+              obj.buyerList.forEach((item, index)=>{
+                let dateOfBirth = this.$dateFormatNoTime(
+                  item.dateOfBirth
+                ).split('-')
+                item.dateOfBirth = dateOfBirth.join("-")
+              })
               newObj.buyerList = JSON.stringify(obj.buyerList)
             }
+            if(obj.facilityList.length){
+              let facilityJson = []
+              obj.facilityList.forEach(element => {
+                facilityJson.push({facilityId:element.facilityId, values:element.value1})
+              });
+              newObj.facilityJson = JSON.stringify(facilityJson)
+              newObj.facilityList = JSON.stringify(obj.facilityList)
+            }
+
             if (obj.buyerPaymentList.length) {
               newObj.buyerPaymentList = JSON.stringify(obj.buyerPaymentList)
             }
@@ -333,11 +357,11 @@ export default {
               })
           }
         })
-        .catch(() => {
+        .catch((error) => {
           this.isDisabled = false
           this.$message({
             type: 'info',
-            message: 'Cancel',
+            message: error,
           })
         })
     },
@@ -363,6 +387,16 @@ export default {
       this.$Posting(this.$api.getTransaction, data).then((res) => {
         if (res.code == 0) {
           this.updaObj = res.datas
+          if(this.updaObj.facilityList){
+            let facilityList = this.updaObj.facilityList
+            facilityList.forEach(element=>{
+              if(!element.value1){
+                element.value1 = element.valueList[0].values
+              }else{
+                console.log(11)
+              }
+            })
+          }
           if (this.query.countDown) {
             this.CountDown(parseInt(this.query.countDown))
           }
@@ -385,6 +419,19 @@ export default {
       }
       this.setIn = window.setInterval(subtraction, 1000)
     },
+    updateStatus(command){
+      let data = {
+        transactionStatus: command,
+        unitId: this.query.unitId,
+        projectId: this.query.projectId,
+      }
+      this.$Geting(this.$api.updateTransactionStatus, data)
+      .then(res=>{
+        if(res.code == 0){
+          this.getTransaction()
+        }
+      })
+    }
   },
   beforeDestroy() {
     window.clearTimeout(this.setIn)

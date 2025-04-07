@@ -95,9 +95,20 @@ export default {
       let selt = this
       this.$refs[formName].validate(valid => {
         if (valid) {
+          let userInfo = JSON.parse(window.sessionStorage.getItem('userInfo') || '{}')
+          userInfo.email = selt.formInline.user
+          userInfo.source = 'manager'
+          userInfo.password = selt.formInline.pwd
+          let str = ''
+          for (const key in selt.$objKeySort(userInfo)) {
+            str += selt.$objKeySort(userInfo)[key]
+          }
+          console.log(str + 'c1d65f3667324592a071ebec5038f38c')
+          let signature = this.$md5(str + 'c1d65f3667324592a071ebec5038f38c')
           this.$Post(this.$api.login, {
             email: this.formInline.user,
-            password: this.formInline.pwd
+            password: this.formInline.pwd,
+            signature: signature
           }).then(res => {
             if (res.code === '0') {
               let userInfo = res

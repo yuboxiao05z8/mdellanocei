@@ -236,7 +236,7 @@
                 <el-input
                   class="input_300px"
                   size="mini"
-                  v-model="AgentForm.referralName"
+                  v-model="AgentForm.referralAgency"
                 ></el-input>
               </el-form-item>
             </el-col>
@@ -245,7 +245,7 @@
                 <el-input
                   class="input_300px"
                   size="mini"
-                  v-model="AgentForm.referralAgency"
+                  v-model="AgentForm.referralName"
                 ></el-input>
               </el-form-item>
             </el-col>
@@ -275,7 +275,7 @@
 </template>
 
 <script>
-import { pick, getPrice } from '@/utils/validate'
+import { pick, getPrice } from '@/utils/validate' 
 export default {
   props: {
     updaObj: {

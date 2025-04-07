@@ -139,6 +139,12 @@ const inventoryRouter = [
                 name: 'CustomSettings',
                 meta: { title: 'Custom Settings' }
               },
+              {
+                path: "TransactionAdditionalField",
+                component: () => import('@/views/inventory/inventoryChildren/setTing/TransactionAdditionalField'),
+                name: 'TransactionAdditionalField',
+                meta: { title: 'Transaction Additional Field' }
+              },
             ]
           },
           {

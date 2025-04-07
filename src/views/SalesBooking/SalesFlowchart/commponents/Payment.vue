@@ -305,15 +305,15 @@ export default {
       this.form = row
     },
     calculateFn(arr) {
-      let totalPrice = 0,
-        earnest = this.roundNum(this.reserveObj.earnest)
+      console.log(arr)
+      let totalPrice = 0, earnest = this.roundNum(this.reserveObj.earnest)
       this.reserveObj.Received = this.roundNum(
         arr.reduce(
           (totalPrice, item) => totalPrice + parseFloat(item.amount),
           0
         )
       )
-      if (this.reserveObj.Received > earnest) {
+      if (Number(this.reserveObj.Received) > Number(earnest)) {
         this.reserveObj.Excess = this.roundNum(
           this.reserveObj.Received - earnest
         )

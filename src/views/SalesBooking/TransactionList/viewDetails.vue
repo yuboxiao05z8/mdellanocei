@@ -46,6 +46,21 @@
             <row-tab :spanNum="24" :forArr="DateObj"></row-tab>
           </div>
         </div>
+        <div class="fromDiv" v-if="detailsObj.facilityList!== undefined&&detailsObj.facilityList.length>0">
+          <div class="lfLable" style="width: 250px">
+            Optional Add-on
+          </div>
+          <div class="facility-wrap">
+            <div class="facility-box" v-for="(facilityItem, facilityIndex) in detailsObj.facilityList" :key="facilityIndex">
+              <span class="facility-title">{{facilityItem.name}}</span>
+              <el-input
+                disabled
+                size="mini"
+                v-model="facilityItem.value1"
+              ></el-input>
+            </div>
+          </div>
+        </div>
         <div class="fromDiv">
           <div class="lfLable" style="width: 200px">Purchaser</div>
           <div class="AgentDiv_content" v-if="detailsObj.buyerList">
@@ -142,6 +157,15 @@
           <el-button type="primary" @click="getData('Modify')"
             >Modify</el-button
           >
+          <el-button type="primary" v-if="AccessData['COMPLETED']== 1&&detailsObj.transactionStatus=='PDI SIGNED'&&((query.cooperate===1&&userInfo.type!==3) ||query.cooperate===0)" @click="updateStatus('COMPLETED')"
+            >{{ $t('COMPLETED') }}</el-button
+          >
+          <el-button type="primary" v-if="AccessData['PDI_SIGNED']== 1&&(detailsObj.transactionStatus=='PDI PENDING'||!detailsObj.transactionStatus)" @click="updateStatus('PDI SIGNED')"
+            >{{ $t('PDI SIGNED') }}</el-button
+          >
+          <el-button type="primary" v-if="AccessData['PDI_PENDING']== 1&&detailsObj.transactionStatus=='PDI SIGNED'&&((query.cooperate===1&&userInfo.type!==3) ||query.cooperate===0)" @click="updateStatus('PDI PENDING')"
+            >{{ $t('PDI PENDING') }}</el-button
+          >
         </div>
       </div>
     </div>
@@ -217,18 +241,32 @@ export default {
       DateObj: [],
       UnitObj: [],
       hostUrl: sessionStorage.getItem('serveUrl'),
+      userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
       dynamicData: {},
       dialogVisible: false,
       recordId: '',
-      mailingAddressObj: []
+      mailingAddressObj: [],
+      AccessData: {}, //权限
     }
   },
   mounted() {
     this.getTransaction()
+    this.getUnitAccess()
   },
   methods: {
+    getUnitAccess() {
+      let data = {
+        unitId: this.query.unitId,
+        projectId: this.query.projectId,
+      }
+      this.$Post(this.$api.getUnitAccess, data).then((res) => {
+        if (res.code == 0) {
+          this.AccessData = res.datas
+        }
+      })
+    },
     goBack() {
-      if (this.query.link == '/SalesBooking/ProjectSales/SalesChart') {
+      if (this.query.link == '/SalesBooking/ProjectSales/SalesChart' || this.query.link == '/SalesBooking/salesRecord') {
         this.$router.replace({
           path: this.query.link,
           query: { id: this.query.projectId },
@@ -247,7 +285,7 @@ export default {
           this.SaleObj = [
             {
               type: 'Block',
-              value: obj.buyerBlock,
+              value: obj.building,
             },
             {
               type: 'Sales Status',
@@ -255,7 +293,7 @@ export default {
             },
             {
               type: 'Unit No.',
-              value: obj.buyerUnit,
+              value: obj.unitName,
             },
             {
               type: 'System No.',
@@ -383,13 +421,15 @@ export default {
             unitName: this.query.unitName,
             projectName: this.query.projectName,
             type: this.query.Status,
+            cooperate: this.query.cooperate,
             link: '/SalesBooking/viewDetails',
+            accessData: this.AccessData
           }
 
-          if (this.query.link == '/SalesBooking/ProjectSales/SalesChart') {
+          if (this.query.link == '/SalesBooking/ProjectSales/SalesChart'|| this.query.link == '/SalesBooking/salesRecord') {
             querys.superiorLink = this.query.link
           }
-          if (this.query.link == '/SalesBooking/ProjectSales/PDIList') {
+          if (this.query.link == '/SalesBooking/ProjectSales/PDIList'|| this.query.link == '/SalesBooking/salesRecord') {
             querys.superiorLink = this.query.link
           }
           this.$router.push({
@@ -504,12 +544,12 @@ export default {
                   text: 'Referral',
                   obj: [
                     {
-                      type: 'Referral Name',
-                      value: this.detailsObj.referralName,
+                      type: 'Agency Name',
+                      value: this.detailsObj.referralAgency,
                     },
                     {
                       type: 'Agent Name',
-                      value: this.detailsObj.referralAgency,
+                      value: this.detailsObj.referralName,
                     },
                     {
                       type: 'Mobile',
@@ -528,6 +568,19 @@ export default {
           break
       }
     },
+    updateStatus(command){
+      let data = {
+        transactionStatus: command,
+        unitId: this.query.unitId,
+        projectId: this.query.projectId,
+      }
+      this.$Geting(this.$api.updateTransactionStatus, data)
+      .then(res=>{
+        if(res.code == 0){
+          this.getTransaction()
+        }
+      })
+    }
   },
 }
 </script>
@@ -613,6 +666,21 @@ export default {
               img {
                 object-fit: contain;
               }
+            }
+          }
+        }
+        .facility-wrap{
+          padding: 20px;
+          .facility-box{
+            display: flex;
+            margin-bottom: 10px;
+            .facility-title{
+              padding-right: 12px;
+              text-align: right;
+              line-height: 28px;font-size: 14px;color: #606266;font-weight: 700;
+            }
+            .el-input{
+              width: 370px;
             }
           }
         }

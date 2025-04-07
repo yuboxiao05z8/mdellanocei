@@ -187,6 +187,18 @@
         </el-row>
       </el-form>
     </div>
+    
+      <div class="lfLable" v-if="SummaryForm.facilityList!== undefined&&SummaryForm.facilityList.length>0">Optional Add-on</div>
+      <div class="fromDiv" v-if="SummaryForm.facilityList!== undefined&&SummaryForm.facilityList.length>0">
+        <div class="facility-box" v-for="(facilityItem, facilityIndex) in SummaryForm.facilityList" :key="facilityIndex">
+          <span class='facility-title'>{{facilityItem.name}}</span>
+          <el-input
+            disabled
+            size="mini"
+            v-model="facilityItem.value1"
+          ></el-input>
+        </div>
+      </div>
   </div>
 </template>
 
@@ -205,9 +217,13 @@ export default {
       hostUrl: sessionStorage.getItem('serveUrl'),
     }
   },
+  mounted(){
+    
+  },
   activated() {
     let arr = [].concat(...this.SummaryData)
     this.SummaryForm = Object.assign({}, ...arr)
+    console.log(this.SummaryForm)
     // console.log('编辑',this.SummaryForm)
   },
 }
@@ -232,4 +248,22 @@ export default {
     }
   }
 }
+</style>
+
+<style lang="less" scoped>
+  .fromDiv{
+    /deep/.facility-box{
+      display: flex;
+      margin-bottom: 10px;
+      .facility-title{
+        width: 150px;
+        text-align: right;
+        padding-right: 12px;
+        line-height: 28px;font-size: 14px;color: #606266;font-weight: 700;
+      }
+      .el-input{
+        width: 370px;
+      }
+    }
+  }
 </style>

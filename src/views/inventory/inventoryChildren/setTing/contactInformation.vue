@@ -147,7 +147,7 @@
         <el-table-column label="regNum">
           <template slot-scope="scope">
             <el-input v-if="scope.$index === tableDataInit" v-model="form.regNum"></el-input>
-            <div>{{scope.row.regNum}}</div>
+            <div v-else>{{scope.row.regNum}}</div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('contactNumber')">
@@ -174,14 +174,39 @@
             <div v-else>{{scope.row.type}}</div>
           </template>
         </el-table-column>
+        <el-table-column :label="$t('Group')">
+          <template slot-scope="scope">
+            <!-- <el-input v-if="scope.$index === tableDataInit" v-model="form.type"></el-input> -->
+            <el-select
+              v-model="form.groupName"
+              placeholder="placeholder"
+              v-if="scope.$index === tableDataInit"
+            >
+              <el-option
+                v-for="item in groupOptions"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              ></el-option>
+            </el-select>
+            <div v-else>{{scope.row.groupName}}</div>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('Delete')">
+          <template slot-scope="scope">
+            <template>
+              <el-button size="mini" plain :disabled="scope.$index === tableDataInit || scope.row.self == 0" @click="deleteData(scope.row.contactId)">{{$t('Delete')}}</el-button>
+            </template>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('Edit')">
           <template slot-scope="scope">
             <template v-if="scope.$index === tableDataInit">
               <el-button size="mini" plain @click="updata()">update</el-button>
               <el-button size="mini" plain @click="cancel(scope.row,scope.$index)">{{$t('cancel')}}</el-button>
             </template>
             <template v-else>
-              <el-button size="mini" plain @click="deleteData(scope.row.contactId)">{{$t('Delete')}}</el-button>
+              <el-button size="mini" plain @click="editData(scope.row,scope.$index)">{{$t('Edit')}}</el-button>
             </template>
           </template>
         </el-table-column>
@@ -262,6 +287,20 @@ export default {
         {
           value: "DD",
           label: "DD"
+        }
+      ],
+      groupOptions: [
+        {
+          value: "Featured",
+          label: "Featured"
+        },
+        {
+          value: "Tagger",
+          label: "Tagger"
+        },
+        {
+          value: "Mgt Team",
+          label: "Mgt Team"
         }
       ],
       editorSetting: {
@@ -367,7 +406,8 @@ export default {
         projectId: this.projectId,
         type: this.form.type,
         email: this.form.email,
-        regNum: this.form.regNum
+        regNum: this.form.regNum,
+        groupName: this.form.groupName
       };
       this.$Post(this.$api.saveProjectContact, data).then(res => {
         if (res.code == 0) {
@@ -385,14 +425,28 @@ export default {
         }
       });
     },
-    cancel() {
-      this.tableLists.shift();
+    editData(row, index) {
+      console.log(row)
+      this.tableDataInit = index;
+      this.form.type = row.type;
+      this.form.email = row.email;
+      this.form.regNum = row.regNum;
+      this.form.groupName = row.groupName || "";
+    },
+    cancel(row, index) {
+      if (index == 0) {
+        if (row.contactId == undefined) {
+          this.tableLists.shift();
+        }
+      }
       this.cancelAddData();
     },
     cancelAddData() {
       this.form = {
         email: "",
-        type: ""
+        type: "",
+        regNum: "",
+        groupName: ""
       };
       this.tableDataInit = -1;
     },
@@ -502,7 +556,7 @@ export default {
         }
       });
       this.tableDataInit = -1;
-    }
+    },
   },
   beforeDestroy() {
     this.$deleteImg();

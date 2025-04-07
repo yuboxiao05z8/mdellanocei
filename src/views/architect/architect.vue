@@ -3,7 +3,7 @@
     <div class="architect_section">
       <el-row class="row_header">
         <el-col :span="22" class="col_text"
-          ><span>选择项目：</span>
+          ><span>{{$t('architect.project')}}：</span>
           <el-select @change="selectProject" size="mini" v-model="projectId">
             <el-option
               v-for="(item, index) in projects"
@@ -13,60 +13,65 @@
             ></el-option> </el-select
         ></el-col>
         <el-col :span="2" class="col_button">
-          <el-button size="mini" @click="createProgress()">创建进度 </el-button>
+          <el-button size="mini" @click="createProgress()">{{$t('architect.addCompletionStatus')}} </el-button>
         </el-col>
       </el-row>
-      <div>更新记录</div>
-      <el-table :data="progressList" border style="width: 100%; height: 600px">
-        <el-table-column prop="building" label="楼栋" width="90"> </el-table-column>
-        <el-table-column prop="unitNo" label="单位" width="180">
+      <div class='progress_table_title'>{{$t('architect.recordUpdate')}}</div>
+      <el-table :data="progressList" border height="600" ref='progressListTable' style="width: 100%;">
+        <el-table-column prop="building" :label="$t('architect.building')"> </el-table-column>
+        <el-table-column prop="unitNo" :label="$t('architect.unit')">
         </el-table-column>
-        <el-table-column  label="通知状态"> 
+        <el-table-column  :label="$t('architect.informStatus')" width="150"> 
           <template slot-scope="scope">
-            <span v-if="scope.row.status == 1">待通知</span>
-            <span v-else-if="scope.row.status == 2">已通知</span>
+            <span v-if="scope.row.status == 1">{{$t('architect.pendingNotification')}}</span>
+            <span v-else-if="scope.row.status == 2">{{$t('architect.notified')}}</span>
           </template>
         </el-table-column>
-        <el-table-column prop="title" label="进度"> </el-table-column>
-        <el-table-column label="更新时间"> 
+        <el-table-column prop="title" :label="$t('architect.statusProgress')" width="220"> </el-table-column>
+        <el-table-column :label="$t('architect.updateDate')"> 
           
           <template slot-scope="scope">
             <div>{{ $dateFormat(Number(scope.row.createTime)) }}</div>
           </template>
         </el-table-column>
-        <el-table-column prop="path" width="240" label="文件">
-        </el-table-column>
-        <el-table-column label="操作" width="180">
+        <el-table-column width="240" :label="$t('architect.file')">
           <template slot-scope="scope">
-            <el-button v-if="scope.row.status != 2" @click="updateProgress(scope.row)" type="text" size="mini"
-              >编辑</el-button
+            <a v-if="scope.row.path" :href="hostUrl + scope.row.path" target="_blank">{{hostUrl + scope.row.path}}</a>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('architect.edit')" width="200">
+          <template slot-scope="scope">
+            <el-button v-if="scope.row.status != 2" @click="updateProgress(scope.row)" size="mini"
+              >{{$t('architect.edit')}}</el-button
             >
-            <el-button v-if="scope.row.status != 2" type="text" size="mini" @click="updateStatus(scope.row)"
-              >通知律师</el-button
+            <el-button v-if="scope.row.status != 2 && userRoleAccess['Confirm_Progressive_Status']>1" size="mini" @click="updateStatus(scope.row)"
+              >{{$t('architect.informLawyer')}}</el-button
             >
           </template>
         </el-table-column>
       </el-table>
-      <div class="block">
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="currentPageNo"
-          :page-size="100"
-          layout="total, prev, pager, next"
-          :total="total"
-        >
-        </el-pagination>
-      </div>
+        <div class="page_section" v-if="total">
+          <el-pagination
+            background
+            small
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPageNo"
+            :page-sizes="[5, 10, 30, 50, 100]"
+            :page-size="pageSize"
+            layout="prev, pager, next,sizes,total"
+            :total="total"
+          ></el-pagination>
+        </div>
     </div>
-    <el-dialog title="创建进度" :visible.sync="dialogFormVisible" width="867px">
+    <el-dialog :title="creatTitle" :visible.sync="dialogFormVisible" width="867px">
       <el-form :model="form">
-        <el-form-item label="进度" :label-width="formLabelWidth">
+        <el-form-item :label="$t('architect.statusProgress')" :label-width="formLabelWidth">
           <el-select
             @change="selectProgressKey"
             size="mini"
             v-model="progressKey"
-            placeholder="请选择"
+            :placeholder="$t('architect.kindlySelect')"
           >
             <el-option
               v-for="item in progressKeys"
@@ -76,12 +81,12 @@
             ></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="进度描述" :label-width="formLabelWidth">
+        <el-form-item :label="$t('architect.statusDescription')" :label-width="formLabelWidth">
           <ul class="progress_desc_list">
             <li v-for="(desc, index) in progressDesc">{{desc}}</li>
           </ul>
         </el-form-item>
-        <el-form-item label="更新范围" :label-width="formLabelWidth">
+        <el-form-item :label="$t('architect.selectionUpdate')" :label-width="formLabelWidth">
           <el-tabs
             v-model="activeName"
             type="card"
@@ -94,16 +99,18 @@
               :name="building.name"
               :key="buildingIndex"
             >
+            <div v-for="(unit, unitIndex) in building.unitList">
               <el-checkbox
-                v-for="(unit, unitIndex) in building.unitList"
                 v-model="unit.checked"
+                v-show="unit.ischeck !== -1"
                 :key="unitIndex"
                 >{{ unit.unitName }}</el-checkbox
-              >
+              ></div>
+              
             </el-tab-pane>
           </el-tabs>
         </el-form-item>
-        <el-form-item label="进度证明" :label-width="formLabelWidth">
+        <el-form-item :label="$t('architect.completionCertificate')" :label-width="formLabelWidth">
           <uploader
             :maxSize="300"
             :isDisabled="true"
@@ -112,21 +119,22 @@
             @uploadAfter="uploadModelAfter"
             :url="$api.uploadFile"
             fileType="*"
-            :btnText="{ import: '上传文件' }"
+            :btnText="{ import: $t('architect.uploadFile') }"
             :showType="1"
           ></uploader>
-          <p>{{logoUrl}}</p>
+          <p v-if="logoUrl"><a :href="hostUrl + logoUrl" target="_blank" rel="noopener noreferrer">{{hostUrl + logoUrl}}</a></p>
+          <p v-else>{{$t('architect.documentNotSelected')}}</p>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="submitUpload">提交</el-button>
+        <el-button type="primary" @click="submitUpload">{{$t('architect.update')}}</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import uploader from '@/components/uploader'
+import uploader from '@/components/uploader' 
 export default {
   components: {
     uploader,
@@ -135,7 +143,7 @@ export default {
     return {
       progressList: [], //项目进度列表
       dialogFormVisible: false,
-      formLabelWidth: '120px',
+      formLabelWidth: '180px',
       form: {
         name: '',
       },
@@ -153,6 +161,7 @@ export default {
         },
       ],
       currentPageNo: 1,
+      pageSize: 10,
       projects: [], //项目列表
       projectId: '', //选择项目的id
       progressKey: '',//选择的进度key
@@ -163,6 +172,8 @@ export default {
       logoUrl: '',
       total: 0,//项目进度列表数量
       id: '', //编辑所需id
+      creatTitle: '', //创建弹框的标题
+      userRoleAccess: {}, //用户权限
     }
   },
   created() {
@@ -170,15 +181,29 @@ export default {
     this.getProgressKeys()
   },
   methods: {
-    getQueryProgressList() {
+    async getUnitRoleAccess(){
+      let projectId = this.projectId
+      let agentId = JSON.parse(sessionStorage.getItem('userInfo') || '{}').agentId
+      this.$Post(this.$api.getUnitRoleAccess, {
+        projectId: projectId,
+        agentId: agentId,
+      }).then((res) => {
+        if (res.code == 0) {
+          this.userRoleAccess = res.datas
+        }
+      })
+    },
+    async getQueryProgressList() {
+      await this.getUnitRoleAccess()
       this.$Geting(this.$api.queryProgressList, {
         pageNo: this.currentPageNo,
-        pageSize: 10,
+        pageSize: this.pageSize,
         projectId: this.projectId,
       }).then((res) => {
         if (res.code == 0) {
           this.progressList = res.datas.lists
           this.total = res.datas.count
+          this.$refs.progressListTable.doLayout()
         } else {
           this.$notify.error({
             title: this.$t('alert.fail'),
@@ -236,12 +261,19 @@ export default {
       this.getProgressUnit()
     },
     getProgressUnit(){
-      this.$Geting(this.$api.queryProgressUnit, {projectId: this.projectId, key: this.progressKey}).then((res) => {
+      let param = {
+        projectId: this.projectId, 
+        key: this.progressKey
+      }
+      if(this.id){
+        param.id = this.id
+      }
+      this.$Geting(this.$api.queryProgressUnit, param).then((res) => {
         if (res.code == 0) {
           res.datas.forEach((scope, scopeIndex)=>{
             scope.name = 'index' + scopeIndex
             scope.unitList.forEach((unit, unitIndex)=>{
-              unit.checked = unit.ischeck=='0'?false:true
+              unit.checked = unit.ischeck=='1'?true:false
             })
           })
           this.scopeList = res.datas
@@ -262,6 +294,7 @@ export default {
       this.progressKey = ''
       this.logoUrl = ''
       this.id = ''
+      this.creatTitle = this.$t('architect.addCompletionStatus')
       this.progressDesc = []
       this.scopeList = []
     },
@@ -314,6 +347,7 @@ export default {
       this.progressKey = row.key
       this.logoUrl = row.path
       this.id = row.id
+      this.creatTitle = this.$t('architect.edit')
       this.selectProgressKey(row.key)
       // this.getProgressUnit()
       this.dialogFormVisible = true
@@ -325,9 +359,9 @@ export default {
       console.log(file)
     },
     updateStatus(row) {
-      this.$confirm('通知律师后、当前内容将不能更改、请谨慎操作 ！！', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
+      this.$confirm(this.$t("architect.notifyingLawyer"), this.$t("architect.tip"), {
+        confirmButtonText: this.$t("architect.confirm"),
+        cancelButtonText: this.$t("architect.cancel"),
         type: 'warning',
       })
         .then(() => {
@@ -348,10 +382,6 @@ export default {
           })
         })
         .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除',
-          })
         })
     },
     uploadModelAfter(data) {
@@ -359,10 +389,12 @@ export default {
       console.log(data, "123");
     },
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`)
+      this.pageSize = val
+      this.getQueryProgressList()
     },
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`)
+      this.currentPageNo = val
+      this.getQueryProgressList()
     },
   },
 }
@@ -396,8 +428,13 @@ export default {
     .row_header {
       margin-top: 58px;
       .col_text {
-        margin-bottom: 20px;
+        margin-bottom: 10px;
+        font-size: 14px;
       }
+    }
+    .progress_table_title{
+      margin: 10px 0;
+      font-size: 14px;
     }
   }
   /deep/.scope-wrap {
@@ -417,6 +454,10 @@ export default {
         margin: 0;
         padding: 0 7px;
       }
+    }
+    .el-tabs__content{
+      overflow: auto;
+      height: 240px;
     }
   }
   .dialog-footer {

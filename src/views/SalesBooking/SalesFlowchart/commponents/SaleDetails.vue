@@ -184,6 +184,21 @@
           </el-row>
         </el-form>
       </div>
+
+      <div class="lfLable" v-if="updaObj.facilityList!==undefined&&updaObj.facilityList.length>0">Optional Add-on</div>
+      <div class="fromDiv" v-if="updaObj.facilityList!==undefined&&updaObj.facilityList.length>0">
+        <div class="facility-box" v-for="(facilityItem, facilityIndex) in updaObj.facilityList" :key="facilityIndex">
+          <span class='facility-title'>{{facilityItem.name}}</span>
+          <el-select v-model="facilityItem.value1" size='mini' placeholder="空" style="width:370px;">
+            <el-option
+              v-for="(item, index) in facilityItem.valueList"
+              :key="index"
+              :label="item.values"
+              :value="item.values">
+            </el-option>
+          </el-select>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -241,13 +256,17 @@ export default {
       }
     },
   },
+  created(){
+  },
+  mounted(){
+  },
   methods: {
     selectPrice(val) {
       let item = this.updaObj.priceList.find((item) => {
         return item.priceCode == val
       })
 
-      this.SaleDetails.transactionPrice = parseFloat(getPrice(item.value))
+      if (item) this.SaleDetails.transactionPrice = parseFloat(getPrice(item.value))
 
       if (this.SaleDetails.adjustmentAmount) {
         this.SaleDetails.transactionPrice =
@@ -256,6 +275,7 @@ export default {
       }
     },
     isNextFn() {
+      this.SaleDetails.facilityList = this.updaObj.facilityList
       if (!this.SaleDetails.priceCode || !this.SaleDetails.transactionDate) {
         this.$notify.error({
           title: 'Error',
@@ -270,7 +290,21 @@ export default {
 }
 </script>
 
-<style lang="less">
-.fromDiv {
+<style lang="less" scoped>
+.SaleDetails{
+  .case{
+    .fromDiv{
+      /deep/.facility-box{
+        display: flex;
+        margin-bottom: 10px;
+        .facility-title{
+          width: 150px;
+          text-align: right;
+          padding-right: 12px;
+          line-height: 28px;font-size: 14px;color: #606266;font-weight: 700;
+        }
+      }
+    }
+  }
 }
 </style>
