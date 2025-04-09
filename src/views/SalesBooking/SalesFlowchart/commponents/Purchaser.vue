@@ -813,47 +813,71 @@ export default {
     },
     getAddress(value, item){
       let self = this
-      let params = {key: "AIzaSyCxDYQZCxQvPyhu5YQaQ-DTndPRwbBUPO8", address: value, sensor: false,bounds: '1.149692, 103.544197|1.495384, 104.081668', region:'sg'}
-      this.$Get("https://maps.googleapis.com/maps/api/geocode/json", params)
-      .then(res=>{
-        if(res.status != 'OK'){
-          this.$dialog.alert({
-            title: 'success',
-            message: res.status,
-          })
+      let country = item=='buyerPostalCode'?this.PurchaserObj.buyerCountry:this.PurchaserObj.country
+      if(country == "Singapore"){
+        let params = {
+          searchVal: value,
+          returnGeom: 'Y',
+          getAddrDetails: 'Y',
+          pageNum: 1
         }
-        if(!res.results[0]) return false
-        let latlng = res.results[0].geometry.location.lat + "," + res.results[0].geometry.location.lng
-        this.$Get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latlng + "&key=AIzaSyCxDYQZCxQvPyhu5YQaQ-DTndPRwbBUPO8&bounds=1.149692, 103.544197|1.495384, 104.081668&region=sg")
-        .then(result=>{
-          if(result.status != 'OK'){
-            this.$dialog.alert({
-              title: 'success',
-              message: result.status,
-            })
-          }
-          if(!result.results[0]) return false
-          let address_components = result.results[0].address_components
-          let street_number = address_components.filter(item=>{
-            return item.types.includes("street_number")
-          })
-          console.log(street_number.length)
-          let block = street_number.length>0?street_number[0].long_name:""
-          let route = address_components.filter(item=>{
-            return item.types.includes("route")
-          })
-          let streetName = route.length>0?route[0].long_name:""
-          if(item == "buyerPostalCode"){
+        this.$Get('https://developers.onemap.sg/commonapi/search', params)
+        .then(res=>{
+          if (!res.results[0]) return false
+          let block = res.results[0]['BLK_NO']
+          let streetName = res.results[0]['ROAD_NAME']
+          if (item == 'buyerPostalCode') {
             self.PurchaserObj.buyerBlock = block
             self.PurchaserObj.buyerStreetName = streetName
-          }else if(item == "postalCode"){
+          } else if (item == 'postalCode') {
             self.PurchaserObj.block = block
             self.PurchaserObj.streetName = streetName
           }
         })
-      })
-      .catch(error=>{
-      })
+      }else{
+        let params = {key: "AIzaSyCxDYQZCxQvPyhu5YQaQ-DTndPRwbBUPO8", address: value, sensor: false,bounds: '1.149692, 103.544197|1.495384, 104.081668', region:'sg'}
+        this.$Get("https://maps.googleapis.com/maps/api/geocode/json", params)
+        .then(res=>{
+          if(res.status != 'OK'){
+            this.$dialog.alert({
+              title: 'success',
+              message: res.status,
+            })
+          }
+          if(!res.results[0]) return false
+          let latlng = res.results[0].geometry.location.lat + "," + res.results[0].geometry.location.lng
+          this.$Get("https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latlng + "&key=AIzaSyCxDYQZCxQvPyhu5YQaQ-DTndPRwbBUPO8&bounds=1.149692, 103.544197|1.495384, 104.081668&region=sg")
+          .then(result=>{
+            if(result.status != 'OK'){
+              this.$dialog.alert({
+                title: 'success',
+                message: result.status,
+              })
+            }
+            if(!result.results[0]) return false
+            let address_components = result.results[0].address_components
+            let street_number = address_components.filter(item=>{
+              return item.types.includes("street_number")
+            })
+            console.log(street_number.length)
+            let block = street_number.length>0?street_number[0].long_name:""
+            let route = address_components.filter(item=>{
+              return item.types.includes("route")
+            })
+            let streetName = route.length>0?route[0].long_name:""
+            if(item == "buyerPostalCode"){
+              self.PurchaserObj.buyerBlock = block
+              self.PurchaserObj.buyerStreetName = streetName
+            }else if(item == "postalCode"){
+              self.PurchaserObj.block = block
+              self.PurchaserObj.streetName = streetName
+            }
+          })
+        })
+        .catch(error=>{
+        })
+      }
+      
     }
   },
 }
