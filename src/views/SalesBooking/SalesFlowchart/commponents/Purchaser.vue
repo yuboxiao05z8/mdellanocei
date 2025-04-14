@@ -827,11 +827,11 @@ export default {
           let block = res.results[0]['BLK_NO']
           let streetName = res.results[0]['ROAD_NAME']
           if (item == 'buyerPostalCode') {
-            self.PurchaserObj.buyerBlock = block
-            self.PurchaserObj.buyerStreetName = streetName
+            self.$set(self.PurchaserObj, 'buyerBlock', block)
+            self.$set(self.PurchaserObj, 'buyerStreetName', streetName)
           } else if (item == 'postalCode') {
-            self.PurchaserObj.block = block
-            self.PurchaserObj.streetName = streetName
+            self.$set(self.PurchaserObj, 'block', block)
+            self.$set(self.PurchaserObj, 'streetName', streetName)
           }
         })
       }else{
@@ -866,11 +866,11 @@ export default {
             })
             let streetName = route.length>0?route[0].long_name:""
             if(item == "buyerPostalCode"){
-              self.PurchaserObj.buyerBlock = block
-              self.PurchaserObj.buyerStreetName = streetName
+              self.$set(self.PurchaserObj, 'buyerBlock', block)
+              self.$set(self.PurchaserObj, 'buyerStreetName', streetName)
             }else if(item == "postalCode"){
-              self.PurchaserObj.block = block
-              self.PurchaserObj.streetName = streetName
+              self.$set(self.PurchaserObj, 'block', block)
+              self.$set(self.PurchaserObj, 'streetName', streetName)
             }
           })
         })

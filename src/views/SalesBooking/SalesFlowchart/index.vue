@@ -177,6 +177,7 @@ export default {
   mounted() {
     this.getTransaction()
     this.bookingUnit(1)
+    console.log(this.query)
     // this.getUnitRoleAccess()
     // console.log('query流程', this.query)
   },

@@ -14,15 +14,15 @@
               style="margin-left: 20px"
               size="mini"
               @click="searchData"
-              >{{ $t('inventoryLists.Search') }}</el-button
+              >{{ $t("inventoryLists.Search") }}</el-button
             >
           </el-col>
           <el-col :span="12" style="text-align: right">
             <el-button v-if="isAdmin == 0" size="mini" @click="addAccount">{{
-              $t('accounts.AddAccount')
+              $t("accounts.AddAccount")
             }}</el-button>
             <el-button size="mini" @click="refresh">{{
-              $t('Refresh')
+              $t("Refresh")
             }}</el-button>
           </el-col>
         </el-row>
@@ -53,8 +53,8 @@
         <el-table-column :label="$t('accounts.companyType')">
           <template slot-scope="scope">
             <div v-if="scope.row.type == 1">MixGo</div>
-            <div v-if="scope.row.type == 2">{{ $t('accounts.Developer') }}</div>
-            <div v-if="scope.row.type == 3">{{ $t('accounts.Agency') }}</div>
+            <div v-if="scope.row.type == 2">{{ $t("accounts.Developer") }}</div>
+            <div v-if="scope.row.type == 3">{{ $t("accounts.Agency") }}</div>
           </template>
         </el-table-column>
         <el-table-column :label="$t('FileNum')">
@@ -90,20 +90,20 @@
                 size="mini"
                 plain
                 @click="editData(scope.row)"
-                >{{ $t('transactions.Edit') }}</el-button
+                >{{ $t("transactions.Edit") }}</el-button
               >
               <el-button
                 size="mini"
                 plain
                 @click="managementFn(scope.row, scope.$index)"
-                >{{ $t('accounts.EmployeeList') }}</el-button
+                >{{ $t("accounts.EmployeeList") }}</el-button
               >
               <el-button
                 v-if="isAdmin == 0"
                 size="mini"
                 plain
                 @click="deleteData(scope.row, scope.$index)"
-                >{{ $t('accounts.delete') }}</el-button
+                >{{ $t("accounts.delete") }}</el-button
               >
             </template>
           </template>
@@ -232,6 +232,11 @@
 
         <el-row>
           <el-col :span="12">
+            <el-form-item label="LicenceNo">
+              <el-input v-model="companyForm.licenceNo"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
             <el-form-item :label="$t('accounts.companyLogo')">
               <uploaderImg
                 :backData="companyForm.logo"
@@ -242,7 +247,6 @@
               ></uploaderImg>
             </el-form-item>
           </el-col>
-         
         </el-row>
 
         <el-row>
@@ -261,10 +265,10 @@
 
         <el-form-item>
           <el-button @click="dialogVisible = false">{{
-            $t('cancel')
+            $t("cancel")
           }}</el-button>
           <el-button type="primary" @click="onSubmit">{{
-            $t('update')
+            $t("update")
           }}</el-button>
         </el-form-item>
       </el-form>
@@ -273,9 +277,9 @@
 </template>
 
 <script>
-import uploaderImg from '@/components/uploaderImg.vue'
-import editor from '@/components/editor'
-import tinymce from 'tinymce/tinymce'
+import uploaderImg from "@/components/uploaderImg.vue";
+import editor from "@/components/editor";
+import tinymce from "tinymce/tinymce";
 export default {
   components: {
     uploaderImg,
@@ -290,19 +294,20 @@ export default {
       userNum: 0,
       dialogVisible: false,
       companyForm: {
-        brokeName: '',
-        fileNum: '',
-        website: '',
-        type: '',
+        brokeName: "",
+        fileNum: "",
+        website: "",
+        type: "",
         logo: [],
-        expirationDate: '',
-        color: '',
-        editBrokeId: '',
-        calcUrl: '',
-        country: '',
-        brokeAlias: '',
+        expirationDate: "",
+        color: "",
+        editBrokeId: "",
+        calcUrl: "",
+        country: "",
+        brokeAlias: "",
+        licenceNo: "",
       },
-      detail: '',
+      detail: "",
       editorArr: [], //获取数据时富文本编辑器的图片数组
       updateEditorArr: [], //提交时富文本编辑器里面的图片数组
       editorSetting: {
@@ -312,63 +317,64 @@ export default {
       },
       options: [
         {
-          value: '1',
-          label: 'MixGo',
+          value: "1",
+          label: "MixGo",
         },
         {
-          value: '2',
-          label: this.$t('accounts.Developer'),
+          value: "2",
+          label: this.$t("accounts.Developer"),
         },
         {
-          value: '3',
-          label: this.$t('accounts.Agency'),
+          value: "3",
+          label: this.$t("accounts.Agency"),
         },
       ],
-      searchName: '',
-      serveUrl: sessionStorage.getItem('serveUrl'),
-      isAdmin: JSON.parse(window.sessionStorage.getItem('userInfo')).isAdmin,
-      CountryList: ['Singapore', 'Malaysia', 'Cambodia', 'Australia', 'UK'],
-    }
+      searchName: "",
+      serveUrl: sessionStorage.getItem("serveUrl"),
+      isAdmin: JSON.parse(window.sessionStorage.getItem("userInfo")).isAdmin,
+      CountryList: ["Singapore", "Malaysia", "Cambodia", "Australia", "UK"],
+    };
   },
   mounted() {
-    this.getListData()
+    this.getListData();
   },
   methods: {
     addAccount() {
       if (tinymce.editors[0]) {
-        tinymce.editors[0].setContent('')
+        tinymce.editors[0].setContent("");
       }
       this.companyForm = {
-        brokeName: '',
-        fileNum: '',
-        website: '',
-        type: '',
+        brokeName: "",
+        fileNum: "",
+        website: "",
+        type: "",
         logo: [],
-        editBrokeId: '',
-        expirationDate: '',
-        color: '',
-        detail: '',
-        calcUrl: '',
-        country: '',
-        brokeAlias: '',
-      }
-      this.dialogVisible = true
+        editBrokeId: "",
+        expirationDate: "",
+        color: "",
+        detail: "",
+        calcUrl: "",
+        country: "",
+        brokeAlias: "",
+        licenceNo: "",
+      };
+      this.dialogVisible = true;
     },
     editors(obj) {
       // editor组件传过来的值赋给content
-      this.detail = obj.content
+      this.detail = obj.content;
     },
     onEditorUploadComplete(json) {
       // 处理上传图片后返回数据，添加img标签到编辑框内
-      json[1](this.serveUrl + json[0].filePath)
+      json[1](this.serveUrl + json[0].filePath);
     },
     //保存前先读取服务端返回的富文本编辑器里面的内容，晒选出图片存在缓存中
     beforeSaveGetInitEdit() {
-      console.log(arguments, '22222')
+      console.log(arguments, "22222");
       for (let i = 0; i < arguments.length; i++) {
         this.editorArr = this.editorArr.concat(
           this.$changeHtmlStr(arguments[i])
-        )
+        );
       }
     },
     //保存前获取编辑后的富文本编辑器的内容
@@ -376,30 +382,33 @@ export default {
       for (let i = 0; i < arguments.length; i++) {
         this.updateEditorArr = this.updateEditorArr.concat(
           this.$changeHtmlStr(arguments[i])
-        )
+        );
       }
     },
     //提交之前进行图片的检测
     beforeSaveCheckImage() {
       let editorImg =
-        JSON.parse(window.sessionStorage.getItem('editorImg')) || []
-      this.beforeSaveGetEdit(this.detail)
+        JSON.parse(window.sessionStorage.getItem("editorImg")) || [];
+      this.beforeSaveGetEdit(this.detail);
 
-      let allEditorArr = [...editorImg, ...this.editorArr] //将缓存里面的图片和获取的富文本编辑器的图片进行整合
+      let allEditorArr = [...editorImg, ...this.editorArr]; //将缓存里面的图片和获取的富文本编辑器的图片进行整合
       allEditorArr.length &&
-        window.sessionStorage.setItem('editorImg', JSON.stringify(allEditorArr)) //点击时将之前富文本编辑器里面的图片进行缓存
-      this.$changeSession(this.updateEditorArr)
+        window.sessionStorage.setItem(
+          "editorImg",
+          JSON.stringify(allEditorArr)
+        ); //点击时将之前富文本编辑器里面的图片进行缓存
+      this.$changeSession(this.updateEditorArr);
     },
     refresh() {
-      this.getListData()
+      this.getListData();
     },
     handleSizeChange(val) {
-      this.pageSize = val
-      this.getListData()
+      this.pageSize = val;
+      this.getListData();
     },
     handleCurrentChange(val) {
-      this.currentPage = val
-      this.getListData()
+      this.currentPage = val;
+      this.getListData();
     },
     getListData() {
       this.$Geting(this.$api.queryBroke, {
@@ -408,20 +417,20 @@ export default {
         content: this.searchName,
       }).then((res) => {
         if (res.code == 0) {
-          this.userList = res.datas.lists
-          this.userNum = res.datas.count
+          this.userList = res.datas.lists;
+          this.userNum = res.datas.count;
         } else {
           this.$notify.error({
-            title: 'fail',
+            title: "fail",
             message: res.msg,
-          })
-          return false
+          });
+          return false;
         }
-      })
+      });
     },
     searchData() {
-      this.currentPage = 1
-      this.getListData()
+      this.currentPage = 1;
+      this.getListData();
     },
     editData(row) {
       // 编辑
@@ -443,86 +452,87 @@ export default {
         calcUrl: row.calcUrl,
         country: row.country,
         brokeAlias: row.brokeAlias,
-      }
+        licenceNo: row.licenceNo,
+      };
       if (!this.CountryList.includes(row.country) && row.country) {
-        this.CountryList.push(row.country)
+        this.CountryList.push(row.country);
       }
 
-      this.detail = ''
-      this.detail = this.$base64ToContent(row.detail)
+      this.detail = "";
+      this.detail = this.$base64ToContent(row.detail);
       if (tinymce.editors[0]) {
-        tinymce.editors[0].setContent(this.detail)
+        tinymce.editors[0].setContent(this.detail);
       }
 
-      this.dialogVisible = true
+      this.dialogVisible = true;
     },
     managementFn(row) {
       // 管理公司
       let data = {
         editBrokeId: row.brokeId,
-      }
-      this.$router.replace({ path: '/account/employeeList', query: data })
+      };
+      this.$router.replace({ path: "/account/employeeList", query: data });
     },
     deleteData(row) {
       // 删除公司
       // console.log(row)
-      this.$confirm(this.$t('deleteIt'), this.$t('alert.alert_command'), {
-        confirmButtonText: this.$t('alert.sure'),
-        cancelButtonText: this.$t('alert.cancel'),
-        type: 'warning',
+      this.$confirm(this.$t("deleteIt"), this.$t("alert.alert_command"), {
+        confirmButtonText: this.$t("alert.sure"),
+        cancelButtonText: this.$t("alert.cancel"),
+        type: "warning",
       })
         .then(() => {
           this.$Get(this.$api.deleteBroke, { editBrokeId: row.brokeId }).then(
             (res) => {
               if (res.code == 0) {
                 this.$message({
-                  type: 'success',
-                  message: this.$t('alert.alert_success_delete_title'),
-                })
-                this.getListData()
+                  type: "success",
+                  message: this.$t("alert.alert_success_delete_title"),
+                });
+                this.getListData();
               } else {
                 this.$notify.error({
-                  title: 'fail',
+                  title: "fail",
                   message: res.msg,
-                })
+                });
               }
             }
-          )
+          );
         })
         .catch(() => {
           this.$message({
-            type: 'info',
-            message: this.$t('cancel'),
-          })
-        })
+            type: "info",
+            message: this.$t("cancel"),
+          });
+        });
     },
     onSubmit() {
       // 提交
-      let data = { ...this.companyForm }
-      data.logo = this.companyForm.logo[0].url
-      data.detail = this.$contentToBase64(this.detail)
+      let data = { ...this.companyForm };
+      data.logo = this.companyForm.logo[0].url;
+      data.detail = this.$contentToBase64(this.detail);
       this.$Posting(this.$api.saveBroke, data).then((res) => {
         if (res.code == 0) {
           this.$notify.success({
-            title: this.$t('alert.alert_success_title'),
-            message: this.$t('alert.operate_success_title'),
-          })
-          this.beforeSaveCheckImage()
-          this.dialogVisible = false
-          this.getListData()
+            title: this.$t("alert.alert_success_title"),
+            message: this.$t("alert.operate_success_title"),
+          });
+          this.beforeSaveCheckImage();
+          this.dialogVisible = false;
+          this.getListData();
         } else {
           this.$notify.error({
-            title: 'fail',
+            title: "fail",
             message: res.msg,
-          })
+          });
         }
-      })
+      });
     },
     beforeDestroy() {
-      this.$deleteImg()
+      this.$deleteImg();
     },
   },
-}
+};
 </script>
 
 <style lang="less">

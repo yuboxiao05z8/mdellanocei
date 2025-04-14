@@ -391,8 +391,8 @@ export default {
       })
     },
     isNextFn() {
-      let earnest = this.reserveObj.earnest,
-        Received = this.reserveObj.Received
+      let earnest = Number(this.reserveObj.earnest),
+        Received = Number(this.reserveObj.Received)
       if (earnest > Received) {
         this.$notify.error({
           title: 'Error',

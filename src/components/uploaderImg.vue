@@ -134,6 +134,7 @@ export default {
       formData.append("userId", user.userId);
       formData.append("file", imgBlob.upImgData);
       formData.append("type", "transactionImg");
+      console.log(formData)
       this.$PostFormData(this.$api.uploadFile, formData).then(res => {
         if (res.code === "0") {
           let item = {

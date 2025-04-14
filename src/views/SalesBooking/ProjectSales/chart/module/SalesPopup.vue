@@ -175,6 +175,7 @@ export default {
           type: this.unitObj.purchaseStatus,
           link: '/SalesBooking/ProjectSales/SalesChart',
           countDown: this.unitData.bookTime,
+          accessData: this.AccessData
         },
       })
       this.show = false
@@ -189,6 +190,7 @@ export default {
           projectId: this.unitObj.projectId,
           Status: 'RESERVED',
           link: '/SalesBooking/ProjectSales/SalesChart',
+          accessData: this.AccessData
         },
       })
     },
