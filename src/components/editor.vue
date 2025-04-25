@@ -12,6 +12,7 @@ import 'tinymce/icons/default/icons'
 import 'tinymce/plugins/advlist'
 import 'tinymce/plugins/lists'
 import 'tinymce/plugins/image'
+import 'tinymce/plugins/link'
 import 'tinymce/plugins/paste'
 import 'tinymce/plugins/code'
 import 'tinymce/plugins/textcolor'
@@ -45,11 +46,11 @@ export default {
         skin_url: '/static/tinymce/skins/ui/oxide',
         menubar: false,
         plugins:
-          'code,advlist,lists nonbreaking,image,paste,wordcount,preview ',
+          'code,advlist,lists nonbreaking,image,link,paste,wordcount,preview ',
         toolbar_items_size: 'small',
         block_formats:
           'Paragraph=p;Heading 1=h1;Heading 2=h2;Heading 3=h3;Heading 4=h4;Heading 5=h5;Heading 6=h6;',
-        toolbar1: 'undo redo | formatselect |  uploadimg image | code', // 工具栏1
+        toolbar1: 'undo redo | formatselect |  uploadimg image | code |', // 工具栏1  link unlink
         toolbar2:
           ' fontsizeselect | forecolor backcolor | fontselect bold italic underline strikethrough | bullist numlist | alignleft aligncenter alignright alignjustify |  outdent indent | removeformat | preview', // 工具栏2
 

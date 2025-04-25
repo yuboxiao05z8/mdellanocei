@@ -241,7 +241,7 @@ export default {
           top: 0;
           left: 0;
           &.AVAILABLE {
-            background-color: #b5e8e0;
+            background-color: forestgreen;
           }
           &.SOLD {
             background-color: #f4b0c7;

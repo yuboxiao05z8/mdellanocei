@@ -371,7 +371,7 @@
 
         <div style="border-bottom:1px solid #dcdfe6;margin:5px 0;"></div>
         <el-row>
-          <el-col :span="18">
+          <el-col :span="12">
             <el-form-item :label="$t('edit.description')">
               <editor
                 editorId="description"
@@ -382,9 +382,20 @@
               ></editor>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('edit.description')+'(中文)'">
+              <editor
+                editorId="descriptionCn"
+                :value="detailForm.descriptionCn"
+                :setting="editorSetting"
+                @show="editors"
+                @on-upload-success="onEditorUploadComplete"
+              ></editor>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row>
-          <el-col :span="18">
+          <el-col :span="12">
             <el-form-item :label="$t('edit.keyPoints')">
               <editor
                 editorId="keyPoints"
@@ -395,9 +406,20 @@
               ></editor>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('edit.keyPoints')+'(中文)'">
+              <editor
+                editorId="keyPointsCn"
+                :value="detailForm.keyPointsCn"
+                :setting="editorSetting"
+                @show="editors"
+                @on-upload-success="onEditorUploadComplete"
+              ></editor>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row>
-          <el-col :span="18">
+          <el-col :span="12">
             <el-form-item :label="$t('edit.facilities')">
               <editor
                 editorId="facilities"
@@ -408,13 +430,35 @@
               ></editor>
             </el-form-item>
           </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('edit.facilities')+'(中文)'">
+              <editor
+                editorId="facilitiesCn"
+                :value="detailForm.facilitiesCn"
+                :setting="editorSetting"
+                @show="editors"
+                @on-upload-success="onEditorUploadComplete"
+              ></editor>
+            </el-form-item>
+          </el-col>
         </el-row>
         <el-row>
-          <el-col :span="18">
+          <el-col :span="12">
             <el-form-item :label="$t('edit.nearbyAmenities')">
               <editor
                 editorId="nearbyAmenities"
                 :value="detailForm.nearbyAmenities"
+                :setting="editorSetting"
+                @show="editors"
+                @on-upload-success="onEditorUploadComplete"
+              ></editor>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('edit.nearbyAmenities')+'(中文)'">
+              <editor
+                editorId="nearbyAmenitiesCn"
+                :value="detailForm.nearbyAmenitiesCn"
                 :setting="editorSetting"
                 @show="editors"
                 @on-upload-success="onEditorUploadComplete"
@@ -429,11 +473,22 @@
           :closable="false"
         ></el-alert>
         <el-row>
-          <el-col :span="18">
+          <el-col :span="12">
             <el-form-item :label="$t('DeveloperInformation')">
               <editor
                 editorId="commission"
                 :value="detailForm.commission"
+                :setting="editorSetting"
+                @show="editors"
+                @on-upload-success="onEditorUploadComplete"
+              ></editor>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item :label="$t('DeveloperInformation')+'(中文)'">
+              <editor
+                editorId="commissionCn"
+                :value="detailForm.commissionCn"
                 :setting="editorSetting"
                 @show="editors"
                 @on-upload-success="onEditorUploadComplete"
@@ -496,6 +551,82 @@
           </el-col>
         </el-row>-->
         <!-- <div style="border-bottom:1px solid #dcdfe6;margin-bottom:15px"></div> -->
+        
+        <!-- <el-alert
+          style="padding:8px 0;margin-bottom:30px"
+          :title="$t('地图位置信息')"
+          type="info"
+          :closable="false"
+        ></el-alert>
+        <el-row style="margin-bottom:20px">
+          <el-col :span="12">
+            <span>{{$t('edit.latitude')}}:</span>
+            <span>{{detailForm.latitude}}</span>
+          </el-col>
+          <el-col :span="12">
+            <span>{{$t('edit.longitude')}}:</span>
+            <span>{{detailForm.longitude}}</span>
+          </el-col>
+        </el-row>
+        <el-row style="margin-bottom:20px">
+          <el-col :span="12">
+            <span style="margin-right:20px">{{$t('快照')}}:</span>
+            <el-button size="mini" @click="downMapImg">{{$t('获取/更新')}}</el-button>
+          </el-col>
+        </el-row>
+        <el-row style="margin-bottom:20px">
+          <el-col :span="12" class="uploader">
+            <img @click.stop="$imgPreview(hostUrl + detailForm.snapshotLogo)" :src="hostUrl + detailForm.snapshotLogo" alt="">
+          </el-col>
+        </el-row>
+        <el-row style="margin-bottom:20px">
+          <el-col :span="12">
+            <span style="margin-right:20px">{{$t('周边设施')}}:</span>
+            <el-button size="mini" @click="downNear">{{$t('获取/更新')}}</el-button>
+          </el-col>
+        </el-row>
+        <el-row style="margin-bottom:20px">
+          <el-col :span="12">
+            <ul class="nearbyList">
+              <li class="nearbyList-box">
+                <p class="nearbyList-type">trains:</p>
+                <p class="nearbyList-value-box">
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['trains']">{{item}}</span>
+                </p>
+              </li>
+              <li class="nearbyList-box">
+                <p class="nearbyList-type">shops:</p>
+                <p class="nearbyList-value-box">
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['shops']">{{item}}</span>
+                </p>
+              </li>
+              <li class="nearbyList-box">
+                <p class="nearbyList-type">schools:</p>
+                <p class="nearbyList-value-box">
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['schools']">{{item}}</span>
+                </p>
+              </li>
+              <li class="nearbyList-box">
+                <p class="nearbyList-type">healthcare:</p>
+                <p class="nearbyList-value-box">
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['healthcare']">{{item}}</span>
+                </p>
+              </li>
+              <li class="nearbyList-box">
+                <p class="nearbyList-type">local food:</p>
+                <p class="nearbyList-value-box">
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['local food']">{{item}}</span>
+                </p>
+              </li>
+              <li class="nearbyList-box">
+                <p class="nearbyList-type">nature:</p>
+                <p class="nearbyList-value-box">
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['nature']">{{item}}</span>
+                </p>
+              </li>
+            </ul>
+          </el-col>
+        </el-row> -->
         <el-alert
           style="padding:8px 0;margin-bottom:30px"
           :title="$t('edit.customInformationFields')"
@@ -592,6 +723,7 @@
         <el-button type="primary" @click="postLinkManData">UpData</el-button>
       </span>
     </el-dialog>
+    <div id="avenir-map" v-show='false'></div>
   </div>
 </template>
 <script>
@@ -602,7 +734,7 @@ import tinymce from 'tinymce/tinymce'
 export default {
   components: {
     editor,
-    uploader,
+    uploader
   },
   data() {
     return {
@@ -629,7 +761,7 @@ export default {
       priceFrom: '',
       psfFrom: '',
       dialogVisible: false, // 弹窗show
-      projectAreaList: ['CCR', 'RCR', 'OCR'],
+      projectAreaList: ['CCR', 'RCR', 'OCR', 'OTHERS'],
       detailForm: {
         cooperate: false,
         projectName: '',
@@ -659,10 +791,15 @@ export default {
         streetAddress: '',
         postalCode: '',
         description: '',
+        descriptionCn: '',
         keyPoints: '',
+        keyPointsCn: '',
         facilities: '',
+        facilitiesCn:'',
         nearbyAmenities: '',
+        nearbyAmenitiesCn: '',
         commission: '',
+        commissionCn: '',
         externalCommission: '',
         salesContacts: '',
         customLabel1: '',
@@ -684,7 +821,17 @@ export default {
         projectLot: '',
         mukim: '',
         mfPerShare: '',
-        ecProjectCode: ''
+        ecProjectCode: '',
+        snapshotLogo: [],
+        facilitiesMap:[]
+      },
+      nearbyList: {
+        trains: [],
+        shops: [],
+        schools: [],
+        healthcare: [],
+        'local food': [],
+        nature: []
       },
       rules: {
         currencySymbol: [
@@ -810,6 +957,7 @@ export default {
     }
   },
   mounted() {
+    // this.setGoogleMap()
     this.queryProjectDetail()
   },
   methods: {
@@ -904,7 +1052,14 @@ export default {
       this.$Geting(this.$api.queryProjectDetail, { projectId: this.id }).then(
         (res) => {
           if (res.code == 0) {
-            this.detailForm = Object.assign({}, res.datas.project)
+            this.detailForm = Object.assign({snapshotLogo:[]}, res.datas.project)
+            // this.detailForm.snapshotLogo = this.detailForm.snapshotLogo
+            // let nearbyList = {}
+            // let facilitiesMap = JSON.parse(this.detailForm.facilitiesMap)
+            // facilitiesMap.forEach((ele)=>{
+            //   nearbyList[ele.type] = ele.value
+            // })
+            // this.nearbyList = nearbyList
             this.priceFrom = res.datas.project.priceFrom
             this.psfFrom = res.datas.project.psfFrom
             this.fillDataToForm()
@@ -968,22 +1123,42 @@ export default {
         this.detailForm.description
       )
       tinymce.editors[0].setContent(this.detailForm.description)
+      this.detailForm.descriptionCn = this.$base64ToContent(
+        this.detailForm.descriptionCn
+      )
+      tinymce.editors[1].setContent(this.detailForm.descriptionCn)
       this.detailForm.keyPoints = this.$base64ToContent(
         this.detailForm.keyPoints
       )
-      tinymce.editors[1].setContent(this.detailForm.keyPoints)
+      tinymce.editors[2].setContent(this.detailForm.keyPoints)
+      this.detailForm.keyPointsCn = this.$base64ToContent(
+        this.detailForm.keyPointsCn
+      )
+      tinymce.editors[3].setContent(this.detailForm.keyPointsCn)
       this.detailForm.facilities = this.$base64ToContent(
         this.detailForm.facilities
       )
-      tinymce.editors[2].setContent(this.detailForm.facilities)
+      tinymce.editors[4].setContent(this.detailForm.facilities)
+      this.detailForm.facilitiesCn = this.$base64ToContent(
+        this.detailForm.facilitiesCn
+      )
+      tinymce.editors[5].setContent(this.detailForm.facilitiesCn)
       this.detailForm.nearbyAmenities = this.$base64ToContent(
         this.detailForm.nearbyAmenities
       )
-      tinymce.editors[3].setContent(this.detailForm.nearbyAmenities)
+      tinymce.editors[6].setContent(this.detailForm.nearbyAmenities)
+      this.detailForm.nearbyAmenitiesCn = this.$base64ToContent(
+        this.detailForm.nearbyAmenitiesCn
+      )
+      tinymce.editors[7].setContent(this.detailForm.nearbyAmenitiesCn)
       this.detailForm.commission = this.$base64ToContent(
         this.detailForm.commission
       )
-      tinymce.editors[4].setContent(this.detailForm.commission)
+      tinymce.editors[8].setContent(this.detailForm.commission)
+      this.detailForm.commissionCn = this.$base64ToContent(
+        this.detailForm.commissionCn
+      )
+      tinymce.editors[9].setContent(this.detailForm.commissionCn)
       this.detailForm.externalCommission = this.$base64ToContent(
         this.detailForm.externalCommission
       )
@@ -1003,7 +1178,12 @@ export default {
         this.detailForm.keyPoints,
         this.detailForm.facilities,
         this.detailForm.nearbyAmenities,
-        this.detailForm.commission
+        this.detailForm.commission,
+        this.detailForm.descriptionCn,
+        this.detailForm.keyPointsCn,
+        this.detailForm.facilitiesCn,
+        this.detailForm.nearbyAmenitiesCn,
+        this.detailForm.commissionCn
         // this.detailForm.externalCommission,
         // this.detailForm.salesContacts
       )
@@ -1016,18 +1196,33 @@ export default {
       submitData.cooperate = submitData.cooperate ? '1' : '0'
       submitData.deferredPayment = submitData.deferredPayment ? '1' : '0'
       submitData.description = this.$contentToBase64(submitData.description)
+      submitData.descriptionCn = this.$contentToBase64(submitData.descriptionCn)
       submitData.keyPoints = this.$contentToBase64(submitData.keyPoints)
+      submitData.keyPointsCn = this.$contentToBase64(submitData.keyPointsCn)
       submitData.facilities = this.$contentToBase64(submitData.facilities)
+      submitData.facilitiesCn = this.$contentToBase64(submitData.facilitiesCn)
       submitData.nearbyAmenities = this.$contentToBase64(
         submitData.nearbyAmenities
       )
+      submitData.nearbyAmenitiesCn = this.$contentToBase64(
+        submitData.nearbyAmenitiesCn
+      )
       submitData.commission = this.$contentToBase64(submitData.commission)
+      submitData.commissionCn = this.$contentToBase64(submitData.commissionCn)
       submitData.externalCommission = this.$contentToBase64(
         submitData.externalCommission
       )
       submitData.salesContacts = this.$contentToBase64(submitData.salesContacts)
       submitData.projectId = this.id
       submitData.contactImage = this.fileData[0] ? this.fileData[0].path : ''
+      let facilitiesMap = []
+      for(let key in this.nearbyList){
+        facilitiesMap.push({
+          type:key,
+          value:this.nearbyList[key]
+        })
+      }
+      submitData.facilitiesMap = JSON.stringify(facilitiesMap)
       return submitData
     },
     //保存前先读取服务端返回的富文本编辑器里面的内容，晒选出图片存在缓存中
@@ -1056,6 +1251,11 @@ export default {
         this.detailForm.facilities,
         this.detailForm.nearbyAmenities,
         this.detailForm.commission,
+        this.detailForm.descriptionCn,
+        this.detailForm.keyPointsCn,
+        this.detailForm.facilitiesCn,
+        this.detailForm.nearbyAmenitiesCn,
+        this.detailForm.commissionCn,
         this.detailForm.externalCommission,
         this.detailForm.salesContacts
       )
@@ -1065,7 +1265,109 @@ export default {
         window.sessionStorage.setItem('editorImg', JSON.stringify(allEditorArr)) //点击时将之前富文本编辑器里面的图片进行缓存
       this.$changeSession(this.updateEditorArr)
     },
+    downMapImg(){
+      let self = this
+      let imgsrc = 'https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=600x300&maptype=roadmap&markers=color:red%7C'+ this.detailForm.latitude+','+ this.detailForm.longitude+'&key=AIzaSyBFhANESE0lhBp-tSPbOy8FI6FfIiuPR0s';
+      let image = new Image();
+      // 解决跨域 Canvas 污染问题
+      image.setAttribute("crossOrigin", "anonymous");
+      image.onload = function() {
+          let canvas = document.createElement("canvas");
+          canvas.width = image.width;
+          canvas.height = image.height;
+          let context = canvas.getContext("2d");
+          context.drawImage(image, 0, 0, image.width, image.height);
+          let url = canvas.toDataURL("image/png"); //得到图片的base64编码数据
+          console.log(url)
+          // 转成File模式
+          let blob = self.dataURItoFile(url, 'snapshotLogo.png');
+          let item = {
+            name: 'snapshotLogo.png',
+            upImgData: blob
+          };
+          self.UpLoadImg(item)
+          // let a = document.createElement("a"); // 生成一个a元素
+          // let event = new MouseEvent("click"); // 创建一个单击事件
+          // a.download = 'snapshotLogo'; // 设置图片名称
+          // a.href = url; // 将生成的URL设置为a.href属性
+          // a.dispatchEvent(event); // 触发a的单击事件
+      };
+      image.src = imgsrc;
+    },
+    downNear(){
+      this.initMap({
+        lat: Number(this.detailForm.latitude),
+        lng: Number(this.detailForm.longitude)
+      })
+    },
+    /**
+     * 设置地图
+     */
+    setGoogleMap() {
+      let head = document.head || document.getElementsByTagName("head")[0];
+      let scriptDiv = document.createElement("script"); //  AIzaSyAxuq9fNMvpfLt8gwUa1o9djUYr3XwIw8I
+      scriptDiv.src =
+        "https://maps.googleapis.com/maps/api/js?key=AIzaSyBFhANESE0lhBp-tSPbOy8FI6FfIiuPR0s&libraries=places";
+      head.appendChild(scriptDiv);
+    },
+    /**
+     * 获取周边信息
+     */
+    initMap(project) {
+        let self = this
+        let pyrmont = new google.maps.LatLng(project.lat, project.lng); 
+        this.map = new google.maps.Map(document.getElementById("avenir-map"), {
+          center: project,
+          zoom: 18,
+        });
+        this.service = new google.maps.places.PlacesService(this.map);
+        for(let key in this.nearbyList){
+          self.service.textSearch({
+            location: pyrmont,
+            radius: '2000',
+            query: key
+          }, (results, status)=>{
+            if (status == google.maps.places.PlacesServiceStatus.OK) {
+              let value = []
+              results.forEach(element => {
+                value.push(element.name)
+              });
+              self.$set(self.nearbyList, key, value)
+            }
+          });
+        }
+      },
+    dataURItoFile(base64Data, filename = "file") {
+      let arr = base64Data.split(",");
+      let mime = arr[0].match(/:(.*?);/)[1];
+      // let suffix = mime.split("/")[1];
+      let bstr = atob(arr[1]);
+      let n = bstr.length;
+      let u8arr = new Uint8Array(n);
+      while (n--) {
+        u8arr[n] = bstr.charCodeAt(n);
+      }
+      return new File([u8arr], `${filename}`, {
+        type: mime
+      });
+    },
+    UpLoadImg(imgBlob) {
+      let user = JSON.parse(window.sessionStorage.getItem("userInfo"));
+      let formData = new FormData();
+      formData.append("brokeId", user.brokeId);
+      formData.append("token", user.token);
+      formData.append("userId", user.userId);
+      formData.append("file", imgBlob.upImgData);
+      formData.append("type", 'projectImg');
+      console.log(formData)
+      this.$PostFormData(this.$api.uploadFile, formData).then(res => {
+        if (res.code === "0") {
+          this.detailForm.snapshotLogo = res.datas.filePath
+        }
+      });
+    },
   },
+
   beforeDestroy() {
     this.$deleteImg()
   },
@@ -1109,6 +1411,33 @@ export default {
     padding: 15px 30px;
     .el-alert__title {
       font-size: 14px !important;
+    }
+    .uploader{
+      img{
+        width: 160px;
+        height: 80px;
+      }
+    }
+    .nearbyList{
+      padding: 20px;
+      border: 1px solid #ccc;
+      list-style-type: none;
+      .nearbyList-box{
+        display: flex;
+        margin-bottom: 10px;
+        .nearbyList-type{
+          width: 80px;
+          margin-right: 10px;
+        }
+        .nearbyList-value-box{
+          flex: 1;
+          display: flex;
+          flex-wrap: wrap;
+          .nearbyList-value{
+            padding: 2px 10px;
+          }
+        }
+      }
     }
   }
   .upload_content {

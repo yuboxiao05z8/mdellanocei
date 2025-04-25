@@ -20,7 +20,10 @@ export default {
     mixLength: Number, // 限制数量
     id: String, // input ID 必填
     backData: Array, // 父组件容器，必填
-    folder: String, // 传入图片类型 type：CalendarImg(日历图片)
+    folder: {
+      type:String,
+      default: 'transactionImg'
+    }, // 传入图片类型 type：CalendarImg(日历图片)
     maxSize: {
       type: Number,
       default: 100
@@ -133,7 +136,7 @@ export default {
       formData.append("token", user.token);
       formData.append("userId", user.userId);
       formData.append("file", imgBlob.upImgData);
-      formData.append("type", "transactionImg");
+      formData.append("type", this.folder);
       console.log(formData)
       this.$PostFormData(this.$api.uploadFile, formData).then(res => {
         if (res.code === "0") {
