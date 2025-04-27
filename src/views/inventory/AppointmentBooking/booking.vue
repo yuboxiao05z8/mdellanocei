@@ -126,7 +126,7 @@ export default {
       this.$refs.compile.dialogVisible = true
     },
     goBack() {
-      this.$router.replace('/inventory/inventoryList')
+      this.$router.go(-1)
     },
     handleEdit(row) {
       this.$refs.compile.dialogVisible = true

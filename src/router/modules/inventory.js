@@ -169,6 +169,14 @@ const inventoryRouter = [
         ]
       },
       {
+        path: "appointList",
+        hidden: true,
+        component: () => import('@/views/inventory/AppointmentBooking/appointList'),
+        name: 'appointList',
+        type: ['Developers'],
+        meta: { title: 'Appointment List' },
+      },
+      {
         path: "booking",
         hidden: true,
         component: () => import('@/views/inventory/AppointmentBooking/booking'),

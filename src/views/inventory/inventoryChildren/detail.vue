@@ -552,9 +552,9 @@
         </el-row>-->
         <!-- <div style="border-bottom:1px solid #dcdfe6;margin-bottom:15px"></div> -->
         
-        <!-- <el-alert
+        <el-alert
           style="padding:8px 0;margin-bottom:30px"
-          :title="$t('地图位置信息')"
+          title="地图位置信息"
           type="info"
           :closable="false"
         ></el-alert>
@@ -570,8 +570,8 @@
         </el-row>
         <el-row style="margin-bottom:20px">
           <el-col :span="12">
-            <span style="margin-right:20px">{{$t('快照')}}:</span>
-            <el-button size="mini" @click="downMapImg">{{$t('获取/更新')}}</el-button>
+            <span style="margin-right:20px">快照:</span>
+            <el-button size="mini" @click="downMapImg">获取/更新</el-button>
           </el-col>
         </el-row>
         <el-row style="margin-bottom:20px">
@@ -581,8 +581,8 @@
         </el-row>
         <el-row style="margin-bottom:20px">
           <el-col :span="12">
-            <span style="margin-right:20px">{{$t('周边设施')}}:</span>
-            <el-button size="mini" @click="downNear">{{$t('获取/更新')}}</el-button>
+            <span style="margin-right:20px">周边设施:</span>
+            <el-button size="mini" @click="downNear">获取/更新</el-button>
           </el-col>
         </el-row>
         <el-row style="margin-bottom:20px">
@@ -591,42 +591,42 @@
               <li class="nearbyList-box">
                 <p class="nearbyList-type">trains:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['trains']">{{item}}</span>
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['trains']">{{item.name}}</span>
                 </p>
               </li>
               <li class="nearbyList-box">
                 <p class="nearbyList-type">shops:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['shops']">{{item}}</span>
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['shops']">{{item.name}}</span>
                 </p>
               </li>
               <li class="nearbyList-box">
                 <p class="nearbyList-type">schools:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['schools']">{{item}}</span>
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['schools']">{{item.name}}</span>
                 </p>
               </li>
               <li class="nearbyList-box">
                 <p class="nearbyList-type">healthcare:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['healthcare']">{{item}}</span>
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['healthcare']">{{item.name}}</span>
                 </p>
               </li>
               <li class="nearbyList-box">
                 <p class="nearbyList-type">local food:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['local food']">{{item}}</span>
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['local food']">{{item.name}}</span>
                 </p>
               </li>
               <li class="nearbyList-box">
                 <p class="nearbyList-type">nature:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['nature']">{{item}}</span>
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['nature']">{{item.name}}</span>
                 </p>
               </li>
             </ul>
           </el-col>
-        </el-row> -->
+        </el-row>
         <el-alert
           style="padding:8px 0;margin-bottom:30px"
           :title="$t('edit.customInformationFields')"
@@ -957,7 +957,7 @@ export default {
     }
   },
   mounted() {
-    // this.setGoogleMap()
+    this.setGoogleMap()
     this.queryProjectDetail()
   },
   methods: {
@@ -1053,13 +1053,15 @@ export default {
         (res) => {
           if (res.code == 0) {
             this.detailForm = Object.assign({snapshotLogo:[]}, res.datas.project)
-            // this.detailForm.snapshotLogo = this.detailForm.snapshotLogo
-            // let nearbyList = {}
-            // let facilitiesMap = JSON.parse(this.detailForm.facilitiesMap)
-            // facilitiesMap.forEach((ele)=>{
-            //   nearbyList[ele.type] = ele.value
-            // })
-            // this.nearbyList = nearbyList
+            this.detailForm.snapshotLogo = this.detailForm.snapshotLogo
+            let nearbyList = {}
+            let facilitiesMap = JSON.parse(this.detailForm.facilitiesMap)
+            if(facilitiesMap&&facilitiesMap.length>0){
+              facilitiesMap.forEach((ele)=>{
+                nearbyList[ele.type] = ele.value
+              })
+              this.nearbyList = nearbyList
+            }
             this.priceFrom = res.datas.project.priceFrom
             this.psfFrom = res.datas.project.psfFrom
             this.fillDataToForm()
@@ -1217,6 +1219,9 @@ export default {
       submitData.contactImage = this.fileData[0] ? this.fileData[0].path : ''
       let facilitiesMap = []
       for(let key in this.nearbyList){
+        // let longitude2 = this.nearbyList[key].location.log
+        // let latitude2 = this.nearbyList[key].location.lat
+        // this.nearbyList[key].distance = self.distance2(this.detailForm.longitude, this.detailForm.latitude, longitude2, latitude2)
         facilitiesMap.push({
           type:key,
           value:this.nearbyList[key]
@@ -1267,7 +1272,7 @@ export default {
     },
     downMapImg(){
       let self = this
-      let imgsrc = 'https://maps.googleapis.com/maps/api/staticmap?zoom=13&size=600x300&maptype=roadmap&markers=color:red%7C'+ this.detailForm.latitude+','+ this.detailForm.longitude+'&key=AIzaSyBFhANESE0lhBp-tSPbOy8FI6FfIiuPR0s';
+      let imgsrc = 'https://maps.googleapis.com/maps/api/staticmap?zoom=17&size=600x300&maptype=roadmap&markers=color:red%7C'+ this.detailForm.latitude+','+ this.detailForm.longitude+'&key=AIzaSyBFhANESE0lhBp-tSPbOy8FI6FfIiuPR0s';
       let image = new Image();
       // 解决跨域 Canvas 污染问题
       image.setAttribute("crossOrigin", "anonymous");
@@ -1311,6 +1316,24 @@ export default {
       head.appendChild(scriptDiv);
     },
     /**
+     * 计算经纬度距离
+     */
+    distance2(longitude, latitude, longitude2, latitude2) {
+      // console.log(longitude, longitude2)
+      var lat1 = (Math.PI / 180) * Number(latitude);
+      var lat2 = (Math.PI / 180) * Number(latitude2);
+      var lon1 = (Math.PI / 180) * Number(longitude);
+      var lon2 = (Math.PI / 180) * Number(longitude2);
+      //地球半径，公里
+      var R = 6371.393;
+      var d = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2)
+        * Math.cos(lon2 - lon1)) * R;
+
+      //單位：公里
+      // console.log(d)
+      return d;
+    },
+    /**
      * 获取周边信息
      */
     initMap(project) {
@@ -1320,17 +1343,31 @@ export default {
           center: project,
           zoom: 18,
         });
-        this.service = new google.maps.places.PlacesService(this.map);
+        let service = new google.maps.places.PlacesService(this.map);
+        let service2 = new google.maps.places.PlacesService(this.map);
         for(let key in this.nearbyList){
-          self.service.textSearch({
+          service.textSearch({
             location: pyrmont,
             radius: '2000',
             query: key
           }, (results, status)=>{
             if (status == google.maps.places.PlacesServiceStatus.OK) {
+              // let placeId5 = results[0].place_id;
+              // var request1 = {
+              //   placeId: placeId5,
+              // };
+              // service2.getDetails(request1, function(place, status) {
+              //   console.log(place)
+              // })
               let value = []
               results.forEach(element => {
-                value.push(element.name)
+                console.log(element.geometry)
+                value.push({
+                  name:element.name,
+                  location: element.geometry.location,
+                  icon: element.icon,
+                  formatted_address: element.formatted_address
+                })
               });
               self.$set(self.nearbyList, key, value)
             }

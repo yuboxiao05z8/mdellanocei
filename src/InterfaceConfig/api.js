@@ -251,6 +251,10 @@ Vue.api = Vue.prototype.$api = {
   queryAppointmentDetails: "/broke-manager-service/appointment/queryAppointmentDetails", // 查询项目预约设置详情
   queryAppointmentList: "/broke-manager-service/appointment/queryAppointmentList", // 查询项目预约设置列表
   saveAppointmentDetails: "/broke-manager-service/appointment/saveAppointmentDetails", // 保存中介公司预约明细
+  queryAppointmentLogList:"/broke-manager-service/appointment/queryAppointmentLogList", //查询预约记录列表
+  updateAppointmentStatus:"/trade-service/appointment/updateAppointmentStatus", //更新预约状态
+  saveAppointmentLog: "/trade-service/appointment/saveAppointmentLog", //保存预约信息
+  deleteAppointmentLog: "/trade-service/appointment/deleteAppointmentLog", //删除预约记录
   uploadProjectPromoImage: "/broke-manager-service/upload/uploadProjectPromoImage", // 上传Project Promo Image
   queryProjectPromo: "/broke-manager-service/project/queryProjectPromo", // 查询项目promo信息
   saveProjectPromo: "/broke-manager-service/project/saveProjectPromo", // 保存项目promo信息
@@ -311,5 +315,9 @@ Vue.api = Vue.prototype.$api = {
   queryTransactionList: '/trade-service/transaction/queryTransactionList', //查询交易列表
   updateTransactionStatus: '/trade-service/transaction/updateTransactionStatus', //更改交易状态
   queryTransactionStatusSales: '/trade-service/transaction/queryTransactionStatusSales', //查询交易状态统计
+
+  //抽签
+  drawInterestBuyer: '/broke-manager-service/interest/drawInterestBuyer', //随机抽取买家生成抽签号
+  queryDrawInfo: '/broke-manager-service/interest/queryDrawInfo', //查询抽签数据信息
 }
 

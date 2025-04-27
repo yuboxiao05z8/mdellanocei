@@ -325,7 +325,8 @@ export default {
     },
     GoBooking(row) {
       this.$router.push({
-        path: '/inventory/booking',
+        // path: '/inventory/booking',
+        path:'/inventory/appointList',
         query: {
           id: row.projectId,
           name: row.projectName

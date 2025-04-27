@@ -104,6 +104,19 @@ export default [
       }
     ]
   },
+  {
+    path: "/lottery",
+    component: Layout,
+    redirect: '/lottery',
+    children: [
+      {
+        path: '/lottery',
+        component: () => import('@/views/lottery/index'),
+        name: 'lottery',
+        meta: { title: 'lottery', icon: 'el-icon-sell' }
+      }
+    ]
+  },
   ...adminRouter,
   ...dynamicRouter
 ]

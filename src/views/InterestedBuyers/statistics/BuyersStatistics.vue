@@ -9,7 +9,7 @@
             class="btn el-icon-back"
             style="margin-right: 30px"
             @click="goBack"
-            >{{ $t('editMap.goBack') }}</el-button
+            >{{$t('editMap.goBack')}}</el-button
           >
         </el-col>
         <el-col :span="8">
@@ -31,6 +31,7 @@
             }"
           ></uploader>
           <el-button size="mini" @click="exportData">Excel Template</el-button>
+          <el-button size="mini" @click="toLottery">Start E-Ballot</el-button>
         </el-col>
       </el-row>
     </div>
@@ -272,6 +273,14 @@ export default {
         this.$api.exportUnitInterest,
         params
       )
+    },
+    toLottery(){
+      this.$router.push({
+        path: '/lottery',
+        query: {
+          id: this.$route.query.id
+        }
+      })
     },
     searchFn() {
       switch (this.activePageName) {
