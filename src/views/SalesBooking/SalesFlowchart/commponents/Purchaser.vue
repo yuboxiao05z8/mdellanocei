@@ -16,6 +16,16 @@
                 <span v-if="scope.row.customerType == 1">Corporate</span>
               </template>
             </el-table-column>
+            <el-table-column label="Company Name" prop="companyName">
+              <template slot-scope="scope">
+                <span v-if="scope.row.customerType == 1">{{scope.row.companyName}}</span>
+              </template>
+            </el-table-column>
+            <el-table-column label="Company UEN" prop="businessNumber">
+              <template slot-scope="scope">
+                <span v-if="scope.row.customerType == 1">{{scope.row.businessNumber}}</span>
+              </template>
+            </el-table-column>
             <el-table-column
               label="Nationality"
               prop="nationality"
@@ -280,6 +290,20 @@
                 ></el-option>
               </el-select>
             </el-form-item>
+            <el-form-item label="Company Name" prop="companyName" v-if="buyerForm.customerType===1">
+              <el-input
+                size="mini"
+                style="width: 100%"
+                v-model="buyerForm.companyName"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="Company UEN" prop="businessNumber" v-if="buyerForm.customerType===1">
+              <el-input
+                size="mini"
+                style="width: 100%"
+                v-model="buyerForm.businessNumber"
+              ></el-input>
+            </el-form-item>
             <el-form-item label="Date of Birth" prop="dateOfBirth">
               <!-- <el-date-picker
                 value-format="yyyy-MM-dd"
@@ -500,6 +524,8 @@ export default {
       tableData: [],
       buyerForm: {
         customerType: 0,
+        companyName: '',
+        businessNumber: '',
         dateOfBirth: '1990-01-01',
         gender: '',
         countryCallingCode: '+65(SG)',
@@ -608,6 +634,8 @@ export default {
     },
     resetFromFn() {
       this.buyerForm = {
+        companyName: '',
+        businessNumber: '',
         customerType: 0,
         dateOfBirth: '1990-01-01',
         gender: '',

@@ -287,6 +287,10 @@ export default {
         {
           value: "DD",
           label: "DD"
+        },
+        {
+          value: "Developer",
+          label: "Developer"
         }
       ],
       groupOptions: [

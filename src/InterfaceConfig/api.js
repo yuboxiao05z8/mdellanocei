@@ -319,5 +319,7 @@ Vue.api = Vue.prototype.$api = {
   //抽签
   drawInterestBuyer: '/broke-manager-service/interest/drawInterestBuyer', //随机抽取买家生成抽签号
   queryDrawInfo: '/broke-manager-service/interest/queryDrawInfo', //查询抽签数据信息
+
+  querySysArea: '/broke-manager-service/project/querySysArea', //查询区域
 }
 

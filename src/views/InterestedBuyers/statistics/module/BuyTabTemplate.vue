@@ -13,6 +13,18 @@
         width="180"
       ></el-table-column>
       <el-table-column
+        v-if="isShowQueueNo"
+        prop="loa"
+        label="LOA"
+        width="180"
+      ></el-table-column>
+      <el-table-column
+        v-if="isShowQueueNo"
+        prop="ballotNum"
+        label="Queue No."
+        width="180"
+      ></el-table-column>
+      <el-table-column
         prop="brokeName"
         label="Agency"
         width="180"
@@ -88,7 +100,7 @@
 
 <script>
 export default {
-  props: ['tabList', 'count', 'bgColor'],
+  props: ['tabList', 'count', 'bgColor', 'isShowQueueNo'],
   data() {
     return {
       pageSize: 10,

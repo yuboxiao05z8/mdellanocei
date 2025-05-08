@@ -59,6 +59,7 @@ export default {
     handleSizeChange(val) {
       this.pageSize = val;
       this.getListData();
+    h
     },
     handleCurrentChange(val) {
       this.currentPage = val;

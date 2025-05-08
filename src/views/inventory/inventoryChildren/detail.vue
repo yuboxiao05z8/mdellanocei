@@ -10,11 +10,11 @@
         </el-col>
         <el-col :span="12" style="text-align:right">
           <el-button :disabled="self == 0" size="mini" @click="updateDetail">{{$t('edit.update')}}</el-button>
-          <el-button
+          <!-- <el-button
             size="mini"
             :disabled="self == 0"
             @click="$router.replace('/home/inventoryList.html')"
-          >{{$t('edit.cancel')}}</el-button>
+          >{{$t('edit.cancel')}}</el-button> -->
         </el-col>
       </el-row>
     </div>
@@ -35,6 +35,11 @@
                 :disabled="userInfo.type !==2 && userInfo.isAdmin!==0"
                 v-model="detailForm.cooperate"
               ></el-checkbox>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="Sold Out">
+              <el-switch v-model="detailForm.soldOut" active-color="#409eff"></el-switch>
             </el-form-item>
           </el-col>
         </el-row>
@@ -160,7 +165,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item prop="country" :label="$t('edit.country')">
-              <el-select size="mini" v-model="detailForm.country" class="width_300px" placeholder>
+              <el-select size="mini" v-model="detailForm.country" class="width_300px" placeholder @change="getAddress">
                 <el-option v-for="item in countryData" :key="item" :label="item" :value="item"></el-option>
               </el-select>
             </el-form-item>
@@ -168,6 +173,13 @@
           <el-col :span="12">
             <el-form-item :label="$t('edit.countryAltText')">
               <el-input class="width_300px" v-model="detailForm.countryAltText"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="24">
+            <el-form-item prop="address" :label="$t('address')">
+              <el-cascader size="mini" style="width:100%;" v-model="detailForm.address" :options="options" clearable @change='selectAddress'></el-cascader>
             </el-form-item>
           </el-col>
         </el-row>
@@ -554,7 +566,7 @@
         
         <el-alert
           style="padding:8px 0;margin-bottom:30px"
-          title="地图位置信息"
+          :title="$t('Location Map Configuration')"
           type="info"
           :closable="false"
         ></el-alert>
@@ -567,11 +579,22 @@
             <span>{{$t('edit.longitude')}}:</span>
             <span>{{detailForm.longitude}}</span>
           </el-col>
+          <el-col :span="12" style="marginTop:10px;">
+            <span>{{$t('edit.GalleryLatitude')}}:</span>
+            <span>{{detailForm.galleryLatitude}}</span>
+          </el-col>
+          <el-col :span="12" style="marginTop:10px;">
+            <span>{{$t('edit.GalleryLongitude')}}:</span>
+            <span>{{detailForm.galleryLongitude}}</span>
+          </el-col>
         </el-row>
         <el-row style="margin-bottom:20px">
-          <el-col :span="12">
-            <span style="margin-right:20px">快照:</span>
-            <el-button size="mini" @click="downMapImg">获取/更新</el-button>
+          <el-col :span="24" style="display: flex;align-items:center;">
+            <span style="margin-right:20px">{{$t('Thumbnail Screenshot')}}:</span>
+            <el-button style="margin-right:20px" size="mini" @click="downMapImg">{{$t('Update')}}</el-button>
+            <span style="margin-right:20px">{{$t(' Map Zoom Level')}}:</span>
+            <el-input size="mini" type="number" style="width: 100px;margin-right:10px;" max="20" min="13" v-model="mapImgZoom"></el-input>
+            <span>({{$t('From 13 to 20 max')}})</span>
           </el-col>
         </el-row>
         <el-row style="margin-bottom:20px">
@@ -581,47 +604,47 @@
         </el-row>
         <el-row style="margin-bottom:20px">
           <el-col :span="12">
-            <span style="margin-right:20px">周边设施:</span>
-            <el-button size="mini" @click="downNear">获取/更新</el-button>
+            <span style="margin-right:20px">{{$t('Surrounding Amenities Resource Update')}}:</span>
+            <el-button size="mini" @click="downNear">{{$t('Update')}}</el-button>
           </el-col>
         </el-row>
         <el-row style="margin-bottom:20px">
           <el-col :span="12">
             <ul class="nearbyList">
               <li class="nearbyList-box">
-                <p class="nearbyList-type">trains:</p>
+                <p class="nearbyList-type">Bus Interchange:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['trains']">{{item.name}}</span>
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['bus_station']">{{item.name}}</span>
                 </p>
               </li>
               <li class="nearbyList-box">
-                <p class="nearbyList-type">shops:</p>
+                <p class="nearbyList-type">MRT Station:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['shops']">{{item.name}}</span>
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['subway_station']">{{item.name}}</span>
                 </p>
               </li>
               <li class="nearbyList-box">
-                <p class="nearbyList-type">schools:</p>
+                <p class="nearbyList-type">Shopping Mall:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['schools']">{{item.name}}</span>
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['shopping_mall']">{{item.name}}</span>
                 </p>
               </li>
               <li class="nearbyList-box">
-                <p class="nearbyList-type">healthcare:</p>
+                <p class="nearbyList-type">School:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['healthcare']">{{item.name}}</span>
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['school']">{{item.name}}</span>
                 </p>
               </li>
               <li class="nearbyList-box">
-                <p class="nearbyList-type">local food:</p>
+                <p class="nearbyList-type">Food:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['local food']">{{item.name}}</span>
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['restaurant']">{{item.name}}</span>
                 </p>
               </li>
               <li class="nearbyList-box">
-                <p class="nearbyList-type">nature:</p>
+                <p class="nearbyList-type">Hospital:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['nature']">{{item.name}}</span>
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['hospital']">{{item.name}}</span>
                 </p>
               </li>
             </ul>
@@ -731,6 +754,8 @@ import editor from '@/components/editor'
 import selsectData from '@/utils/selectData.json'
 import uploader from '@/components/uploader'
 import tinymce from 'tinymce/tinymce'
+import NProgress from 'nprogress'
+import 'nprogress/nprogress.css'
 export default {
   components: {
     editor,
@@ -764,6 +789,7 @@ export default {
       projectAreaList: ['CCR', 'RCR', 'OCR', 'OTHERS'],
       detailForm: {
         cooperate: false,
+        soldOut: false,
         projectName: '',
         mobileSync: false,
         currencySymbol: '',
@@ -782,6 +808,7 @@ export default {
         launchDateAltText: '',
         country: '',
         countryAltText: '',
+        address: '',
         location: '',
         locationAltText: '',
         propertyGroup: '',
@@ -826,12 +853,12 @@ export default {
         facilitiesMap:[]
       },
       nearbyList: {
-        trains: [],
-        shops: [],
-        schools: [],
-        healthcare: [],
-        'local food': [],
-        nature: []
+        subway_station: [],
+        shopping_mall: [],
+        school: [],
+        restaurant: [],
+        bus_station: [],
+        hospital: []
       },
       rules: {
         currencySymbol: [
@@ -954,6 +981,8 @@ export default {
           },
         ],
       },
+      mapImgZoom: 17, //地图快照缩放级别
+      options: [], //地址选择级联数据
     }
   },
   mounted() {
@@ -961,6 +990,19 @@ export default {
     this.queryProjectDetail()
   },
   methods: {
+    getAddress(){
+      this.$Geting(this.$api.querySysArea, {
+        country: this.detailForm.country
+      })
+      .then(res=>{
+        if(res.code==='0'){
+          this.options = res.datas
+        }
+      })
+    },
+    selectAddress(){
+      console.log(this.detailForm.address)
+    },
     deleteImg() {
       this.$Geting(this.$api.deleteFile, {
         path: this.hostUrl + this.fileData[0].path,
@@ -1054,12 +1096,16 @@ export default {
           if (res.code == 0) {
             this.detailForm = Object.assign({snapshotLogo:[]}, res.datas.project)
             this.detailForm.snapshotLogo = this.detailForm.snapshotLogo
-            let nearbyList = {}
+            let nearbyList = this.nearbyList
             let facilitiesMap = JSON.parse(this.detailForm.facilitiesMap)
             if(facilitiesMap&&facilitiesMap.length>0){
-              facilitiesMap.forEach((ele)=>{
-                nearbyList[ele.type] = ele.value
-              })
+              for(let key in nearbyList){
+                facilitiesMap.forEach((ele)=>{
+                  if(ele.type===key){
+                    nearbyList[key] = ele.value
+                  }
+                })
+              }
               this.nearbyList = nearbyList
             }
             this.priceFrom = res.datas.project.priceFrom
@@ -1120,6 +1166,7 @@ export default {
         this.detailForm.mobileSync == 'YES' ? true : false
       this.detailForm.featured = this.detailForm.featured == '1' ? false : true
       this.detailForm.cooperate = this.detailForm.cooperate == 1 ? true : false
+      this.detailForm.soldOut = this.detailForm.soldOut==1?true:false
       this.detailForm.deferredPayment = this.detailForm.deferredPayment == 1 ? true : false
       this.detailForm.description = this.$base64ToContent(
         this.detailForm.description
@@ -1175,6 +1222,16 @@ export default {
           url: `${this.hostUrl}${this.detailForm.contactImage}`,
         })
       }
+      if(this.detailForm.country){
+        this.getAddress()
+      }
+      if (this.detailForm.areaLevel1) {
+        let address = []
+        address.push(this.detailForm.areaLevel1)
+        address.push(this.detailForm.areaLevel2)
+        address.push(this.detailForm.areaLevel3)
+        this.detailForm.address = address
+      }
       this.beforeSaveGetInitEdit(
         this.detailForm.description,
         this.detailForm.keyPoints,
@@ -1196,6 +1253,7 @@ export default {
       submitData.mobileSync = submitData.mobileSync ? 'YES' : 'NO'
       submitData.featured = submitData.featured ? '0' : '1'
       submitData.cooperate = submitData.cooperate ? '1' : '0'
+      submitData.soldOut = submitData.soldOut ? '1' : '0'
       submitData.deferredPayment = submitData.deferredPayment ? '1' : '0'
       submitData.description = this.$contentToBase64(submitData.description)
       submitData.descriptionCn = this.$contentToBase64(submitData.descriptionCn)
@@ -1227,6 +1285,9 @@ export default {
           value:this.nearbyList[key]
         })
       }
+      submitData.areaLevel1 = submitData.address[0]
+      submitData.areaLevel2 = submitData.address[1]
+      submitData.areaLevel3 = submitData.address[2]
       submitData.facilitiesMap = JSON.stringify(facilitiesMap)
       return submitData
     },
@@ -1272,7 +1333,12 @@ export default {
     },
     downMapImg(){
       let self = this
-      let imgsrc = 'https://maps.googleapis.com/maps/api/staticmap?zoom=17&size=600x300&maptype=roadmap&markers=color:red%7C'+ this.detailForm.latitude+','+ this.detailForm.longitude+'&key=AIzaSyBFhANESE0lhBp-tSPbOy8FI6FfIiuPR0s';
+      let imgsrc = ""
+      if(this.detailForm.galleryLongitude){
+        imgsrc = 'https://maps.googleapis.com/maps/api/staticmap?zoom='+this.mapImgZoom+'&size=600x300&maptype=roadmap&markers=color:red%7Clabel:C%7C'+ this.detailForm.latitude+','+ this.detailForm.longitude+'&markers=color:green%7Clabel:G%7C' + this.detailForm.galleryLatitude + ',' + this.detailForm.galleryLongitude + '&key=AIzaSyBFhANESE0lhBp-tSPbOy8FI6FfIiuPR0s';
+      }else{
+        imgsrc = 'https://maps.googleapis.com/maps/api/staticmap?zoom='+this.mapImgZoom+'&size=600x300&maptype=roadmap&markers=color:red%7Clabel:C%7C'+ this.detailForm.latitude+','+ this.detailForm.longitude+'&key=AIzaSyBFhANESE0lhBp-tSPbOy8FI6FfIiuPR0s';
+      }
       let image = new Image();
       // 解决跨域 Canvas 污染问题
       image.setAttribute("crossOrigin", "anonymous");
@@ -1299,11 +1365,20 @@ export default {
       };
       image.src = imgsrc;
     },
-    downNear(){
-      this.initMap({
+    async downNear(){
+      let self = this
+      let arr = ["WALKING", "DRIVING", "TRANSIT"]
+      
+      await this.initMap({
         lat: Number(this.detailForm.latitude),
         lng: Number(this.detailForm.longitude)
       })
+      // self.getDistance({
+      //   lat: Number(self.detailForm.latitude),
+      //   lng: Number(self.detailForm.longitude)
+      // }, 'WALKING')
+      // for(let i=0; i<arr.length; i++){
+      // }
     },
     /**
      * 设置地图
@@ -1333,12 +1408,53 @@ export default {
       // console.log(d)
       return d;
     },
+    async getDistance(project, TravelMode){
+      let self = this
+      let origins = []
+      let time = 0
+      origins.push(new google.maps.LatLng(project.lat, project.lng));
+      NProgress.start()
+      setTimeout(()=>{
+        NProgress.done()
+      }, 3000)
+      for(let key in self.nearbyList){
+        time+=500
+        let destinations = []
+        console.log(self.nearbyList[key])
+        self.nearbyList[key].forEach((ele) => {
+          destinations.push(ele.location)
+        })
+        const request = {
+          origins: origins,
+          destinations: destinations,
+          travelMode: google.maps.TravelMode[TravelMode],
+          unitSystem: google.maps.UnitSystem.METRIC,
+          avoidHighways: false,
+          avoidTolls: false,
+        };
+        const service = new google.maps.DistanceMatrixService();
+        setTimeout(()=>{
+          service.getDistanceMatrix(request).then((response, status) => {
+            let distance = response.rows[0].elements
+            let nearby = self.nearbyList[key]
+            nearby.forEach((item, index)=>{
+              item.distance = distance[index].distance.value
+              item.duration = distance[index].duration.value
+            })
+            self.nearbyList[key] = nearby
+          })
+        }, time)
+      }
+    },
     /**
      * 获取周边信息
      */
-    initMap(project) {
+    async initMap(project) {
+        let time = 0
         let self = this
         let pyrmont = new google.maps.LatLng(project.lat, project.lng); 
+        let origins = []
+        origins.push(pyrmont);
         this.map = new google.maps.Map(document.getElementById("avenir-map"), {
           center: project,
           zoom: 18,
@@ -1346,11 +1462,16 @@ export default {
         let service = new google.maps.places.PlacesService(this.map);
         let service2 = new google.maps.places.PlacesService(this.map);
         for(let key in this.nearbyList){
-          service.textSearch({
+          time+=500
+          let types = []
+          types.push(key)
+          let request = {
             location: pyrmont,
             radius: '2000',
-            query: key
-          }, (results, status)=>{
+            types: types
+          };
+          let destinations = []
+          service.nearbySearch(request, (results, status)=>{
             if (status == google.maps.places.PlacesServiceStatus.OK) {
               // let placeId5 = results[0].place_id;
               // var request1 = {
@@ -1361,17 +1482,38 @@ export default {
               // })
               let value = []
               results.forEach(element => {
-                console.log(element.geometry)
                 value.push({
                   name:element.name,
                   location: element.geometry.location,
                   icon: element.icon,
-                  formatted_address: element.formatted_address
+                  place_id: element.place_id
                 })
+                destinations.push(element.geometry.location)
               });
               self.$set(self.nearbyList, key, value)
             }
           });
+          setTimeout(()=>{
+            console.log(destinations)
+            const request = {
+              origins: origins,
+              destinations: destinations,
+              travelMode: google.maps.TravelMode["WALKING"],
+              unitSystem: google.maps.UnitSystem.METRIC,
+              avoidHighways: false,
+              avoidTolls: false,
+            };
+            const service = new google.maps.DistanceMatrixService();
+            service.getDistanceMatrix(request).then((response, status) => {
+              let distance = response.rows[0].elements
+              let nearby = self.nearbyList[key]
+              nearby.forEach((item, index)=>{
+                item.distance = distance[index].distance.value
+                item.duration = distance[index].duration.value
+              })
+              self.nearbyList[key] = nearby
+            })
+          }, time)
         }
       },
     dataURItoFile(base64Data, filename = "file") {

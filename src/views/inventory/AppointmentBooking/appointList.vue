@@ -12,28 +12,33 @@
           >{{$t('editMap.goBack')}}</el-button>
         </el-col>
         <el-col :span="16" style="text-align:right">
-          <el-button size="mini" @click="exportExcel">{{$t('inventoryLists.excelTemplate')}}</el-button>
-          <el-button size="mini" @click="toBooking">预约管理</el-button>
+          <el-button size="mini" @click="exportExcel">Export Excel</el-button>
+          <el-button size="mini" @click="toBooking">{{$t('Appointment["Appointment Settings"]')}}</el-button>
         </el-col>
       </el-row>
     </div>
     <div class="appoint_list_table">
-      <p class="table_title">预约用户列表</p>
+      <p class="table_title">{{$t('Appointment["Appointment User List"]')}}</p>
       
-      <el-form :inline="true" size="small">
+      <el-form :inline="true" size="mini">
         <el-form-item>
-          <el-input v-model="brokeName" placeholder="中介公司"></el-input>
+          <el-input v-model="agentName" :placeholder="$t('Appointment.Appointmeng-Agent')"></el-input>
         </el-form-item>
-        
         <el-form-item>
-          <el-input v-model="buyerName" placeholder="参与用户"></el-input>
+          <el-input v-model="brokeName" :placeholder="$t('Appointment.Appointmeng-Broke')"></el-input>
         </el-form-item>
-        <el-form-item label="报名时间">
+        <el-form-item>
+          <el-input v-model="regNum" :placeholder="$t('Appointment.Appointmeng-RegNum')"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-input v-model="buyerName" :placeholder="$t('Appointment.Buyer-Name')"></el-input>
+        </el-form-item>
+        <el-form-item :label="$t('Appointment.Appointment Date')">
           <el-date-picker
             v-model="appointmentTime"
             type="daterange"
-            start-placeholder="开始日期"
-            end-placeholder="结束日期"
+            :start-placeholder="$t('Appointment.Start Date')"
+            :end-placeholder="$t('Appointment.End Date')"
             value-format="yyyy/MM/dd"
             :default-time="['00:00:00', '23:59:59']">
           </el-date-picker>
@@ -43,47 +48,47 @@
         </el-form-item>
       </el-form>
       <el-table :data="appointList" border style="width: 100%" max-height="600" :header-cell-style="{'background':'#f5f7fa'}" size="mini">
-        <el-table-column label="报名时间">
+        <el-table-column :label="$t('Appointment.Appointment Date')">
           <template slot-scope="scope">
             <div>{{$dateFormatNoTime(scope.row.appointmentTime)}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="用户名称" prop="buyerName">
+        <el-table-column :label="$t('Appointment.User-Name')" prop="buyerName">
         </el-table-column>
-        <el-table-column label="电话">
+        <el-table-column :label="$t('Appointment.Appointment-Mobile')">
           <template slot-scope="scope">
             <div>{{scope.row.buyers?JSON.parse(scope.row.buyers)[0].mobile:""}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="状态">
+        <el-table-column :label="$t('Appointment.Appointment-Status')">
           <template slot-scope="scope">
-            <div>{{scope.row.status===1?"已报名":scope.row.status===2?"已预约":"已取消"}}</div>
+            <div>{{scope.row.status===1?$t('Appointment.Appointmeng-Reserved'):scope.row.status===2?$t('Appointment.Visited'):$t('Appointment.Canceled')}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="参与人数" prop="pax">
+        <el-table-column :label="$t('Appointment.Pax')" prop="pax">
         </el-table-column>
-        <el-table-column label="报名公司" prop="brokeName">
+        <el-table-column :label="$t('Appointment.Company')" prop="brokeName">
         </el-table-column>
-        <el-table-column label="中介" prop="agentName">
+        <el-table-column :label="$t('Appointment.Appointmeng-Agent')" prop="agentName">
         </el-table-column>
-        <el-table-column label="参与时间">
+        <el-table-column :label="$t('Appointment.Duration')">
           <template slot-scope="scope">
             <div>{{scope.row.time + '-' + scope.row.time2}}</div>
           </template>
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column :label="$t('Appointment.Edit')">
           <template slot-scope="scope">
             <el-button
               size="mini"
               plain
               @click="updateAppointmentStatus(scope.row.status, scope.row.logId)"
-            >状态</el-button>
+            >{{$t('Appointment.Status Updating')}}</el-button>
             <el-button
               size="mini"
               plain
               v-if="scope.row.status==3"
               @click="deleteAppointmentLog(scope.row.logId)"
-            >删除</el-button>
+            >{{$t('Appointment.Delete')}}</el-button>
           </template>
         </el-table-column>
 
@@ -103,13 +108,13 @@
       </div>
     </div>
     <el-dialog
-      title="变更状态"
+      :title="$t('Appointment.Status Updating')"
       :visible.sync="centerDialogVisible"
       width="30%"
       center>
       <div class="demo-input-suffix">
-        <p class="pagesize-title">选择状态：</p>
-        <el-select v-model="status" placeholder="请选择">
+        <p class="pagesize-title">{{$t('Appointment.Selete Status')}}：</p>
+        <el-select v-model="status" :placeholder="$t('Appointment.Selete')">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -119,19 +124,21 @@
         </el-select>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button @click="centerDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="confirm">确 定</el-button>
+        <el-button @click="centerDialogVisible = false">{{$t('architect.cancel')}}</el-button>
+        <el-button type="primary" @click="confirm">{{$t('alert.sure')}}</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 <script>
-export default { //queryAppointmentLogList
+export default { 
   data(){
     return {
       appointList: [],
       projectId: "",
       brokeName: "",
+      agentName: "",
+      regNum: "",
       appointmentTime: "",
       buyerName: "",
       pageNo:1, 
@@ -141,15 +148,15 @@ export default { //queryAppointmentLogList
       options: [
         {
           value: '1',
-          label: '预约'
+          label: this.$t('Appointment.Appointmeng-Reserved')
         },
         {
           value: '2',
-          label: '已到访'
+          label: this.$t('Appointment.Visited')
         },
         {
           value: '3',
-          label: '取消'
+          label: this.$t('Appointment.Canceled')
         }
       ],
       status: "",
@@ -162,8 +169,13 @@ export default { //queryAppointmentLogList
   },
   methods: {
     //导出数据
-    exportExcel() {
-      window.location.href = this.$addDownUrl(this.$api.exportProject)
+    async exportExcel() {
+      window.location.href = await this.$addDownUrl(
+        this.$api.exportAppointment,
+        {
+          projectId: this.$route.query.id,
+        }
+      )
     },
     goBack() {
       this.$router.replace('/inventory/inventoryList')
@@ -173,8 +185,10 @@ export default { //queryAppointmentLogList
         pageNo: this.pageNo,
         pageSize: this.pageSize,
         projectId: this.projectId,
-        _brokeId: this.brokeName,
-        buyerName: this.buyerName
+        brokeName: this.brokeName,
+        buyerName: this.buyerName,
+        agentName: this.agentName,
+        regNum: this.regNum
       }
       if(this.appointmentTime&&this.appointmentTime.length>0){
         param.startTime = this.appointmentTime[0]
@@ -226,15 +240,15 @@ export default { //queryAppointmentLogList
           this.queryAppointmentLogList()
           this.$message({
             type: 'success',
-            message: '变更成功!'
+            message: 'SUCCESS!'
           });
         }
       })
     },
     deleteAppointmentLog(id){
-      this.$confirm('是否删除该条预约记录?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+      this.$confirm(this.$t('Are you sure to delete it'), this.$t('floorPlans.title'), {
+          confirmButtonText: this.$t('alert.sure'),
+          cancelButtonText: this.$t('alert.cancel'),
           type: 'warning'
         }).then(() => {
           this.$Geting(this.$api.deleteAppointmentLog, {logId:id})
@@ -243,14 +257,14 @@ export default { //queryAppointmentLogList
               this.queryAppointmentLogList()
               this.$message({
                 type: 'success',
-                message: '删除成功!'
+                message: this.$t('alert.alert_success_delete_title')
               });
             }
           })
         }).catch(() => {
           this.$message({
             type: 'info',
-            message: '已取消删除'
+            message: 'Cancel'
           });          
         });
     }

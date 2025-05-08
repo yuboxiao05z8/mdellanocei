@@ -29,5 +29,39 @@
     "alert_success_title": "Success"
   },
   "Lastlogontime":"最后登录时间",
-  "FileNum":"文件个数"
+  "FileNum":"文件个数",
+
+  "Ballot": {
+    "Ballot Sequence Log": "抽取记录",
+    "Ballot in process": "正在抽取",
+    "Ballot Queue List": "选房顺序抽取",
+    "Open Time": "开盘时间",
+    "Developers": "开发商",
+    "Balloted": "已抽取",
+    "Pending Ballot": "待抽取",
+    "Total Ballot Tickets": "总人数",
+    "Start Ballot Draw": "开始抽取",
+    "Stop Ballot": "停止抽取",
+    "Auto Ballot": "自动抽取",
+    "Setting": "设置",
+    "No. Ballot Per Draw": "一次抽取人数",
+    "min1 to max 5": "最大5个、最少1个"
+  },
+  "Appointment": {
+    "Appointment Settings": "预约设置",
+    "Appointment User List": "预约用户列表",
+    "Appointment Date": "报名日期",
+    "User-Name": "用户名称",
+    "Appointment-Mobile": "电话",
+    "Appointment-Status": "状态",
+    "Appointmeng-Reserved": "正常",
+    "Canceled": "取消",
+    "Visited": "已到",
+    "Pax": "参与人数",
+    "Company": "参与公司",
+    "Appointmeng-Agent": "中介",
+    "Duration": "参与时间段",
+    "Status Updating": "变更状态"
+  }
+
 }

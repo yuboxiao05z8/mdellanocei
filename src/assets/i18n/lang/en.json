@@ -944,6 +944,46 @@
     "requestPaymentDeferment": "Request Payment Deferment",
     "progressiveStatusNotUpdated": "Progressive status not updated",
     "pendingCompletion": "Pending Completion"
-    
+  },
+  "Appointment": {
+    "Appointment Settings": "Appointment Settings",
+    "Appointment User List": "Appointment User List",
+    "Appointment Date": "Appointment Date",
+    "Start Date": "Start Date",
+    "End Date": "End Date",
+    "Buyer-Name": "Buyer Name",
+    "Appointment-Mobile": "Mobile",
+    "Appointment-Status": "Status",
+    "Appointmeng-Reserved": "Reserved",
+    "Canceled": "Canceled",
+    "Visited": "Visited",
+    "Pax": "Pax",
+    "Company": "Company",
+    "Appointmeng-Agent": "Agent Name",
+    "Appointmeng-Broke": "Broke Name",
+    "Appointmeng-RegNum": "RegNum",
+    "Selete Status": "Selete Status",
+    "Selete": "Selete",
+    "Duration": "Duration",
+    "Edit": "Edit",
+    "Status Updating": "Status Updating",
+    "Delete": "Delete"
+  },
+  "Ballot": {
+    "Ballot Sequence Log": "Ballot Sequence Log",
+    "View More": "View More...",
+    "Ballot in process": "Ballot in process",
+    "Ballot Queue List": "Ballot Queue List",
+    "Open Time": "Open Time",
+    "Developers": "Developers",
+    "Balloted": "Drawn",
+    "Pending Ballot": "Pending",
+    "Total Ballot Tickets": "Total Ballot",
+    "Start Ballot Draw": "Start Ballot Draw",
+    "Stop Ballot": "Stop Ballot",
+    "Auto Ballot": "Auto Ballot",
+    "Setting": "Setting",
+    "No. Ballot Per Draw": "No. Ballot Per Draw",
+    "min1 to max 5": "min1 to max 5"
   }
 }

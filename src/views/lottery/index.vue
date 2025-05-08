@@ -18,9 +18,25 @@
           </div>
         </div>
       </div>
-      <p class="lottery-title">抽取记录</p>
-      <div class="lotteryed-list"> 
-        <el-table
+      <p class="lottery-title">{{$t('Ballot.Ballot Sequence Log')}}</p>
+      <div class="lotteryed-list">
+        <div class="table-head">
+          <p>Queue No.</p>
+          <p>LOA</p>
+          <p>Buyer Name</p>
+          <p>Agency</p>
+          <p>Time</p>
+        </div>
+        <div class="table-content">
+          <div class="table-item" v-for="(item, index) in tableData" :class="{'data':item.ballotNum}">
+            <p>{{item.ballotNum}}</p>
+            <p>{{item.loa}}</p>
+            <p>{{item.buyerName}}</p>
+            <p>{{item.brokeName}}</p>
+            <p>{{$dateFormat(item.drawTime)}}</p>
+          </div>
+        </div>
+        <!-- <el-table
           :data="tableData"
           style="width: 100%">
           <el-table-column
@@ -34,61 +50,60 @@
             width="180">
           </el-table-column>
           <el-table-column
-            prop="brokeName"
+            prop="buyerName"
             label="Buyer Name">
           </el-table-column>
           <el-table-column
-            prop="building"
+            prop="brokeName"
             label="Agency">
-          </el-table-column>
-          <el-table-column
-            prop="agentName"
-            label="Agent Name">
           </el-table-column>
           <el-table-column
             label="Time"> 
             <template slot-scope="scope">
-              <span>{{$dateFormat(scope.row.createTime)}}</span>
+              <span>{{scope.row.createTime?$dateFormat(scope.row.createTime):""}}</span>
             </template>
           </el-table-column>
-        </el-table>
+        </el-table> -->
         <p class="show-more" @click="queryMore()">
-          查看更多...
+          {{$t('Ballot.View More')}}
         </p>
       </div>
     </div>
     <div class="lottery-right">
-      <p class="right-title">{{projectBean.projectName}} 选房顺序抽取</p>
+      <p class="right-title">{{projectBean.projectName}} {{$t('Ballot.Ballot Queue List')}}</p>
       <div class="project-box">
         <img :src="imgUrl + projectBean.mainImage" alt="">
         <p class="project-time">
-          <span>开盘时间:</span>
+          <span>{{$t('Ballot.Open Time')}}:</span>
           <span>{{$dateFormatNoTime(projectBean.launchDate)}}</span>
         </p>
         <p class="project-agent">
-          <span>开发商:</span>
+          <span>{{$t('Ballot.Developers')}}:</span>
           <span>{{projectBean.developer}}</span>
         </p>
       </div>
       <div class="count-box">
         <div class="total">
           <p>{{drawCount.num}}</p>
-          <p>总人数</p>
+          <p>{{$t('Ballot.Total Ballot Tickets')}}</p>
         </div>
         <div class="to-lottery">
           <p>{{drawCount.no_draw_num}}</p>
-          <p>待抽取</p>
+          <p>{{$t('Ballot.Pending Ballot')}}</p>
         </div>
         <div class="lotteryed">
           <p>{{drawCount.draw_num}}</p>
-          <p>已抽取</p>
+          <p>{{$t('Ballot.Balloted')}}</p>
         </div>
       </div>
-      <p class="start-lottery" :class="{'nolottery':drawCount.no_draw_num<=0}" @click="drawInterestBuyer">
-        开始抽取
+      <p v-if="isStart" class="start-lottery" :class="{'nolottery':drawCount.no_draw_num<=0}" @click="stopLottery">
+        {{$t('Ballot.Stop Ballot')}}
+      </p>
+      <p v-else class="start-lottery" :class="{'nolottery':drawCount.no_draw_num<=0}" @click="drawInterestBuyer">
+        {{$t('Ballot.Start Ballot Draw')}}
       </p>
       <div class="switch-box">
-        <span>自动抽取: </span>
+        <span>{{$t('Ballot.Auto Ballot')}}: </span>
         <el-switch
           v-model="value1"
           active-color="#13ce66"
@@ -97,12 +112,12 @@
       </div>
     </div>
     <el-dialog
-      title="设置"
+      :title="$t('Ballot.Setting')"
       :visible.sync="centerDialogVisible"
       width="30%"
       center>
       <div class="demo-input-suffix">
-        <p class="pagesize-title">一次抽取人数</p>
+        <p class="pagesize-title">{{$t('Ballot["No. Ballot Per Draw"]')}}</p>
         <el-input
           type="number"
           size="mini"
@@ -110,10 +125,10 @@
           max="5"
           min="1">
         </el-input>
-        <p class="pagesize-title">个(最大5个、最少1个)</p>
+        <p class="pagesize-title">{{$t('Ballot.min1 to max 5')}}</p>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="confirm">确 定</el-button>
+        <el-button type="primary" @click="confirm">{{$t('architect.confirm')}}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -135,14 +150,16 @@ export default {
       centerDialogVisible: false,
       drawList: [{}, {}, {}, {}, {}],
       timer: null,
-      full: 'on'
+      full: 'on',
+      isStart: false, //自动抽取是否开始
+      table: []
     }
   },
   mounted(){
     this.projectId = this.$route.query.id
     this.imgUrl = sessionStorage.getItem('serveUrl')
     this.queryDrawInfo()
-    this.queryInterest()
+    // this.queryInterest()
   },
   methods: {
     /**
@@ -158,20 +175,35 @@ export default {
         })
         .then(res=>{
           if(res.code==='0'){
-            this.drawList = res.datas
-            this.startLottery()
+            let setTime = this.isReset?1000:400
+            self.drawList = res.datas
+            // setTimeout(()=>{
+            // }, setTime)
+            this.queryInterest()
           }
         })
       }else{
         clearInterval(self.timer)
+        self.isStart = false
       }
       if(self.value1){
+        self.isStart = true
         self.timer = setInterval(()=>{
           self.drawInterestBuyer()
-        }, 5000)
+        }, 1000+1200*self.pageSize)
       }else{
         clearInterval(self.timer)
+        self.isStart = false
       }
+    },
+    /**
+     * 停止抽取
+     */
+    stopLottery(){
+      let self = this
+      clearInterval(self.timer)
+      self.value1 = false
+      self.isStart = false
     },
     /**
      * 获取项目信息
@@ -184,7 +216,7 @@ export default {
       .then(res=>{
         if(res.code==='0'){
           if(res.datas.draw.length>0)self.drawCount = res.datas.draw[0];
-          if(self.drawCount.no_draw_num<=5&&self.drawCountno_draw_num>0){
+          if(self.pageSize>self.drawCountno_draw_num){
             self.pageSize = self.drawCountno_draw_num
           }else if(self.drawCountno_draw_num<=0){
             clearInterval(this.timer)
@@ -204,19 +236,33 @@ export default {
           for(let i=0; i<self.pageSize; i++){
             setTimeout(()=>{
               self.$set(self.ifShow, i, true)
+              console.log(self.drawList[i])
+              self.tableData.push(self.drawList[i])
+              console.log(self.tableData)
+              // self.$set(self.tableData, i, self.table[i])
             }, 600*i)
           }
         }, 1000)
+        
+        // setTimeout(()=>{
+        // }, 1000+600*self.pageSize)
       }else{
         for(let i=0; i<self.pageSize; i++){
           setTimeout(()=>{
             self.$set(self.ifShow, i, true)
+            self.tableData.push(self.drawList[i])
+            console.log(self.drawList[i])
+            console.log(self.tableData)
+            // self.$set(self.tableData, i, self.table[i])
           }, 600*i)
         }
+        // setTimeout(()=>{
+          // this.queryInterest()
+        // }, 600*self.pageSize)
       }
       this.isReset = true
+      // this.queryInterest()
       this.queryDrawInfo()
-      this.queryInterest()
     },
     /**
      * 重置牌
@@ -234,17 +280,22 @@ export default {
      * 已经抽中的买家列表
      */
     queryInterest() {
-      let data = {
-        pageNo: 1,
-        pageSize: 5,
-        projectId: this.$route.query.id,
-        drawStatus: 'YES'
-      }
-      this.$Posting(this.$api.queryInterest, data).then((res) => {
-        if (res.code == 0) {
-          this.tableData = res.datas.lists
-        }
-      })
+      this.tableData = []
+      this.startLottery()
+      // let data = {
+      //   pageNo: 1,
+      //   pageSize: this.pageSize,
+      //   projectId: this.$route.query.id,
+      //   drawStatus: 'YES',
+      //   status: 1
+      // }
+      // this.$Posting(this.$api.queryInterest, data).then((res) => {
+      //   if (res.code == 0) {
+      //     this.tableData = []
+      //     this.table = res.datas.lists
+      //     console.log(this.table)
+      //   }
+      // })
     },
     indexMethod(index){
       return this.tableData.length-index
@@ -311,6 +362,7 @@ export default {
     }
   }
   .lottery-left{
+    height: 80vh;
     .lotterying-list{
       width: 900px;
       height: 270px;
@@ -351,6 +403,8 @@ export default {
         .buyer-number{
           color: rgba(215, 100, 102, 100);
           margin-top: 38px;
+          font-weight: 600;
+          font-size: 18px;
         }
         .buyer-name{
           height: 27px;
@@ -377,6 +431,14 @@ export default {
       font-size: 14px;
       margin: 44px 0px 13px;
     }
+    @keyframes identifier {
+      0%{
+      	width: 0;
+      }
+      100%{
+         width: 100%;
+      }
+    }
     .lotteryed-list{
       width: 881px;
       border-radius: 15px;
@@ -384,6 +446,41 @@ export default {
       box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
       padding: 13px 17px;
       background: #fff;
+      .table-head{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        border-bottom: 1px solid #ccc;
+        p{
+          flex: 1;
+          font-size: 14px;
+          height: 60px;
+          line-height: 60px;
+          font-weight: 700;
+          color: #909399;
+        }
+      }
+      .table-content{
+        .table-item{
+          animation: identifier 2s;
+          color: #909399;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          width: 0;
+          overflow: hidden;
+          p{
+            flex: 1;
+            font-size: 14px;
+            height: 60px;
+            line-height: 60px;
+          }
+        }
+        .data{
+          width: 100%;
+          border-bottom: 1px solid #ccc;
+        }
+      }
       .show-more{
         height: 30px;
         line-height: 30px;

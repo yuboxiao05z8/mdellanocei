@@ -1,6 +1,6 @@
 <template>
   <div class="apponint_setting_vue">
-    <div class="setting_content">
+    <!-- <div class="setting_content">
       <el-row :gutter="10">
         <el-col :span="4">
           <h4>Export booking form:</h4>
@@ -9,7 +9,7 @@
           <el-button size="mini" @click="exportExcel">Export Excel</el-button>
         </el-col>
       </el-row>
-    </div>
+    </div> -->
 
     <div class="setting_content">
       <el-row :gutter="10">

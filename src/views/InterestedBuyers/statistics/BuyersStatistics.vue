@@ -31,7 +31,7 @@
             }"
           ></uploader>
           <el-button size="mini" @click="exportData">Excel Template</el-button>
-          <el-button size="mini" @click="toLottery">Start E-Ballot</el-button>
+          <el-button size="mini" @click="toLottery" v-if="info.type===2">Start E-Ballot</el-button>
         </el-col>
       </el-row>
     </div>
@@ -107,6 +107,7 @@
         <el-tab-pane name="default" label="Buyer List">
           <BuyTabTemplate
             :tabList="tableData"
+            :isShowQueueNo="true"
             :count="defaultCount"
             ref="defaultTemplate"
             @queryInterestDetail="queryInterestDetail"
@@ -173,6 +174,7 @@ export default {
       unitData: [],
       interestId: '',
       isOpening: false,
+      info: JSON.parse(sessionStorage.getItem('userInfo')),
 
       activePageName: 'default',
       repetitionData: [],
@@ -328,7 +330,7 @@ export default {
 
           break
       }
-    },
+    }, 
     queryUnit(name) {
       let obj = this.buildingData.filter((item) => item.buildName == name)
     
