@@ -19,22 +19,13 @@
       </el-row>
     </div>
     <div class="detail_content">
-      <el-form
-        class="demo-form-inline form"
-        label-width="250px"
-        label-position="left"
-        ref="ruleForm"
-        size="small"
-        :model="detailForm"
-        :rules="rules"
-      >
+      <el-form class="demo-form-inline form" label-width="250px" label-position="left" ref="ruleForm" size="small"
+        :model="detailForm" :rules="rules">
         <el-row>
           <el-col :span="12">
             <el-form-item label="Developer Ecoprop">
-              <el-checkbox
-                :disabled="userInfo.type !==2 && userInfo.isAdmin!==0"
-                v-model="detailForm.cooperate"
-              ></el-checkbox>
+              <el-checkbox :disabled="userInfo.type !==2 && userInfo.isAdmin!==0" v-model="detailForm.cooperate">
+              </el-checkbox>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -70,12 +61,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item prop="projectType" :label="$t('edit.type')">
-              <el-select
-                size="mini"
-                v-model="detailForm.projectType"
-                class="width_300px"
-                placeholder
-              >
+              <el-select size="mini" v-model="detailForm.projectType" class="width_300px" placeholder>
                 <el-option v-for="item in typeData" :key="item" :label="item" :value="item"></el-option>
               </el-select>
             </el-form-item>
@@ -102,12 +88,8 @@
           <el-col :span="12">
             <el-form-item prop="tenure" :label="$t('edit.tenure')">
               <el-select size="mini" v-model="detailForm.tenure" class="width_300px" placeholder>
-                <el-option
-                  v-for="item in tenureData"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+                <el-option v-for="item in tenureData" :key="item.value" :label="item.label" :value="item.value">
+                </el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -119,23 +101,16 @@
         </el-row>
         <el-row>
           <el-col :span="12">
-            <el-form-item  label="Deferred Payment">
-              <el-checkbox
-                v-model="detailForm.deferredPayment"
-              ></el-checkbox>
+            <el-form-item label="Deferred Payment">
+              <el-checkbox v-model="detailForm.deferredPayment"></el-checkbox>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item prop="completionDate" :label="$t('edit.topDate')">
-              <el-date-picker
-                class="width_300px"
-                value-format="timestamp"
-                format="dd-MMM-yyyy"
-                type="date"
-                v-model="detailForm.completionDate"
-              ></el-date-picker>
+              <el-date-picker class="width_300px" value-format="timestamp" format="dd-MMM-yyyy" type="date"
+                v-model="detailForm.completionDate"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -147,13 +122,8 @@
         <el-row>
           <el-col :span="12">
             <el-form-item prop="launchDate" :label="$t('edit.launchDate')">
-              <el-date-picker
-                class="width_300px"
-                value-format="timestamp"
-                format="dd-MMM-yyyy"
-                type="date"
-                v-model="detailForm.launchDate"
-              ></el-date-picker>
+              <el-date-picker class="width_300px" value-format="timestamp" format="dd-MMM-yyyy" type="date"
+                v-model="detailForm.launchDate"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -179,7 +149,8 @@
         <el-row>
           <el-col :span="24">
             <el-form-item prop="address" :label="$t('address')">
-              <el-cascader size="mini" style="width:100%;" v-model="detailForm.address" :options="options" clearable @change='selectAddress'></el-cascader>
+              <el-cascader size="mini" style="width:100%;" v-model="detailForm.address" :options="options" clearable
+                @change='selectAddress'></el-cascader>
             </el-form-item>
           </el-col>
         </el-row>
@@ -200,13 +171,8 @@
 
         <el-row>
           <el-col :span="12">
-            <el-form-item  :label="$t('Range')">
-              <el-select
-                size="mini"
-                v-model="detailForm.projectArea"
-                class="width_300px"
-                placeholder
-              >
+            <el-form-item :label="$t('Range')">
+              <el-select size="mini" v-model="detailForm.projectArea" class="width_300px" placeholder>
                 <el-option v-for="item in projectAreaList" :key="item" :label="item" :value="item"></el-option>
               </el-select>
             </el-form-item>
@@ -284,16 +250,10 @@
           </el-col>
         </el-row>
 
-
         <el-row>
           <el-col :span="12">
             <el-form-item prop="streetAddress" :label="$t('edit.streetAdress')">
-              <el-input
-                class="width_300px"
-                type="textarea"
-                :rows="3"
-                v-model="detailForm.streetAddress"
-              ></el-input>
+              <el-input class="width_300px" type="textarea" :rows="3" v-model="detailForm.streetAddress"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -305,206 +265,133 @@
 
         <el-row>
           <el-col :span="12">
-            <el-form-item  label="Tenure Date">
-              <el-input
-                class="width_300px"
-                v-model="detailForm.tenureDate"
-              ></el-input>
+            <el-form-item label="Tenure Date">
+              <el-input class="width_300px" v-model="detailForm.tenureDate"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item  label="Developer License">
-              <el-input
-                class="width_300px"
-                v-model="detailForm.developerLicense"
-              ></el-input>
-              </el-form-item>
+            <el-form-item label="Developer License">
+              <el-input class="width_300px" v-model="detailForm.developerLicense"></el-input>
+            </el-form-item>
           </el-col>
         </el-row>
 
-              <el-row>
+        <el-row>
           <el-col :span="12">
-            <el-form-item  label="Developer License Date">
-              <el-input
-                class="width_300px"
-                v-model="detailForm.developerLicenseDate"
-              ></el-input>
+            <el-form-item label="Developer License Date">
+              <el-input class="width_300px" v-model="detailForm.developerLicenseDate"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item  label="Project Lot">
-              <el-input
-                class="width_300px"
-                v-model="detailForm.projectLot"
-              ></el-input>
-              </el-form-item>
+            <el-form-item label="Project Lot">
+              <el-input class="width_300px" v-model="detailForm.projectLot"></el-input>
+            </el-form-item>
           </el-col>
         </el-row>
 
-              <el-row>
+        <el-row>
           <el-col :span="12">
-            <el-form-item  label="MK/TS">
-              <el-input
-                class="width_300px"
-                v-model="detailForm.mukim"
-              ></el-input>
+            <el-form-item label="MK/TS">
+              <el-input class="width_300px" v-model="detailForm.mukim"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <el-form-item  label="MF Per Share (Before GST)">
-              <el-input
-                class="width_300px"
-                v-model="detailForm.mfPerShare"
-              ></el-input>
-              </el-form-item>
+            <el-form-item label="MF Per Share (Before GST)">
+              <el-input class="width_300px" v-model="detailForm.mfPerShare"></el-input>
+            </el-form-item>
           </el-col>
         </el-row>
 
-          <el-row>
+        <el-row>
           <el-col :span="12">
-            <el-form-item  label="EC Project Code">
-              <el-input
-                class="width_300px"
-                v-model="detailForm.ecProjectCode"
-              ></el-input>
+            <el-form-item label="EC Project Code">
+              <el-input class="width_300px" v-model="detailForm.ecProjectCode"></el-input>
             </el-form-item>
           </el-col>
           <el-col :span="12">
-            <!-- <el-form-item  label="MF Per Share (Before GST)">
-              <el-input
-                class="width_300px"
-                v-model="detailForm.streetAddress"
-              ></el-input> -->
+            <el-form-item label="Site Area">
+              <el-input class="width_300px" v-model="detailForm.siteArea"></el-input>
+            </el-form-item>
           </el-col>
         </el-row>
-
-
-
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="Plot Ratio">
+              <el-input class="width_300px" v-model="detailForm.plotRatio"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
 
         <div style="border-bottom:1px solid #dcdfe6;margin:5px 0;"></div>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.description')">
-              <editor
-                editorId="description"
-                :value="detailForm.description"
-                :setting="editorSetting"
-                @show="editors"
-                @on-upload-success="onEditorUploadComplete"
-              ></editor>
+              <editor editorId="description" :value="detailForm.description" :setting="editorSetting" @show="editors"
+                @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.description')+'(中文)'">
-              <editor
-                editorId="descriptionCn"
-                :value="detailForm.descriptionCn"
-                :setting="editorSetting"
-                @show="editors"
-                @on-upload-success="onEditorUploadComplete"
-              ></editor>
+              <editor editorId="descriptionCn" :value="detailForm.descriptionCn" :setting="editorSetting"
+                @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.keyPoints')">
-              <editor
-                editorId="keyPoints"
-                :value="detailForm.keyPoints"
-                :setting="editorSetting"
-                @show="editors"
-                @on-upload-success="onEditorUploadComplete"
-              ></editor>
+              <editor editorId="keyPoints" :value="detailForm.keyPoints" :setting="editorSetting" @show="editors"
+                @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.keyPoints')+'(中文)'">
-              <editor
-                editorId="keyPointsCn"
-                :value="detailForm.keyPointsCn"
-                :setting="editorSetting"
-                @show="editors"
-                @on-upload-success="onEditorUploadComplete"
-              ></editor>
+              <editor editorId="keyPointsCn" :value="detailForm.keyPointsCn" :setting="editorSetting" @show="editors"
+                @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.facilities')">
-              <editor
-                editorId="facilities"
-                :value="detailForm.facilities"
-                :setting="editorSetting"
-                @show="editors"
-                @on-upload-success="onEditorUploadComplete"
-              ></editor>
+              <editor editorId="facilities" :value="detailForm.facilities" :setting="editorSetting" @show="editors"
+                @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.facilities')+'(中文)'">
-              <editor
-                editorId="facilitiesCn"
-                :value="detailForm.facilitiesCn"
-                :setting="editorSetting"
-                @show="editors"
-                @on-upload-success="onEditorUploadComplete"
-              ></editor>
+              <editor editorId="facilitiesCn" :value="detailForm.facilitiesCn" :setting="editorSetting" @show="editors"
+                @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.nearbyAmenities')">
-              <editor
-                editorId="nearbyAmenities"
-                :value="detailForm.nearbyAmenities"
-                :setting="editorSetting"
-                @show="editors"
-                @on-upload-success="onEditorUploadComplete"
-              ></editor>
+              <editor editorId="nearbyAmenities" :value="detailForm.nearbyAmenities" :setting="editorSetting"
+                @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.nearbyAmenities')+'(中文)'">
-              <editor
-                editorId="nearbyAmenitiesCn"
-                :value="detailForm.nearbyAmenitiesCn"
-                :setting="editorSetting"
-                @show="editors"
-                @on-upload-success="onEditorUploadComplete"
-              ></editor>
+              <editor editorId="nearbyAmenitiesCn" :value="detailForm.nearbyAmenitiesCn" :setting="editorSetting"
+                @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-alert
-          style="padding:8px 0;margin-bottom:10px;"
-          :title="$t('edit.connects')"
-          type="info"
-          :closable="false"
-        ></el-alert>
+        <el-alert style="padding:8px 0;margin-bottom:10px;" :title="$t('edit.connects')" type="info" :closable="false">
+        </el-alert>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('DeveloperInformation')">
-              <editor
-                editorId="commission"
-                :value="detailForm.commission"
-                :setting="editorSetting"
-                @show="editors"
-                @on-upload-success="onEditorUploadComplete"
-              ></editor>
+              <editor editorId="commission" :value="detailForm.commission" :setting="editorSetting" @show="editors"
+                @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('DeveloperInformation')+'(中文)'">
-              <editor
-                editorId="commissionCn"
-                :value="detailForm.commissionCn"
-                :setting="editorSetting"
-                @show="editors"
-                @on-upload-success="onEditorUploadComplete"
-              ></editor>
+              <editor editorId="commissionCn" :value="detailForm.commissionCn" :setting="editorSetting" @show="editors"
+                @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
         </el-row>
@@ -563,13 +450,9 @@
           </el-col>
         </el-row>-->
         <!-- <div style="border-bottom:1px solid #dcdfe6;margin-bottom:15px"></div> -->
-        
-        <el-alert
-          style="padding:8px 0;margin-bottom:30px"
-          :title="$t('Location Map Configuration')"
-          type="info"
-          :closable="false"
-        ></el-alert>
+
+        <el-alert style="padding:8px 0;margin-bottom:30px" :title="$t('Location Map Configuration')" type="info"
+          :closable="false"></el-alert>
         <el-row style="margin-bottom:20px">
           <el-col :span="12">
             <span>{{$t('edit.latitude')}}:</span>
@@ -593,13 +476,15 @@
             <span style="margin-right:20px">{{$t('Thumbnail Screenshot')}}:</span>
             <el-button style="margin-right:20px" size="mini" @click="downMapImg">{{$t('Update')}}</el-button>
             <span style="margin-right:20px">{{$t(' Map Zoom Level')}}:</span>
-            <el-input size="mini" type="number" style="width: 100px;margin-right:10px;" max="20" min="13" v-model="mapImgZoom"></el-input>
+            <el-input size="mini" type="number" style="width: 100px;margin-right:10px;" max="20" min="13"
+              v-model="mapImgZoom"></el-input>
             <span>({{$t('From 13 to 20 max')}})</span>
           </el-col>
         </el-row>
         <el-row style="margin-bottom:20px">
           <el-col :span="12" class="uploader">
-            <img @click.stop="$imgPreview(hostUrl + detailForm.snapshotLogo)" :src="hostUrl + detailForm.snapshotLogo" alt="">
+            <img @click.stop="$imgPreview(hostUrl + detailForm.snapshotLogo)" :src="hostUrl + detailForm.snapshotLogo"
+              alt="">
           </el-col>
         </el-row>
         <el-row style="margin-bottom:20px">
@@ -620,13 +505,15 @@
               <li class="nearbyList-box">
                 <p class="nearbyList-type">MRT Station:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['subway_station']">{{item.name}}</span>
+                  <span class="nearbyList-value"
+                    v-for="(item, index) in nearbyList['subway_station']">{{item.name}}</span>
                 </p>
               </li>
               <li class="nearbyList-box">
                 <p class="nearbyList-type">Shopping Mall:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['shopping_mall']">{{item.name}}</span>
+                  <span class="nearbyList-value"
+                    v-for="(item, index) in nearbyList['shopping_mall']">{{item.name}}</span>
                 </p>
               </li>
               <li class="nearbyList-box">
@@ -650,12 +537,8 @@
             </ul>
           </el-col>
         </el-row>
-        <el-alert
-          style="padding:8px 0;margin-bottom:30px"
-          :title="$t('edit.customInformationFields')"
-          type="info"
-          :closable="false"
-        ></el-alert>
+        <el-alert style="padding:8px 0;margin-bottom:30px" :title="$t('edit.customInformationFields')" type="info"
+          :closable="false"></el-alert>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.customInfoLabel1')">
@@ -720,12 +603,7 @@
     </div>
     <el-dialog title="Add Contact" :visible.sync="dialogVisible" width="40%" :center="true">
       <div>
-        <el-form
-          :model="linkmanData"
-          ref="dynamicValidateForm"
-          label-width="150px"
-          class="dynamicLinkeManDiv"
-        >
+        <el-form :model="linkmanData" ref="dynamicValidateForm" label-width="150px" class="dynamicLinkeManDiv">
           <div v-for="(domain, index) in linkmanData.domains" :key="index">
             <el-form-item :label="'ContactName-' + (index + 1)">
               <el-input v-model="domain.userName"></el-input>
@@ -761,7 +639,7 @@ export default {
     editor,
     uploader
   },
-  data() {
+  data () {
     return {
       hostUrl: sessionStorage.getItem('serveUrl') || '',
       userInfo: JSON.parse(sessionStorage.getItem('userInfo')) || {},
@@ -822,12 +700,14 @@ export default {
         keyPoints: '',
         keyPointsCn: '',
         facilities: '',
-        facilitiesCn:'',
+        facilitiesCn: '',
         nearbyAmenities: '',
         nearbyAmenitiesCn: '',
         commission: '',
         commissionCn: '',
         externalCommission: '',
+        plotRatio: '',
+        siteArea: '',
         salesContacts: '',
         customLabel1: '',
         customValue1: '',
@@ -850,7 +730,7 @@ export default {
         mfPerShare: '',
         ecProjectCode: '',
         snapshotLogo: [],
-        facilitiesMap:[]
+        facilitiesMap: []
       },
       nearbyList: {
         subway_station: [],
@@ -985,25 +865,25 @@ export default {
       options: [], //地址选择级联数据
     }
   },
-  mounted() {
+  mounted () {
     this.setGoogleMap()
     this.queryProjectDetail()
   },
   methods: {
-    getAddress(){
+    getAddress () {
       this.$Geting(this.$api.querySysArea, {
         country: this.detailForm.country
       })
-      .then(res=>{
-        if(res.code==='0'){
-          this.options = res.datas
-        }
-      })
+        .then(res => {
+          if (res.code === '0') {
+            this.options = res.datas
+          }
+        })
     },
-    selectAddress(){
+    selectAddress () {
       console.log(this.detailForm.address)
     },
-    deleteImg() {
+    deleteImg () {
       this.$Geting(this.$api.deleteFile, {
         path: this.hostUrl + this.fileData[0].path,
       }).then((res) => {
@@ -1021,7 +901,7 @@ export default {
         }
       })
     },
-    getLinkManData(type) {
+    getLinkManData (type) {
       if (type) {
         this.dialogVisible = true
       }
@@ -1036,11 +916,11 @@ export default {
         }
       )
     },
-    handleClose() {
+    handleClose () {
       // 弹窗
       console.log('消失后')
     },
-    addDomain(index) {
+    addDomain (index) {
       // 添加联系人
       if (this.linkmanData.domains.length < 8) {
         this.linkmanData.domains.push({
@@ -1056,11 +936,11 @@ export default {
         })
       }
     },
-    removeDomain(index) {
+    removeDomain (index) {
       // 删除联系人
       this.linkmanData.domains.splice(index, 1)
     },
-    postLinkManData() {
+    postLinkManData () {
       let data = JSON.stringify(this.linkmanData.domains)
       this.$Get(this.$api.saveContactPerson, {
         projectId: this.id,
@@ -1082,26 +962,26 @@ export default {
       })
       console.log(this.linkmanData)
     },
-    editors(obj) {
+    editors (obj) {
       // editor组件传过来的值赋给content
       this.detailForm[obj.id] = obj.content
     },
-    onEditorUploadComplete(json) {
+    onEditorUploadComplete (json) {
       // 处理上传图片后返回数据，添加img标签到编辑框内
       json[1](this.hostUrl + json[0].filePath)
     },
-    queryProjectDetail() {
+    queryProjectDetail () {
       this.$Geting(this.$api.queryProjectDetail, { projectId: this.id }).then(
         (res) => {
           if (res.code == 0) {
-            this.detailForm = Object.assign({snapshotLogo:[]}, res.datas.project)
+            this.detailForm = Object.assign({ snapshotLogo: [] }, res.datas.project)
             this.detailForm.snapshotLogo = this.detailForm.snapshotLogo
             let nearbyList = this.nearbyList
             let facilitiesMap = JSON.parse(this.detailForm.facilitiesMap)
-            if(facilitiesMap&&facilitiesMap.length>0){
-              for(let key in nearbyList){
-                facilitiesMap.forEach((ele)=>{
-                  if(ele.type===key){
+            if (facilitiesMap && facilitiesMap.length > 0) {
+              for (let key in nearbyList) {
+                facilitiesMap.forEach((ele) => {
+                  if (ele.type === key) {
                     nearbyList[key] = ele.value
                   }
                 })
@@ -1129,7 +1009,7 @@ export default {
         }
       )
     },
-    updateDetail() {
+    updateDetail () {
       this.$refs['ruleForm'].validate((valid) => {
         if (valid) {
           let submitData = this.getSubmitData()
@@ -1160,13 +1040,13 @@ export default {
         }
       })
     },
-    fillDataToForm() {
+    fillDataToForm () {
       //填充数据到表单
       this.detailForm.mobileSync =
         this.detailForm.mobileSync == 'YES' ? true : false
       this.detailForm.featured = this.detailForm.featured == '1' ? false : true
       this.detailForm.cooperate = this.detailForm.cooperate == 1 ? true : false
-      this.detailForm.soldOut = this.detailForm.soldOut==1?true:false
+      this.detailForm.soldOut = this.detailForm.soldOut == 1 ? true : false
       this.detailForm.deferredPayment = this.detailForm.deferredPayment == 1 ? true : false
       this.detailForm.description = this.$base64ToContent(
         this.detailForm.description
@@ -1222,7 +1102,7 @@ export default {
           url: `${this.hostUrl}${this.detailForm.contactImage}`,
         })
       }
-      if(this.detailForm.country){
+      if (this.detailForm.country) {
         this.getAddress()
       }
       if (this.detailForm.areaLevel1) {
@@ -1247,7 +1127,7 @@ export default {
         // this.detailForm.salesContacts
       )
     },
-    getSubmitData() {
+    getSubmitData () {
       //改变表单数据为提交时的数据
       let submitData = Object.assign({}, this.detailForm)
       submitData.mobileSync = submitData.mobileSync ? 'YES' : 'NO'
@@ -1276,13 +1156,13 @@ export default {
       submitData.projectId = this.id
       submitData.contactImage = this.fileData[0] ? this.fileData[0].path : ''
       let facilitiesMap = []
-      for(let key in this.nearbyList){
+      for (let key in this.nearbyList) {
         // let longitude2 = this.nearbyList[key].location.log
         // let latitude2 = this.nearbyList[key].location.lat
         // this.nearbyList[key].distance = self.distance2(this.detailForm.longitude, this.detailForm.latitude, longitude2, latitude2)
         facilitiesMap.push({
-          type:key,
-          value:this.nearbyList[key]
+          type: key,
+          value: this.nearbyList[key]
         })
       }
       submitData.areaLevel1 = submitData.address[0]
@@ -1292,7 +1172,7 @@ export default {
       return submitData
     },
     //保存前先读取服务端返回的富文本编辑器里面的内容，晒选出图片存在缓存中
-    beforeSaveGetInitEdit() {
+    beforeSaveGetInitEdit () {
       for (let i = 0; i < arguments.length; i++) {
         this.editorArr = this.editorArr.concat(
           this.$changeHtmlStr(arguments[i])
@@ -1300,7 +1180,7 @@ export default {
       }
     },
     //保存前获取编辑后的富文本编辑器的内容
-    beforeSaveGetEdit() {
+    beforeSaveGetEdit () {
       for (let i = 0; i < arguments.length; i++) {
         this.updateEditorArr = this.updateEditorArr.concat(
           this.$changeHtmlStr(arguments[i])
@@ -1308,7 +1188,7 @@ export default {
       }
     },
     //提交之前进行图片的检测
-    beforeSaveCheckImage() {
+    beforeSaveCheckImage () {
       let editorImg =
         JSON.parse(window.sessionStorage.getItem('editorImg')) || []
       this.beforeSaveGetEdit(
@@ -1331,44 +1211,44 @@ export default {
         window.sessionStorage.setItem('editorImg', JSON.stringify(allEditorArr)) //点击时将之前富文本编辑器里面的图片进行缓存
       this.$changeSession(this.updateEditorArr)
     },
-    downMapImg(){
+    downMapImg () {
       let self = this
       let imgsrc = ""
-      if(this.detailForm.galleryLongitude){
-        imgsrc = 'https://maps.googleapis.com/maps/api/staticmap?zoom='+this.mapImgZoom+'&size=600x300&maptype=roadmap&markers=color:red%7Clabel:C%7C'+ this.detailForm.latitude+','+ this.detailForm.longitude+'&markers=color:green%7Clabel:G%7C' + this.detailForm.galleryLatitude + ',' + this.detailForm.galleryLongitude + '&key=AIzaSyBFhANESE0lhBp-tSPbOy8FI6FfIiuPR0s';
-      }else{
-        imgsrc = 'https://maps.googleapis.com/maps/api/staticmap?zoom='+this.mapImgZoom+'&size=600x300&maptype=roadmap&markers=color:red%7Clabel:C%7C'+ this.detailForm.latitude+','+ this.detailForm.longitude+'&key=AIzaSyBFhANESE0lhBp-tSPbOy8FI6FfIiuPR0s';
+      if (this.detailForm.galleryLongitude) {
+        imgsrc = 'https://maps.googleapis.com/maps/api/staticmap?zoom=' + this.mapImgZoom + '&size=600x300&maptype=roadmap&markers=color:red%7Clabel:C%7C' + this.detailForm.latitude + ',' + this.detailForm.longitude + '&markers=color:green%7Clabel:G%7C' + this.detailForm.galleryLatitude + ',' + this.detailForm.galleryLongitude + '&key=AIzaSyBFhANESE0lhBp-tSPbOy8FI6FfIiuPR0s';
+      } else {
+        imgsrc = 'https://maps.googleapis.com/maps/api/staticmap?zoom=' + this.mapImgZoom + '&size=600x300&maptype=roadmap&markers=color:red%7Clabel:C%7C' + this.detailForm.latitude + ',' + this.detailForm.longitude + '&key=AIzaSyBFhANESE0lhBp-tSPbOy8FI6FfIiuPR0s';
       }
       let image = new Image();
       // 解决跨域 Canvas 污染问题
       image.setAttribute("crossOrigin", "anonymous");
-      image.onload = function() {
-          let canvas = document.createElement("canvas");
-          canvas.width = image.width;
-          canvas.height = image.height;
-          let context = canvas.getContext("2d");
-          context.drawImage(image, 0, 0, image.width, image.height);
-          let url = canvas.toDataURL("image/png"); //得到图片的base64编码数据
-          console.log(url)
-          // 转成File模式
-          let blob = self.dataURItoFile(url, 'snapshotLogo.png');
-          let item = {
-            name: 'snapshotLogo.png',
-            upImgData: blob
-          };
-          self.UpLoadImg(item)
-          // let a = document.createElement("a"); // 生成一个a元素
-          // let event = new MouseEvent("click"); // 创建一个单击事件
-          // a.download = 'snapshotLogo'; // 设置图片名称
-          // a.href = url; // 将生成的URL设置为a.href属性
-          // a.dispatchEvent(event); // 触发a的单击事件
+      image.onload = function () {
+        let canvas = document.createElement("canvas");
+        canvas.width = image.width;
+        canvas.height = image.height;
+        let context = canvas.getContext("2d");
+        context.drawImage(image, 0, 0, image.width, image.height);
+        let url = canvas.toDataURL("image/png"); //得到图片的base64编码数据
+        console.log(url)
+        // 转成File模式
+        let blob = self.dataURItoFile(url, 'snapshotLogo.png');
+        let item = {
+          name: 'snapshotLogo.png',
+          upImgData: blob
+        };
+        self.UpLoadImg(item)
+        // let a = document.createElement("a"); // 生成一个a元素
+        // let event = new MouseEvent("click"); // 创建一个单击事件
+        // a.download = 'snapshotLogo'; // 设置图片名称
+        // a.href = url; // 将生成的URL设置为a.href属性
+        // a.dispatchEvent(event); // 触发a的单击事件
       };
       image.src = imgsrc;
     },
-    async downNear(){
+    async downNear () {
       let self = this
       let arr = ["WALKING", "DRIVING", "TRANSIT"]
-      
+
       await this.initMap({
         lat: Number(this.detailForm.latitude),
         lng: Number(this.detailForm.longitude)
@@ -1383,7 +1263,7 @@ export default {
     /**
      * 设置地图
      */
-    setGoogleMap() {
+    setGoogleMap () {
       let head = document.head || document.getElementsByTagName("head")[0];
       let scriptDiv = document.createElement("script"); //  AIzaSyAxuq9fNMvpfLt8gwUa1o9djUYr3XwIw8I
       scriptDiv.src =
@@ -1393,7 +1273,7 @@ export default {
     /**
      * 计算经纬度距离
      */
-    distance2(longitude, latitude, longitude2, latitude2) {
+    distance2 (longitude, latitude, longitude2, latitude2) {
       // console.log(longitude, longitude2)
       var lat1 = (Math.PI / 180) * Number(latitude);
       var lat2 = (Math.PI / 180) * Number(latitude2);
@@ -1408,17 +1288,17 @@ export default {
       // console.log(d)
       return d;
     },
-    async getDistance(project, TravelMode){
+    async getDistance (project, TravelMode) {
       let self = this
       let origins = []
       let time = 0
       origins.push(new google.maps.LatLng(project.lat, project.lng));
       NProgress.start()
-      setTimeout(()=>{
+      setTimeout(() => {
         NProgress.done()
       }, 3000)
-      for(let key in self.nearbyList){
-        time+=500
+      for (let key in self.nearbyList) {
+        time += 500
         let destinations = []
         console.log(self.nearbyList[key])
         self.nearbyList[key].forEach((ele) => {
@@ -1433,11 +1313,11 @@ export default {
           avoidTolls: false,
         };
         const service = new google.maps.DistanceMatrixService();
-        setTimeout(()=>{
+        setTimeout(() => {
           service.getDistanceMatrix(request).then((response, status) => {
             let distance = response.rows[0].elements
             let nearby = self.nearbyList[key]
-            nearby.forEach((item, index)=>{
+            nearby.forEach((item, index) => {
               item.distance = distance[index].distance.value
               item.duration = distance[index].duration.value
             })
@@ -1449,74 +1329,74 @@ export default {
     /**
      * 获取周边信息
      */
-    async initMap(project) {
-        let time = 0
-        let self = this
-        let pyrmont = new google.maps.LatLng(project.lat, project.lng); 
-        let origins = []
-        origins.push(pyrmont);
-        this.map = new google.maps.Map(document.getElementById("avenir-map"), {
-          center: project,
-          zoom: 18,
-        });
-        let service = new google.maps.places.PlacesService(this.map);
-        let service2 = new google.maps.places.PlacesService(this.map);
-        for(let key in this.nearbyList){
-          time+=500
-          let types = []
-          types.push(key)
-          let request = {
-            location: pyrmont,
-            radius: '2000',
-            types: types
-          };
-          let destinations = []
-          service.nearbySearch(request, (results, status)=>{
-            if (status == google.maps.places.PlacesServiceStatus.OK) {
-              // let placeId5 = results[0].place_id;
-              // var request1 = {
-              //   placeId: placeId5,
-              // };
-              // service2.getDetails(request1, function(place, status) {
-              //   console.log(place)
-              // })
-              let value = []
-              results.forEach(element => {
-                value.push({
-                  name:element.name,
-                  location: element.geometry.location,
-                  icon: element.icon,
-                  place_id: element.place_id
-                })
-                destinations.push(element.geometry.location)
-              });
-              self.$set(self.nearbyList, key, value)
-            }
-          });
-          setTimeout(()=>{
-            console.log(destinations)
-            const request = {
-              origins: origins,
-              destinations: destinations,
-              travelMode: google.maps.TravelMode["WALKING"],
-              unitSystem: google.maps.UnitSystem.METRIC,
-              avoidHighways: false,
-              avoidTolls: false,
-            };
-            const service = new google.maps.DistanceMatrixService();
-            service.getDistanceMatrix(request).then((response, status) => {
-              let distance = response.rows[0].elements
-              let nearby = self.nearbyList[key]
-              nearby.forEach((item, index)=>{
-                item.distance = distance[index].distance.value
-                item.duration = distance[index].duration.value
+    async initMap (project) {
+      let time = 0
+      let self = this
+      let pyrmont = new google.maps.LatLng(project.lat, project.lng);
+      let origins = []
+      origins.push(pyrmont);
+      this.map = new google.maps.Map(document.getElementById("avenir-map"), {
+        center: project,
+        zoom: 18,
+      });
+      let service = new google.maps.places.PlacesService(this.map);
+      let service2 = new google.maps.places.PlacesService(this.map);
+      for (let key in this.nearbyList) {
+        time += 500
+        let types = []
+        types.push(key)
+        let request = {
+          location: pyrmont,
+          radius: '2000',
+          types: types
+        };
+        let destinations = []
+        service.nearbySearch(request, (results, status) => {
+          if (status == google.maps.places.PlacesServiceStatus.OK) {
+            // let placeId5 = results[0].place_id;
+            // var request1 = {
+            //   placeId: placeId5,
+            // };
+            // service2.getDetails(request1, function(place, status) {
+            //   console.log(place)
+            // })
+            let value = []
+            results.forEach(element => {
+              value.push({
+                name: element.name,
+                location: element.geometry.location,
+                icon: element.icon,
+                place_id: element.place_id
               })
-              self.nearbyList[key] = nearby
+              destinations.push(element.geometry.location)
+            });
+            self.$set(self.nearbyList, key, value)
+          }
+        });
+        setTimeout(() => {
+          console.log(destinations)
+          const request = {
+            origins: origins,
+            destinations: destinations,
+            travelMode: google.maps.TravelMode["WALKING"],
+            unitSystem: google.maps.UnitSystem.METRIC,
+            avoidHighways: false,
+            avoidTolls: false,
+          };
+          const service = new google.maps.DistanceMatrixService();
+          service.getDistanceMatrix(request).then((response, status) => {
+            let distance = response.rows[0].elements
+            let nearby = self.nearbyList[key]
+            nearby.forEach((item, index) => {
+              item.distance = distance[index].distance.value
+              item.duration = distance[index].duration.value
             })
-          }, time)
-        }
-      },
-    dataURItoFile(base64Data, filename = "file") {
+            self.nearbyList[key] = nearby
+          })
+        }, time)
+      }
+    },
+    dataURItoFile (base64Data, filename = "file") {
       let arr = base64Data.split(",");
       let mime = arr[0].match(/:(.*?);/)[1];
       // let suffix = mime.split("/")[1];
@@ -1530,7 +1410,7 @@ export default {
         type: mime
       });
     },
-    UpLoadImg(imgBlob) {
+    UpLoadImg (imgBlob) {
       let user = JSON.parse(window.sessionStorage.getItem("userInfo"));
       let formData = new FormData();
       formData.append("brokeId", user.brokeId);
@@ -1547,7 +1427,7 @@ export default {
     },
   },
 
-  beforeDestroy() {
+  beforeDestroy () {
     this.$deleteImg()
   },
 }
@@ -1591,28 +1471,28 @@ export default {
     .el-alert__title {
       font-size: 14px !important;
     }
-    .uploader{
-      img{
+    .uploader {
+      img {
         width: 160px;
         height: 80px;
       }
     }
-    .nearbyList{
+    .nearbyList {
       padding: 20px;
       border: 1px solid #ccc;
       list-style-type: none;
-      .nearbyList-box{
+      .nearbyList-box {
         display: flex;
         margin-bottom: 10px;
-        .nearbyList-type{
+        .nearbyList-type {
           width: 80px;
           margin-right: 10px;
         }
-        .nearbyList-value-box{
+        .nearbyList-value-box {
           flex: 1;
           display: flex;
           flex-wrap: wrap;
-          .nearbyList-value{
+          .nearbyList-value {
             padding: 2px 10px;
           }
         }
