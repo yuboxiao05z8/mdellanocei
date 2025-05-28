@@ -12,12 +12,12 @@
         label="Ballot Number"
         width="180"
       ></el-table-column>
-      <el-table-column
+      <!-- <el-table-column
         v-if="isShowQueueNo"
         prop="loa"
         label="LOA"
         width="180"
-      ></el-table-column>
+      ></el-table-column> -->
       <el-table-column
         v-if="isShowQueueNo"
         prop="ballotNum"

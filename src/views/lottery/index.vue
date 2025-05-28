@@ -12,7 +12,7 @@
             <p class="buyer-number">No.{{item.ballotNum}}</p>
             <p class="buyer-name">{{item.buyerName}}</p>
             <p class="buyer-agent">{{item.brokeName}}</p>
-            <p class="buyer-loa">{{item.loa}}</p>
+            <p class="buyer-loa">{{item.ballotNo}}</p>
           </div>
           <div class="pageContent cardBack" :class="!ifShow[index] ? 'screen-left' : 'screen-right'" :show="ifShow[index]">
           </div>
@@ -20,7 +20,7 @@
       </div>
       <p class="lottery-title">{{$t('Ballot.Ballot Sequence Log')}}</p>
       <div class="lotteryed-list">
-        <div class="table-head">
+        <!-- <div class="table-head">
           <p>Queue No.</p>
           <p>LOA</p>
           <p>Buyer Name</p>
@@ -35,18 +35,19 @@
             <p>{{item.brokeName}}</p>
             <p>{{$dateFormat(item.drawTime)}}</p>
           </div>
-        </div>
-        <!-- <el-table
+        </div> -->
+        <el-table
           :data="tableData"
-          style="width: 100%">
+          style="width: 100%"
+          max-height="390">
           <el-table-column
             label="Queue No."
             prop="ballotNum"
             width="180">
           </el-table-column>
           <el-table-column
-            prop="loa"
-            label="LOA"
+            prop="ballotNo"
+            label="Ballot Number"
             width="180">
           </el-table-column>
           <el-table-column
@@ -63,7 +64,7 @@
               <span>{{scope.row.createTime?$dateFormat(scope.row.createTime):""}}</span>
             </template>
           </el-table-column>
-        </el-table> -->
+        </el-table>
         <p class="show-more" @click="queryMore()">
           {{$t('Ballot.View More')}}
         </p>
@@ -159,7 +160,7 @@ export default {
     this.projectId = this.$route.query.id
     this.imgUrl = sessionStorage.getItem('serveUrl')
     this.queryDrawInfo()
-    // this.queryInterest()
+    this.queryInterest()
   },
   methods: {
     /**
@@ -177,9 +178,10 @@ export default {
           if(res.code==='0'){
             let setTime = this.isReset?1000:400
             self.drawList = res.datas
+            self.startLottery()
             // setTimeout(()=>{
+            //   self.queryInterest()
             // }, setTime)
-            this.queryInterest()
           }
         })
       }else{
@@ -236,29 +238,30 @@ export default {
           for(let i=0; i<self.pageSize; i++){
             setTimeout(()=>{
               self.$set(self.ifShow, i, true)
-              console.log(self.drawList[i])
-              self.tableData.push(self.drawList[i])
-              console.log(self.tableData)
+              // console.log(self.drawList[i])
+              // self.tableData.push(self.drawList[i])
+              // console.log(self.tableData)
               // self.$set(self.tableData, i, self.table[i])
             }, 600*i)
           }
         }, 1000)
         
-        // setTimeout(()=>{
-        // }, 1000+600*self.pageSize)
+        setTimeout(()=>{
+          self.queryInterest()
+        }, 1000+600*self.pageSize)
       }else{
         for(let i=0; i<self.pageSize; i++){
           setTimeout(()=>{
             self.$set(self.ifShow, i, true)
-            self.tableData.push(self.drawList[i])
-            console.log(self.drawList[i])
-            console.log(self.tableData)
+            // self.tableData.push(self.drawList[i])
+            // console.log(self.drawList[i])
+            // console.log(self.tableData)
             // self.$set(self.tableData, i, self.table[i])
           }, 600*i)
         }
-        // setTimeout(()=>{
-          // this.queryInterest()
-        // }, 600*self.pageSize)
+        setTimeout(()=>{
+          self.queryInterest()
+        }, 600*self.pageSize)
       }
       this.isReset = true
       // this.queryInterest()
@@ -280,22 +283,22 @@ export default {
      * 已经抽中的买家列表
      */
     queryInterest() {
-      this.tableData = []
-      this.startLottery()
-      // let data = {
-      //   pageNo: 1,
-      //   pageSize: this.pageSize,
-      //   projectId: this.$route.query.id,
-      //   drawStatus: 'YES',
-      //   status: 1
-      // }
-      // this.$Posting(this.$api.queryInterest, data).then((res) => {
-      //   if (res.code == 0) {
-      //     this.tableData = []
-      //     this.table = res.datas.lists
-      //     console.log(this.table)
-      //   }
-      // })
+      // this.tableData = []
+      // this.startLottery()
+      let data = {
+        pageNo: 1,
+        pageSize: 10,
+        projectId: this.$route.query.id,
+        drawStatus: 'YES',
+        status: 1
+      }
+      this.$Posting(this.$api.queryInterest, data).then((res) => {
+        if (res.code == 0) {
+          // this.tableData = []
+          this.tableData = res.datas.lists
+          // this.startLottery()
+        }
+      })
     },
     indexMethod(index){
       return this.tableData.length-index
