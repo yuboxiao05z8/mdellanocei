@@ -125,7 +125,24 @@
             <template v-else>
               <i
                 class="el-icon-check"
-                v-if="scope.row.allowGenerate == '0'"
+                v-if="scope.row.allowGenerate == '1'"
+              ></i>
+              <i class="el-icon-close" v-else></i>
+            </template>
+          </template>
+        </el-table-column>
+        <el-table-column :label="$t('company')">
+          <template slot-scope="scope">
+            <el-checkbox
+              v-model="company"
+              v-if="scope.$index === tableDataInit"
+              :false-label="0"
+              :true-label="1"
+            ></el-checkbox>
+            <template v-else>
+              <i
+                class="el-icon-check"
+                v-if="scope.row.company == '1'"
               ></i>
               <i class="el-icon-close" v-else></i>
             </template>
@@ -345,6 +362,7 @@ export default {
       isSensitive: 1,
       allowUpload: 1,
       allowGenerate: 1,
+      company: 1,
       needWatermark: 1,
       requiredFor: 'None',
       otpNo: '',
@@ -418,6 +436,7 @@ export default {
       this.isSensitive = 1
       this.allowUpload = 1
       this.allowGenerate = 1
+      this.company = 1
       this.needWatermark = 1
       this.requiredFor = 'None'
       this.otpNo = ''
@@ -465,6 +484,7 @@ export default {
         isSensitive: this.isSensitive,
         allowUpload: this.allowUpload,
         allowGenerate: this.allowGenerate,
+        company: this.company,
         needWatermark: this.needWatermark,
         requiredFor: this.requiredFor,
         displayOrder: this.displayOrder,
@@ -493,6 +513,7 @@ export default {
       this.isSensitive = row.isSensitive
       this.allowUpload = row.allowUpload
       this.allowGenerate = row.allowGenerate
+      this.company = row.company
       this.needWatermark = row.needWatermark
       this.requiredFor = row.requiredFor
       this.otpNo = row.otpNo
