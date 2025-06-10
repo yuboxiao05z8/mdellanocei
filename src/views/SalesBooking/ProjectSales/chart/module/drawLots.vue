@@ -2,41 +2,19 @@
   <div class="drawLots_page">
     <div class="drawLots_head">
       <div class="drawLots_info" v-if="alignmentList.length">
-        <el-alert
-          :closable="false"
-          v-if="ballotNum"
-          :title="`Current Queue No.： ${ballotNum}`"
-          type="error"
-          :description="`Ballot No.： ${ballotNo}`"
-        >
+        <el-alert :closable="false" v-if="ballotNum" :title="`Current Queue No.： ${ballotNum}`" type="error" :description="`Ballot No.： ${ballotNo}`">
         </el-alert>
       </div>
       <div class="drawLots_btn">
         <el-row :gutter="20">
           <el-col :span="8">
-            <el-button
-              type="primary"
-              size="mini"
-              icon="el-icon-menu"
-              @click="triggerSon('ThinkingBoxDom')"
-              >Thinking Box List</el-button
-            >
+            <el-button type="primary" size="mini" icon="el-icon-menu" @click="triggerSon('ThinkingBoxDom')">Thinking Box List</el-button>
           </el-col>
           <el-col :span="8">
-            <el-button
-              :disabled="isDevelopers != 2 || !alignmentList.length"
-              type="danger"
-              @click="alterStatus"
-              >Next/TB</el-button
-            >
+            <el-button :disabled="isDevelopers != 2 || !alignmentList.length" type="danger" @click="alterStatus">Next/TB</el-button>
           </el-col>
           <el-col :span="8">
-            <el-button
-              type="primary"
-              size="mini"
-              @click="triggerSon('BookingQueueDom')"
-              >Booking Queue List<i class="el-icon-menu el-icon--right"></i
-            ></el-button>
+            <el-button type="primary" size="mini" @click="triggerSon('BookingQueueDom')">Booking Queue List<i class="el-icon-menu el-icon--right"></i></el-button>
           </el-col>
         </el-row>
       </div>
@@ -45,31 +23,23 @@
       <div class="alignment">
         <el-divider>Queue List</el-divider>
         <div class="alignment_tab">
-          <el-table
-            size="mini"
-            :cell-style="{ textAlign: 'center' }"
-            :data="alignmentList"
-            border
-            :row-class-name="tableRowClassName"
-          >
-            <el-table-column prop="ballotNum" label="No." width="120">
+          <el-table size="mini" :cell-style="{ textAlign: 'center' }" :data="alignmentList" border :row-class-name="tableRowClassName">
+            <el-table-column prop="ballotNum" label="No." width="60">
               <template slot-scope="scope">
                 <div>
                   <span style="margin-right: 10px">{{
                     scope.row.ballotNum
                   }}</span>
                   <!-- <b v-if="scope.row.buyStatus == 4">Ready Okay</b> -->
-                  <b class="statusB" v-if="scope.row.buyStatus == 5" style="color: red"
-                    >TB Ready</b
-                  >
+                  <b class="statusB" v-if="scope.row.buyStatus == 5" style="color: red">TB Ready</b>
                 </div>
               </template>
             </el-table-column>
             <el-table-column prop="ballotNo" label="Ballot No.">
             </el-table-column>
-            <el-table-column prop="brokeName" label="Agency Agent">
+            <el-table-column prop="brokeName" label="Agency">
             </el-table-column>
-            <el-table-column prop="agentName" label="Agent"> </el-table-column>
+            <el-table-column prop="agentName" label="Agent" width="200"> </el-table-column>
             <el-table-column prop="mobile" label="Contact"> </el-table-column>
           </el-table>
         </div>
@@ -77,13 +47,7 @@
       <div class="alignment">
         <el-divider>Sales Summary</el-divider>
         <div class="alignment_tab">
-          <el-table
-            :cell-style="{ textAlign: 'center' }"
-            :data="brokeList"
-            stripe
-            border
-            size="mini"
-          >
+          <el-table :cell-style="{ textAlign: 'center' }" :data="brokeList" stripe border size="mini">
             <el-table-column prop="brokeName" label="Company">
             </el-table-column>
             <el-table-column prop="num" label="Amount"> </el-table-column>
@@ -91,16 +55,8 @@
         </div>
       </div>
     </div>
-    <ThinkingBoxList
-      @receiveFn="receiveFn"
-      :projectId="projectId"
-      ref="ThinkingBoxDom"
-    />
-    <BookingQueueList
-      @receiveFn="receiveFn"
-      :projectId="projectId"
-      ref="BookingQueueDom"
-    />
+    <ThinkingBoxList @receiveFn="receiveFn" :projectId="projectId" ref="ThinkingBoxDom" />
+    <BookingQueueList @receiveFn="receiveFn" :projectId="projectId" ref="BookingQueueDom" />
   </div>
 </template>
 
@@ -110,7 +66,7 @@ import BookingQueueList from './BookingQueueList'
 export default {
   components: { ThinkingBoxList, BookingQueueList },
   props: ['projectId'],
-  data() {
+  data () {
     return {
       brokeList: [],
       alignmentList: [],
@@ -120,18 +76,18 @@ export default {
       isDevelopers: JSON.parse(sessionStorage.getItem('userInfo')).type,
     }
   },
-  mounted() {
+  mounted () {
     this.queryProjectSalesByBroke()
     this.queryInterestQueue()
     this.getUnitRoleAccess()
   },
   methods: {
-    tableRowClassName({row, rowIndex}) {
-      if(row.buyStatus == 5) {
+    tableRowClassName ({ row, rowIndex }) {
+      if (row.buyStatus == 5) {
         return 'warning-row';
       }
     },
-    async queryProjectSalesByBroke() {
+    async queryProjectSalesByBroke () {
       let res = await this.$Post(this.$api.queryProjectSalesByBroke, {
         projectId: this.projectId,
       })
@@ -139,7 +95,7 @@ export default {
         this.brokeList = res.datas
       }
     },
-    async queryInterestQueue() {
+    async queryInterestQueue () {
       let data = {
         pageNo: 1,
         pageSize: 10,
@@ -157,15 +113,15 @@ export default {
         }
       }
     },
-    receiveFn() {
+    receiveFn () {
       this.queryInterestQueue()
     },
-    triggerSon(type) {
+    triggerSon (type) {
       // 全部买家
       this.$refs[type].show = true
       this.$refs[type].queryInterestQueue()
     },
-    alterStatus() {
+    alterStatus () {
       if (this.alignmentList.length) {
         let obj = {
           interestId: this.alignmentList[0].interestId,
@@ -188,7 +144,7 @@ export default {
         })
       }
     },
-    getUnitRoleAccess() {
+    getUnitRoleAccess () {
       this.$Post(this.$api.getUnitRoleAccess, {
         projectId: this.projectId,
       }).then((res) => {
@@ -239,15 +195,15 @@ export default {
         .cell {
           text-align: center;
         }
-        
-        .warning-row{
+
+        .warning-row {
           // background: oldlace;
-          .statusB{
+          .statusB {
             font-size: 12px;
             font-weight: 100;
           }
-          .cell{
-            color: #FF6666;
+          .cell {
+            color: #ff6666;
           }
         }
       }

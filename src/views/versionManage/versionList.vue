@@ -2,11 +2,7 @@
   <div class="version_manage">
     <div class="appFind_conter">
       <div class="appFind_conter_input">
-        <el-button
-          type="primary"
-          @click="goVersion(null)"
-          icon="el-icon-circle-plus"
-        >{{$t('add_version')}}</el-button>
+        <el-button type="primary" @click="goVersion(null)" icon="el-icon-circle-plus">{{$t('add_version')}}</el-button>
       </div>
     </div>
     <div class="find_tab">
@@ -64,35 +60,17 @@
         </el-table-column>
         <el-table-column :label="$t('operation')" width="300px">
           <template slot-scope="scope">
-            <el-button
-              type="info"
-              plain
-              size="mini"
-              v-if="scope.row.status==1"
-              @click="changeVersion('0',scope.row)"
-            >{{$t('Enable')}}</el-button>
-            <el-button
-              type="success"
-              plain
-              v-else
-              size="mini"
-              @click="changeVersion('1',scope.row)"
-            >{{$t('Prohibit')}}</el-button>
+            <el-button type="info" plain size="mini" v-if="scope.row.status==1" @click="changeVersion('0',scope.row)">{{$t('Enable')}}</el-button>
+            <el-button type="success" plain v-else size="mini" @click="changeVersion('1',scope.row)">{{$t('Prohibit')}}</el-button>
             <el-button size="mini" @click="goVersion(scope.row)">{{$t("Edit")}}</el-button>
           </template>
         </el-table-column>
       </el-table>
       <div class="block tab_paging">
-        <el-pagination
-          @current-change="handleCurrentChange"
-          :page-size="pageSize"
-          layout="total,prev, pager, next"
-          :current-page.sync="currentPage"
-          :total="total"
-        ></el-pagination>
+        <el-pagination @current-change="handleCurrentChange" :page-size="pageSize" layout="total,prev, pager, next" :current-page.sync="currentPage" :total="total"></el-pagination>
       </div>
     </div>
-    <el-dialog  :visible.sync="dialogVisible" width="50%">
+    <el-dialog :visible.sync="dialogVisible" width="50%">
       <div>
         <edit-version @dialogFn="dialogFn" :editObj="editObj"></edit-version>
       </div>
@@ -108,7 +86,7 @@
 import editVersion from './editVersion'
 export default {
   components: { editVersion },
-  data() {
+  data () {
     return {
       tableData: [], // 数据
       pageSize: 10,
@@ -120,12 +98,12 @@ export default {
       //当前页数
     }
   },
-  mounted() {
+  mounted () {
     this.getListData()
   },
   methods: {
     //启用当前版本
-    changeVersion(type, row) {
+    changeVersion (type, row) {
       // console.log(row)
       let _this = this
       this.$Posting(this.$api.startProhibit, {
@@ -149,19 +127,20 @@ export default {
         }
       })
     },
-    goVersion(row) {
-      if(row) {
+    goVersion (row) {
+      if (row) {
         this.editObj = row
       } else {
         this.editObj = {}
       }
       this.dialogVisible = true
     },
-    dialogFn() {
+    dialogFn () {
       this.dialogVisible = false
+      this.getListData()
     },
     //获取列表数据
-    getListData(page = 1) {
+    getListData (page = 1) {
       this.$Posting(this.$api.queryAppVersion, {
         pageNo: page,
         pageSize: this.pageSize
@@ -180,7 +159,7 @@ export default {
       })
     },
     //点击翻页时进行请求
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.getListData(val)
     }
   }

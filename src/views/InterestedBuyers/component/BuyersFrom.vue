@@ -1,62 +1,34 @@
 <template>
   <div class="BuyresFrom_page">
-    <el-dialog
-      title="Add/Edit Buyer"
-      :visible.sync="show"
-      custom-class="BuyresFrom_dialog"
-      width="70%"
-      @closed="closedForm"
-    >
+    <el-dialog title="Add/Edit Buyer" :visible.sync="show" custom-class="BuyresFrom_dialog" width="70%" @closed="closedForm">
       <div class="dialog_box">
         <div v-if="show">
-          <el-form
-            ref="form"
-            :rules="rulesObj"
-            :model="form"
-            label-width="170px"
-          >
+          <el-form ref="form" :rules="rulesObj" :model="form" label-width="170px">
             <h5 style="color: red" v-if="form.loa">LOA: {{ form.loa }}</h5>
             <div class="case">
               <p class="case_head">Basic Information</p>
               <div class="case_div">
                 <el-row :gutter="20">
-                  <el-col :span="12"
-                    ><el-form-item label="Project Name">
-                      <el-input
-                        style="width: 200px"
-                        size="mini"
-                        disabled
-                        v-model="form.projectName"
-                      ></el-input> </el-form-item
-                  ></el-col>
-                  <el-col :span="12"
-                    ><el-form-item label="Developer Name">
-                      <el-input
-                        style="width: 200px"
-                        size="mini"
-                        disabled
-                        v-model="form.createUserName"
-                      ></el-input> </el-form-item
-                  ></el-col>
-                  <el-col :span="12"
-                    ><el-form-item label="Ballot Number" prop="ballotNo">
-                      <el-input
-                        @change="findBallotNo"
-                        style="width: 200px"
-                        size="mini"
-                        v-model="form.ballotNo"
-                      ></el-input> </el-form-item
-                  ></el-col>
-                  <el-col :span="12"
-                    ><el-form-item label="Time created">
-                      <el-date-picker
-                        disabled
-                        size="mini"
-                        type="date"
-                        v-model="form.createTime"
-                        style="width: 200px"
-                      ></el-date-picker> </el-form-item
-                  ></el-col>
+                  <el-col :span="12">
+                    <el-form-item label="Project Name">
+                      <el-input style="width: 200px" size="mini" disabled v-model="form.projectName"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="Account Name">
+                      <el-input style="width: 200px" size="mini" disabled v-model="form.createUserName"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="Ballot Number" prop="ballotNo">
+                      <el-input @change="findBallotNo" style="width: 200px" size="mini" v-model="form.ballotNo"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="Time created">
+                      <el-date-picker disabled size="mini" type="date" v-model="form.createTime" style="width: 200px"></el-date-picker>
+                    </el-form-item>
+                  </el-col>
                 </el-row>
               </div>
             </div>
@@ -64,56 +36,30 @@
               <p class="case_head">Sales Agent/Person Information</p>
               <div class="case_div">
                 <div style="padding-left: 100px; margin-bottom: 15px">
-                  <el-input
-                    style="width: 300px"
-                    size="mini"
-                    v-model="regNum"
-                    placeholder="CEA # Or Email to find it"
-                  ></el-input>
-                  <el-button
-                    style="margin-left: 15px"
-                    @click="getAgenData"
-                    size="mini"
-                    >Find</el-button
-                  >
+                  <el-input style="width: 300px" size="mini" v-model="regNum" placeholder="CEA # Or Email to find it"></el-input>
+                  <el-button style="margin-left: 15px" @click="getAgenData" size="mini">Find</el-button>
                 </div>
                 <el-row :gutter="20">
-                  <el-col :span="12"
-                    ><el-form-item label="CEA #" prop="regNum">
-                      <el-input
-                        style="width: 200px"
-                        size="mini"
-                        disabled
-                        v-model="form.regNum"
-                      ></el-input> </el-form-item
-                  ></el-col>
-                  <el-col :span="12"
-                    ><el-form-item label="Email" prop="agentEmail">
-                      <el-input
-                        style="width: 200px"
-                        size="mini"
-                        disabled
-                        v-model="form.agentEmail"
-                      ></el-input> </el-form-item
-                  ></el-col>
-                  <el-col :span="12"
-                    ><el-form-item label="Company Name" prop="brokeName">
-                      <el-input
-                        style="width: 200px"
-                        size="mini"
-                        v-model="form.brokeName"
-                        disabled
-                      ></el-input> </el-form-item
-                  ></el-col>
-                  <el-col :span="12"
-                    ><el-form-item label="Agency Name" prop="agentName">
-                      <el-input
-                        style="width: 200px"
-                        size="mini"
-                        disabled
-                        v-model="form.agentName"
-                      ></el-input> </el-form-item
-                  ></el-col>
+                  <el-col :span="12">
+                    <el-form-item label="CEA #" prop="regNum">
+                      <el-input style="width: 200px" size="mini" disabled v-model="form.regNum"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="Email" prop="agentEmail">
+                      <el-input style="width: 200px" size="mini" disabled v-model="form.agentEmail"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="Company Name" prop="brokeName">
+                      <el-input style="width: 200px" size="mini" v-model="form.brokeName" disabled></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="Agent Name" prop="agentName">
+                      <el-input style="width: 200px" size="mini" disabled v-model="form.agentName"></el-input>
+                    </el-form-item>
+                  </el-col>
                 </el-row>
               </div>
             </div>
@@ -121,68 +67,35 @@
               <p class="case_head">Payment mode</p>
               <div class="case_div">
                 <el-row :gutter="20">
-                  <el-col :span="12"
-                    ><el-form-item label="Payment Method" prop="buyMethod">
-                      <el-select
-                        style="width: 200px"
-                        size="mini"
-                        v-model="form.buyMethod"
-                        @change="getMethodType"
-                      >
-                        <el-option
-                          v-for="(item, index) in MethodList"
-                          :key="index"
-                          :label="item"
-                          :value="item"
-                        ></el-option>
-                      </el-select> </el-form-item
-                  ></el-col>
-                  <el-col :span="12"
-                    ><el-form-item label="Bank" prop="bankName">
-                      <el-select
-                        size="mini"
-                        style="width: 200px"
-                        v-model="form.bankName"
-                      >
-                        <el-option
-                          v-for="(item, index) in bankData"
-                          :key="index"
-                          :label="item.bankName"
-                          :value="item.bankName"
-                        ></el-option>
-                      </el-select> </el-form-item
-                  ></el-col>
-                  <el-col :span="12" v-if="form.buyMethod == 'Cheque'"
-                    ><el-form-item label="Cheque No." prop="chequeNum">
-                      <el-input
-                        style="width: 200px"
-                        @change="findChequeNum"
-                        size="mini"
-                        v-model="form.chequeNum"
-                      ></el-input> </el-form-item
-                  ></el-col>
-                  <el-col :span="12" v-if="form.buyMethod == 'Cheque'"
-                    ><el-form-item
-                      label="Cheque Book A/C No."
-                      prop="chequeBookNum"
-                    >
-                      <el-input
-                        style="width: 200px"
-                        @change="findChequeBookNum"
-                        size="mini"
-                        v-model="form.chequeBookNum"
-                      ></el-input> </el-form-item
-                  ></el-col>
-                  <el-col :span="12" v-if="form.buyMethod == 'Cheque'"
-                    ><el-form-item label="Cheque Date" prop="chequeBankDate">
-                      <el-date-picker
-                        size="mini"
-                        type="date"
-                        v-model="form.chequeBankDate"
-                        style="width: 200px"
-                        value-format="timestamp"
-                      ></el-date-picker> </el-form-item
-                  ></el-col>
+                  <el-col :span="12">
+                    <el-form-item label="Payment Method" prop="buyMethod">
+                      <el-select style="width: 200px" size="mini" v-model="form.buyMethod" @change="getMethodType">
+                        <el-option v-for="(item, index) in MethodList" :key="index" :label="item" :value="item"></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12">
+                    <el-form-item label="Bank" prop="bankName">
+                      <el-select size="mini" style="width: 200px" v-model="form.bankName">
+                        <el-option v-for="(item, index) in bankData" :key="index" :label="item.bankName" :value="item.bankName"></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12" v-if="form.buyMethod == 'Cheque'">
+                    <el-form-item label="Cheque No." prop="chequeNum">
+                      <el-input style="width: 200px" @change="findChequeNum" size="mini" v-model="form.chequeNum"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12" v-if="form.buyMethod == 'Cheque'">
+                    <el-form-item label="Cheque Book A/C No." prop="chequeBookNum">
+                      <el-input style="width: 200px" @change="findChequeBookNum" size="mini" v-model="form.chequeBookNum"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="12" v-if="form.buyMethod == 'Cheque'">
+                    <el-form-item label="Cheque Date" prop="chequeBankDate">
+                      <el-date-picker size="mini" type="date" v-model="form.chequeBankDate" style="width: 200px" value-format="timestamp"></el-date-picker>
+                    </el-form-item>
+                  </el-col>
                 </el-row>
               </div>
             </div>
@@ -221,7 +134,7 @@ export default {
       default: '',
     },
   },
-  data() {
+  data () {
     return {
       show: false,
       form: {},
@@ -233,23 +146,23 @@ export default {
     }
   },
   computed: {
-    rulesObj() {
+    rulesObj () {
       return this.getRules()
     },
   },
   watch: {
-    interestId(val) {
+    interestId (val) {
       if (val) {
         this.queryInterestDetail()
       }
     },
   },
-  mounted() {
+  mounted () {
     this.queryBankList()
     this.getRules()
   },
   methods: {
-    addDataFn() {
+    addDataFn () {
       this.$refs.form.validate((valid) => {
         if (valid) {
           if (
@@ -276,7 +189,7 @@ export default {
         }
       })
     },
-    saveInterestDetail(data) {
+    saveInterestDetail (data) {
       this.$Posting(this.$api.saveInterestDetail, data).then((res) => {
         if (res.code == 0) {
           this.$notify({
@@ -294,7 +207,7 @@ export default {
         }
       })
     },
-    queryInterestDetail() {
+    queryInterestDetail () {
       this.$Posting(this.$api.queryInterestDetail, {
         interestId: this.interestId,
       }).then((res) => {
@@ -310,13 +223,13 @@ export default {
         }
       })
     },
-    closedForm() {
+    closedForm () {
       this.form = {}
       this.buyerList = []
       this.unitList = []
       this.$emit('etidEnd')
     },
-    async queryBankList() {
+    async queryBankList () {
       let data = {
         pageNo: 1,
         pageSize: 9999,
@@ -327,12 +240,12 @@ export default {
         this.bankData = res.datas.lists
       }
     },
-    getMethodType() {
+    getMethodType () {
       if (this.form.chequeNum) this.form.chequeNum = ''
       if (this.form.chequeBookNum) this.form.chequeBookNum = ''
       if (this.form.chequeBankDate) this.form.chequeBankDate = ''
     },
-    getRules() {
+    getRules () {
       let blurArr = [
         'ballotNo',
         'regNum',
@@ -348,7 +261,7 @@ export default {
         ...setRulesData('change', ChangeArr),
       }
     },
-    getAgenData() {
+    getAgenData () {
       let userInfo = JSON.parse(sessionStorage.getItem('userInfo')) || {}
 
       let data = {
@@ -371,7 +284,7 @@ export default {
         }
       })
     },
-    setAgentInfo(data) {
+    setAgentInfo (data) {
       if (data) {
         this.$set(this.form, 'agentEmail', data.email)
         this.$set(this.form, 'regNum', data.regNum)
@@ -393,7 +306,7 @@ export default {
         })
       }
     },
-    async validateInterestInfo(parameters, text) {
+    async validateInterestInfo (parameters, text) {
       let data = {
         interestId: this.form.interestId || '',
         projectId: this.$route.query.id,
@@ -404,25 +317,25 @@ export default {
         this.warningFn(`${text}- (${res.datas.join(' / ')})`)
       }
     },
-    findChequeNum(val) {
+    findChequeNum (val) {
       this.validateInterestInfo(
         { chequeNum: val },
         'Duplicate Alert - Cheque Number'
       )
     },
-    findChequeBookNum(val) {
+    findChequeBookNum (val) {
       this.validateInterestInfo(
         { chequeBookNum: val },
         'Duplicate Alert - Cheque Book Number'
       )
     },
-    findBallotNo(val) {
+    findBallotNo (val) {
       this.validateInterestInfo(
         { ballotNo: val },
         'Duplicate Alert - Ballot Number'
       )
     },
-    warningFn(text) {
+    warningFn (text) {
       this.$notify({
         title: 'Warning',
         message: text,

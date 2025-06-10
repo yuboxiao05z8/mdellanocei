@@ -4,48 +4,26 @@
       <el-form class="demo-ruleForm" label-width="170px" size="small">
         <div class="form_section" v-if="type==0||type==-1">
           <el-form-item label="AppName" v-if="type==-1">
-            <el-input
-              class="form_input_375"
-              v-model="appName"
-              placeholder="Please fill in the APP name"
-            ></el-input>
+            <el-input class="form_input_375" v-model="appName" placeholder="Please fill in the APP name"></el-input>
           </el-form-item>
           <div class="form_title">
             <span>{{$t('ios_set')}}</span>
           </div>
           <el-form-item label="AppName" v-if="type==0">
-            <el-input
-              class="form_input_375"
-              v-model="appName"
-              placeholder="Please fill in the APP name"
-            ></el-input>
+            <el-input class="form_input_375" v-model="appName" placeholder="Please fill in the APP name"></el-input>
           </el-form-item>
           <el-form-item :label="$t('version_num')">
-            <el-input
-              class="form_input_375"
-              v-model="iosVersion"
-              :placeholder="$t('verificate_version_num')"
-            ></el-input>
+            <el-input class="form_input_375" v-model="iosVersion" :placeholder="$t('verificate_version_num')"></el-input>
           </el-form-item>
           <el-form-item :label="$t('update_url')">
-            <el-input
-              class="form_input_375"
-              v-model="iosUrl"
-              :placeholder="$t('verificate_update_url')"
-            ></el-input>
+            <el-input class="form_input_375" v-model="iosUrl" :placeholder="$t('verificate_update_url')"></el-input>
           </el-form-item>
           <el-form-item :label="$t('force_update')">
             <el-radio v-model="iosUpdate" :label="1">{{$t('yes')}}</el-radio>
             <el-radio v-model="iosUpdate" :label="0">{{$t('no')}}</el-radio>
           </el-form-item>
           <el-form-item :label="$t('update_desc')">
-            <el-input
-              type="textarea"
-              v-model="iosDesc"
-              style="width:375px"
-              rows="5"
-              :placeholder="$t('verificate_update_desc')"
-            ></el-input>
+            <el-input type="textarea" v-model="iosDesc" style="width:375px" rows="5" :placeholder="$t('verificate_update_desc')"></el-input>
           </el-form-item>
         </div>
         <div class="form_section" v-if="type==1||type==-1">
@@ -53,38 +31,20 @@
             <span>{{$t('android_set')}}</span>
           </div>
           <el-form-item label="AppName" v-if="type==1">
-            <el-input
-              class="form_input_375"
-              v-model="appName"
-              placeholder="Please fill in the APP name"
-            ></el-input>
+            <el-input class="form_input_375" v-model="appName" placeholder="Please fill in the APP name"></el-input>
           </el-form-item>
           <el-form-item :label="$t('version_num')">
-            <el-input
-              class="form_input_375"
-              v-model="androidVersion"
-              :placeholder="$t('verificate_version_num')"
-            ></el-input>
+            <el-input class="form_input_375" v-model="androidVersion" :placeholder="$t('verificate_version_num')"></el-input>
           </el-form-item>
           <el-form-item :label="$t('update_url')">
-            <el-input
-              class="form_input_375"
-              v-model="androidUrl"
-              :placeholder="$t('verificate_update_url')"
-            ></el-input>
+            <el-input class="form_input_375" v-model="androidUrl" :placeholder="$t('verificate_update_url')"></el-input>
           </el-form-item>
           <el-form-item :label="$t('force_update')">
             <el-radio v-model="androidUpdate" :label="1">{{$t('yes')}}</el-radio>
             <el-radio v-model="androidUpdate" :label="0">{{$t('no')}}</el-radio>
           </el-form-item>
           <el-form-item :label="$t('update_desc')">
-            <el-input
-              type="textarea"
-              v-model="androidDesc"
-              style="width:375px"
-              rows="5"
-              :placeholder="$t('verificate_update_desc')"
-            ></el-input>
+            <el-input type="textarea" v-model="androidDesc" style="width:375px" rows="5" :placeholder="$t('verificate_update_desc')"></el-input>
           </el-form-item>
         </div>
         <div class="form_section" v-if="type==2||type==-1">
@@ -92,47 +52,26 @@
             <span>{{$t('resource_set')}}</span>
           </div>
           <el-form-item label="AppName" v-if="type==2">
-            <el-input
-              class="form_input_375"
-              v-model="appName"
-              placeholder="Please fill in the APP name"
-            ></el-input>
+            <el-input class="form_input_375" v-model="appName" placeholder="Please fill in the APP name"></el-input>
           </el-form-item>
           <el-form-item :label="$t('version_num')">
-            <el-input
-              class="form_input_375"
-              v-model="webVersion"
-              :placeholder="$t('verificate_version_num')"
-            ></el-input>
+            <el-input class="form_input_375" v-model="webVersion" :placeholder="$t('verificate_version_num')"></el-input>
+          </el-form-item>
+          <el-form-item :label="$t('update_desc')">
+            <el-input type="textarea" v-model="webDesc" style="width:375px" rows="5" :placeholder="$t('verificate_update_desc')"></el-input>
           </el-form-item>
           <el-form-item :label="$t('upload_web_file')">
-            <el-upload
-              class="upload-demo"
-              :before-upload="beforeUploadFile"
-              :http-request="uploadSectionFile"
-              action
-              accept=".upk"
-              :show-file-list="false"
-            >
+            <el-upload class="upload-demo" :before-upload="beforeUploadFile" :http-request="uploadSectionFile" action accept=".upk" :show-file-list="false">
               <el-button type="primary">{{$t('browse')}}</el-button>
               <span class="fileName">
                 {{webZip[0]&&webZip[0].src}}
-                <span
-                  v-if="webZip[0]&&webZip[0].src"
-                  class="el-icon-delete icon_delete"
-                  @click.stop="deleteZip"
-                ></span>
+                <span v-if="webZip[0]&&webZip[0].src" class="el-icon-delete icon_delete" @click.stop="deleteZip"></span>
               </span>
             </el-upload>
           </el-form-item>
         </div>
         <div class="submit_form">
-          <el-button
-            type="primary"
-            size="medium"
-            style="width:300px;height:40px"
-            @click="submitVersionForm"
-          >{{$t('release')}}</el-button>
+          <el-button type="primary" size="medium" style="width:300px;height:40px" @click="submitVersionForm">{{$t('release')}}</el-button>
         </div>
       </el-form>
     </div>
@@ -145,7 +84,7 @@ export default {
       type: Object
     }
   },
-  data() {
+  data () {
     return {
       iosVersion: '',
       iosUrl: '',
@@ -157,6 +96,7 @@ export default {
       androidDesc: '',
       webVersion: '',
       webZip: [],
+      webDesc: '',
       verId: '',
       companyId: '',
       companyList: [],
@@ -167,15 +107,15 @@ export default {
     }
   },
   watch: {
-    editObj(val) {
+    editObj (val) {
       this.judgeSession(val)
     }
   },
-  created() {
+  created () {
     this.judgeSession(this.editObj)
   },
   methods: {
-    beforeUploadFile() {
+    beforeUploadFile () {
       if (this.webZip.length) {
         this.$message({
           message: this.$t('delete_origin_file'),
@@ -185,7 +125,7 @@ export default {
       }
     },
     //判断是否有缓存
-    judgeSession(obj) {
+    judgeSession (obj) {
       if (JSON.stringify(obj) != '{}') {
         //判断缓存里面有没有编辑信息
         let editVersionMsg = obj
@@ -214,6 +154,7 @@ export default {
                 src: editVersionMsg.url
               }
             ])
+          this.webDesc = editVersionMsg.desc
         }
       } else {
         this.type = -1
@@ -230,12 +171,13 @@ export default {
         this.androidDesc = ''
         this.webVersion = ''
         this.webZip = []
+        this.webDesc = ''
 
         return
       }
     },
     //发布版本
-    submitVersionForm() {
+    submitVersionForm () {
       let params
       let api = this.$api.updateAppVersion
       let iosParams = {
@@ -258,7 +200,7 @@ export default {
         url: this.webZip[0] ? this.webZip[0].src : '',
         versionNo: this.webVersion,
         isUpdate: 0,
-        desc: '',
+        desc: this.webDesc,
         // appName: this.appName,
         type: 2
       }
@@ -308,7 +250,7 @@ export default {
         })
     },
     //删除文件
-    deleteZip() {
+    deleteZip () {
       let self = this
       this.$Post(this.$api.deleteFile, { path: self.webZip[0].src })
         .then(res => {
@@ -332,7 +274,7 @@ export default {
         })
     },
     //zip文件上传成功后的函数
-    uploadSectionFile(file) {
+    uploadSectionFile (file) {
       let user = JSON.parse(window.sessionStorage.getItem('userInfo'))
       let formData = new FormData()
       let self = this
@@ -367,7 +309,7 @@ export default {
         })
     }
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.$deleteZip()
   }
 }
