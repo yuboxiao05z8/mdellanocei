@@ -17,30 +17,18 @@
           <div class="login_form">
             <el-form ref="formInline" :rules="rules" :model="formInline" class="demo-form-inline">
               <el-form-item prop="user">
-                <el-input
-                  :placeholder="$t('login.input_phone')"
-                  type="text"
-                  v-model="formInline.user"
-                >
+                <el-input :placeholder="$t('login.input_phone')" type="text" v-model="formInline.user">
                   <i slot="prefix" class="el-input__icon el-icon-search log_id"></i>
                 </el-input>
               </el-form-item>
               <el-form-item prop="pwd">
-                <el-input
-                  :placeholder="$t('login.input_passwords')"
-                  type="password"
-                  v-model="formInline.pwd"
-                >
+                <el-input :placeholder="$t('login.input_passwords')" type="password" v-model="formInline.pwd">
                   <i slot="prefix" class="el-input__icon el-icon-search log_passwod"></i>
                 </el-input>
               </el-form-item>
             </el-form>
-            <el-button
-              class="logBtn"
-              size="medium"
-              type="primary"
-              @click="goToHome('formInline')"
-            >{{ $t("login.login") }}</el-button>
+            <el-button class="logBtn" size="medium" type="primary" @click="goToHome('formInline')">
+              {{ $t("login.login") }}</el-button>
           </div>
         </div>
       </el-main>
@@ -65,7 +53,7 @@
 <script>
 export default {
   name: 'login',
-  data() {
+  data () {
     return {
       formInline: {
         user: '',
@@ -89,9 +77,9 @@ export default {
       }
     }
   },
-  mounted() {},
+  mounted () { },
   methods: {
-    goToHome(formName) {
+    goToHome (formName) {
       let selt = this
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -103,8 +91,8 @@ export default {
           for (const key in selt.$objKeySort(userInfo)) {
             str += selt.$objKeySort(userInfo)[key]
           }
-          console.log(str + 'c1d65f3667324592a071ebec5038f38c')
-          let signature = this.$md5(str + 'c1d65f3667324592a071ebec5038f38c')
+          console.log(str + '0856fb4d5f9a4927b97c6e8f28ad3b55')
+          let signature = this.$md5(str + '0856fb4d5f9a4927b97c6e8f28ad3b55')
           this.$Post(this.$api.login, {
             email: this.formInline.user,
             password: this.formInline.pwd,
@@ -132,10 +120,10 @@ export default {
         }
       })
     },
-    toWebsite() {
+    toWebsite () {
       window.open('http://www.mixgo.com')
     },
-    appDown() {
+    appDown () {
       window.open('https://itunes.apple.com/cn/app/id1174747257?mt=8')
     }
   }
