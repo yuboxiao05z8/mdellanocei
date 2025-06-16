@@ -91,8 +91,8 @@ export default {
           for (const key in selt.$objKeySort(userInfo)) {
             str += selt.$objKeySort(userInfo)[key]
           }
-          console.log(str + '0856fb4d5f9a4927b97c6e8f28ad3b55')
-          let signature = this.$md5(str + '0856fb4d5f9a4927b97c6e8f28ad3b55')
+          console.log(str + 'c1d65f3667324592a071ebec5038f38c')
+          let signature = this.$md5(str + 'c1d65f3667324592a071ebec5038f38c')
           this.$Post(this.$api.login, {
             email: this.formInline.user,
             password: this.formInline.pwd,

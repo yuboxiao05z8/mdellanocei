@@ -181,7 +181,7 @@ const PostHasSign = function(url = '', data = {}, allowHTML = false){
   for (const key in Vue.prototype.$objKeySort(reqData)) {
     str += Vue.prototype.$objKeySort(reqData)[key]
   }
-  str = md5(str + '0856fb4d5f9a4927b97c6e8f28ad3b55')
+  str = md5(str + 'c1d65f3667324592a071ebec5038f38c')
   reqData = qs.stringify({
     ...reqData,
     signature: str
@@ -260,7 +260,7 @@ const GetHasSign = function (url = '', data = {}, allowHTML = false) {
   for (const key in Vue.prototype.$objKeySort(param)) {
     str += Vue.prototype.$objKeySort(param)[key]
   }
-  str = md5(str + '0856fb4d5f9a4927b97c6e8f28ad3b55')
+  str = md5(str + 'c1d65f3667324592a071ebec5038f38c')
   let params = {
     params: {
       ...param,
