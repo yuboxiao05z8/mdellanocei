@@ -19,8 +19,7 @@
       </el-row>
     </div>
     <div class="detail_content">
-      <el-form class="demo-form-inline form" label-width="250px" label-position="left" ref="ruleForm" size="small"
-        :model="detailForm" :rules="rules">
+      <el-form class="demo-form-inline form" label-width="250px" label-position="left" ref="ruleForm" size="small" :model="detailForm" :rules="rules">
         <el-row>
           <el-col :span="12">
             <el-form-item label="Developer Ecoprop">
@@ -109,8 +108,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item prop="completionDate" :label="$t('edit.topDate')">
-              <el-date-picker class="width_300px" value-format="timestamp" format="dd-MMM-yyyy" type="date"
-                v-model="detailForm.completionDate"></el-date-picker>
+              <el-date-picker class="width_300px" value-format="timestamp" format="dd-MMM-yyyy" type="date" v-model="detailForm.completionDate"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -122,8 +120,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item prop="launchDate" :label="$t('edit.launchDate')">
-              <el-date-picker class="width_300px" value-format="timestamp" format="dd-MMM-yyyy" type="date"
-                v-model="detailForm.launchDate"></el-date-picker>
+              <el-date-picker class="width_300px" value-format="timestamp" format="dd-MMM-yyyy" type="date" v-model="detailForm.launchDate"></el-date-picker>
             </el-form-item>
           </el-col>
           <el-col :span="12">
@@ -149,8 +146,7 @@
         <el-row>
           <el-col :span="24">
             <el-form-item prop="address" :label="$t('address')">
-              <el-cascader size="mini" style="width:100%;" v-model="detailForm.address" :options="options" clearable
-                @change='selectAddress'></el-cascader>
+              <el-cascader size="mini" style="width:100%;" v-model="detailForm.address" :options="options" clearable @change='selectAddress'></el-cascader>
             </el-form-item>
           </el-col>
         </el-row>
@@ -326,56 +322,48 @@
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.description')">
-              <editor editorId="description" :value="detailForm.description" :setting="editorSetting" @show="editors"
-                @on-upload-success="onEditorUploadComplete"></editor>
+              <editor editorId="description" :value="detailForm.description" :setting="editorSetting" @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.description')+'(中文)'">
-              <editor editorId="descriptionCn" :value="detailForm.descriptionCn" :setting="editorSetting"
-                @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
+              <editor editorId="descriptionCn" :value="detailForm.descriptionCn" :setting="editorSetting" @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.keyPoints')">
-              <editor editorId="keyPoints" :value="detailForm.keyPoints" :setting="editorSetting" @show="editors"
-                @on-upload-success="onEditorUploadComplete"></editor>
+              <editor editorId="keyPoints" :value="detailForm.keyPoints" :setting="editorSetting" @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.keyPoints')+'(中文)'">
-              <editor editorId="keyPointsCn" :value="detailForm.keyPointsCn" :setting="editorSetting" @show="editors"
-                @on-upload-success="onEditorUploadComplete"></editor>
+              <editor editorId="keyPointsCn" :value="detailForm.keyPointsCn" :setting="editorSetting" @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.facilities')">
-              <editor editorId="facilities" :value="detailForm.facilities" :setting="editorSetting" @show="editors"
-                @on-upload-success="onEditorUploadComplete"></editor>
+              <editor editorId="facilities" :value="detailForm.facilities" :setting="editorSetting" @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.facilities')+'(中文)'">
-              <editor editorId="facilitiesCn" :value="detailForm.facilitiesCn" :setting="editorSetting" @show="editors"
-                @on-upload-success="onEditorUploadComplete"></editor>
+              <editor editorId="facilitiesCn" :value="detailForm.facilitiesCn" :setting="editorSetting" @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
         </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.nearbyAmenities')">
-              <editor editorId="nearbyAmenities" :value="detailForm.nearbyAmenities" :setting="editorSetting"
-                @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
+              <editor editorId="nearbyAmenities" :value="detailForm.nearbyAmenities" :setting="editorSetting" @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('edit.nearbyAmenities')+'(中文)'">
-              <editor editorId="nearbyAmenitiesCn" :value="detailForm.nearbyAmenitiesCn" :setting="editorSetting"
-                @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
+              <editor editorId="nearbyAmenitiesCn" :value="detailForm.nearbyAmenitiesCn" :setting="editorSetting" @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
         </el-row>
@@ -384,14 +372,12 @@
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('DeveloperInformation')">
-              <editor editorId="commission" :value="detailForm.commission" :setting="editorSetting" @show="editors"
-                @on-upload-success="onEditorUploadComplete"></editor>
+              <editor editorId="commission" :value="detailForm.commission" :setting="editorSetting" @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('DeveloperInformation')+'(中文)'">
-              <editor editorId="commissionCn" :value="detailForm.commissionCn" :setting="editorSetting" @show="editors"
-                @on-upload-success="onEditorUploadComplete"></editor>
+              <editor editorId="commissionCn" :value="detailForm.commissionCn" :setting="editorSetting" @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
         </el-row>
@@ -451,8 +437,7 @@
         </el-row>-->
         <!-- <div style="border-bottom:1px solid #dcdfe6;margin-bottom:15px"></div> -->
 
-        <el-alert style="padding:8px 0;margin-bottom:30px" :title="$t('Location Map Configuration')" type="info"
-          :closable="false"></el-alert>
+        <el-alert style="padding:8px 0;margin-bottom:30px" :title="$t('Location Map Configuration')" type="info" :closable="false"></el-alert>
         <el-row style="margin-bottom:20px">
           <el-col :span="12">
             <span>{{$t('edit.latitude')}}:</span>
@@ -476,15 +461,13 @@
             <span style="margin-right:20px">{{$t('Thumbnail Screenshot')}}:</span>
             <el-button style="margin-right:20px" size="mini" @click="downMapImg">{{$t('Update')}}</el-button>
             <span style="margin-right:20px">{{$t(' Map Zoom Level')}}:</span>
-            <el-input size="mini" type="number" style="width: 100px;margin-right:10px;" max="20" min="13"
-              v-model="mapImgZoom"></el-input>
+            <el-input size="mini" type="number" style="width: 100px;margin-right:10px;" max="20" min="13" v-model="mapImgZoom"></el-input>
             <span>({{$t('From 13 to 20 max')}})</span>
           </el-col>
         </el-row>
         <el-row style="margin-bottom:20px">
           <el-col :span="12" class="uploader">
-            <img @click.stop="$imgPreview(hostUrl + detailForm.snapshotLogo)" :src="hostUrl + detailForm.snapshotLogo"
-              alt="">
+            <img @click.stop="$imgPreview(hostUrl + detailForm.snapshotLogo)" :src="hostUrl + detailForm.snapshotLogo" alt="">
           </el-col>
         </el-row>
         <el-row style="margin-bottom:20px">
@@ -505,15 +488,13 @@
               <li class="nearbyList-box">
                 <p class="nearbyList-type">MRT Station:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value"
-                    v-for="(item, index) in nearbyList['subway_station']">{{item.name}}</span>
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['subway_station']">{{item.name}}</span>
                 </p>
               </li>
               <li class="nearbyList-box">
                 <p class="nearbyList-type">Shopping Mall:</p>
                 <p class="nearbyList-value-box">
-                  <span class="nearbyList-value"
-                    v-for="(item, index) in nearbyList['shopping_mall']">{{item.name}}</span>
+                  <span class="nearbyList-value" v-for="(item, index) in nearbyList['shopping_mall']">{{item.name}}</span>
                 </p>
               </li>
               <li class="nearbyList-box">
@@ -537,8 +518,7 @@
             </ul>
           </el-col>
         </el-row>
-        <el-alert style="padding:8px 0;margin-bottom:30px" :title="$t('edit.customInformationFields')" type="info"
-          :closable="false"></el-alert>
+        <el-alert style="padding:8px 0;margin-bottom:30px" :title="$t('edit.customInformationFields')" type="info" :closable="false"></el-alert>
         <el-row>
           <el-col :span="12">
             <el-form-item :label="$t('edit.customInfoLabel1')">
@@ -791,6 +771,13 @@ export default {
           },
         ],
         country: [
+          {
+            required: true,
+            message: 'This field cannot be empty',
+            trigger: 'change',
+          },
+        ],
+        address: [
           {
             required: true,
             message: 'This field cannot be empty',
@@ -1154,7 +1141,8 @@ export default {
       )
       submitData.salesContacts = this.$contentToBase64(submitData.salesContacts)
       submitData.projectId = this.id
-      submitData.contactImage = this.fileData[0] ? this.fileData[0].path : ''
+      console.log(submitData.address)
+      submitData.contactImage = this.fileData.length > 0 ? this.fileData[0].path : ''
       let facilitiesMap = []
       for (let key in this.nearbyList) {
         // let longitude2 = this.nearbyList[key].location.log
@@ -1165,9 +1153,11 @@ export default {
           value: this.nearbyList[key]
         })
       }
-      submitData.areaLevel1 = submitData.address[0]
-      submitData.areaLevel2 = submitData.address[1]
-      submitData.areaLevel3 = submitData.address[2]
+      if (submitData.address) {
+        submitData.areaLevel1 = submitData.address[0]
+        submitData.areaLevel2 = submitData.address[1]
+        submitData.areaLevel3 = submitData.address[2]
+      }
       submitData.facilitiesMap = JSON.stringify(facilitiesMap)
       return submitData
     },
