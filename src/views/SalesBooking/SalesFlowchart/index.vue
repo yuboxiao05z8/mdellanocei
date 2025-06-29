@@ -3,24 +3,16 @@
     <div class="head">
       <el-row :gutter="20">
         <el-col :span="3">
-          <el-button
-            size="mini"
-            type="info"
-            class="btn el-icon-back"
-            style="margin-right: 30px"
-            @click="goBack"
-            >{{ $t('editMap.goBack') }}</el-button
-          >
+          <el-button size="mini" type="info" class="btn el-icon-back" style="margin-right: 30px" @click="goBack">
+            {{ $t('editMap.goBack') }}</el-button>
         </el-col>
         <el-col :span="6">
-          <div
-            style="
+          <div style="
               line-height: 28px;
               overflow: hidden;
               text-overflow: ellipsis;
               white-space: nowrap;
-            "
-          >
+            ">
             {{ query.projectName }} : {{ query.unitName }}
           </div>
         </el-col>
@@ -28,23 +20,18 @@
           <div class="ballotNo" v-if="updaObj.ballotNo">
             Ballot No. {{ updaObj.ballotNo }}
           </div>
-          <div
-            class="keepTime"
-            v-if="
+          <div class="keepTime" v-if="
               query.countDown &&
               isOutTime &&
               updaObj.purchaseStatus == 'AVAILABLE'
-            "
-          >
+            ">
             <span class="el-icon-time"></span>
-            <span
-              style="
+            <span style="
                 overflow: hidden;
                 text-overflow: ellipsis;
                 white-space: nowrap;
                 width: 90%;
-              "
-            >
+              ">
               Your booking will expire in
               <b>{{ time.minutes }}</b> mins <b>{{ time.seconds }}</b> second.
               Re-entry is required upon time expiry.
@@ -67,61 +54,32 @@
       <el-container class="outboard">
         <el-main class="outboard_box_view">
           <keep-alive>
-            <component
-              ref="componRef"
-              :interested="interested"
-              :variate="variate"
-              :updaObj="updaObj"
-              :is="sonView"
-              :SummaryData="SummaryData"
-              :documentObj="documentObj"
-            ></component>
+            <component ref="componRef" :interested="interested" :variate="variate" :updaObj="updaObj" :is="sonView"
+              :SummaryData="SummaryData" :documentObj="documentObj"></component>
           </keep-alive>
         </el-main>
         <el-footer class="outboard_box_btn">
-          <el-button
-            type="primary"
-            v-if="stepsActive > 0 && stepsActive < 5"
-            @click="nextFn('back')"
-            >Previous</el-button
-          >
-          <el-button
-            type="primary"
-            v-if="stepsActive < 4"
-            @click="nextFn('next')"
-            >Next</el-button
-          >
-          <el-button
-            type="primary"
-            v-if="
+          <el-button type="primary" v-if="stepsActive > 0 && stepsActive < 5" @click="nextFn('back')">Previous
+          </el-button>
+          <el-button type="primary" v-if="stepsActive < 4" @click="nextFn('next')">Next</el-button>
+          <el-button type="primary" v-if="
               stepsActive == 4 &&
-              (query.type == 'AVAILABLE' || query.type == 'RESERVED')
-            "
-            @click="soldFn(3)"
-            >Sold</el-button
-          >
-          <el-button
-            type="primary"
-            :disabled="isDisabled"
-            v-if="
+              (query.type == 'AVAILABLE' || query.type == 'RESERVED') && userInfo.type==2
+            " @click="soldFn(3)">Sold</el-button>
+          <el-button type="primary" :disabled="isDisabled" v-if="
               stepsActive == 4 &&
               (query.type == 'SOLD' || query.type == 'RESERVED')
-            "
-            @click="soldFn(10)"
-            >Update</el-button
-          >
-          <el-button type="primary" @click="goBack" v-if="stepsActive == 5"
-            >Finish</el-button
-          >
-          <el-button type="primary" v-if="stepsActive == 5 && query.accessData['COMPLETED']== 1&&updaObj.transactionStatus=='PDI SIGNED'&&((query.cooperate===1&&userInfo.type!==3) || query.cooperate===0)" @click="updateStatus('COMPLETED')"
-            >{{ $t('COMPLETED') }}</el-button
-          >
-          <el-button type="primary" v-if="stepsActive == 5 && query.accessData['PDI_SIGNED']== 1&&(updaObj.transactionStatus=='PDI PENDING'||!updaObj.transactionStatus)" @click="updateStatus('PDI SIGNED')"
-            >{{ $t('PDI SIGNED') }}</el-button
-          >
-          <el-button type="primary" v-if="stepsActive == 5 && query.accessData['PDI_PENDING']== 1&&updaObj.transactionStatus=='PDI SIGNED'&&((query.cooperate===1&&userInfo.type!==3) ||query.cooperate===0)" @click="updateStatus('PDI PENDING')"
-            >{{ $t('PDI PENDING') }}</el-button
-          >
+            " @click="soldFn(10)">Update</el-button>
+          <el-button type="primary" @click="goBack" v-if="stepsActive == 5">Finish</el-button>
+          <!-- <el-button type="primary"
+            v-if="stepsActive == 5 && query.accessData['COMPLETED']== 1&&updaObj.transactionStatus=='PDI SIGNED'&&((query.cooperate===1&&userInfo.type!==3) || query.cooperate===0)"
+            @click="updateStatus('COMPLETED')">{{ $t('COMPLETED') }}</el-button>
+          <el-button type="primary"
+            v-if="stepsActive == 5 && query.accessData['PDI_SIGNED']== 1&&(updaObj.transactionStatus=='PDI PENDING'||!updaObj.transactionStatus)"
+            @click="updateStatus('PDI SIGNED')">{{ $t('PDI SIGNED') }}</el-button>
+          <el-button type="primary"
+            v-if="stepsActive == 5 && query.accessData['PDI_PENDING']== 1&&updaObj.transactionStatus=='PDI SIGNED'&&((query.cooperate===1&&userInfo.type!==3) ||query.cooperate===0)"
+            @click="updateStatus('PDI PENDING')">{{ $t('PDI PENDING') }}</el-button> -->
         </el-footer>
       </el-container>
     </div>
@@ -152,7 +110,7 @@ export default {
     SaleDetails,
     Summary,
   },
-  data() {
+  data () {
     return {
       query: this.$route.query,
       time: {
@@ -174,7 +132,7 @@ export default {
       Edit_Price_jurisdiction: null,
     }
   },
-  mounted() {
+  mounted () {
     this.getTransaction()
     this.bookingUnit(1)
     console.log(this.query)
@@ -183,7 +141,7 @@ export default {
   },
   methods: {
     // 获取修改价格权限，暂不处理
-    getUnitRoleAccess() {
+    getUnitRoleAccess () {
       this.$Post(this.$api.getUnitRoleAccess, {
         projectId: this.query.projectId,
       }).then((res) => {
@@ -193,7 +151,7 @@ export default {
         }
       })
     },
-    goBack() {
+    goBack () {
       switch (this.query.link) {
         case '/SalesBooking/ProjectSales/SalesChart':
           this.$router.replace({
@@ -222,7 +180,7 @@ export default {
           break
       }
     },
-    bookingUnit(type) {
+    bookingUnit (type) {
       let data = {
         projectId: this.query.projectId,
         unitId: this.query.unitId,
@@ -230,7 +188,7 @@ export default {
       }
       this.$Post(this.$api.bookingUnit, data)
     },
-    nextFn(type) {
+    nextFn (type) {
       let data = [
         'SaleDetails',
         'Payment',
@@ -267,97 +225,97 @@ export default {
       }
       this.sonView = data[this.stepsActive]
     },
-    soldFn(type) {
+    soldFn (type) {
       this.isDisabled = true
       this.$confirm('To submit?', 'Alert', {
         confirmButtonText: 'Confirm',
         cancelButtonText: 'Cancel',
         type: 'warning',
       }).then(() => {
-          if (this.childObj.length == 4) {
-            let arr = [].concat(...this.childObj)
-            let obj = Object.assign(...arr)
-            let newObj = JSON.parse(JSON.stringify(obj))
-            if (obj.buyerList.length) {
-              obj.buyerList.forEach((item, index)=>{
-                let dateOfBirth = this.$dateFormatNoTime(
-                  item.dateOfBirth
-                ).split('-')
-                item.dateOfBirth = dateOfBirth.join("-")
-              })
-              newObj.buyerList = JSON.stringify(obj.buyerList)
-            }
-            if(obj.facilityList.length){
-              let facilityJson = []
-              obj.facilityList.forEach(element => {
-                facilityJson.push({facilityId:element.facilityId, values:element.value1})
-              });
-              newObj.facilityJson = JSON.stringify(facilityJson)
-              newObj.facilityList = JSON.stringify(obj.facilityList)
-            }
-
-            if (obj.buyerPaymentList.length) {
-              newObj.buyerPaymentList = JSON.stringify(obj.buyerPaymentList)
-            }
-            if (this.updaObj.recordId) {
-              newObj.recordId = this.updaObj.recordId
-            }
-            newObj.interested = Number(obj.interested)
-            this.$Posting(this.$api.addTransaction, {
-              ...newObj,
-              type: type,
-              unitId: this.query.unitId,
-              projectId: this.query.projectId,
+        if (this.childObj.length == 4) {
+          let arr = [].concat(...this.childObj)
+          let obj = Object.assign(...arr)
+          let newObj = JSON.parse(JSON.stringify(obj))
+          if (obj.buyerList.length) {
+            obj.buyerList.forEach((item, index) => {
+              let dateOfBirth = this.$dateFormatNoTime(
+                item.dateOfBirth
+              ).split('-')
+              item.dateOfBirth = dateOfBirth.join("-")
             })
-              .then((res) => {
-                this.isDisabled = false
-                if (res.code == 0) {
-                  this.sonView = 'Document'
-                  this.stepsActive = 5
-                  this.documentObj = {
-                    OptionDate: newObj.transactionDate,
-                    SystemNo: res.datas.seqNo,
-                    recordId: res.datas.recordId,
-                    Status: res.datas.purchaseStatus,
-                  }
-                  this.$notify({
-                    title: 'Success',
-                    message: 'Submit Successfully',
-                    type: 'success',
-                  })
-                  window.clearTimeout(this.setIn)
-                  this.isOutTime = false
+            newObj.buyerList = JSON.stringify(obj.buyerList)
+          }
+          if (obj.facilityList.length) {
+            let facilityJson = []
+            obj.facilityList.forEach(element => {
+              facilityJson.push({ facilityId: element.facilityId, values: element.value1 })
+            });
+            newObj.facilityJson = JSON.stringify(facilityJson)
+            newObj.facilityList = JSON.stringify(obj.facilityList)
+          }
 
-                  let imgArr = []
-                  if (newObj.buyerList) {
-                    imgArr.push(
-                      ...this.getUpImgArr(newObj.buyerList, 'nricPassportImg')
-                    )
-                  }
-                  if (newObj.buyerPaymentList) {
-                    imgArr.push(
-                      ...this.getUpImgArr(newObj.buyerPaymentList, 'payerImg')
-                    )
-                  }
-
-                  if(imgArr.length) {
-                    this.$changeSessionUploadImage(imgArr)
-                  }
-                } else {
-                  this.$notify.error({
-                    title: 'Error',
-                    message: res.msg,
-                  })
+          if (obj.buyerPaymentList.length) {
+            newObj.buyerPaymentList = JSON.stringify(obj.buyerPaymentList)
+          }
+          if (this.updaObj.recordId) {
+            newObj.recordId = this.updaObj.recordId
+          }
+          newObj.interested = Number(obj.interested)
+          this.$Posting(this.$api.addTransaction, {
+            ...newObj,
+            type: type,
+            unitId: this.query.unitId,
+            projectId: this.query.projectId,
+          })
+            .then((res) => {
+              this.isDisabled = false
+              if (res.code == 0) {
+                this.sonView = 'Document'
+                this.stepsActive = 5
+                this.documentObj = {
+                  OptionDate: newObj.transactionDate,
+                  SystemNo: res.datas.seqNo,
+                  recordId: res.datas.recordId,
+                  Status: res.datas.purchaseStatus,
                 }
-              })
-              .catch(() => {
+                this.$notify({
+                  title: 'Success',
+                  message: 'Submit Successfully',
+                  type: 'success',
+                })
+                window.clearTimeout(this.setIn)
+                this.isOutTime = false
+
+                let imgArr = []
+                if (newObj.buyerList) {
+                  imgArr.push(
+                    ...this.getUpImgArr(newObj.buyerList, 'nricPassportImg')
+                  )
+                }
+                if (newObj.buyerPaymentList) {
+                  imgArr.push(
+                    ...this.getUpImgArr(newObj.buyerPaymentList, 'payerImg')
+                  )
+                }
+
+                if (imgArr.length) {
+                  this.$changeSessionUploadImage(imgArr)
+                }
+              } else {
                 this.$notify.error({
                   title: 'Error',
-                  message: 'server error ',
+                  message: res.msg,
                 })
+              }
+            })
+            .catch(() => {
+              this.$notify.error({
+                title: 'Error',
+                message: 'server error ',
               })
-          }
-        })
+            })
+        }
+      })
         .catch((error) => {
           this.isDisabled = false
           this.$message({
@@ -366,7 +324,7 @@ export default {
           })
         })
     },
-    getUpImgArr(obj, key) {
+    getUpImgArr (obj, key) {
       let arr = JSON.parse(obj)
       let hostUlr = sessionStorage.getItem('serveUrl')
       let newArr = arr
@@ -380,7 +338,7 @@ export default {
       console.log(linearArray)
       return linearArray
     },
-    getTransaction() {
+    getTransaction () {
       let data = {
         projectId: this.query.projectId,
         unitId: this.query.unitId,
@@ -388,12 +346,12 @@ export default {
       this.$Posting(this.$api.getTransaction, data).then((res) => {
         if (res.code == 0) {
           this.updaObj = res.datas
-          if(this.updaObj.facilityList){
+          if (this.updaObj.facilityList) {
             let facilityList = this.updaObj.facilityList
-            facilityList.forEach(element=>{
-              if(!element.value1){
+            facilityList.forEach(element => {
+              if (!element.value1) {
                 element.value1 = element.valueList[0].values
-              }else{
+              } else {
                 console.log(11)
               }
             })
@@ -404,10 +362,10 @@ export default {
         }
       })
     },
-    CountDown(time) {
+    CountDown (time) {
       let self = this
       let maxtime = time * 60
-      function subtraction() {
+      function subtraction () {
         if (maxtime >= 0) {
           self.time.minutes = Math.floor(maxtime / 60)
           self.time.seconds = Math.floor(maxtime % 60)
@@ -420,21 +378,21 @@ export default {
       }
       this.setIn = window.setInterval(subtraction, 1000)
     },
-    updateStatus(command){
+    updateStatus (command) {
       let data = {
         transactionStatus: command,
         unitId: this.query.unitId,
         projectId: this.query.projectId,
       }
       this.$Geting(this.$api.updateTransactionStatus, data)
-      .then(res=>{
-        if(res.code == 0){
-          this.getTransaction()
-        }
-      })
+        .then(res => {
+          if (res.code == 0) {
+            this.getTransaction()
+          }
+        })
     }
   },
-  beforeDestroy() {
+  beforeDestroy () {
     window.clearTimeout(this.setIn)
     this.bookingUnit(2)
     this.$deleteImg()
@@ -453,7 +411,7 @@ export default {
       background: #fcf8e3;
       padding: 5px 10px;
       &::before {
-        content: '';
+        content: "";
         display: inline-block;
         clear: both;
       }
@@ -505,7 +463,7 @@ export default {
             .el-form-item__label {
               position: relative;
               &::before {
-                content: '*';
+                content: "*";
                 color: red;
               }
             }
@@ -521,7 +479,7 @@ export default {
           text-align: center;
           margin-top: 20px;
           &::before {
-            content: '';
+            content: "";
             position: absolute;
             right: -40px;
             top: 0;

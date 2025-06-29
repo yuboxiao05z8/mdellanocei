@@ -3,9 +3,7 @@
     <el-dialog :visible.sync="show" width="60%">
       <div class="titleSlot" slot="title">
         <span>{{ title }}</span>
-        <span
-          class="statusSpan"
-          :class="{
+        <span class="statusSpan" :class="{
             SOLD: status == 'SOLD',
             AVAILABLE: status == 'AVAILABLE',
             PENDINGRESERVED: status == 'PENDING RESERVED',
@@ -15,21 +13,12 @@
             REQUESTCANCEL: status == 'REQUEST CANCEL',
             NOTRELEASED: status == 'NOT RELEASED',
             InPROGRESS: status == 'IN PROGRESS',
-          }"
-          >{{ status }}</span
-        >
-        <span class="ballotNo" v-if="unitData.ballotNo"
-          >Ballot No. {{ unitData.ballotNo }}</span
-        >
+          }">{{ status }}</span>
+        <span class="ballotNo" v-if="unitData.ballotNo">Ballot No. {{ unitData.ballotNo }}</span>
       </div>
       <div class="bodySlot">
         <el-row :gutter="20" v-if="tabList.length">
-          <el-col
-            v-for="(item, index) in tabList"
-            :key="index"
-            :span="12"
-            class="rowBox"
-          >
+          <el-col v-for="(item, index) in tabList" :key="index" :span="12" class="rowBox">
             <span>{{ item.key }}</span>
             <span class="text">{{ item.value }}</span>
           </el-col>
@@ -38,57 +27,30 @@
       <div slot="footer" class="footerSlot">
         <div v-if="status == 'AVAILABLE' ">
           <!-- && (!unitData.cooperate || isAgentCompany == 2)  -->
-          <el-button v-if="AccessData.Mark_Sold == 1" @click="BookUnitFn"
-            >Book Unit</el-button
-          >
-          <el-button
-            @click="StatusPartitive(3, 'Mark sold')"
-            v-if="AccessData.Mark_Sold == 1"
-            >Mark sold</el-button
-          >
-          <el-button
-            @click="StatusPartitive(2, 'Reserved')"
-            v-if="AccessData.Mark_Reserved == 1"
-            >Reserved</el-button
-          >
-          <el-button
-            @click="StatusPartitive(1, 'Not Released')"
-            v-if="AccessData.Set_Not_Release == 1"
-            >Not Released</el-button
-          >
+          <el-button v-if="AccessData.Mark_Sold == 1" @click="BookUnitFn">Book Unit</el-button>
+          <el-button @click="StatusPartitive(3, 'Mark sold')" v-if="AccessData.Mark_Sold == 1">Mark sold</el-button>
+          <el-button @click="StatusPartitive(2, 'Reserved')" v-if="AccessData.Mark_Reserved == 1">Reserved</el-button>
+          <el-button @click="StatusPartitive(1, 'Not Released')" v-if="AccessData.Set_Not_Release == 1">Not Released
+          </el-button>
         </div>
         <div v-if="status == 'RESERVED'">
-          <el-button
-            @click="StatusPartitive(4, 'Cancel Reserved')"
-            v-if="AccessData.Cancel_Reserved == 1"
-            >Cancel Reserved</el-button
-          >
-          <el-button v-if="AccessData.Mark_Sold == 1" @click="GoPdiFn"
-            >PDI</el-button
-          >
-          <el-button v-if="AccessData.Mark_Sold == 1" @click="BookUnitFn"
+          <el-button @click="StatusPartitive(4, 'Cancel Reserved')" v-if="AccessData.Cancel_Reserved == 1">Cancel
+            Reserved</el-button>
+          <el-button v-if="AccessData.Mark_Sold == 1" @click="GoPdiFn">PDI</el-button>
+          <!-- <el-button v-if="AccessData.Mark_Sold == 1" @click="BookUnitFn"
             >Book unit</el-button
-          >
+          > -->
         </div>
         <div v-if="status == 'NOT RELEASED'">
-          <el-button
-            @click="StatusPartitive(8, 'Released')"
-            v-if="AccessData.Release == 1"
-            >Released</el-button
-          >
+          <el-button @click="StatusPartitive(8, 'Released')" v-if="AccessData.Release == 1">Released</el-button>
         </div>
+
         <div v-if="status == 'IN PROGRESS'">
-          <el-button v-if="AccessData.Mark_Sold == 1" @click="BookUnitFn"
-            >Book Unit</el-button
-          >
+          <el-button v-if="AccessData.Mark_Sold == 1" @click="BookUnitFn">Book Unit</el-button>
         </div>
         <div v-if="status == 'SOLD'">
-          <el-button v-if="AccessData.Mark_Sold == 1" @click="GoPdiFn"
-            >PDI</el-button
-          >
-          <el-button v-if="AccessData.Mark_Sold == 1" @click="BookUnitFn"
-            >Book unit</el-button
-          >
+          <el-button v-if="AccessData.Mark_Sold == 1" @click="GoPdiFn">PDI</el-button>
+          <el-button v-if="AccessData.Mark_Sold == 1" @click="BookUnitFn">Book unit</el-button>
         </div>
       </div>
     </el-dialog>
@@ -107,15 +69,15 @@ export default {
     },
   },
   watch: {
-    unitObj(val) {
+    unitObj (val) {
       this.getUnitAccess()
       this.getUnitInfo()
     },
-    interestId(val) {
+    interestId (val) {
       // console.log('买家ID', val)
     },
   },
-  data() {
+  data () {
     return {
       show: false,
       title: '',
@@ -126,9 +88,9 @@ export default {
       isAgentCompany: JSON.parse(sessionStorage.getItem('userInfo')).type,
     }
   },
-  mounted() {},
+  mounted () { },
   methods: {
-    getUnitAccess() {
+    getUnitAccess () {
       let data = {
         unitId: this.unitObj.unitId,
         projectId: this.unitObj.projectId,
@@ -139,7 +101,7 @@ export default {
         }
       })
     },
-    getUnitInfo() {
+    getUnitInfo () {
       let data = {
         unitId: this.unitObj.unitId,
         projectId: this.unitObj.projectId,
@@ -154,7 +116,7 @@ export default {
         }
       })
     },
-    BookUnitFn() {
+    BookUnitFn () {
       if (
         this.unitData.purchaseStatus == 'IN PROGRESS' &&
         !this.AccessData.Mark_Sold
@@ -180,7 +142,7 @@ export default {
       })
       this.show = false
     },
-    GoPdiFn() {
+    GoPdiFn () {
       this.$router.push({
         path: '/SalesBooking/viewDetails',
         query: {
@@ -194,7 +156,7 @@ export default {
         },
       })
     },
-    StatusPartitive(type, text) {
+    StatusPartitive (type, text) {
       this.$confirm(`Change the state to ${text}?`, text, {
         confirmButtonText: 'Confirm',
         cancelButtonText: 'Cancel',
@@ -240,7 +202,7 @@ export default {
 .SalesPopup {
   .titleSlot {
     &::before {
-      content: '';
+      content: "";
       display: inline-block;
       clear: both;
     }
@@ -274,7 +236,7 @@ export default {
         }
       }
       &::before {
-        content: '';
+        content: "";
         display: inline-block;
         clear: both;
       }

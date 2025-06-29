@@ -126,7 +126,7 @@ const dynamicRouter = [
         component: () => import('@/views/InterestedBuyers/index'),
         name: 'PotentialClients',
         meta: {
-          title: 'Interes',
+          title: 'EOI',
           icon: 'el-icon-star-on',
           roles: ['admin', 'areaManager']
         }

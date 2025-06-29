@@ -10,11 +10,12 @@
         <div class="lottery-card" v-for="(item, index) in drawList" :key="index">
           <div class="pageContent" :class="ifShow[index] ? 'screen-left' : 'screen-right'">
             <p class="buyer-number">No.{{item.ballotNum}}</p>
-            <p class="buyer-name">{{item.buyerName}}</p>
+            <!-- <p class="buyer-name">{{item.buyerName}}</p> -->
             <p class="buyer-agent">{{item.brokeName}}</p>
             <p class="buyer-loa">{{item.ballotNo}}</p>
           </div>
-          <div class="pageContent cardBack" :class="!ifShow[index] ? 'screen-left' : 'screen-right'" :show="ifShow[index]">
+          <div class="pageContent cardBack" :class="!ifShow[index] ? 'screen-left' : 'screen-right'"
+            :show="ifShow[index]">
           </div>
         </div>
       </div>
@@ -36,30 +37,18 @@
             <p>{{$dateFormat(item.drawTime)}}</p>
           </div>
         </div> -->
-        <el-table
-          :data="tableData"
-          style="width: 100%"
-          max-height="390">
-          <el-table-column
-            label="Queue No."
-            prop="ballotNum"
-            width="180">
+        <el-table :data="tableData" style="width: 100%" max-height="390">
+          <el-table-column label="Queue No." prop="ballotNum" width="180">
           </el-table-column>
-          <el-table-column
-            prop="ballotNo"
-            label="Ballot Number"
-            width="180">
+          <el-table-column prop="ballotNo" label="Ballot Number" width="180">
           </el-table-column>
-          <el-table-column
+          <!-- <el-table-column
             prop="buyerName"
             label="Buyer Name">
+          </el-table-column> -->
+          <el-table-column prop="brokeName" label="Agency">
           </el-table-column>
-          <el-table-column
-            prop="brokeName"
-            label="Agency">
-          </el-table-column>
-          <el-table-column
-            label="Time"> 
+          <el-table-column label="Time">
             <template slot-scope="scope">
               <span>{{scope.row.createTime?$dateFormat(scope.row.createTime):""}}</span>
             </template>
@@ -105,26 +94,14 @@
       </p>
       <div class="switch-box">
         <span>{{$t('Ballot.Auto Ballot')}}: </span>
-        <el-switch
-          v-model="value1"
-          active-color="#13ce66"
-          >
+        <el-switch v-model="value1" active-color="#13ce66">
         </el-switch>
       </div>
     </div>
-    <el-dialog
-      :title="$t('Ballot.Setting')"
-      :visible.sync="centerDialogVisible"
-      width="30%"
-      center>
+    <el-dialog :title="$t('Ballot.Setting')" :visible.sync="centerDialogVisible" width="30%" center>
       <div class="demo-input-suffix">
         <p class="pagesize-title">{{$t('Ballot["No. Ballot Per Draw"]')}}</p>
-        <el-input
-          type="number"
-          size="mini"
-          v-model="value"
-          max="5"
-          min="1">
+        <el-input type="number" size="mini" v-model="value" max="5" min="1">
         </el-input>
         <p class="pagesize-title">{{$t('Ballot.min1 to max 5')}}</p>
       </div>
@@ -136,7 +113,7 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       tableData: [],
       value1: false,
@@ -156,7 +133,7 @@ export default {
       table: []
     }
   },
-  mounted(){
+  mounted () {
     this.projectId = this.$route.query.id
     this.imgUrl = sessionStorage.getItem('serveUrl')
     this.queryDrawInfo()
@@ -166,34 +143,34 @@ export default {
     /**
      * 抽到的买家列表
      */
-    drawInterestBuyer(){
+    drawInterestBuyer () {
       let self = this
       clearInterval(self.timer)
-      if(this.drawCount.no_draw_num>0){
+      if (this.drawCount.no_draw_num > 0) {
         this.$PostHasSign(this.$api.drawInterestBuyer, {
           pageSize: this.pageSize,
           projectId: this.projectId
         })
-        .then(res=>{
-          if(res.code==='0'){
-            let setTime = this.isReset?1000:400
-            self.drawList = res.datas
-            self.startLottery()
-            // setTimeout(()=>{
-            //   self.queryInterest()
-            // }, setTime)
-          }
-        })
-      }else{
+          .then(res => {
+            if (res.code === '0') {
+              let setTime = this.isReset ? 1000 : 400
+              self.drawList = res.datas
+              self.startLottery()
+              // setTimeout(()=>{
+              //   self.queryInterest()
+              // }, setTime)
+            }
+          })
+      } else {
         clearInterval(self.timer)
         self.isStart = false
       }
-      if(self.value1){
+      if (self.value1) {
         self.isStart = true
-        self.timer = setInterval(()=>{
+        self.timer = setInterval(() => {
           self.drawInterestBuyer()
-        }, 1000+1200*self.pageSize)
-      }else{
+        }, 1000 + 1200 * self.pageSize)
+      } else {
         clearInterval(self.timer)
         self.isStart = false
       }
@@ -201,7 +178,7 @@ export default {
     /**
      * 停止抽取
      */
-    stopLottery(){
+    stopLottery () {
       let self = this
       clearInterval(self.timer)
       self.value1 = false
@@ -210,58 +187,58 @@ export default {
     /**
      * 获取项目信息
      */
-    queryDrawInfo(){
+    queryDrawInfo () {
       let self = this
       this.$GetHasSign(self.$api.queryDrawInfo, {
-        projectId:self.projectId
+        projectId: self.projectId
       })
-      .then(res=>{
-        if(res.code==='0'){
-          if(res.datas.draw.length>0)self.drawCount = res.datas.draw[0];
-          if(self.pageSize>self.drawCountno_draw_num){
-            self.pageSize = self.drawCountno_draw_num
-          }else if(self.drawCountno_draw_num<=0){
-            clearInterval(this.timer)
+        .then(res => {
+          if (res.code === '0') {
+            if (res.datas.draw.length > 0) self.drawCount = res.datas.draw[0];
+            if (self.pageSize > self.drawCountno_draw_num) {
+              self.pageSize = self.drawCountno_draw_num
+            } else if (self.drawCountno_draw_num <= 0) {
+              clearInterval(this.timer)
+            }
+            self.projectBean = res.datas.projectBean
           }
-          self.projectBean = res.datas.projectBean
-        }
-      })
+        })
     },
     /**
      * 翻牌
      */
-    startLottery(){
+    startLottery () {
       let self = this
-      if(this.isReset){
+      if (this.isReset) {
         this.reset()
-        setTimeout(()=>{
-          for(let i=0; i<self.pageSize; i++){
-            setTimeout(()=>{
+        setTimeout(() => {
+          for (let i = 0; i < self.pageSize; i++) {
+            setTimeout(() => {
               self.$set(self.ifShow, i, true)
               // console.log(self.drawList[i])
               // self.tableData.push(self.drawList[i])
               // console.log(self.tableData)
               // self.$set(self.tableData, i, self.table[i])
-            }, 600*i)
+            }, 600 * i)
           }
         }, 1000)
-        
-        setTimeout(()=>{
+
+        setTimeout(() => {
           self.queryInterest()
-        }, 1000+600*self.pageSize)
-      }else{
-        for(let i=0; i<self.pageSize; i++){
-          setTimeout(()=>{
+        }, 1000 + 600 * self.pageSize)
+      } else {
+        for (let i = 0; i < self.pageSize; i++) {
+          setTimeout(() => {
             self.$set(self.ifShow, i, true)
             // self.tableData.push(self.drawList[i])
             // console.log(self.drawList[i])
             // console.log(self.tableData)
             // self.$set(self.tableData, i, self.table[i])
-          }, 600*i)
+          }, 600 * i)
         }
-        setTimeout(()=>{
+        setTimeout(() => {
           self.queryInterest()
-        }, 600*self.pageSize)
+        }, 600 * self.pageSize)
       }
       this.isReset = true
       // this.queryInterest()
@@ -270,19 +247,19 @@ export default {
     /**
      * 重置牌
      */
-    reset(){
+    reset () {
       let self = this
-      for(let i=0; i<self.pageSize; i++){
-          self.$set(self.ifShow, i, false)
+      for (let i = 0; i < self.pageSize; i++) {
+        self.$set(self.ifShow, i, false)
       }
     },
-    setPageSize(){
+    setPageSize () {
       this.centerDialogVisible = true
     },
     /**
      * 已经抽中的买家列表
      */
-    queryInterest() {
+    queryInterest () {
       // this.tableData = []
       // this.startLottery()
       let data = {
@@ -300,40 +277,40 @@ export default {
         }
       })
     },
-    indexMethod(index){
-      return this.tableData.length-index
+    indexMethod (index) {
+      return this.tableData.length - index
     },
-    confirm(){
+    confirm () {
       let self = this
       this.pageSize = this.value;
       this.drawList = []
-      for(let i=0; i<this.pageSize; i++){
+      for (let i = 0; i < this.pageSize; i++) {
         this.drawList.push({})
         self.$set(self.ifShow, i, false)
       }
       this.centerDialogVisible = false
     },
-    queryMore(){
+    queryMore () {
       this.$router.go(-1)
     },
-    fullScreen(full){
-      this.full=full
-      if(full==='off'){
+    fullScreen (full) {
+      this.full = full
+      if (full === 'off') {
         var element = document.getElementById("lottery-content");
         var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
         requestMethod.call(element);
-      }else{
+      } else {
         var elem = document;
         if (elem.webkitCancelFullScreen) {
-        elem.webkitCancelFullScreen();
+          elem.webkitCancelFullScreen();
         } else if (elem.mozCancelFullScreen) {
-        elemd.mozCancelFullScreen();
+          elemd.mozCancelFullScreen();
         } else if (elem.cancelFullScreen) {
-        elem.cancelFullScreen();
+          elem.cancelFullScreen();
         } else if (elem.exitFullscreen) {
-        elem.exitFullscreen();
+          elem.exitFullscreen();
         } else {
-        //浏览器不支持全屏API或已被禁用
+          //浏览器不支持全屏API或已被禁用
         };
       }
     }
@@ -341,7 +318,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.lottery-wrap{
+.lottery-wrap {
   display: flex;
   width: 100%;
   height: 100%;
@@ -350,23 +327,23 @@ export default {
   position: relative;
   justify-content: center;
   align-items: center;
-  .setting-box{
+  .setting-box {
     position: absolute;
     top: 10px;
     right: 10px;
     display: flex;
-    .el-icon-s-tools::before{
+    .el-icon-s-tools::before {
       font-size: 24px;
     }
-    img{
+    img {
       margin-left: 20px;
       width: 24px;
       cursor: pointer;
     }
   }
-  .lottery-left{
+  .lottery-left {
     height: 80vh;
-    .lotterying-list{
+    .lotterying-list {
       width: 900px;
       height: 270px;
       border: 2px dashed rgba(0, 210, 200, 100);
@@ -374,15 +351,15 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-around;
-      .lottery-card{
+      .lottery-card {
         width: 159px;
         height: 220px;
         text-align: center;
         font-size: 18px;
-        font-family: SourceHanSansSC-regular; 
+        font-family: SourceHanSansSC-regular;
         position: relative;
         transform-style: preserve-3d;
-        .pageContent{
+        .pageContent {
           border-radius: 15px;
           background-color: rgba(255, 255, 255, 100);
           box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
@@ -390,71 +367,71 @@ export default {
           height: 100%;
           overflow: hidden;
           display: block;
-          position: absolute; 
+          position: absolute;
           transition: all 0.6s linear;
-          backface-visibility: hidden;  
+          backface-visibility: hidden;
         }
-        .cardBack{
+        .cardBack {
           background: #f2898b;
         }
-        .screen-left{
-          transform:  rotate(0);
+        .screen-left {
+          transform: rotate(0);
         }
         .screen-right {
-          transform:  rotateY(180deg);
+          transform: rotateY(180deg);
         }
-        .buyer-number{
+        .buyer-number {
           color: rgba(215, 100, 102, 100);
           margin-top: 38px;
           font-weight: 600;
           font-size: 18px;
         }
-        .buyer-name{
+        .buyer-name {
           height: 27px;
           color: rgba(4, 30, 66, 100);
           margin-top: 22px;
           font-weight: 600;
         }
-        .buyer-agent{
+        .buyer-agent {
           color: rgba(215, 100, 102, 100);
           font-size: 14px;
           height: 20px;
           line-height: 20px;
         }
-        .buyer-loa{
+        .buyer-loa {
           height: 24px;
           color: rgba(215, 100, 102, 100);
           font-size: 16px;
         }
       }
     }
-    .lottery-title{
+    .lottery-title {
       height: 20px;
       color: rgba(16, 16, 16, 100);
       font-size: 14px;
       margin: 44px 0px 13px;
     }
     @keyframes identifier {
-      0%{
-      	width: 0;
+      0% {
+        width: 0;
       }
-      100%{
-         width: 100%;
+      100% {
+        width: 100%;
       }
     }
-    .lotteryed-list{
+    .lotteryed-list {
       width: 881px;
       border-radius: 15px;
       text-align: center;
       box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
       padding: 13px 17px;
       background: #fff;
-      .table-head{
+      .table-head {
         display: flex;
         align-items: center;
         justify-content: space-around;
         border-bottom: 1px solid #ccc;
-        p{
+        p {
           flex: 1;
           font-size: 14px;
           height: 60px;
@@ -463,8 +440,8 @@ export default {
           color: #909399;
         }
       }
-      .table-content{
-        .table-item{
+      .table-content {
+        .table-item {
           animation: identifier 2s;
           color: #909399;
           display: flex;
@@ -472,19 +449,19 @@ export default {
           justify-content: space-around;
           width: 0;
           overflow: hidden;
-          p{
+          p {
             flex: 1;
             font-size: 14px;
             height: 60px;
             line-height: 60px;
           }
         }
-        .data{
+        .data {
           width: 100%;
           border-bottom: 1px solid #ccc;
         }
       }
-      .show-more{
+      .show-more {
         height: 30px;
         line-height: 30px;
         width: 100px;
@@ -494,10 +471,10 @@ export default {
       }
     }
   }
-  .lottery-right{
+  .lottery-right {
     width: 400px;
     margin-left: 100px;
-    .right-title{
+    .right-title {
       height: 29px;
       color: rgba(4, 30, 66, 100);
       font-size: 20px;
@@ -505,7 +482,7 @@ export default {
       text-align: center;
       margin-bottom: 53px;
     }
-    .project-box{
+    .project-box {
       width: 381px;
       height: 287px;
       border-radius: 15px;
@@ -514,22 +491,22 @@ export default {
       color: rgba(16, 16, 16, 100);
       font-size: 14px;
       font-family: Arial-regular;
-      img{
+      img {
         width: 100%;
         height: 193px;
       }
-      .project-time{
+      .project-time {
         height: 16px;
         margin-top: 11px;
         text-indent: 16px;
       }
-      .project-agent{
+      .project-agent {
         height: 16px;
         margin-top: 5px;
         text-indent: 16px;
       }
     }
-    .count-box{
+    .count-box {
       margin: 67px 0px;
       width: 381px;
       height: 126px;
@@ -538,26 +515,26 @@ export default {
       display: flex;
       justify-content: space-around;
       align-items: center;
-      div{
-        p{
+      div {
+        p {
           text-align: center;
           height: 27px;
           color: rgba(0, 210, 200, 100);
           font-size: 18px;
         }
       }
-      .to-lottery{
-        p{
+      .to-lottery {
+        p {
           color: rgba(249, 173, 3, 88);
         }
       }
-      .lotteryed{
-        p{
+      .lotteryed {
+        p {
           color: rgba(164, 164, 164, 96);
         }
       }
     }
-    .start-lottery{
+    .start-lottery {
       width: 381px;
       height: 138px;
       border-radius: 15px;
@@ -570,28 +547,28 @@ export default {
       text-align: center;
       cursor: pointer;
     }
-    .nolottery{
+    .nolottery {
       background: #ccc;
     }
-    .switch-box{
+    .switch-box {
       margin-top: 10px;
       display: flex;
       justify-content: center;
       align-items: center;
     }
   }
-  .demo-input-suffix{
+  .demo-input-suffix {
     display: flex;
     align-items: center;
     justify-content: center;
-    .pagesize-title{
+    .pagesize-title {
       height: 20px;
       color: rgba(0, 0, 0, 0.65);
       font-size: 14px;
       text-align: left;
       font-family: PingFangSC-regular;
     }
-    .el-input{
+    .el-input {
       width: 100px;
       margin: 0px 10px;
     }

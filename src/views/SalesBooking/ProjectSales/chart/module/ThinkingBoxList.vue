@@ -2,31 +2,14 @@
   <div class="ThinkingBoxList">
     <el-dialog @close="closeFn" title="Thinking Box List" :visible.sync="show" width="80%">
       <div class="ThinkingBoxList_body">
-         <div class="ThinkingBoxList_head">
-          <el-input
-            style="width: 200px; margin-right: 20px"
-            size="mini"
-            placeholder="Line no."
-            v-model="ballotNum"
-          ></el-input>
-          <el-input
-            style="width: 200px"
-            size="mini"
-            placeholder="Ballot No. "
-            v-model="ballotNo"
-          ></el-input>
-          <el-button style="margin-left: 20px" size="mini" @click="searchData"
-            >Search</el-button
-          >
+        <div class="ThinkingBoxList_head">
+          <el-input style="width: 200px; margin-right: 20px" size="mini" placeholder="Line no." v-model="ballotNum">
+          </el-input>
+          <el-input style="width: 200px" size="mini" placeholder="Ballot No. " v-model="ballotNo"></el-input>
+          <el-button style="margin-left: 20px" size="mini" @click="searchData">Search</el-button>
         </div>
         <div class="alignment_tab">
-          <el-table
-            size="mini"
-            :cell-style="{ textAlign: 'center' }"
-            :data="list"
-            stripe
-            border
-          >
+          <el-table size="mini" :cell-style="{ textAlign: 'center' }" :data="list" stripe border>
             <el-table-column prop="ballotNum" label="No."> </el-table-column>
             <el-table-column prop="ballotNo" label="Ballot No. ">
             </el-table-column>
@@ -39,31 +22,20 @@
             <el-table-column prop="chaperonIc" label="Chaperone IC">
             </el-table-column>
             <el-table-column prop="mobile" label="Edit">
-              <template slot-scope="scope" v-if="accountType == 2 || brokeId == scope.row.brokeId">
+              <template slot-scope="scope" v-if="accountType == 2">
                 <!-- <el-button
                   v-if="scope.row.buyStatus == 4"
                   size="mini"
                   @click="setStatus(scope.row, 3)"
                   >TB</el-button
                 > -->
-                <el-button
-                  size="mini"
-                  v-if="scope.row.buyStatus == 3"
-                  @click="setStatus(scope.row, 4)"
-                  >Buyer Ready</el-button
-                >
+                <el-button size="mini" v-if="scope.row.buyStatus == 3" @click="setStatus(scope.row, 4)">Buyer Ready
+                </el-button>
               </template>
             </el-table-column>
           </el-table>
-          <el-pagination
-            class="page_section"
-            :page-size="pageSize"
-            style="text-align: center"
-            @current-change="changePage"
-            background
-            layout="prev, pager, next"
-            :total="total"
-          ></el-pagination>
+          <el-pagination class="page_section" :page-size="pageSize" style="text-align: center"
+            @current-change="changePage" background layout="prev, pager, next" :total="total"></el-pagination>
         </div>
       </div>
     </el-dialog>
@@ -73,7 +45,7 @@
 <script>
 export default {
   props: ['projectId'],
-  data() {
+  data () {
     return {
       show: false,
       list: [],
@@ -87,10 +59,10 @@ export default {
     }
   },
   methods: {
-    closeFn() {
+    closeFn () {
       this.$emit('receiveFn')
     },
-    async queryInterestQueue() {
+    async queryInterestQueue () {
       let data = {
         pageNo: this.pageNo,
         pageSize: this.pageSize,
@@ -106,11 +78,11 @@ export default {
         this.total = res.datas.count
       }
     },
-    changePage(val) {
+    changePage (val) {
       this.pageNo = val
       this.queryInterestQueue()
     },
-    setStatus(row, type) {
+    setStatus (row, type) {
       let obj = {
         interestId: row.interestId,
         buyStatus: type,
@@ -130,7 +102,7 @@ export default {
         }
       })
     },
-    searchData() {
+    searchData () {
       this.pageNo = 1
       this.queryInterestQueue()
     },
