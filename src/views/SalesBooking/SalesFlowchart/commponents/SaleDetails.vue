@@ -1,91 +1,52 @@
 <template>
   <div class="SaleDetails sonBox">
-    <div class="case">
+    <div class="case fontChange">
       <div class="lfLable">Sale Details</div>
       <div class="fromDiv" v-if="show">
         <el-form ref="form" label-width="150px">
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="List Price">
-                <el-input
-                  class="input_80"
-                  size="mini"
-                  disabled
-                  v-model="updaObj.price"
-                ></el-input>
+                <el-input class="input_80" size="small" disabled v-model="updaObj.price"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="Design Type">
-                <el-input
-                  class="input_80"
-                  size="mini"
-                  disabled
-                  v-model="updaObj.floorPlan"
-                ></el-input>
+                <el-input class="input_80" size="small" disabled v-model="updaObj.floorPlan"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="List Price(PSM)">
-                <el-input
-                  class="input_80"
-                  size="mini"
-                  disabled
-                  v-model="updaObj.sqm_price"
-                ></el-input>
+                <el-input class="input_80" size="small" disabled v-model="updaObj.sqm_price"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="Area(SQM)">
-                <el-input
-                  class="input_80"
-                  size="mini"
-                  disabled
-                  v-model="updaObj.sqm_area"
-                ></el-input>
+                <el-input class="input_80" size="small" disabled v-model="updaObj.sqm_area"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="List Price(PSF)">
-                <el-input
-                  class="input_80"
-                  size="mini"
-                  disabled
-                  v-model="updaObj.sqf_price"
-                ></el-input>
+                <el-input class="input_80" size="small" disabled v-model="updaObj.sqf_price"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="Area(SQF)">
-                <el-input
-                  size="mini"
-                  class="input_80"
-                  disabled
-                  v-model="updaObj.sqf_area"
-                ></el-input>
+                <el-input size="small" class="input_80" disabled v-model="updaObj.sqf_area"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="Transacted Price" class="verifyFrom">
-                <el-select
-                  size="mini"
-                  class="input_80"
-                  v-model="SaleDetails.priceCode"
-                  :disabled="isAgentCompany == 3"
-                >
-                  <el-option
-                    v-for="(item, index) in updaObj.priceList"
-                    :key="index"
-                    :label="`${item.key}: ${item.value}`"
-                    :value="item.priceCode"
-                  ></el-option>
+                <el-select size="small" class="input_80" v-model="SaleDetails.priceCode"
+                  :disabled="isAgentCompany == 3">
+                  <el-option v-for="(item, index) in updaObj.priceList" :key="index"
+                    :label="`${item.key}: ${item.value}`" :value="item.priceCode"></el-option>
                 </el-select>
 
-
                 <!-- <el-select
-                  size="mini"
+                  size="small"
                   class="input_80"
                   v-model="SaleDetails.priceCode"
                   :disabled="
@@ -110,73 +71,44 @@
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="System No.">
-                <el-input
-                  size="mini"
-                  class="input_80"
-                  disabled
-                  v-model="updaObj.seqNo || defaultTxt"
-                ></el-input>
+                <el-input size="small" class="input_80" disabled v-model="updaObj.seqNo || defaultTxt"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="Ballot Buyer">
-                <el-checkbox
-                  :disabled="
+                <el-checkbox :disabled="
                     isAgentCompany == 3 && updaObj.purchaseStatus != 'AVAILABLE'
-                  "
-                  v-model="SaleDetails.interested"
-                ></el-checkbox>
+                  " v-model="SaleDetails.interested"></el-checkbox>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="Option Date" class="verifyFrom">
-                <el-date-picker
-                  size="mini"
-                  type="date"
-                  v-model="SaleDetails.transactionDate"
-                  class="input_80"
-                  value-format="yyyy-MM-dd"
-                ></el-date-picker>
+                <el-date-picker size="small" type="date" v-model="SaleDetails.transactionDate" class="input_80"
+                  value-format="yyyy-MM-dd"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="Payment Scheme">
-                <el-select
-                  size="mini"
-                  class="input_80"
-                  v-model="SaleDetails.payment"
-                >
-                  <el-option
-                    v-for="(item, index) in updaObj.paymentList || []"
-                    :key="index"
-                    :label="item.payName"
-                    :value="item.payName"
-                  ></el-option>
+                <el-select size="small" class="input_80" v-model="SaleDetails.payment">
+                  <el-option v-for="(item, index) in updaObj.paymentList || []" :key="index" :label="item.payName"
+                    :value="item.payName"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
           </el-row>
 
           <el-form-item label="Adjustment Amount">
-            <el-input-number
-              :disabled="
+            <el-input-number :disabled="
                 isAgentCompany == 3 && updaObj.purchaseStatus != 'AVAILABLE'
-              "
-              v-model="SaleDetails.adjustmentAmount"
-            ></el-input-number>
+              " v-model="SaleDetails.adjustmentAmount"></el-input-number>
           </el-form-item>
 
           <el-row :gutter="20">
             <el-col :span="12">
               <el-form-item label="Option Price">
-                <el-input
-                  disabled
-                  size="mini"
-                  class="input_80"
-                  v-model="SaleDetails.transactionPrice"
-                ></el-input>
+                <el-input disabled size="small" class="input_80" v-model="SaleDetails.transactionPrice"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -188,10 +120,7 @@
         <div class="facility-box" v-for="(facilityItem, facilityIndex) in updaObj.facilityList" :key="facilityIndex">
           <span class='facility-title'>{{facilityItem.name}}</span>
           <el-select v-model="facilityItem.value1" size='mini' placeholder="空" style="width:370px;">
-            <el-option
-              v-for="(item, index) in facilityItem.valueList"
-              :key="index"
-              :label="item.values"
+            <el-option v-for="(item, index) in facilityItem.valueList" :key="index" :label="item.values"
               :value="item.values">
             </el-option>
           </el-select>
@@ -209,7 +138,7 @@ export default {
       type: Object,
     },
   },
-  data() {
+  data () {
     return {
       show: false,
       SaleDetails: {
@@ -225,7 +154,7 @@ export default {
     }
   },
   watch: {
-    updaObj(val) {
+    updaObj (val) {
       if (val) {
         this.show = true
         let obj = JSON.parse(JSON.stringify(val))
@@ -243,23 +172,23 @@ export default {
         }
       }
     },
-    'SaleDetails.adjustmentAmount'(val) {
+    'SaleDetails.adjustmentAmount' (val) {
       if (this.SaleDetails.priceCode) {
         this.selectPrice(this.SaleDetails.priceCode)
       }
     },
-    'SaleDetails.priceCode'(val) {
+    'SaleDetails.priceCode' (val) {
       if (val) {
         this.selectPrice(val)
       }
     },
   },
-  created(){
+  created () {
   },
-  mounted(){
+  mounted () {
   },
   methods: {
-    selectPrice(val) {
+    selectPrice (val) {
       let item = this.updaObj.priceList.find((item) => {
         return item.priceCode == val
       })
@@ -272,7 +201,7 @@ export default {
           parseFloat(this.SaleDetails.adjustmentAmount)
       }
     },
-    isNextFn() {
+    isNextFn () {
       this.SaleDetails.facilityList = this.updaObj.facilityList
       if (!this.SaleDetails.priceCode || !this.SaleDetails.transactionDate) {
         this.$notify.error({
@@ -289,19 +218,27 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.SaleDetails{
-  .case{
-    .fromDiv{
-      /deep/.facility-box{
+.SaleDetails {
+  .case {
+    .fromDiv {
+      /deep/.facility-box {
         display: flex;
         margin-bottom: 10px;
-        .facility-title{
+        .facility-title {
           width: 150px;
           text-align: right;
           padding-right: 12px;
-          line-height: 28px;font-size: 14px;color: #606266;font-weight: 700;
+          line-height: 28px;
+          font-size: 14px;
+          color: #606266;
+          font-weight: 700;
         }
       }
+    }
+  }
+  .fontChange {
+    /deep/.el-form-item__label {
+      font-size: 16px;
     }
   }
 }

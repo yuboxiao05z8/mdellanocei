@@ -169,7 +169,7 @@ export default {
         self.isStart = true
         self.timer = setInterval(() => {
           self.drawInterestBuyer()
-        }, 1000 + 1200 * self.pageSize)
+        }, 1000 * self.pageSize)
       } else {
         clearInterval(self.timer)
         self.isStart = false

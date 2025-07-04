@@ -3,30 +3,14 @@
     <el-dialog @close="closeFn" width="80%" title="Booking Queue List" :visible.sync="show">
       <div class="ThinkingBoxList_body">
         <div class="ThinkingBoxList_head">
-          <el-input
-            style="width: 200px; margin-right: 20px"
-            size="mini"
-            placeholder="Line No."
-            v-model="ballotNum"
-          ></el-input>
-          <el-input
-            style="width: 200px"
-            size="mini"
-            placeholder="Ballot No. "
-            v-model="ballotNo"
-          ></el-input>
-          <el-button style="margin-left: 20px" size="mini" @click="searchData"
-            >Search</el-button
-          >
+          <el-input style="width: 200px; margin-right: 20px" size="mini" placeholder="Line No." v-model="ballotNum">
+          </el-input>
+          <el-input style="width: 200px" size="mini" placeholder="Ballot No. " v-model="ballotNo"></el-input>
+          <el-button style="margin-left: 20px" size="mini" @click="searchData">Search</el-button>
+          <el-button size="mini" @click="exportTable">Export</el-button>
         </div>
         <div class="alignment_tab">
-          <el-table
-            size="mini"
-            :cell-style="{ textAlign: 'center' }"
-            :data="list"
-            stripe
-            border
-          >
+          <el-table size="mini" :cell-style="{ textAlign: 'center' }" :data="list" stripe border>
             <el-table-column prop="ballotNum" label="No."> </el-table-column>
             <el-table-column prop="ballotNo" label="Ballot No.">
             </el-table-column>
@@ -46,8 +30,8 @@
                 <span v-if="scope.row.buyStatus == 4">Ready Okay</span>
               </template>
             </el-table-column>
-            <el-table-column prop="chaperonIc" label="Chaperone IC">
-            </el-table-column>
+            <!-- <el-table-column prop="chaperonIc" label="Chaperone IC">
+            </el-table-column> -->
             <el-table-column prop="buyTime" label="Time Stamp">
             </el-table-column>
             <!-- <el-table-column label="Edit">
@@ -67,15 +51,8 @@
               </template>
             </el-table-column> -->
           </el-table>
-          <el-pagination
-            class="page_section"
-            :page-size="pageSize"
-            style="text-align: center"
-            @current-change="changePage"
-            background
-            layout="prev, pager, next"
-            :total="total"
-          ></el-pagination>
+          <el-pagination class="page_section" :page-size="pageSize" style="text-align: center"
+            @current-change="changePage" background layout="prev, pager, next" :total="total"></el-pagination>
         </div>
       </div>
     </el-dialog>
@@ -85,7 +62,7 @@
 <script>
 export default {
   props: ['projectId'],
-  data() {
+  data () {
     return {
       show: false,
       list: [],
@@ -99,10 +76,17 @@ export default {
     }
   },
   methods: {
-    closeFn() {
+    exportTable () {
+      //导出
+      window.location.href = this.$addDownUrl(this.$api.exportInterestQueue, {
+        // brokeId: this.brokeId,
+        projectId: this.projectId,
+      });
+    },
+    closeFn () {
       this.$emit('receiveFn')
     },
-    async queryInterestQueue() {
+    async queryInterestQueue () {
       let data = {
         pageNo: this.pageNo,
         pageSize: this.pageSize,
@@ -117,11 +101,11 @@ export default {
         this.total = res.datas.count
       }
     },
-    changePage(val) {
+    changePage (val) {
       this.pageNo = val
       this.queryInterestQueue()
     },
-    setStatus(row, type) {
+    setStatus (row, type) {
       let obj = {
         interestId: row.interestId,
         buyStatus: type,
@@ -141,7 +125,7 @@ export default {
         }
       })
     },
-    searchData() {
+    searchData () {
       this.pageNo = 1
       this.queryInterestQueue()
     },

@@ -7,7 +7,10 @@
     </div>
     <div class="pdiTemplate_view">
       <div class="initialize_pdi" v-if="!status">
-        <el-button class="sign_btn" type="primary" @click="sign">Generate PDI</el-button>
+        <el-button class="sign_btn" type="primary" @click="sign">
+          <h1 style="margin-bottom:5px;font-size:18px">Generate E-Sign</h1>
+          <p>& send email to buyer</p>
+        </el-button>
         <p class="warning_info">
           Notice: Please check and confirm the details before generating the
           PDI. You will not be able to edit the information after PDI
@@ -19,7 +22,8 @@
         <el-card class="box-card" shadow="never">
           <div>
             PDI
-            <el-button style="margin-left: 20px" size="mini" type="primary" @click="downloadFn('template')">PDI Template Download</el-button>
+            <el-button style="margin-left: 20px" size="mini" type="primary" @click="downloadFn('template')">PDI Template
+              Download</el-button>
           </div>
           <div>PDI Reference No. : {{ contractInfo.code }}</div>
           <div>
@@ -28,7 +32,7 @@
           </div>
         </el-card>
         <el-card shadow="never" class="Pdi_table">
-          <el-table :data="tableData" size="mini">
+          <el-table :data="tableData" size="small" class="fontChange">
             <el-table-column label="Buyer Name" prop="name"></el-table-column>
             <el-table-column label="Buyer Email" prop="email"></el-table-column>
             <el-table-column label="Signature Status">
@@ -50,18 +54,20 @@
                 <el-button size="mini" @click="buyerList">Refresh Status Signature</el-button>
               </template>
               <template slot-scope="scope">
-                <el-button size="mini" type="primary" @click="buyerSign(scope.row)">Preview Signature</el-button>
+                <el-button size="mini" type="primary" @click="buyerSign(scope.row)">E-sign now</el-button>
                 <el-button size="mini" type="primary" @click="buyerSignByEmail(scope.row)">Resend Email</el-button>
-                <el-button size="mini" type="primary" @click="copyLink(scope.row, $event)">Copy Signing URL</el-button>
+                <!-- <el-button size="mini" type="primary" @click="copyLink(scope.row, $event)">Copy Signing URL</el-button> -->
               </template>
             </el-table-column>
           </el-table>
         </el-card>
 
         <div class="pdi_btns">
-          <el-button style="margin-right: 10px" type="primary" @click="buyerSign()" :disabled="isDisabled">Signed PDI Download</el-button>
+          <el-button style="margin-right: 10px" type="primary" @click="buyerSign()" :disabled="isDisabled">Download
+            Signed PDI</el-button>
 
-          <el-button v-if="attachment" style="margin-right: 10px" type="primary" @click="downloadFile(attachment)">Annex Documents Download</el-button>
+          <el-button v-if="attachment" style="margin-right: 10px" type="primary" @click="downloadFile(attachment)">Annex
+            Documents Download</el-button>
 
           <el-button type="danger" v-if="developers == 2" @click="sign">Click to regenerate and resign</el-button>
         </div>
@@ -75,7 +81,7 @@ import ClipboardJS from 'clipboard'
 import { baseURL } from '@/InterfaceConfig/env'
 export default {
   props: ['recordId', 'attachment', 'docid'],
-  data() {
+  data () {
     return {
       baseURL: baseURL,
       status: 1,
@@ -99,11 +105,11 @@ export default {
       },
     }
   },
-  mounted() {
+  mounted () {
     this.getSignPdiInfo()
   },
   methods: {
-    getSignPdiInfo() {
+    getSignPdiInfo () {
       this.$Post(this.$api.getSignPdiInfo, { recordId: this.recordId }).then(
         (res) => {
           if (res.code == 0) {
@@ -118,7 +124,7 @@ export default {
         }
       )
     },
-    buyerList() {
+    buyerList () {
       this.loading = true
       this.$Post(this.$api.buyerList, { recordId: this.recordId }).then(
         (res) => {
@@ -138,7 +144,7 @@ export default {
         }
       )
     },
-    sign() {
+    sign () {
       this.loading = true
       this.$Post(this.$api.sign, {
         recordId: this.recordId,
@@ -155,7 +161,7 @@ export default {
         }
       })
     },
-    downloadFn(type) {
+    downloadFn (type) {
       if (type === 'template') {
         if (this.contractInfo.path) {
           window.open(this.serveUrl + this.contractInfo.path)
@@ -170,7 +176,7 @@ export default {
       }
     },
 
-    buyerSign(row) {
+    buyerSign (row) {
       let data = {
         recordId: this.recordId,
       }
@@ -196,7 +202,7 @@ export default {
         }
       })
     },
-    buyerSignByEmail(row) {
+    buyerSignByEmail (row) {
       let data = {
         buyerId: row.id,
         recordId: this.recordId,
@@ -219,7 +225,7 @@ export default {
         }
       })
     },
-    querySignStatus() {
+    querySignStatus () {
       this.loading = true
       this.$Post(this.$api.querySignStatus, { recordId: this.recordId }).then(
         (res) => {
@@ -240,7 +246,7 @@ export default {
         }
       )
     },
-    copyLink(row, event) {
+    copyLink (row, event) {
       let data = {
         recordId: this.recordId,
         buyerId: row.id,
@@ -260,7 +266,7 @@ export default {
               showCancelButton: true,
               cancelButtonText: 'Cancel',
               center: true,
-              callback: (action) => {},
+              callback: (action) => { },
             }
           )
 
@@ -273,7 +279,7 @@ export default {
         }
       })
     },
-    copyFn() {
+    copyFn () {
       let _this = this
       this.clipboard = new ClipboardJS('.copyBtn', {
         text: () => {
@@ -287,7 +293,7 @@ export default {
         this.clipboard.destroy()
       })
     },
-    downloadFile(attachmentpath) {
+    downloadFile (attachmentpath) {
       // window.open('https://img.singmap.com/upload/broke/template/Normanton%20Park-%20Annex%20C-G%20(Residential).pdf')
       window.open(this.serveUrl + attachmentpath)
     },
@@ -378,6 +384,9 @@ export default {
         text-align: center;
       }
     }
+  }
+  .fontChange .el-table__body .cell {
+    font-size: 16px;
   }
 }
 </style>

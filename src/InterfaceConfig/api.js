@@ -321,5 +321,7 @@ Vue.api = Vue.prototype.$api = {
   queryDrawInfo: '/broke-manager-service/interest/queryDrawInfo', //查询抽签数据信息
 
   querySysArea: '/broke-manager-service/project/querySysArea', //查询区域
+
+  exportInterestQueue:'/broke-manager-service/export/exportInterestQueue' //导出意向买家队列信息
 }
 

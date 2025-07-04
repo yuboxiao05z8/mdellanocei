@@ -1,230 +1,133 @@
 <template>
   <div class="Agent sonBox">
     <div class="case">
-      <el-form ref="form" :model="AgentForm" label-width="150px">
+      <el-form ref="form" :model="AgentForm" label-width="180px">
         <div class="lfLable">Main Agent Details</div>
-        <div class="fromDiv">
+        <div class="fromDiv fontChange">
           <el-form-item label="Appointed Agency">
-            <el-select
-              size="mini"
-              class="input_300px"
-              @change="selectAgenBroke"
-              v-model="AgentForm.buyBrokeId"
-              :disabled="accountType == 3"
-            >
-              <el-option
-                v-for="(item, index) in updaObj.projectBrokeList"
-                :key="index"
-                :label="item.brokeName"
-                :value="item.brokeId"
-              ></el-option>
+            <el-select size="small" class="input_300px" @change="selectAgenBroke" v-model="AgentForm.buyBrokeId"
+              :disabled="accountType == 3">
+              <el-option v-for="(item, index) in updaObj.projectBrokeList" :key="index" :label="item.brokeName"
+                :value="item.brokeId"></el-option>
             </el-select>
           </el-form-item>
           <el-row>
-            <el-col :span="12"
-              ><el-form-item label="CEA License No.">
-                <el-input
-                  @change="getAgenFn"
-                  v-model="AgentForm.regNum"
-                  size="mini"
-                  class="input_300px"
-                ></el-input>
+            <el-col :span="12">
+              <el-form-item label="CEA License No.">
+                <el-input @change="getAgenFn" v-model="AgentForm.regNum" size="small" class="input_300px"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12"
-              ><el-form-item label="Agent Name">
-                <el-input
-                  disabled
-                  class="input_300px"
-                  size="mini"
-                  v-model="AgentForm.agentName"
-                ></el-input>
+            <el-col :span="12">
+              <el-form-item label="Agent Name">
+                <el-input disabled class="input_300px" size="small" v-model="AgentForm.agentName"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="Tel No">
-                <el-input
-                  disabled
-                  class="input_300px"
-                  size="mini"
-                  v-model="AgentForm.agentContact"
-                ></el-input> </el-form-item
-            ></el-col>
-            <el-col :span="12"
-              ><el-form-item label="Commission (%)">
-                <el-input-number
-                  size="mini"
-                  v-model="AgentForm.commission"
-                  :disabled="
+                <el-input disabled class="input_300px" size="small" v-model="AgentForm.agentContact"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="Commission (%)">
+                <el-input-number size="small" v-model="AgentForm.commission" :disabled="
                     accountType == 3 && updaObj.purchaseStatus != 'AVAILABLE'
-                  "
-                  :min="0"
-                  :max="100"
-                ></el-input-number>
+                  " :min="0" :max="100"></el-input-number>
               </el-form-item>
             </el-col>
           </el-row>
 
           <el-form-item label="Remarks">
-            <el-input
-              style="width: 100%"
-              v-model="AgentForm.comment"
-              :autosize="{ minRows: 4, maxRows: 4 }"
-              type="textarea"
-            ></el-input>
+            <el-input style="width: 100%" v-model="AgentForm.comment" :autosize="{ minRows: 4, maxRows: 4 }"
+              type="textarea"></el-input>
           </el-form-item>
         </div>
 
         <div class="lfLable">Tagger</div>
-        <div class="fromDiv">
-    
+        <div class="fromDiv fontChange">
+
           <el-form-item label="Appointed Agency">
-            <el-select
-              size="mini"
-              class="input_300px"
-              @change="selectTaggerBroke"
-              v-model="AgentForm.taggerBuyBrokeId"
-              :disabled="accountType == 3"
-            >
-              <el-option
-                v-for="(item, index) in updaObj.projectBrokeList"
-                :key="index"
-                :label="item.brokeName"
-                :value="item.brokeId"
-              ></el-option>
+            <el-select size="small" class="input_300px" @change="selectTaggerBroke" v-model="AgentForm.taggerBuyBrokeId"
+              :disabled="accountType == 3">
+              <el-option v-for="(item, index) in updaObj.projectBrokeList" :key="index" :label="item.brokeName"
+                :value="item.brokeId"></el-option>
             </el-select>
           </el-form-item>
           <el-row>
-            <el-col :span="12"
-              ><el-form-item label="CEA License No.">
-                <el-input
-                  @change="getTaggerFn"
-                  v-model="AgentForm.taggerRegNum"
-                  size="mini"
-                  class="input_300px"
-                ></el-input>
+            <el-col :span="12">
+              <el-form-item label="CEA License No.">
+                <el-input @change="getTaggerFn" v-model="AgentForm.taggerRegNum" size="small" class="input_300px">
+                </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12"
-              ><el-form-item label="Agent Name">
-                <el-input
-                  disabled
-                  class="input_300px"
-                  size="mini"
-                  v-model="AgentForm.taggerAgentName"
-                ></el-input>
+            <el-col :span="12">
+              <el-form-item label="Agent Name">
+                <el-input disabled class="input_300px" size="small" v-model="AgentForm.taggerAgentName"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="Tel No">
-                <el-input
-                  disabled
-                  class="input_300px"
-                  size="mini"
-                  v-model="AgentForm.taggerAgentContact"
-                ></el-input> </el-form-item
-            ></el-col>
-            <el-col :span="12"
-              ><el-form-item label="Commission (%)">
-                <el-input-number
-                  size="mini"
-                  v-model="AgentForm.taggerCommission"
-                  :disabled="
+                <el-input disabled class="input_300px" size="small" v-model="AgentForm.taggerAgentContact"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="Commission (%)">
+                <el-input-number size="small" v-model="AgentForm.taggerCommission" :disabled="
                     accountType == 3 && updaObj.purchaseStatus != 'AVAILABLE'
-                  "
-                  :min="0"
-                  :max="100"
-                ></el-input-number>
+                  " :min="0" :max="100"></el-input-number>
               </el-form-item>
             </el-col>
           </el-row>
 
           <el-form-item label="Remarks">
-            <el-input
-              style="width: 100%"
-              v-model="AgentForm.taggerComment"
-              :autosize="{ minRows: 4, maxRows: 4 }"
-              type="textarea"
-            ></el-input>
+            <el-input style="width: 100%" v-model="AgentForm.taggerComment" :autosize="{ minRows: 4, maxRows: 4 }"
+              type="textarea"></el-input>
           </el-form-item>
         </div>
 
         <div class="lfLable">Internal-CoBroke</div>
         <div class="fromDiv">
           <el-form-item label="Appointed Agency">
-            <el-select
-              size="mini"
-              class="input_300px"
-              @change="selectInternalBroke"
-              v-model="AgentForm.internalBuyBrokeId"
-              :disabled="accountType == 3"
-            >
-              <el-option
-                v-for="(item, index) in updaObj.projectBrokeList"
-                :key="index"
-                :label="item.brokeName"
-                :value="item.brokeId"
-              ></el-option>
+            <el-select size="small" class="input_300px" @change="selectInternalBroke"
+              v-model="AgentForm.internalBuyBrokeId" :disabled="accountType == 3">
+              <el-option v-for="(item, index) in updaObj.projectBrokeList" :key="index" :label="item.brokeName"
+                :value="item.brokeId"></el-option>
             </el-select>
           </el-form-item>
           <el-row>
-            <el-col :span="12"
-              ><el-form-item label="CEA License No.">
-                <el-input
-                  @change="getInternalFn"
-                  v-model="AgentForm.internalRegNum"
-                  size="mini"
-                  class="input_300px"
-                ></el-input>
+            <el-col :span="12">
+              <el-form-item label="CEA License No.">
+                <el-input @change="getInternalFn" v-model="AgentForm.internalRegNum" size="small" class="input_300px">
+                </el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="12"
-              ><el-form-item label="Agent Name">
-                <el-input
-                  disabled
-                  class="input_300px"
-                  size="mini"
-                  v-model="AgentForm.internalAgentName"
-                ></el-input>
+            <el-col :span="12">
+              <el-form-item label="Agent Name">
+                <el-input disabled class="input_300px" size="small" v-model="AgentForm.internalAgentName"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item label="Tel No">
-                <el-input
-                  disabled
-                  class="input_300px"
-                  size="mini"
-                  v-model="AgentForm.internalAgentContact"
-                ></el-input> </el-form-item
-            ></el-col>
-            <el-col :span="12"
-              ><el-form-item label="Commission (%)">
-                <el-input-number
-                  size="mini"
-                  v-model="AgentForm.internalCommission"
-                  :disabled="
+                <el-input disabled class="input_300px" size="small" v-model="AgentForm.internalAgentContact"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item label="Commission (%)">
+                <el-input-number size="small" v-model="AgentForm.internalCommission" :disabled="
                     accountType == 3 && updaObj.purchaseStatus != 'AVAILABLE'
-                  "
-                  :min="0"
-                  :max="100"
-                ></el-input-number>
+                  " :min="0" :max="100"></el-input-number>
               </el-form-item>
             </el-col>
           </el-row>
 
           <el-form-item label="Remarks">
-            <el-input
-              style="width: 100%"
-              v-model="AgentForm.internalComment"
-              :autosize="{ minRows: 4, maxRows: 4 }"
-              type="textarea"
-            ></el-input>
+            <el-input style="width: 100%" v-model="AgentForm.internalComment" :autosize="{ minRows: 4, maxRows: 4 }"
+              type="textarea"></el-input>
           </el-form-item>
         </div>
 
@@ -233,40 +136,24 @@
           <el-row>
             <el-col :span="8">
               <el-form-item label="Agency Name">
-                <el-input
-                  class="input_300px"
-                  size="mini"
-                  v-model="AgentForm.referralAgency"
-                ></el-input>
+                <el-input class="input_300px" size="small" v-model="AgentForm.referralAgency"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="Agent Name">
-                <el-input
-                  class="input_300px"
-                  size="mini"
-                  v-model="AgentForm.referralName"
-                ></el-input>
+                <el-input class="input_300px" size="small" v-model="AgentForm.referralName"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="8">
               <el-form-item label="Mobile">
-                <el-input
-                  class="input_300px"
-                  size="mini"
-                  v-model="AgentForm.referralMobile"
-                ></el-input>
+                <el-input class="input_300px" size="small" v-model="AgentForm.referralMobile"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
 
           <el-form-item label="Remarks">
-            <el-input
-              style="width: 100%"
-              v-model="AgentForm.referralRemark"
-              :autosize="{ minRows: 4, maxRows: 4 }"
-              type="textarea"
-            ></el-input>
+            <el-input style="width: 100%" v-model="AgentForm.referralRemark" :autosize="{ minRows: 4, maxRows: 4 }"
+              type="textarea"></el-input>
           </el-form-item>
         </div>
       </el-form>
@@ -275,14 +162,14 @@
 </template>
 
 <script>
-import { pick, getPrice } from '@/utils/validate' 
+import { pick, getPrice } from '@/utils/validate'
 export default {
   props: {
     updaObj: {
       type: Object,
     },
   },
-  data() {
+  data () {
     return {
       AgentForm: {
         buyBrokeId: '',
@@ -312,7 +199,7 @@ export default {
       brokeId: JSON.parse(sessionStorage.getItem('userInfo')).brokeId,
     }
   },
-  mounted() {
+  mounted () {
     this.getBroke()
     if (this.updaObj) {
       let obj = JSON.parse(JSON.stringify(this.updaObj))
@@ -335,7 +222,7 @@ export default {
     }
   },
   methods: {
-    getBroke() {
+    getBroke () {
       this.$Post(this.$api.queryBrokeByProjectId, {
         projectId: this.$route.query.projectId,
       }).then((res) => {
@@ -344,26 +231,26 @@ export default {
         }
       })
     },
-    selectAgenBroke() {
-      if(this.AgentForm.regNum) {
+    selectAgenBroke () {
+      if (this.AgentForm.regNum) {
         this.AgentForm.regNum = ''
       }
-      
+
       // this.AgentForm.agentName = ''
       // this.AgentForm.agentContact = ''
       console.log('selectAgenBroke')
     },
-    selectTaggerBroke() {
-      if(this.AgentForm.taggerRegNum) {
+    selectTaggerBroke () {
+      if (this.AgentForm.taggerRegNum) {
         this.AgentForm.taggerRegNum = ''
       }
-      
+
       // this.AgentForm.taggerAgentName = ''
       // this.AgentForm.taggerAgentContact = ''
       console.log('selectTaggerBroke')
     },
-    selectInternalBroke() {
-      if(this.AgentForm.internalRegNum) {
+    selectInternalBroke () {
+      if (this.AgentForm.internalRegNum) {
         this.AgentForm.internalRegNum = ''
       }
       // this.AgentForm.internalAgentId = ''
@@ -371,7 +258,7 @@ export default {
       // this.AgentForm.internalAgentContact = ''
       console.log('selectInternalBroke')
     },
-    async getAgenFn(val) {
+    async getAgenFn (val) {
       let obj = await this.getAgenData(val, this.AgentForm.buyBrokeId)
 
       if (!obj) {
@@ -382,7 +269,7 @@ export default {
         this.AgentForm.agentContact = obj.mobile
       }
     },
-    async getTaggerFn(val) {
+    async getTaggerFn (val) {
       let obj = await this.getAgenData(val, this.AgentForm.taggerBuyBrokeId)
 
       if (!obj) {
@@ -394,7 +281,7 @@ export default {
       }
       console.log('getTaggerFn', val)
     },
-    async getInternalFn(val) {
+    async getInternalFn (val) {
       let obj = await this.getAgenData(val, this.AgentForm.internalBuyBrokeId)
 
       if (!obj) {
@@ -406,7 +293,7 @@ export default {
       }
       console.log('getInternalFn', val)
     },
-    async getAgenData(regNum, buyBrokeId) {
+    async getAgenData (regNum, buyBrokeId) {
       if (buyBrokeId) {
         let data = {
           buyBrokeId: buyBrokeId,
@@ -425,7 +312,7 @@ export default {
       }
     },
 
-    isNextFn() {
+    isNextFn () {
       if (!this.AgentForm.buyBrokeId || !this.AgentForm.regNum) {
         this.$notify.error({
           title: 'Error',
@@ -452,6 +339,9 @@ export default {
     .el-input__inner {
       width: 300px;
     }
+  }
+  .fontChange .el-form-item__label {
+    font-size: 16px;
   }
 }
 </style>
