@@ -107,8 +107,7 @@
             Success Booking of Unit
           </div>
 
-          <DocumentTemplate :documentObj="detailsObj" @updateStatus="updateStatus($event)" :AccessData="AccessData"
-            location="viewDetails" />
+          <DocumentTemplate :documentObj="detailsObj" @updateStatus="updateStatus($event)" location="viewDetails" />
         </div>
 
         <div class="viewDetails_content_btn">

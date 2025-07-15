@@ -134,9 +134,6 @@ export default {
     location: {
       type: String,
       default: '',
-    },
-    AccessData: {
-      type: Object,
     }
   },
   data () {
@@ -168,6 +165,7 @@ export default {
       userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
       otpNo: '',
       isAgentCompany: JSON.parse(sessionStorage.getItem('userInfo')).type,
+      AccessData: {}
     }
   },
   watch: {
@@ -181,6 +179,15 @@ export default {
       // this.upDataObj.recordId = this.documentObj.recordId
       this.queryDocumentList()
     }
+    let data = {
+      unitId: this.query.unitId,
+      projectId: this.query.projectId,
+    }
+    this.$Post(this.$api.getUnitAccess, data).then((res) => {
+      if (res.code == 0) {
+        this.AccessData = res.datas
+      }
+    })
   },
   methods: {
     updateStatus (val) {

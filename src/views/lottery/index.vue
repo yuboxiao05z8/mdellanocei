@@ -143,11 +143,11 @@ export default {
     /**
      * 抽到的买家列表
      */
-    drawInterestBuyer () {
+    async drawInterestBuyer () {
       let self = this
       clearInterval(self.timer)
       if (this.drawCount.no_draw_num > 0) {
-        this.$PostHasSign(this.$api.drawInterestBuyer, {
+        await this.$PostHasSign(this.$api.drawInterestBuyer, {
           pageSize: this.pageSize,
           projectId: this.projectId
         })
@@ -169,7 +169,7 @@ export default {
         self.isStart = true
         self.timer = setInterval(() => {
           self.drawInterestBuyer()
-        }, 1000 * self.pageSize)
+        }, 1000 * (self.pageSize < 3 ? 3 : self.pageSize))
       } else {
         clearInterval(self.timer)
         self.isStart = false
