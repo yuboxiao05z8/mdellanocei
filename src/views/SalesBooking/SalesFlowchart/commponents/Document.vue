@@ -67,7 +67,7 @@
                 v-if="AccessData['PDI_SIGNED']== 1&&(documentObj.transactionStatus=='PDI PENDING'||!documentObj.transactionStatus) && scope.row.type==1"
                 @click="updateStatus('PDI SIGNED')">{{ $t('PDI SIGNED') }}</el-button>
               <el-button size="mini" :disabled="scope.row.url == ''"
-                v-if="AccessData['COMPLETED']== 1&&documentObj.transactionStatus=='PDI SIGNED'&&((query.cooperate===1&&userInfo.type!==3) ||query.cooperate===0)&& scope.row.type==2"
+                v-if="AccessData['COMPLETED']== 1&&documentObj.transactionStatus=='PDI SIGNED'&&userInfo.type!==3&& scope.row.type==2"
                 @click="updateStatus('COMPLETED')">{{ $t('COMPLETED') }}</el-button>
             </template>
           </el-table-column>
