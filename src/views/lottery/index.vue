@@ -147,7 +147,7 @@ export default {
       let self = this
       clearInterval(self.timer)
       if (this.drawCount.no_draw_num > 0) {
-        await this.$PostHasSign(this.$api.drawInterestBuyer, {
+        await this.$Post(this.$api.drawInterestBuyer, {
           pageSize: this.pageSize,
           projectId: this.projectId
         })
@@ -189,7 +189,7 @@ export default {
      */
     queryDrawInfo () {
       let self = this
-      this.$GetHasSign(self.$api.queryDrawInfo, {
+      this.$Get(self.$api.queryDrawInfo, {
         projectId: self.projectId
       })
         .then(res => {

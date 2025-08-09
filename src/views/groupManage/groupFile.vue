@@ -10,12 +10,13 @@
             <el-input style="width: 200px;margin-right: 20px;" size="mini" v-model="form.name" placeholder="name">
             </el-input>
             <span style="font-size: 14px;color: #606266;">Group: </span>
-            <el-select style="width: 200px;margin-right: 20px;" v-model="form.type" placeholder="请选择" size="mini">
+            <el-select style="width: 200px;margin-right: 20px;" clearable v-model="form.type" placeholder="select"
+              size="mini">
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
             <el-button size="mini" @click="getListData">Search</el-button>
-            <el-button size="mini" @click="getListData">Clear</el-button>
+            <el-button size="mini" @click="reset">Clear</el-button>
             <el-button size="mini" @click="getListData">+ADD</el-button>
           </div>
         </el-col>
@@ -26,21 +27,21 @@
         <el-table-column prop="fileName" label="File Name"></el-table-column>
         <el-table-column prop="fileName" label="URL"></el-table-column>
         <el-table-column prop="fileName" label="APP Group"></el-table-column>
-        <el-table-column label="File Sorting">
-          <template slot-scope="scope">
-            <el-button type="text">置顶</el-button>
-          </template>
-        </el-table-column>
         <el-table-column label="Update Time">
           <template slot-scope="scope">
             <div>{{$dateFormatNoTime(scope.row.launchDate)}}</div>
           </template>
         </el-table-column>
         <el-table-column prop="fileName" label="Update User"></el-table-column>
+        <el-table-column label="File Sorting">
+          <template slot-scope="scope">
+            <el-button type="text" @click="topClick(scope.row.fileId,scope.row.type)">置顶</el-button>
+          </template>
+        </el-table-column>
         <el-table-column label="Edit">
           <template slot-scope="scope">
             <el-button size="mini">Edit</el-button>
-            <el-button size="mini">Delete</el-button>
+            <el-button size="mini" @click="fileDelete(scope.row.fileId)">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -60,19 +61,19 @@ export default {
       total: 0,
       options: [
         {
-          value: '1',
+          value: 'object Handling',
           label: 'object Handling'
         },
         {
-          value: '2',
+          value: 'Land Bid',
           label: 'Land Bid'
         },
         {
-          value: '3',
+          value: 'Branding Awareness',
           label: 'Branding Awareness'
         },
         {
-          value: '4',
+          value: 'report',
           label: 'report'
         }
       ],
@@ -82,15 +83,19 @@ export default {
         name: '',
         type: ''
       }
-
     }
   },
   mounted () {
-
+    this.getListData()
   },
   methods: {
     getListData () {
-
+      this.$Get(this.$api.queryFileList, this.form).then(res => {
+        if (res.code == 0) {
+          this.tableData = res.datas.lists
+          this.total = res.datas.count
+        }
+      })
     },
     handleSizeChange (val) {
       this.form.pageSize = val
@@ -100,6 +105,35 @@ export default {
       this.form.pageNo = val
       this.getListData()
     },
+    reset () {
+      this.form.name = ''
+      this.form.type = ''
+      this.getListData()
+    },
+    topClick (fileId, type) {
+      this.$Get(this.$api.setTop, { fileId: fileId, type: type }).then(res => {
+        if (res.code == 0) {
+          this.$message({
+            message: '置顶成功',
+            type: 'success'
+          });
+          this.tableData()
+        }
+      })
+    },
+    fileDelete (fileId) {
+      this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$Get(this.$api.pndDeleteFile, { fileId: fileId }).then(res => {
+          if (res.code == 0) {
+
+          }
+        })
+      }).catch(() => { });
+    }
   }
 }
 </script>
