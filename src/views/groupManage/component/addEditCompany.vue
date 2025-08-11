@@ -1,7 +1,7 @@
 <template>
   <div class="addEditCompany">
-    <el-dialog center title="Purchaser Details" :visible.sync="show" :close-on-click-modal="false"
-      :close-on-press-escape="false" width="800px" append-to-body @closed="closedForm">
+    <el-dialog center title="公司信息" :visible.sync="show" :close-on-click-modal="false" :close-on-press-escape="false"
+      width="800px" append-to-body :show-close='false'>
       <div class="addEditCompany_box">
         <el-form ref="form_company" :rules="rules" :model="companyForm" label-width="170px" :inline="true">
           <el-form-item label="Company Name" prop="companyName">
@@ -14,7 +14,8 @@
             <el-input size="mini" v-model="companyForm.companyAddress"></el-input>
           </el-form-item>
           <el-form-item label="APP Group" prop="type">
-            <el-select v-model="companyForm.type" placeholder="select" size="mini">
+            <el-select v-model="companyForm.type" placeholder="select" size="mini"
+              :disabled='imgLoad.length>0 || type ==="edit"'>
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
@@ -39,7 +40,7 @@
         </el-form>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="closedForm">Cancel</el-button>
+        <el-button @click="closedForm(0)">Cancel</el-button>
         <el-button type="primary" @click="addDataFn">Save</el-button>
       </div>
     </el-dialog>
@@ -66,7 +67,6 @@ export default {
     return {
       serveUrl: sessionStorage.getItem('serveUrl'),
       companyForm: { companyLogo: '', companyContact: [] },
-      userId: JSON.parse(sessionStorage.getItem('userInfo')).userId,
       options: [
         {
           value: 'Bankers',
@@ -149,7 +149,7 @@ export default {
                 }
               }
               this.$message.success('保存成功');
-              this.closedForm()
+              this.closedForm(1)
               this.$emit('loadData')
             }
           })
@@ -175,7 +175,6 @@ export default {
     beforeUpload (file) {
       const isJPG_Png = file.type === 'image/jpeg' || file.type === 'image/png';
       const isLt2M = file.size / 1024 / 1024 < 2;
-      console.log(file.size);
       const type = this.companyForm.type
       if (!type) {
         this.$message.error('请先选择APP Group再进行上传')
@@ -192,7 +191,7 @@ export default {
         this.uploadFlag = false
         return false
       }
-      if (isLt2M && type) this.uploadFlag = true
+      if (isLt2M && type && isJPG_Png) this.uploadFlag = true
       // return isLt2M && type;
     },
     uploadLogo (file) {
@@ -230,14 +229,14 @@ export default {
     deleteContact (index) {
       this.companyForm.companyContact.splice(index, 1)
     },
-    closedForm () {
+    closedForm (id) {
       this.$refs['form_company'].resetFields();
       this.companyForm = {
         companyLogo: '',
         companyContact: []
       }
       this.editLogo = ''
-      if (this.imgLoad.length > 0) {
+      if (this.imgLoad.length > 0 && !id) {
         this.$Get(this.$api.deleteUploadFile, { path: this.imgLoad }).then(_res => {
           if (_res.code == 0) {
             this.imgLoad = ''

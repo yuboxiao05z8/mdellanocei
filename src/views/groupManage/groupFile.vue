@@ -1,8 +1,5 @@
 <template>
   <div class="groupManage">
-    <!-- <div class="head">
-      <crumbs :crumbsData="crumbsData"></crumbs>
-    </div>-->
     <div class="head">
       <el-row :gutter="20">
         <el-col :span="24">
@@ -17,7 +14,7 @@
             </el-select>
             <el-button size="mini" @click="getListData">Search</el-button>
             <el-button size="mini" @click="reset">Clear</el-button>
-            <el-button size="mini" @click="getListData">+ADD</el-button>
+            <el-button size="mini" @click="addEdit('add')">+ADD</el-button>
           </div>
         </el-col>
       </el-row>
@@ -25,22 +22,22 @@
     <div class="groupManage_tab">
       <el-table size="mini" :header-cell-style="{'background':'#f5f7fa'}" :data="tableData" border>
         <el-table-column prop="fileName" label="File Name"></el-table-column>
-        <el-table-column prop="fileName" label="URL"></el-table-column>
-        <el-table-column prop="fileName" label="APP Group"></el-table-column>
+        <el-table-column prop="url" label="URL"></el-table-column>
+        <el-table-column prop="type" label="APP Group"></el-table-column>
         <el-table-column label="Update Time">
           <template slot-scope="scope">
-            <div>{{$dateFormatNoTime(scope.row.launchDate)}}</div>
+            <div>{{$dateFormatNoTime(scope.row.createTime)}}</div>
           </template>
         </el-table-column>
-        <el-table-column prop="fileName" label="Update User"></el-table-column>
+        <el-table-column prop="agentName" label="Update User"></el-table-column>
         <el-table-column label="File Sorting">
           <template slot-scope="scope">
             <el-button type="text" @click="topClick(scope.row.fileId,scope.row.type)">置顶</el-button>
           </template>
         </el-table-column>
-        <el-table-column label="Edit">
+        <el-table-column label="Edit" width="170">
           <template slot-scope="scope">
-            <el-button size="mini">Edit</el-button>
+            <el-button size="mini" @click="addEdit('edit',scope.row)">Edit</el-button>
             <el-button size="mini" @click="fileDelete(scope.row.fileId)">Delete</el-button>
           </template>
         </el-table-column>
@@ -51,10 +48,16 @@
         :current-page.sync="form.pageNo" :page-sizes="[5,10,30,50,100]" :page-size="form.pageSize"
         layout="prev, pager, next,sizes,total" :total="total"></el-pagination>
     </div>
+    <addEditFile :show="show" :type="type" @cancel="show = false" :editData='editData' @loadData="getListData">
+    </addEditFile>
   </div>
 </template>
 <script>
+import addEditFile from "./component/addEditFile.vue"
 export default {
+  components: {
+    addEditFile
+  },
   data () {
     return {
       tableData: [],
@@ -82,7 +85,10 @@ export default {
         pageNo: 1,
         name: '',
         type: ''
-      }
+      },
+      show: false,
+      type: '',
+      editData: {}
     }
   },
   mounted () {
@@ -110,14 +116,23 @@ export default {
       this.form.type = ''
       this.getListData()
     },
+    addEdit (type, data) {
+      this.show = true
+      this.type = type
+      if (type === 'edit') {
+        this.editData = {
+          fileId: data.fileId,
+          type: data.type,
+          fileName: data.fileName,
+          url: data.url
+        }
+      }
+    },
     topClick (fileId, type) {
       this.$Get(this.$api.setTop, { fileId: fileId, type: type }).then(res => {
         if (res.code == 0) {
-          this.$message({
-            message: '置顶成功',
-            type: 'success'
-          });
-          this.tableData()
+          this.$message.success('置顶成功');
+          this.getListData()
         }
       })
     },
@@ -129,7 +144,8 @@ export default {
       }).then(() => {
         this.$Get(this.$api.pndDeleteFile, { fileId: fileId }).then(res => {
           if (res.code == 0) {
-
+            this.$message.success('删除成功');
+            this.getListData()
           }
         })
       }).catch(() => { });
