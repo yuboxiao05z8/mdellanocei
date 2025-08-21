@@ -17,32 +17,32 @@
             </el-select>
             <el-button size="mini" @click="getListData">Search</el-button>
             <el-button size="mini" @click="reset">Clear</el-button>
-            <el-button size="mini" @click="getListData">+ADD</el-button>
+            <el-button size="mini" @click="addEdit('add')">+ADD</el-button>
           </div>
         </el-col>
       </el-row>
     </div>
     <div class="groupManage_tab">
       <el-table size="mini" :header-cell-style="{'background':'#f5f7fa'}" :data="tableData" border>
-        <el-table-column prop="fileName" label="Name"></el-table-column>
-        <el-table-column prop="fileName" label="LOGO">
+        <el-table-column prop="linkName" label="Name"></el-table-column>
+        <el-table-column prop="logo" label="LOGO" width="180">
           <template slot-scope="scope">
             <img class="Photo_Service" @click.stop="$imgPreview(serveUrl+scope.row.logo)" :src="serveUrl+scope.row.logo"
               alt />
           </template>
         </el-table-column>
-        <el-table-column prop="fileName" label="URL"></el-table-column>
-        <el-table-column prop="fileName" label="APP Group"></el-table-column>
+        <el-table-column prop="link" label="URL"></el-table-column>
+        <el-table-column prop="type" label="APP Group"></el-table-column>
         <el-table-column label="APP Date">
           <template slot-scope="scope">
-            <div>{{$dateFormatNoTime(scope.row.launchDate)}}</div>
+            <div>{{$dateFormatNoTime(scope.row.createTime)}}</div>
           </template>
         </el-table-column>
-        <el-table-column prop="fileName" label="Add User"></el-table-column>
-        <el-table-column label="Edit">
+        <el-table-column prop="agentName" label="Add User"></el-table-column>
+        <el-table-column label="Edit" width="170">
           <template slot-scope="scope">
-            <el-button size="mini">Edit</el-button>
-            <el-button size="mini" @click="fileDelete(scope.row.fileId)">Delete</el-button>
+            <el-button size="mini" @click="addEdit('edit',scope.row)">Edit</el-button>
+            <el-button size="mini" @click="fileDelete(scope.row.linkId)">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -52,10 +52,16 @@
         :current-page.sync="form.pageNo" :page-sizes="[5,10,30,50,100]" :page-size="form.pageSize"
         layout="prev, pager, next,sizes,total" :total="total"></el-pagination>
     </div>
+    <addEditLink :show="show" :type="type" @cancel="show = false" :editData='editData' @loadData="getListData">
+    </addEditLink>
   </div>
 </template>
 <script>
+import addEditLink from "./component/addEditLink.vue"
 export default {
+  components: {
+    addEditLink
+  },
   data () {
     return {
       tableData: [],
@@ -76,7 +82,10 @@ export default {
         pageNo: 1,
         name: '',
         type: ''
-      }
+      },
+      show: false,
+      editData: {},
+      type: ''
     }
   },
   mounted () {
@@ -104,15 +113,28 @@ export default {
       this.form.type = ''
       this.getListData()
     },
-    fileDelete (fileId) {
+    addEdit (type, data) {
+      this.show = true
+      this.type = type
+      if (type === 'edit') {
+        this.editData = {
+          linkId: data.linkId,
+          type: data.type,
+          linkName: data.linkName,
+          link: data.link,
+          logo: data.logo
+        }
+      }
+    },
+    fileDelete (linkId) {
       this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$Get(this.$api.deleteLink, { fileId: fileId }).then(res => {
+        this.$Get(this.$api.deleteLink, { linkId: linkId }).then(res => {
           if (res.code == 0) {
-
+            this.getListData()
           }
         })
       }).catch(() => { });
