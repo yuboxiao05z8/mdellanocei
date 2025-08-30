@@ -7,12 +7,8 @@
       <el-row :gutter="20">
         <el-col :span="12">
           <div class="grid-content bg-purple">
-            <el-input
-              style="width: 300px;margin-right: 20px;"
-              size="mini"
-              v-model="seek"
-              placeholder="Please enter the keywords"
-            ></el-input>
+            <el-input style="width: 300px;margin-right: 20px;" size="mini" v-model="seek"
+              placeholder="Please enter the keywords"></el-input>
             <el-button size="mini" @click="seekFn">Search</el-button>
           </div>
         </el-col>
@@ -32,24 +28,14 @@
         <el-table-column prop="num" label="EOI/ROI"></el-table-column>
         <el-table-column label="Edit">
           <template slot-scope="scope">
-            <el-button @click="handleClick(scope.row, 'UnitStatistics')" size="mini">Intention Unit</el-button>
-            <el-button
-              @click="handleClick(scope.row, 'BuyersStatistics')"
-              size="mini"
-            >Intention Buyers</el-button>
+            <el-button @click="handleClick(scope.row, 'UnitStatistics')" size="mini">Interested Unit</el-button>
+            <el-button @click="handleClick(scope.row, 'BuyersStatistics')" size="mini">Register EOI</el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
-    <el-pagination
-      class="page_section"
-      :page-size="pageSize"
-      style="text-align: center;"
-      @current-change="changePage"
-      background
-      layout="prev, pager, next"
-      :total="total"
-    ></el-pagination>
+    <el-pagination class="page_section" :page-size="pageSize" style="text-align: center;" @current-change="changePage"
+      background layout="prev, pager, next" :total="total"></el-pagination>
   </div>
 </template>
 
@@ -57,7 +43,7 @@
 import crumbs from './component/crumbs'
 export default {
   components: { crumbs },
-  data() {
+  data () {
     return {
       crumbsData: ['Unit Interest'],
       seek: '',
@@ -67,11 +53,11 @@ export default {
       pageNo: 1
     }
   },
-  mounted() {
+  mounted () {
     this.queryInterestList()
   },
   methods: {
-    handleClick(row, url) {
+    handleClick (row, url) {
       this.$router.push({
         path: '/interes/' + url,
         query: {
@@ -80,15 +66,15 @@ export default {
         }
       })
     },
-    changePage(val) {
+    changePage (val) {
       this.pageNo = val
       this.queryInterestList()
     },
-    seekFn() {
+    seekFn () {
       this.pageNo = 1
       this.queryInterestList()
     },
-    queryInterestList() {
+    queryInterestList () {
       let data = {
         pageSize: this.pageSize,
         pageNo: this.pageNo,

@@ -13,105 +13,62 @@
         </h1>
       </div>
       <div class="fromDiv Document_content_div">
-        <el-table
-          border
-          :header-cell-style="{ background: '#f5f7fa' }"
-          class="Document_content_div_tab"
-          :data="tableData"
-          style="width: 100%"
-        >
+        <el-table border :header-cell-style="{ background: '#f5f7fa' }" class="Document_content_div_tab"
+          :data="tableData" style="width: 100%">
           <el-table-column label="No." prop="method">
             <template slot-scope="scope">{{ scope.$index + 1 }}</template>
           </el-table-column>
           <el-table-column label="Documet" prop="title"></el-table-column>
           <el-table-column label="Files" prop="chequeNo" width="300">
             <template slot-scope="scope" v-if="scope.row.allowGenerate == 1">
-              <el-tag
-                v-for="(tag, index) in scope.row.url"
-                :key="index"
-                closable
-                v-if="tag"
-                effect="dark"
-                @close="deleteImg(scope.row, tag)"
-                @click="PreviewFn(tag)"
-                style="
+              <el-tag v-for="(tag, index) in scope.row.url" :key="index" closable v-if="tag" effect="dark"
+                @close="deleteImg(scope.row, tag)" @click="PreviewFn(tag)" style="
                   display: block;
                   width: 130px;
                   margin: 5px auto;
                   cursor: pointer;
-                "
-              >
+                ">
                 #{{ index + 1 }}Pic Preview
               </el-tag>
             </template>
           </el-table-column>
           <el-table-column label="Attachment" prop="attachment">
-            <template  slot-scope="scope">
-              <el-button 
-              v-if="scope.row.attachment" 
-              size="mini"
-              @click="PreviewFn(scope.row.attachment)"
-              >
+            <template slot-scope="scope">
+              <el-button v-if="scope.row.attachment" size="mini" @click="PreviewFn(scope.row.attachment)">
                 View
               </el-button>
             </template>
           </el-table-column>
-          <el-table-column label="edit" width="400">
+          <el-table-column label="edit" width="500">
             <template slot-scope="scope">
-              <el-button
-                size="mini"
-                v-if="scope.row.allowGenerate == 0"
-                @click="ViewFn(scope.row)"
-                :disabled="scope.row.url == ''"
-                >View</el-button
-              >
+              <el-button size="mini" v-if="scope.row.allowGenerate == 0" @click="ViewFn(scope.row)"
+                :disabled="scope.row.url == ''">View</el-button>
 
-              <el-upload
-                class="upload-demo"
-                :action="baseURL + $api.uploadTransactionFile"
-                accept="application/pdf,image/jpeg,image/png"
-                :data="{
+              <el-upload class="upload-demo" :action="baseURL + $api.uploadTransactionFile"
+                accept="application/pdf,image/jpeg,image/png" :data="{
                   ...upDataObj,
                   docId: scope.row.docId,
                   id: scope.row.id,
-                }"
-                :limit="30"
-                auto-upload
-                :on-success="upImgSuccess"
-                :on-error="upImgError"
-                v-if="scope.row.allowGenerate == 1"
-                :show-file-list="false"
-              >
-                <el-button
-                  size="small"
-                  type="primary"
-                  v-if="scope.row.url.length < 2"
-                  >Click on the upload</el-button
-                >
+                }" :limit="30" auto-upload :on-success="upImgSuccess" :on-error="upImgError"
+                v-if="scope.row.allowGenerate == 1" :show-file-list="false">
+                <el-button size="small" type="primary" v-if="scope.row.url.length < 2">Click on the upload</el-button>
                 <div slot="tip" class="el-upload__tip">
                   Only JPG/PNG/PDF files and no more than 1MB can be uploaded
                 </div>
               </el-upload>
-              <el-button
-                size="mini"
-                v-if="scope.row.allowGenerate == 0"
-                @click="VersionView(scope.row)"
-                >Version</el-button
-              >
-              <el-button
-                size="mini"
-                v-if="scope.row.allowGenerate == 0"
-                @click="OpenContractSettings(scope.row)"
-                :disabled="(isAgentCompany == 3 && scope.row.type == 2)"
-                >Generate</el-button
-              >
-              <el-button
-                size="mini"
-                :disabled="scope.row.url == ''"
-                v-if="scope.row.allowGenerate == 0 && scope.row.type == 1"
-                @click="PDIFn(scope.row)"
-                >PDI Signature</el-button
-              >
+              <el-button size="mini" v-if="scope.row.allowGenerate == 0" @click="VersionView(scope.row)">Version
+              </el-button>
+              <el-button size="mini" v-if="scope.row.allowGenerate == 0" @click="OpenContractSettings(scope.row)"
+                :disabled="(isAgentCompany == 3 && scope.row.type == 2)">Generate</el-button>
+              <el-button size="mini" :disabled="scope.row.url == ''"
+                v-if="scope.row.allowGenerate == 0 && scope.row.type == 1" @click="PDIFn(scope.row)">Go to E-Sign
+              </el-button>
+              <el-button size="mini" :disabled="scope.row.url == ''"
+                v-if="AccessData['PDI_SIGNED']== 1&&(documentObj.transactionStatus=='PDI PENDING'||!documentObj.transactionStatus) && scope.row.type==1"
+                @click="updateStatus('PDI SIGNED')">{{ $t('PDI SIGNED') }}</el-button>
+              <el-button size="mini" :disabled="scope.row.url == ''"
+                v-if="AccessData['COMPLETED']== 1&&documentObj.transactionStatus=='PDI SIGNED'&&userInfo.type!==3&& scope.row.type==2"
+                @click="updateStatus('COMPLETED')">{{ $t('COMPLETED') }}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -119,12 +76,7 @@
     </div>
     <el-dialog title="Version" center :visible.sync="dialogVisible" width="40%">
       <div>
-        <el-table
-          border
-          class="Document_content_div_tab"
-          :data="VersionData"
-          style="width: 100%"
-        >
+        <el-table border class="Document_content_div_tab" :data="VersionData" style="width: 100%">
           <el-table-column label="Date" prop="createTime"> </el-table-column>
           <el-table-column label="Adimin" prop="agentName"></el-table-column>
 
@@ -146,26 +98,24 @@
         <p v-if="acitveGontractInfon.otp">Current OTP No. {{acitveGontractInfon.otp}}</p>
         <p>Please select OTP No. output</p>
         <div style="text-align: center;">
-          <el-button type="warning" style="margin-top: 20px" :disabled="isDisabled" @click="GenerateFn(1)">System generated OTP no. </el-button>
+          <el-button type="warning" style="margin-top: 20px" :disabled="isDisabled" @click="GenerateFn(1)">System
+            generated OTP no. </el-button>
           </br>
-          <el-button type="primary" style="margin-top: 20px" :disabled="isDisabled" @click="GenerateFn(2)">Select previous OTP no.</el-button>
+          <el-button type="primary" style="margin-top: 20px" :disabled="isDisabled" @click="GenerateFn(2)">Select
+            previous OTP no.</el-button>
           </br>
-          <el-button type="danger" style="margin-top: 20px" @click="innerVisible = true">Manual input OTP no.</el-button>
+          <el-button type="danger" style="margin-top: 20px" @click="innerVisible = true">Manual input OTP no.
+          </el-button>
         </div>
       </div>
-      <el-dialog
-        width="30%"
-        title="OTP Settings"
-        :visible.sync="innerVisible"
-        append-to-body
-        center
-        @closed="otpNo = ''"
-      >
+      <el-dialog width="30%" title="OTP Settings" :visible.sync="innerVisible" append-to-body center
+        @closed="otpNo = ''">
         <div style="text-align: center;">
           <el-input placeholder="Please key in OTP no." v-model="otpNo">
             <template slot="prepend">Please key in OTP no.</template>
           </el-input>
-          <el-button type="primary" style="margin-top: 20px" :disabled="isDisabled"  @click="GenerateFn(3)">Generate OTP</el-button>
+          <el-button type="primary" style="margin-top: 20px" :disabled="isDisabled" @click="GenerateFn(3)">Generate OTP
+          </el-button>
         </div>
       </el-dialog>
     </el-dialog>
@@ -184,14 +134,15 @@ export default {
     location: {
       type: String,
       default: '',
-    },
+    }
   },
-  data() {
+  data () {
     return {
+      query: this.$route.query,
       tableData: [],
       SystemNo: '',
-      attachmentpath:'',
-      nowdocid:'',
+      attachmentpath: '',
+      nowdocid: '',
       upDataObj: {
         projectId: this.$route.query.projectId,
         unitId: this.$route.query.unitId,
@@ -211,24 +162,38 @@ export default {
       acitveGontractInfon: {},
       outerVisible: false,
       innerVisible: false,
+      userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
       otpNo: '',
       isAgentCompany: JSON.parse(sessionStorage.getItem('userInfo')).type,
+      AccessData: {}
     }
   },
   watch: {
-    documentObj(val) {
+    documentObj (val) {
       this.upDataObj.recordId = val.recordId
       this.queryDocumentList()
     },
   },
-  mounted() {
+  mounted () {
     if (this.documentObj.recordId) {
       // this.upDataObj.recordId = this.documentObj.recordId
       this.queryDocumentList()
     }
+    let data = {
+      unitId: this.query.unitId,
+      projectId: this.query.projectId,
+    }
+    this.$Post(this.$api.getUnitAccess, data).then((res) => {
+      if (res.code == 0) {
+        this.AccessData = res.datas
+      }
+    })
   },
   methods: {
-    ViewFn(row) {
+    updateStatus (val) {
+      this.$emit('updateStatus', val)
+    },
+    ViewFn (row) {
       if (!row.url) {
         this.$notify.error({
           title: 'Error',
@@ -238,7 +203,7 @@ export default {
       }
       window.open(this.hostUrl + row.url)
     },
-    VersionView(row) {
+    VersionView (row) {
       let data = {
         docId: row.docId,
         unitId: this.$route.query.unitId,
@@ -256,7 +221,7 @@ export default {
         }
       })
     },
-    OpenContractSettings(row) {
+    OpenContractSettings (row) {
       this.acitveGontractInfon = row
       if (row.allowGenerate == 0 && row.type == 2) {
         this.outerVisible = true
@@ -264,7 +229,7 @@ export default {
         this.GenerateFn()
       }
     },
-    GenerateFn(type) {
+    GenerateFn (type) {
       let data = {
         docId: this.acitveGontractInfon.docId,
         projectId: this.$route.query.projectId,
@@ -293,7 +258,7 @@ export default {
         }
       })
     },
-    queryDocumentList() {
+    queryDocumentList () {
       this.$Posting(this.$api.queryDocumentsList, {
         projectId: this.$route.query.projectId,
         recordId: this.documentObj.recordId,
@@ -307,7 +272,7 @@ export default {
         }
       })
     },
-    upImgSuccess(response, file, fileList) {
+    upImgSuccess (response, file, fileList) {
       if (response.code == 0) {
         this.queryDocumentList()
       } else {
@@ -317,10 +282,10 @@ export default {
         })
       }
     },
-    upImgError(err, file, fileList) {
+    upImgError (err, file, fileList) {
       console.log('err', err, file, fileList)
     },
-    deleteImg(row, url) {
+    deleteImg (row, url) {
       let _this = this
       this.$confirm(
         'This action will delete the photo completly, Whether or not to continue?',
@@ -352,12 +317,12 @@ export default {
             }
           })
         })
-        .catch(() => {})
+        .catch(() => { })
     },
-    PreviewFn(url) {
+    PreviewFn (url) {
       window.open(this.hostUrl + url)
     },
-    PDIFn(row) {
+    PDIFn (row) {
       this.PdiVisible = true
       this.attachmentpath = row.attachment
       this.nowdocid = row.docId

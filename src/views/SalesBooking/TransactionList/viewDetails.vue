@@ -3,23 +3,15 @@
     <div class="head">
       <el-row :gutter="20">
         <el-col :span="3">
-          <el-button
-            size="mini"
-            type="info"
-            class="btn el-icon-back"
-            style="margin-right: 30px"
-            @click="goBack"
-            >{{ $t('editMap.goBack') }}</el-button
-          >
+          <el-button size="mini" type="info" class="btn el-icon-back" style="margin-right: 30px" @click="goBack">
+            {{ $t('editMap.goBack') }}</el-button>
         </el-col>
         <el-col :span="18">
           <div style="line-height: 28px">
             <span>{{ query.Status }}：</span>
             <span>{{ query.projectName }} -</span>
             <span>{{ query.unitName }}</span>
-            <span class="ballotNo" v-if="detailsObj.ballotNo"
-              >Ballot No. {{ detailsObj.ballotNo }}</span
-            >
+            <span class="ballotNo" v-if="detailsObj.ballotNo">Ballot No. {{ detailsObj.ballotNo }}</span>
           </div>
         </el-col>
       </el-row>
@@ -51,13 +43,10 @@
             Optional Add-on
           </div>
           <div class="facility-wrap">
-            <div class="facility-box" v-for="(facilityItem, facilityIndex) in detailsObj.facilityList" :key="facilityIndex">
+            <div class="facility-box" v-for="(facilityItem, facilityIndex) in detailsObj.facilityList"
+              :key="facilityIndex">
               <span class="facility-title">{{facilityItem.name}}</span>
-              <el-input
-                disabled
-                size="mini"
-                v-model="facilityItem.value1"
-              ></el-input>
+              <el-input disabled size="mini" v-model="facilityItem.value1"></el-input>
             </div>
           </div>
         </div>
@@ -71,20 +60,10 @@
         <div class="fromDiv">
           <div class="lfLable" style="width: 200px">Payment Received</div>
           <div class="AgentDiv_content" v-if="detailsObj.buyerPaymentList">
-            <el-table
-              border
-              :data="detailsObj.buyerPaymentList"
-              style="width: 100%"
-            >
-              <el-table-column
-                prop="method"
-                label="payment  Mode"
-              ></el-table-column>
+            <el-table border :data="detailsObj.buyerPaymentList" style="width: 100%">
+              <el-table-column prop="method" label="payment  Mode"></el-table-column>
               <el-table-column prop="bankName" label="Bank"></el-table-column>
-              <el-table-column
-                prop="chequeNo"
-                label="Cheque No."
-              ></el-table-column>
+              <el-table-column prop="chequeNo" label="Cheque No."></el-table-column>
 
               <el-table-column label="Cheque Date">
                 <template slot-scope="scope">{{
@@ -95,11 +74,8 @@
               <el-table-column label="Payment Reference">
                 <template slot-scope="scope">
                   <div class="payerImg_div" v-if="scope.row.payerImg">
-                    <img
-                      @click.stop="$imgPreview(hostUrl + scope.row.payerImg)"
-                      :src="hostUrl + scope.row.payerImg"
-                      alt=""
-                    />
+                    <img @click.stop="$imgPreview(hostUrl + scope.row.payerImg)" :src="hostUrl + scope.row.payerImg"
+                      alt="" />
                   </div>
                 </template>
               </el-table-column>
@@ -117,19 +93,10 @@
         <div class="fromDiv">
           <div class="lfLable" style="width: 200px">Staff & Agent</div>
           <div class="AgentDiv_content" v-if="dynamicData.Agent">
-            <div
-              class="AgentDiv"
-              :key="index"
-              v-for="(item, index) in dynamicData.Agent"
-              v-if="dynamicData.Agent"
-            >
+            <div class="AgentDiv" :key="index" v-for="(item, index) in dynamicData.Agent" v-if="dynamicData.Agent">
               <h1>{{ item.text }}</h1>
               <div>
-                <row-tab
-                  :key="index"
-                  :spanNum="12"
-                  :forArr="item.obj"
-                ></row-tab>
+                <row-tab :key="index" :spanNum="12" :forArr="item.obj"></row-tab>
               </div>
             </div>
           </div>
@@ -140,7 +107,7 @@
             Success Booking of Unit
           </div>
 
-          <DocumentTemplate :documentObj="detailsObj" location="viewDetails" />
+          <DocumentTemplate :documentObj="detailsObj" @updateStatus="updateStatus($event)" location="viewDetails" />
         </div>
 
         <div class="viewDetails_content_btn">
@@ -154,10 +121,8 @@
           <el-button type="primary" @click="getData('Agent')"
             >Staff & Agent</el-button
           > -->
-          <el-button type="primary" @click="getData('Modify')"
-            >Modify</el-button
-          >
-          <el-button type="primary" v-if="AccessData['COMPLETED']== 1&&detailsObj.transactionStatus=='PDI SIGNED'&&((query.cooperate===1&&userInfo.type!==3) ||query.cooperate===0)" @click="updateStatus('COMPLETED')"
+          <el-button type="primary" @click="getData('Modify')">Modify</el-button>
+          <!-- <el-button type="primary" v-if="AccessData['COMPLETED']== 1&&detailsObj.transactionStatus=='PDI SIGNED'&&((query.cooperate===1&&userInfo.type!==3) ||query.cooperate===0)" @click="updateStatus('COMPLETED')"
             >{{ $t('COMPLETED') }}</el-button
           >
           <el-button type="primary" v-if="AccessData['PDI_SIGNED']== 1&&(detailsObj.transactionStatus=='PDI PENDING'||!detailsObj.transactionStatus)" @click="updateStatus('PDI SIGNED')"
@@ -165,33 +130,17 @@
           >
           <el-button type="primary" v-if="AccessData['PDI_PENDING']== 1&&detailsObj.transactionStatus=='PDI SIGNED'&&((query.cooperate===1&&userInfo.type!==3) ||query.cooperate===0)" @click="updateStatus('PDI PENDING')"
             >{{ $t('PDI PENDING') }}</el-button
-          >
+          > -->
         </div>
       </div>
     </div>
-    <el-dialog
-      class="viewDetails_Popup"
-      :title="dynamicData.title"
-      :visible.sync="dialogVisible"
-      width="60%"
-    >
+    <el-dialog class="viewDetails_Popup" :title="dynamicData.title" :visible.sync="dialogVisible" width="60%">
       <div>
         <div v-if="dynamicData.title == 'Payment Received'">
-          <el-table
-            border
-            v-if="dynamicData.payment"
-            :data="dynamicData.payment"
-            style="width: 100%"
-          >
-            <el-table-column
-              prop="method"
-              label="payment  Mode"
-            ></el-table-column>
+          <el-table border v-if="dynamicData.payment" :data="dynamicData.payment" style="width: 100%">
+            <el-table-column prop="method" label="payment  Mode"></el-table-column>
             <el-table-column prop="bankName" label="Bank"></el-table-column>
-            <el-table-column
-              prop="chequeNo"
-              label="Cheque No."
-            ></el-table-column>
+            <el-table-column prop="chequeNo" label="Cheque No."></el-table-column>
 
             <el-table-column label="Cheque Date">
               <template slot-scope="scope">{{
@@ -209,12 +158,7 @@
           </div>
         </div>
         <div v-if="dynamicData.title == 'Staff & Agent'">
-          <div
-            class="AgentDiv"
-            :key="index"
-            v-for="(item, index) in dynamicData.Agent"
-            v-if="dynamicData.Agent"
-          >
+          <div class="AgentDiv" :key="index" v-for="(item, index) in dynamicData.Agent" v-if="dynamicData.Agent">
             <h1>{{ item.text }}</h1>
             <div class="AgentDiv_content">
               <row-tab :key="index" :spanNum="12" :forArr="item.obj"></row-tab>
@@ -233,7 +177,7 @@ import BuyersDiv from '../SalesFlowchart/commponents/module/BuyersDiv'
 import DocumentTemplate from '../SalesFlowchart/commponents/Document'
 export default {
   components: { RowTab, BuyersDiv, DocumentTemplate },
-  data() {
+  data () {
     return {
       query: this.$route.query,
       detailsObj: {},
@@ -249,12 +193,12 @@ export default {
       AccessData: {}, //权限
     }
   },
-  mounted() {
+  mounted () {
     this.getTransaction()
     this.getUnitAccess()
   },
   methods: {
-    getUnitAccess() {
+    getUnitAccess () {
       let data = {
         unitId: this.query.unitId,
         projectId: this.query.projectId,
@@ -265,7 +209,7 @@ export default {
         }
       })
     },
-    goBack() {
+    goBack () {
       if (this.query.link == '/SalesBooking/ProjectSales/SalesChart' || this.query.link == '/SalesBooking/salesRecord') {
         this.$router.replace({
           path: this.query.link,
@@ -277,7 +221,7 @@ export default {
         })
       }
     },
-    getTransaction() {
+    getTransaction () {
       this.$Posting(this.$api.getTransaction, this.query).then((res) => {
         if (res.code == 0) {
           let obj = res.datas
@@ -354,11 +298,10 @@ export default {
 
             {
               type: 'Standard Discount %',
-              value: ` ${
-                !!obj.transactionPrice && !!Number(getPrice(obj.price))
-                  ? this.roundNum(obj.transactionPrice / getPrice(obj.price))
-                  : 0
-              }`,
+              value: ` ${!!obj.transactionPrice && !!Number(getPrice(obj.price))
+                ? this.roundNum(obj.transactionPrice / getPrice(obj.price))
+                : 0
+                }`,
             },
 
             {
@@ -409,10 +352,10 @@ export default {
         }
       })
     },
-    roundNum(num) {
+    roundNum (num) {
       return Math.round(num * 100) / 100
     },
-    getData(type) {
+    getData (type) {
       switch (type) {
         case 'Modify':
           let querys = {
@@ -426,10 +369,10 @@ export default {
             accessData: this.AccessData
           }
 
-          if (this.query.link == '/SalesBooking/ProjectSales/SalesChart'|| this.query.link == '/SalesBooking/salesRecord') {
+          if (this.query.link == '/SalesBooking/ProjectSales/SalesChart' || this.query.link == '/SalesBooking/salesRecord') {
             querys.superiorLink = this.query.link
           }
-          if (this.query.link == '/SalesBooking/ProjectSales/PDIList'|| this.query.link == '/SalesBooking/salesRecord') {
+          if (this.query.link == '/SalesBooking/ProjectSales/PDIList' || this.query.link == '/SalesBooking/salesRecord') {
             querys.superiorLink = this.query.link
           }
           this.$router.push({
@@ -568,18 +511,18 @@ export default {
           break
       }
     },
-    updateStatus(command){
+    updateStatus (command) {
       let data = {
         transactionStatus: command,
         unitId: this.query.unitId,
         projectId: this.query.projectId,
       }
       this.$Geting(this.$api.updateTransactionStatus, data)
-      .then(res=>{
-        if(res.code == 0){
-          this.getTransaction()
-        }
-      })
+        .then(res => {
+          if (res.code == 0) {
+            this.getTransaction()
+          }
+        })
     }
   },
 }
@@ -630,7 +573,7 @@ export default {
           text-align: center;
           margin-top: 20px;
           &::before {
-            content: '';
+            content: "";
             position: absolute;
             right: -40px;
             top: 0;
@@ -669,17 +612,20 @@ export default {
             }
           }
         }
-        .facility-wrap{
+        .facility-wrap {
           padding: 20px;
-          .facility-box{
+          .facility-box {
             display: flex;
             margin-bottom: 10px;
-            .facility-title{
+            .facility-title {
               padding-right: 12px;
               text-align: right;
-              line-height: 28px;font-size: 14px;color: #606266;font-weight: 700;
+              line-height: 28px;
+              font-size: 14px;
+              color: #606266;
+              font-weight: 700;
             }
-            .el-input{
+            .el-input {
               width: 370px;
             }
           }

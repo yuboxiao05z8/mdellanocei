@@ -117,6 +117,36 @@ export default [
       }
     ]
   },
+  {
+    path: "/groupManage",
+    component: Layout,
+    redirect: '/groupManage/groupCompany',
+    nage:'groupManage',
+    meta: {
+      title: '小组内容管理',
+      icon: 'el-icon-s-opportunity'
+    },
+    children: [
+      {
+        path: 'groupCompany',
+        component: () => import('@/views/groupManage/groupCompany'),
+        name: 'groupCompany',
+        meta: { title: '小组快捷公司管理' }
+      },
+      {
+        path: 'groupFile',
+        component: () => import('@/views/groupManage/groupFile'),
+        name: 'groupFile',
+        meta: { title: '小组文件管理' }
+      },
+      {
+        path: 'groupLink',
+        component: () => import('@/views/groupManage/groupLink'),
+        name: 'groupLink',
+        meta: { title: '小组外链管理' }
+      }
+    ]
+  },
   ...adminRouter,
   ...dynamicRouter
 ]

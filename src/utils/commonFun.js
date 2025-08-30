@@ -191,6 +191,19 @@ function objKeySort(obj) {//排序的函数
   return newObj//返回排好序的新对象
 }
 
+function signatrue (obj) {
+  let str = ''
+  for (const key in objKeySort(obj)) {
+    if (
+      objKeySort(obj)[key] !== null &&
+      typeof objKeySort(obj)[key] !== 'undefined'
+    ) {
+      str += objKeySort(obj)[key]
+    }
+  }
+  return  Vue.prototype.$md5(str + 'c1d65f3667324592a071ebec5038f38c')
+}
+
 Vue.prototype.$addDownUrl = addDownUrl
 Vue.prototype.$base64ToContent = base64ToContent
 Vue.prototype.$contentToBase64 = contentToBase64
@@ -203,3 +216,4 @@ Vue.prototype.$deleteZip = deleteZip
 Vue.prototype.$changeSessionUploadImage = changeSessionUploadImage
 Vue.prototype.$changeUploadImg = changeUploadImg
 Vue.prototype.$objKeySort = objKeySort;
+Vue.prototype.$signatrue = signatrue;

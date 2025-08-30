@@ -3,33 +3,19 @@
     <div class="head">
       <el-row :gutter="20">
         <el-col :span="4">
-          <el-button
-            size="mini"
-            type="info"
-            class="btn el-icon-back"
-            style="margin-right: 30px"
-            @click="goBack"
-            >{{$t('editMap.goBack')}}</el-button
-          >
+          <el-button size="mini" type="info" class="btn el-icon-back" style="margin-right: 30px" @click="goBack">
+            {{$t('editMap.goBack')}}</el-button>
         </el-col>
         <el-col :span="8">
           <div>Name: {{ $route.query.name }}</div>
         </el-col>
 
         <el-col :span="12" v-if="activePageName == 'default'">
-          <uploader
-            v-if="!isOpening"
-            fileId="transactionsFile"
-            :maxSize="100"
-            :uploadParam="uploadParam"
-            @uploadAfter="uploadAfter"
-            :url="$api.importUnitInterest"
-            fileType=".xls,.xlsx"
-            :btnText="{
+          <uploader v-if="!isOpening" fileId="transactionsFile" :maxSize="100" :uploadParam="uploadParam"
+            @uploadAfter="uploadAfter" :url="$api.importUnitInterest" fileType=".xls,.xlsx" :btnText="{
               select: 'Select Excel File',
               import: 'Import Using File',
-            }"
-          ></uploader>
+            }"></uploader>
           <el-button size="mini" @click="exportData">Excel Template</el-button>
           <el-button size="mini" @click="toLottery" v-if="info.type===2">Start E-Ballot</el-button>
         </el-col>
@@ -38,29 +24,17 @@
     <div class="head">
       <div class="colDiv">
         <div class="inputDiv">
-          <el-input
-            size="mini"
-            v-model="form.ballotNo"
-            placeholder="InterestID"
-          ></el-input>
+          <el-input size="mini" v-model="form.ballotNo" placeholder="InterestID"></el-input>
         </div>
 
         <div class="inputDiv">
-          <el-input
-            size="mini"
-            v-model="form.loa"
-            placeholder="LOA"
-          ></el-input>
+          <el-input size="mini" v-model="form.loa" placeholder="LOA"></el-input>
         </div>
         <div class="inputDiv">
           Status
           <el-select size="mini" v-model="form.status">
-            <el-option
-              v-for="(item, index) in StatusList"
-              :key="index"
-              :label="item.test"
-              :value="item.value"
-            ></el-option>
+            <el-option v-for="(item, index) in StatusList" :key="index" :label="item.test" :value="item.value">
+            </el-option>
           </el-select>
         </div>
         <!-- 
@@ -91,62 +65,30 @@
         </div>
 
         <div class="inputDiv">
-          <el-button size="mini" @click="queryInterestDetail"
-            >Add Buyer</el-button
-          >
+          <el-button size="mini" @click="queryInterestDetail">Add EOI</el-button>
         </div>
       </div>
     </div>
 
     <div class="tab__list_center">
-      <el-tabs
-        class="pane_tabs_box"
-        v-model="activePageName"
-        type="border-card"
-      >
-        <el-tab-pane name="default" label="Buyer List">
-          <BuyTabTemplate
-            :tabList="tableData"
-            :isShowQueueNo="true"
-            :count="defaultCount"
-            ref="defaultTemplate"
-            @queryInterestDetail="queryInterestDetail"
-            @handleCurrentChange="PagingPageNo"
-            @UpStatusFn="upStatusFn"
-          />
+      <el-tabs class="pane_tabs_box" v-model="activePageName" type="border-card">
+        <el-tab-pane name="default" label="EOI List">
+          <BuyTabTemplate :tabList="tableData" :isShowQueueNo="true" :count="defaultCount" ref="defaultTemplate"
+            @queryInterestDetail="queryInterestDetail" @handleCurrentChange="PagingPageNo" @UpStatusFn="upStatusFn" />
         </el-tab-pane>
-        <el-tab-pane name="repetition" label="Buyer Duplicates List">
-          <el-tabs
-            type="card"
-            v-model="repeatType"
-            @tab-click="repeatNavTabFn"
-            class="repeatNavTab"
-          >
-            <el-tab-pane
-              label="NRIC/Passport"
-              name="nricPassport"
-            ></el-tab-pane>
+        <el-tab-pane name="repetition" label="EOI Duplicates">
+          <el-tabs type="card" v-model="repeatType" @tab-click="repeatNavTabFn" class="repeatNavTab">
+            <el-tab-pane label="NRIC/Passport" name="nricPassport"></el-tab-pane>
             <el-tab-pane label="Buyer Name" name="buyerName"></el-tab-pane>
             <el-tab-pane label="Cheque No." name="ChequeNo"></el-tab-pane>
           </el-tabs>
-          <BuyTabTemplate
-            :tabList="repetitionData"
-            :count="RepeatCount"
-            ref="RepeatTemplate"
-            @queryInterestDetail="queryInterestDetail"
-            @UpStatusFn="upStatusFn"
-            @handleCurrentChange="PagingPageNo"
-            :bgColor="true"
-          />
+          <BuyTabTemplate :tabList="repetitionData" :count="RepeatCount" ref="RepeatTemplate"
+            @queryInterestDetail="queryInterestDetail" @UpStatusFn="upStatusFn" @handleCurrentChange="PagingPageNo"
+            :bgColor="true" />
         </el-tab-pane>
       </el-tabs>
     </div>
-    <buyers-from
-      @etidEnd="etidEnd"
-      :interestId="interestId"
-      @AddSuccess="queryInterest"
-      ref="buyers_from"
-    />
+    <buyers-from @etidEnd="etidEnd" :interestId="interestId" @AddSuccess="queryInterest" ref="buyers_from" />
   </div>
 </template>
 
@@ -157,10 +99,10 @@ import BuyersFrom from '../component/BuyersFrom'
 import BuyTabTemplate from './module/BuyTabTemplate'
 export default {
   components: { uploader, BuyersFrom, BuyTabTemplate },
-  data() {
+  data () {
     return {
       uploadParam: [],
-      form: { 
+      form: {
         status: '1'
       },
       buildingData: [],
@@ -200,12 +142,12 @@ export default {
       ]
     }
   },
-  provide() {
+  provide () {
     return {
       porjectInfo: this,
     }
   },
-  mounted() {
+  mounted () {
     this.uploadParam = [
       { name: 'projectId', value: this.$route.query.id },
       { name: 'projectName', value: this.$route.query.name },
@@ -217,15 +159,15 @@ export default {
     this.queryRepeatBuyers()
   },
   methods: {
-    goBack() {
+    goBack () {
       this.$router.replace('/Interes/InterestedBuyers')
     },
-    uploadAfter() {
+    uploadAfter () {
       this.queryInterest()
     },
-    upStatusFn(row) {
+    upStatusFn (row) {
       let text = 'Are you sure to delete it?'
-      if(row.operate == '1') {
+      if (row.operate == '1') {
         text = 'Do you want to activate this buyer?'
       }
       this.$confirm(text, 'Warn', {
@@ -262,7 +204,7 @@ export default {
           })
         })
     },
-    exportData() {
+    exportData () {
       let from = JSON.parse(JSON.stringify(this.form))
       let params = {
         projectId: this.$route.query.id,
@@ -276,7 +218,7 @@ export default {
         params
       )
     },
-    toLottery(){
+    toLottery () {
       this.$router.push({
         path: '/lottery',
         query: {
@@ -284,7 +226,7 @@ export default {
         }
       })
     },
-    searchFn() {
+    searchFn () {
       switch (this.activePageName) {
         case 'default':
           this.defaultPageObj.pageNo = 1
@@ -300,7 +242,7 @@ export default {
           break
       }
     },
-    queryInterest() {
+    queryInterest () {
       let from = JSON.parse(JSON.stringify(this.form))
 
       let data = {
@@ -317,7 +259,7 @@ export default {
         }
       })
     },
-    PagingPageNo(val) {
+    PagingPageNo (val) {
       switch (this.activePageName) {
         case 'default':
           this.defaultPageObj.pageNo = val
@@ -330,10 +272,10 @@ export default {
 
           break
       }
-    }, 
-    queryUnit(name) {
+    },
+    queryUnit (name) {
       let obj = this.buildingData.filter((item) => item.buildName == name)
-    
+
       let data = {
         projectId: this.$route.query.id,
         building: obj[0].buildId,
@@ -344,7 +286,7 @@ export default {
         }
       })
     },
-    getUnitFilter() {
+    getUnitFilter () {
       this.$Post(this.$api.queryBuilding, {
         projectId: this.$route.query.id,
         pageSize: 999,
@@ -355,7 +297,7 @@ export default {
         }
       })
     },
-    queryInterestDetail(row) {
+    queryInterestDetail (row) {
       this.$refs.buyers_from.show = true
       let { interestId, interestUnitId } = row
       if (interestId) {
@@ -363,17 +305,17 @@ export default {
       }
       this.$refs.buyers_from.form = { ...this.getCreateInfo() }
     },
-    getCreateInfo() {
+    getCreateInfo () {
       let info = JSON.parse(sessionStorage.getItem('userInfo')) || {}
       return {
         projectName: this.$route.query.name,
         createUserName: info.agentName,
       }
     },
-    etidEnd() {
+    etidEnd () {
       this.interestId = ''
     },
-    queryProjectSet() {
+    queryProjectSet () {
       this.$Get(this.$api.queryProjectSet, {
         projectId: this.$route.query.id,
       }).then((res) => {
@@ -383,13 +325,13 @@ export default {
         }
       })
     },
-    
-    repeatNavTabFn() {
+
+    repeatNavTabFn () {
       this.RepeatPageObj.pageNo = 1
       this.$refs.RepeatTemplate.pageNo = 1
       this.queryRepeatBuyers()
     },
-    queryRepeatBuyers() {
+    queryRepeatBuyers () {
       let api = this.$api.queryRepeatBuyer
       let from = JSON.parse(JSON.stringify(this.form))
       let data = {

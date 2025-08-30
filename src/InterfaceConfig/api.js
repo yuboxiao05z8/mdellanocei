@@ -321,5 +321,25 @@ Vue.api = Vue.prototype.$api = {
   queryDrawInfo: '/broke-manager-service/interest/queryDrawInfo', //查询抽签数据信息
 
   querySysArea: '/broke-manager-service/project/querySysArea', //查询区域
+
+  exportInterestQueue: '/broke-manager-service/export/exportInterestQueue', //导出意向买家队列信息
+  
+  //PND
+  pndUploadFile: '/pnd-api/pnd_upload/uploadFile',//文件上传
+  deleteUploadFile:'/pnd-api/pnd_upload/deleteFile',//删除文件
+
+  queryFileList:'/pnd-api/pnd_file/queryFileList',//文件列表
+  pndDeleteFile:'/pnd-api/pnd_file/deleteFile',//删除pnd文件
+  setTop:'/pnd-api/pnd_file/setTop',//置顶pnd文件
+  saveFile: '/pnd-api/pnd_file/saveFile',//保存pnd文件
+  
+  queryLinkList:'/pnd-api/pnd_link/queryLinkList',//查询pnd Link列表
+  saveLink:'/pnd-api/pnd_link/saveLink',//保存pnd link
+  deleteLink: '/pnd-api/pnd_link/deleteLink',//删除pnd link
+
+  queryCompanyList:'/pnd-api/pnd_company/queryCompanyList',//查询pnd公司列表
+  saveCompany:'/pnd-api/pnd_company/saveCompany',//保存pnd公司
+  deleteCompany:'/pnd-api/pnd_company/deleteCompany',//删除pnd公司
+  queryCompanyContactList:'/pnd-api/pnd_company/queryCompanyContactList',//查询pnd公司联系人列表
 }
 

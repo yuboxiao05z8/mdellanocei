@@ -139,28 +139,28 @@ const Posting = function (url = '', data = {}, allowHTML = false) {
 
 // 简单带请求POST
 // Post('/fsddf', {id: 111, page: 1})
-const Post = function (url = '', data = {}, allowHTML = false) {
-  if (!allowHTML && hasHTML(data)) {
-    return Promise.resolve({
-      msg: '您的填写的数据带有非法字符，请改正后重试'
-    })
-  }
-  let {
-    user,
-    sucFun,
-    errFun
-  } = XHR({
-    loading: false
-  })
-  let reqData = qs.stringify({
-    ...user,
-    ...data
-  })
-  return axiosX.post(url, reqData).then(sucFun).catch(errFun)
-}
+// const Post = function (url = '', data = {}, allowHTML = false) {
+//   if (!allowHTML && hasHTML(data)) {
+//     return Promise.resolve({
+//       msg: '您的填写的数据带有非法字符，请改正后重试'
+//     })
+//   }
+//   let {
+//     user,
+//     sucFun,
+//     errFun
+//   } = XHR({
+//     loading: false
+//   })
+//   let reqData = qs.stringify({
+//     ...user,
+//     ...data
+//   })
+//   return axiosX.post(url, reqData).then(sucFun).catch(errFun)
+// }
 
 //带签名的请求POST
-const PostHasSign = function(url = '', data = {}, allowHTML = false){
+const Post = function(url = '', data = {}, allowHTML = false){
   if (!allowHTML && hasHTML(data)) {
     return Promise.resolve({
       msg: '您的填写的数据带有非法字符，请改正后重试'
@@ -173,17 +173,24 @@ const PostHasSign = function(url = '', data = {}, allowHTML = false){
   } = XHR({
     loading: false
   })
-  let reqData = {
+  let params = {
     ...user,
     ...data
   }
+  console.log(params);
   let str = ''
-  for (const key in Vue.prototype.$objKeySort(reqData)) {
-    str += Vue.prototype.$objKeySort(reqData)[key]
+  for (const key in Vue.prototype.$objKeySort(params)) {
+    if (
+      Vue.prototype.$objKeySort(params)[key] !== null &&
+      typeof Vue.prototype.$objKeySort(params)[key] !== 'undefined'
+    ) {
+      if(Array.isArray(Vue.prototype.$objKeySort(params)[key])) console.log(params[key] = JSON.stringify(Vue.prototype.$objKeySort(params)[key]));
+      str += Vue.prototype.$objKeySort(params)[key]
+    }
   }
   str = md5(str + 'c1d65f3667324592a071ebec5038f38c')
-  reqData = qs.stringify({
-    ...reqData,
+ let reqData = qs.stringify({
+    ...params,
     signature: str
   })
   return axiosX.post(url, reqData).then(sucFun).catch(errFun)
@@ -216,30 +223,30 @@ const Geting = function (url = '', data = {}, allowHTML = false) {
 
 // 简单带请求GET
 // Get('/fsddf', {id: 111, page: 1})
-const Get = function (url = '', data = {}, allowHTML = false) {
-  if (!allowHTML && hasHTML(data)) {
-    return Promise.resolve({
-      msg: '您的填写的数据带有非法字符，请改正后重试'
-    })
-  }
-  let {
-    user,
-    sucFun,
-    errFun
-  } = XHR({
-    loading: false
-  })
-  let params = {
-    params: {
-      ...user,
-      ...data
-    }
-  }
-  return axiosX.get(url, params).then(sucFun).catch(errFun)
-}
+// const Get = function (url = '', data = {}, allowHTML = false) {
+//   if (!allowHTML && hasHTML(data)) {
+//     return Promise.resolve({
+//       msg: '您的填写的数据带有非法字符，请改正后重试'
+//     })
+//   }
+//   let {
+//     user,
+//     sucFun,
+//     errFun
+//   } = XHR({
+//     loading: false
+//   })
+//   let params = {
+//     params: {
+//       ...user,
+//       ...data
+//     }
+//   }
+//   return axiosX.get(url, params).then(sucFun).catch(errFun)
+// }
 
 //简单带请求GET带签名
-const GetHasSign = function (url = '', data = {}, allowHTML = false) {
+const Get  = function (url = '', data = {}, allowHTML = false) {
   if (!allowHTML && hasHTML(data)) {
     return Promise.resolve({
       msg: '您的填写的数据带有非法字符，请改正后重试'
@@ -258,7 +265,12 @@ const GetHasSign = function (url = '', data = {}, allowHTML = false) {
   }
   let str = ''
   for (const key in Vue.prototype.$objKeySort(param)) {
-    str += Vue.prototype.$objKeySort(param)[key]
+    if (
+      Vue.prototype.$objKeySort(param)[key] !== null &&
+      typeof Vue.prototype.$objKeySort(param)[key] !== 'undefined'
+    ) {
+      str += Vue.prototype.$objKeySort(param)[key]
+    }
   }
   str = md5(str + 'c1d65f3667324592a071ebec5038f38c')
   let params = {
@@ -340,5 +352,5 @@ const PostY = function (url = '', data = {}, allowHTML = false) {
 Vue.prototype.$PostY = PostY
 Vue.PostY = PostY
 
-Vue.prototype.$PostHasSign = PostHasSign
-Vue.prototype.$GetHasSign = GetHasSign
+// Vue.prototype.$PostHasSign = PostHasSign
+// Vue.prototype.$GetHasSign = GetHasSign
