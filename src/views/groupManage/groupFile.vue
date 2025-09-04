@@ -20,9 +20,13 @@
       </el-row>
     </div>
     <div class="groupManage_tab">
-      <el-table size="mini" :header-cell-style="{'background':'#f5f7fa'}" :data="tableData" border>
+      <el-table size="mini" :header-cell-style="{'background':'#f5f7fa'}" :data="tableData" border max-height="600">
         <el-table-column prop="fileName" label="File Name"></el-table-column>
-        <el-table-column prop="url" label="URL"></el-table-column>
+        <el-table-column prop="url" label="URL">
+          <template slot-scope="scope">
+            <p>{{serveUrl+scope.row.url}}</p>
+          </template>
+        </el-table-column>
         <el-table-column prop="type" label="APP Group"></el-table-column>
         <el-table-column label="Update Time">
           <template slot-scope="scope">
@@ -60,6 +64,7 @@ export default {
   },
   data () {
     return {
+      serveUrl: sessionStorage.getItem('serveUrl'),
       tableData: [],
       total: 0,
       options: [

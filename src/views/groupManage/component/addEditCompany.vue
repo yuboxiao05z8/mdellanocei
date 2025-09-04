@@ -1,7 +1,6 @@
 <template>
   <div class="addEditCompany">
-    <el-dialog center title="公司信息" :visible.sync="show" :close-on-click-modal="false" :close-on-press-escape="false"
-      width="800px" append-to-body :show-close='false'>
+    <el-dialog center title="公司信息" :visible.sync="show" :close-on-click-modal="false" :close-on-press-escape="false" width="800px" append-to-body :show-close="false">
       <div class="addEditCompany_box">
         <el-form ref="form_company" :rules="rules" :model="companyForm" label-width="170px" :inline="true">
           <el-form-item label="Company Name" prop="companyName">
@@ -14,24 +13,27 @@
             <el-input size="mini" v-model="companyForm.companyAddress"></el-input>
           </el-form-item>
           <el-form-item label="APP Group" prop="type">
-            <el-select v-model="companyForm.type" placeholder="select" size="mini"
-              :disabled='imgLoad.length>0 || type ==="edit"'>
+            <el-select v-model="companyForm.type" placeholder="select" size="mini" :disabled="imgLoad.length > 0 || type === 'edit'" style="width:178px">
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="Company Logo" prop="companyLogo">
-            <el-upload class="upload-demo" :before-upload="beforeUpload" :http-request="uploadLogo" action
-              :show-file-list="false">
-              <img v-if="companyForm.companyLogo" :src="serveUrl+companyForm.companyLogo" class="logo">
-              <i v-else class="el-icon-plus upload-demo-icon"></i>
-            </el-upload>
+            <div style="width:178px">
+              <el-upload class="upload-demo" :before-upload="beforeUpload" :http-request="uploadLogo" action :show-file-list="false">
+                <img v-if="companyForm.companyLogo" :src="serveUrl + companyForm.companyLogo" class="logo" />
+                <i v-else class="el-icon-plus upload-demo-icon"></i>
+              </el-upload>
+            </div>
+          </el-form-item>
+          <el-form-item label="account">
+            <el-input size="mini" type="textarea" v-model="companyForm.description" style="width:178px"></el-input>
           </el-form-item>
           <el-form-item label="Contacts" prop="companyContact" style="display:block">
-            <div class="contact" v-for="(item,index) in companyForm.companyContact" :key="index">
+            <div class="contact" v-for="(item, index) in companyForm.companyContact" :key="index">
               <div class="contact_box">
-                <p>{{item.contactName}}</p>
-                <p>{{item.contactMobile}}</p>
+                <p>{{ item.contactName }}</p>
+                <p>{{ item.contactMobile }}</p>
               </div>
               <i class="el-icon-circle-close" @click="deleteContact(index)"></i>
             </div>
@@ -45,7 +47,7 @@
       </div>
     </el-dialog>
     <el-dialog :visible.sync="dialogVisible" width="400px">
-      <el-form ref="form_contact" :rules="rules" :model="contactObj">
+      <el-form ref="form_contact" :rules="rules" :model="contactObj" label-width="100px">
         <el-form-item label="Name" prop="contactName">
           <el-input size="mini" v-model="contactObj.contactName" style="width:200px"></el-input>
         </el-form-item>
@@ -70,44 +72,36 @@ export default {
       options: [
         {
           value: 'Bankers',
-          label: 'Bankers'
+          label: 'Bankers',
         },
         {
           value: 'Lawyers',
-          label: 'Lawyers'
+          label: 'Lawyers',
         },
         {
           value: 'Interior',
-          label: 'Interior'
+          label: 'Interior',
         },
         {
           value: 'Martgage Broker',
-          label: 'Martgage Broker'
+          label: 'Martgage Broker',
         },
         {
           value: 'Handyan & moves',
-          label: 'Handyan & moves'
-        }
+          label: 'Handyan & moves',
+        },
       ],
       uploadFlag: false,
       dialogVisible: false,
       contactObj: {},
       imgLoad: '',
-      editLogo: ''
+      editLogo: '',
     }
   },
   computed: {
     rules () {
-      let blurArr = [
-        'companyName',
-        'contactName',
-        'contactMobile'
-      ]
-      let changeArr = [
-        'type',
-        'companyLogo',
-        'companyContact',
-      ]
+      let blurArr = ['companyName', 'contactName', 'contactMobile']
+      let changeArr = ['type', 'companyLogo', 'companyContact']
       return {
         ...setRulesData('blur', blurArr),
         ...setRulesData('change', changeArr),
@@ -117,11 +111,15 @@ export default {
   watch: {
     show (val) {
       if (val && this.type === 'edit') {
-        this.$Get(this.$api.queryCompanyContactList, { companyId: JSON.parse(JSON.stringify(this.editData)).companyId }).then(res => {
+        this.$Get(this.$api.queryCompanyContactList, {
+          companyId: JSON.parse(JSON.stringify(this.editData)).companyId,
+        }).then((res) => {
           if (res.code == 0) {
             this.companyForm = JSON.parse(JSON.stringify(this.editData))
-            this.editLogo = JSON.parse(JSON.stringify(this.editData)).companyLogo
-            res.datas.forEach(item => {
+            this.editLogo = JSON.parse(
+              JSON.stringify(this.editData)
+            ).companyLogo
+            res.datas.forEach((item) => {
               this.companyForm.companyContact.push({
                 contactName: item.contactName,
                 contactMobile: item.contactMobile,
@@ -130,25 +128,29 @@ export default {
           }
         })
       }
-    }
+    },
   },
   methods: {
     addDataFn () {
       this.$refs['form_company'].validate((valid) => {
         if (valid) {
-          this.companyForm.userId = JSON.parse(sessionStorage.getItem('userInfo')).userId
-          this.$Post(this.$api.saveCompany, this.companyForm).then(res => {
+          this.companyForm.userId = JSON.parse(
+            sessionStorage.getItem('userInfo')
+          ).userId
+          this.$Post(this.$api.saveCompany, this.companyForm).then((res) => {
             if (res.code == 0) {
               if (this.type === 'edit') {
                 if (this.imgLoad.length > 0) {
-                  this.$Get(this.$api.deleteUploadFile, { path: this.editLogo }).then(_res => {
+                  this.$Get(this.$api.deleteUploadFile, {
+                    path: this.editLogo,
+                  }).then((_res) => {
                     if (_res.code == 0) {
                       this.editLogo = ''
                     }
                   })
                 }
               }
-              this.$message.success('保存成功');
+              this.$message.success('保存成功')
               this.closedForm(1)
               this.$emit('loadData')
             }
@@ -163,31 +165,31 @@ export default {
         if (valid) {
           this.companyForm.companyContact.push({
             contactName: this.contactObj.contactName,
-            contactMobile: this.contactObj.contactMobile
+            contactMobile: this.contactObj.contactMobile,
           })
           this.dialogVisible = false
-          this.$refs['form_contact'].resetFields();
+          this.$refs['form_contact'].resetFields()
         } else {
           return false
         }
       })
     },
     beforeUpload (file) {
-      const isJPG_Png = file.type === 'image/jpeg' || file.type === 'image/png';
-      const isLt2M = file.size / 1024 / 1024 < 2;
+      const isJPG_Png = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
       const type = this.companyForm.type
       if (!type) {
         this.$message.error('请先选择APP Group再进行上传')
         this.uploadFlag = false
         return false
-      };
+      }
       if (!isJPG_Png) {
-        this.$message.error('请上传JPG或者PNG格式LOGO!');
+        this.$message.error('请上传JPG或者PNG格式LOGO!')
         this.uploadFlag = false
         return false
       }
       if (!isLt2M) {
-        this.$message.error('上传LOGO大小不能超过 2MB!');
+        this.$message.error('上传LOGO大小不能超过 2MB!')
         this.uploadFlag = false
         return false
       }
@@ -200,52 +202,61 @@ export default {
         let self = this
         formData.append('type', 'pnd_company_logo')
         formData.append('group', this.companyForm.type)
-        formData.append('signature', this.$signatrue({ type: 'pnd_company_logo', group: this.companyForm.type }))
+        formData.append(
+          'signature',
+          this.$signatrue({
+            type: 'pnd_company_logo',
+            group: this.companyForm.type,
+          })
+        )
         formData.append('file', file.file)
-        self.$PostFormData(this.$api.pndUploadFile, formData)
-          .then(res => {
+        self
+          .$PostFormData(this.$api.pndUploadFile, formData)
+          .then((res) => {
             if (res.code == 0) {
               self.companyForm.companyLogo = res.datas.filePath
-              self.$message.success('上传成功');
+              self.$message.success('上传成功')
               if (self.imgLoad.length === 0) {
                 self.imgLoad = res.datas.filePath
               } else {
-                self.$Get(self.$api.deleteUploadFile, { path: self.imgLoad }).then(_res => {
-                  if (_res.code == 0) {
-                    self.imgLoad = ''
-                    self.imgLoad = res.datas.filePath
-                  }
-                })
+                self
+                  .$Get(self.$api.deleteUploadFile, { path: self.imgLoad })
+                  .then((_res) => {
+                    if (_res.code == 0) {
+                      self.imgLoad = ''
+                      self.imgLoad = res.datas.filePath
+                    }
+                  })
               }
             } else {
-              self.$message.error('上传失败');
+              self.$message.error('上传失败')
             }
           })
-          .catch(err => {
-
-          })
+          .catch((err) => { })
       }
     },
     deleteContact (index) {
       this.companyForm.companyContact.splice(index, 1)
     },
     closedForm (id) {
-      this.$refs['form_company'].resetFields();
+      this.$refs['form_company'].resetFields()
       this.companyForm = {
         companyLogo: '',
-        companyContact: []
+        companyContact: [],
       }
       this.editLogo = ''
       if (this.imgLoad.length > 0 && !id) {
-        this.$Get(this.$api.deleteUploadFile, { path: this.imgLoad }).then(_res => {
-          if (_res.code == 0) {
-            this.imgLoad = ''
+        this.$Get(this.$api.deleteUploadFile, { path: this.imgLoad }).then(
+          (_res) => {
+            if (_res.code == 0) {
+              this.imgLoad = ''
+            }
           }
-        })
+        )
       }
       this.$emit('cancel')
     },
-  }
+  },
 }
 </script>
 <style lang="less" scoped>

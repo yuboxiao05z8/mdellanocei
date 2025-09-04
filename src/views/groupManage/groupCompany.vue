@@ -23,7 +23,7 @@
       </el-row>
     </div>
     <div class="groupManage_tab">
-      <el-table size="mini" :header-cell-style="{'background':'#f5f7fa'}" :data="tableData" border>
+      <el-table size="mini" :header-cell-style="{'background':'#f5f7fa'}" :data="tableData" border max-height="600">
         <el-table-column prop="companyName" label="Name"></el-table-column>
         <el-table-column prop="companyLogo" label="LOGO" width="180">
           <template slot-scope="scope">
