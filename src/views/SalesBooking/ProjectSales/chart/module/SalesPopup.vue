@@ -36,7 +36,7 @@
         <div v-if="status == 'RESERVED'">
           <el-button @click="StatusPartitive(4, 'Cancel Reserved')" v-if="AccessData.Cancel_Reserved == 1">Cancel
             Reserved</el-button>
-          <el-button v-if="AccessData.Mark_Sold == 1" @click="GoPdiFn">PDI</el-button>
+          <el-button v-if="AccessData.Mark_Sold == 1" @click="GoPdiFn">PDI Booking</el-button>
           <!-- <el-button v-if="AccessData.Mark_Sold == 1" @click="BookUnitFn"
             >Book unit</el-button
           > -->
@@ -49,7 +49,7 @@
           <el-button v-if="AccessData.Mark_Sold == 1" @click="BookUnitFn">Book Unit</el-button>
         </div>
         <div v-if="status == 'SOLD'">
-          <el-button v-if="AccessData.Mark_Sold == 1" @click="GoPdiFn">PDI</el-button>
+          <el-button v-if="AccessData.Mark_Sold == 1" @click="GoPdiFn">PDI Booking</el-button>
           <el-button v-if="AccessData.Mark_Sold == 1" @click="BookUnitFn">Book unit</el-button>
         </div>
       </div>

@@ -14,8 +14,7 @@
             <p class="buyer-agent">{{item.brokeName}}</p>
             <p class="buyer-loa">{{item.ballotNo}}</p>
           </div>
-          <div class="pageContent cardBack" :class="!ifShow[index] ? 'screen-left' : 'screen-right'"
-            :show="ifShow[index]">
+          <div class="pageContent cardBack" :class="!ifShow[index] ? 'screen-left' : 'screen-right'" :show="ifShow[index]">
           </div>
         </div>
       </div>
@@ -144,6 +143,8 @@ export default {
      * 抽到的买家列表
      */
     async drawInterestBuyer () {
+      // console.log(document.querySelector(".el-icon-s-fold"))
+      if (document.querySelector(".el-icon-s-fold")) document.querySelector(".el-icon-s-fold").click()
       let self = this
       clearInterval(self.timer)
       if (this.drawCount.no_draw_num > 0) {
@@ -154,9 +155,11 @@ export default {
           .then(res => {
             if (res.code === '0') {
               let setTime = this.isReset ? 1000 : 400
-              self.drawList = res.datas
               self.startLottery()
-              // setTimeout(()=>{
+              setTimeout(() => {
+                self.drawList = res.datas
+              }, setTime)
+              // setTimeout(() => {
               //   self.queryInterest()
               // }, setTime)
             }
@@ -327,6 +330,7 @@ export default {
   position: relative;
   justify-content: center;
   align-items: center;
+  font-weight: 600;
   .setting-box {
     position: absolute;
     top: 10px;
@@ -355,7 +359,7 @@ export default {
         width: 159px;
         height: 220px;
         text-align: center;
-        font-size: 18px;
+        font-size: 22px;
         font-family: SourceHanSansSC-regular;
         position: relative;
         transform-style: preserve-3d;
@@ -384,7 +388,7 @@ export default {
           color: rgba(215, 100, 102, 100);
           margin-top: 38px;
           font-weight: 600;
-          font-size: 18px;
+          font-size: 24px;
         }
         .buyer-name {
           height: 27px;
@@ -394,21 +398,21 @@ export default {
         }
         .buyer-agent {
           color: rgba(215, 100, 102, 100);
-          font-size: 14px;
+          font-size: 16px;
           height: 20px;
           line-height: 20px;
         }
         .buyer-loa {
           height: 24px;
           color: rgba(215, 100, 102, 100);
-          font-size: 16px;
+          font-size: 20px;
         }
       }
     }
     .lottery-title {
       height: 20px;
       color: rgba(16, 16, 16, 100);
-      font-size: 14px;
+      font-size: 16px;
       margin: 44px 0px 13px;
     }
     @keyframes identifier {
@@ -433,7 +437,7 @@ export default {
         border-bottom: 1px solid #ccc;
         p {
           flex: 1;
-          font-size: 14px;
+          font-size: 16px;
           height: 60px;
           line-height: 60px;
           font-weight: 700;
@@ -451,7 +455,7 @@ export default {
           overflow: hidden;
           p {
             flex: 1;
-            font-size: 14px;
+            font-size: 16px;
             height: 60px;
             line-height: 60px;
           }
@@ -477,7 +481,7 @@ export default {
     .right-title {
       height: 29px;
       color: rgba(4, 30, 66, 100);
-      font-size: 20px;
+      font-size: 24px;
       font-family: Arial-bold;
       text-align: center;
       margin-bottom: 53px;
@@ -489,7 +493,7 @@ export default {
       box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
       overflow: hidden;
       color: rgba(16, 16, 16, 100);
-      font-size: 14px;
+      font-size: 16px;
       font-family: Arial-regular;
       img {
         width: 100%;
@@ -520,7 +524,7 @@ export default {
           text-align: center;
           height: 27px;
           color: rgba(0, 210, 200, 100);
-          font-size: 18px;
+          font-size: 22px;
         }
       }
       .to-lottery {
@@ -540,7 +544,7 @@ export default {
       border-radius: 15px;
       background-color: rgba(242, 137, 139, 100);
       color: rgba(255, 255, 255, 100);
-      font-size: 28px;
+      font-size: 32px;
       box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.4);
       font-family: Microsoft Yahei;
       line-height: 138px;
@@ -564,7 +568,7 @@ export default {
     .pagesize-title {
       height: 20px;
       color: rgba(0, 0, 0, 0.65);
-      font-size: 14px;
+      font-size: 16px;
       text-align: left;
       font-family: PingFangSC-regular;
     }

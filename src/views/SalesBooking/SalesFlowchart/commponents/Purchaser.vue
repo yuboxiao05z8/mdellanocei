@@ -71,16 +71,13 @@
             <el-col :span="12">
               <el-form-item prop="buyerCountry" label="Country">
                 <el-select size="small" class="input_80" v-model="PurchaserObj.buyerCountry">
-                  <el-option v-for="(item, index) in SellBlockData.CitizenshipData" :key="index" :label="item"
-                    :value="item"></el-option>
+                  <el-option v-for="(item, index) in SellBlockData.CitizenshipData" :key="index" :label="item" :value="item"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item prop="buyerPostalCode" label="Postal Code">
-                <el-input class="input_80" size="small"
-                  @change="getAddress(PurchaserObj.buyerPostalCode, 'buyerPostalCode')"
-                  v-model="PurchaserObj.buyerPostalCode"></el-input>
+                <el-input class="input_80" size="small" @change="getAddress(PurchaserObj.buyerPostalCode, 'buyerPostalCode')" v-model="PurchaserObj.buyerPostalCode"></el-input>
               </el-form-item>
             </el-col>
             <!-- <el-col :span="12">
@@ -122,15 +119,13 @@
             <el-col :span="12">
               <el-form-item label="Country" prop="country">
                 <el-select size="small" class="input_80" v-model="PurchaserObj.country">
-                  <el-option v-for="(item, index) in SellBlockData.CitizenshipData" :key="index" :label="item"
-                    :value="item"></el-option>
+                  <el-option v-for="(item, index) in SellBlockData.CitizenshipData" :key="index" :label="item" :value="item"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item label="Postal Code" prop="postalCode">
-                <el-input class="input_80" size="small" @change="getAddress(PurchaserObj.postalCode, 'postalCode')"
-                  v-model="PurchaserObj.postalCode"></el-input>
+                <el-input class="input_80" size="small" @change="getAddress(PurchaserObj.postalCode, 'postalCode')" v-model="PurchaserObj.postalCode"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -153,17 +148,15 @@
       </div>
 
       <!-- 非兴趣买家 -->
-      <el-dialog center title="Purchaser Details" :visible.sync="NoRecordShow" width="40%" @closed="closedFn">
+      <el-dialog center title="Purchaser Details" :visible.sync="NoRecordShow" width="50%" @closed="closedFn">
         <div class="fontChange">
-          <el-form ref="form" :rules="rules" :model="buyerForm" label-width="160px">
+          <el-form ref="form" :rules="rules" :model="buyerForm" label-width="170px">
             <el-form-item label="Name" prop="buyerName">
-              <el-input size="small" style="width: 100%" v-model="buyerForm.buyerName"
-                :disabled="isOpening && developers !== 2"></el-input>
+              <el-input size="small" style="width: 100%" v-model="buyerForm.buyerName" :disabled="isOpening && developers !== 2"></el-input>
             </el-form-item>
             <el-form-item label="Customer Type" prop="customerType">
               <el-select size="small" style="width: 100%" v-model="buyerForm.customerType">
-                <el-option v-for="(item, index) in SellBlockData.CustomerTypeData" :key="index" :label="item.name"
-                  :value="item.value"></el-option>
+                <el-option v-for="(item, index) in SellBlockData.CustomerTypeData" :key="index" :label="item.name" :value="item.value"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="Company Name" prop="companyName" v-if="buyerForm.customerType===1">
@@ -180,20 +173,17 @@
                 v-model="buyerForm.dateOfBirth"
                 style="width: 100%"
               ></el-date-picker> -->
-              <datepicker class="buyerFormDatePicker" :disabled-dates="disabledDates" inputClass="DatePickerInputClass"
-                v-model="buyerForm.dateOfBirth" :minimumView="'day'" :maximumView="'year'" :initialView="'year'">
+              <datepicker class="buyerFormDatePicker" :disabled-dates="disabledDates" inputClass="DatePickerInputClass" v-model="buyerForm.dateOfBirth" :minimumView="'day'" :maximumView="'year'" :initialView="'year'">
               </datepicker>
             </el-form-item>
             <el-form-item label="Gender" prop="gender">
               <el-select size="small" style="width: 100%" v-model="buyerForm.gender">
-                <el-option v-for="(item, index) in SellBlockData.GenderData" :key="index" :label="item.name"
-                  :value="item.value"></el-option>
+                <el-option v-for="(item, index) in SellBlockData.GenderData" :key="index" :label="item.name" :value="item.value"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="Area Code" prop="countryCallingCode">
               <el-select size="small" style="width: 100%" v-model="buyerForm.countryCallingCode">
-                <el-option v-for="(item, index) in SellBlockData.countryCallingCodeData" :key="index" :label="item.name"
-                  :value="item.name"></el-option>
+                <el-option v-for="(item, index) in SellBlockData.countryCallingCodeData" :key="index" :label="item.name" :value="item.name"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="Mobile" prop="buyerMobile">
@@ -203,23 +193,19 @@
               <el-input size="small" style="width: 100%" v-model="buyerForm.buyerEmail"></el-input>
             </el-form-item>
             <el-form-item label="Nationality" prop="nationality">
-              <el-select size="small" style="width: 100%" v-model="buyerForm.nationality"
-                :disabled="isOpening && developers !== 2">
-                <el-option v-for="(item, index) in SellBlockData.CitizenshipData" :key="index" :label="item"
-                  :value="item"></el-option>
+              <el-select size="small" style="width: 100%" v-model="buyerForm.nationality" :disabled="isOpening && developers !== 2">
+                <el-option v-for="(item, index) in SellBlockData.CitizenshipData" :key="index" :label="item" :value="item"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="NRIC/Passport" prop="nricPassport">
-              <el-input size="small" style="width: 100%" v-model="buyerForm.nricPassport"
-                :disabled="isOpening && developers !== 2"></el-input>
+              <el-input size="small" style="width: 100%" v-model="buyerForm.nricPassport" :disabled="isOpening && developers !== 2"></el-input>
             </el-form-item>
             <el-form-item label="Occupation">
               <el-input size="small" style="width: 100%" v-model="buyerForm.occupation"></el-input>
             </el-form-item>
             <el-form-item label="Residential">
               <el-select size="small" style="width: 100%" v-model="buyerForm.residential">
-                <el-option v-for="(item, index) in SellBlockData.residentialData" :key="index" :label="item"
-                  :value="item"></el-option>
+                <el-option v-for="(item, index) in SellBlockData.residentialData" :key="index" :label="item" :value="item"></el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="District">
@@ -229,8 +215,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="ID/Passport Photo">
-              <uploaderImg :backData="nricPassportImg" :id="'certificateImg'" :mixLength="2" :maxSize="2000"
-                folder="transactionImg"></uploaderImg>
+              <uploaderImg :backData="nricPassportImg" :id="'certificateImg'" :mixLength="2" :maxSize="2000" folder="transactionImg"></uploaderImg>
             </el-form-item>
             </el-col>
           </el-form>
@@ -247,10 +232,8 @@
       <el-dialog center title="INTRESTING ID" :visible.sync="onRecordShow" width="60%">
         <div class="interesting">
           <div class="seekDiv">
-            <el-select v-model="ActiveId" filterable remote placeholder="Please enter keywords"
-              :remote-method="remoteMethod" :loading="seekLoading" style="width: 80%" @change="changeData">
-              <el-option v-for="(item, index) in CustomerData" :key="index" :label="item.buyerName"
-                :value="item.interestId">
+            <el-select v-model="ActiveId" filterable remote placeholder="Please enter keywords" :remote-method="remoteMethod" :loading="seekLoading" style="width: 80%" @change="changeData">
+              <el-option v-for="(item, index) in CustomerData" :key="index" :label="item.buyerName" :value="item.interestId">
                 <div>
                   <el-row :gutter="20">
                     <el-col :span="6">{{ item.buyerName }}</el-col>
@@ -786,6 +769,12 @@ export default {
     }
   }
   .fontChange .el-form-item__label {
+    font-size: 18px;
+  }
+  .fontChange .el-input__inner {
+    font-size: 18px;
+  }
+  .fontChange .DatePickerInputClass {
     font-size: 16px;
   }
 }
