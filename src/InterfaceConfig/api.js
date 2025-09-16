@@ -7,6 +7,7 @@ Vue.api = Vue.prototype.$api = {
    */
   // login
   login: "/broke-manager-service/sysuser/login",//登录
+  querySysConfig: "/app-service/config/querySysConfig", // 系统配置
   // invetory
   uploadFile: "/broke-manager-service/upload/uploadFile",//项目内文件上传
   uploadEditorImg: "/broke-manager-service/upload/uploadEditorImg",//项目外文件上传
@@ -251,8 +252,8 @@ Vue.api = Vue.prototype.$api = {
   queryAppointmentDetails: "/broke-manager-service/appointment/queryAppointmentDetails", // 查询项目预约设置详情
   queryAppointmentList: "/broke-manager-service/appointment/queryAppointmentList", // 查询项目预约设置列表
   saveAppointmentDetails: "/broke-manager-service/appointment/saveAppointmentDetails", // 保存中介公司预约明细
-  queryAppointmentLogList:"/broke-manager-service/appointment/queryAppointmentLogList", //查询预约记录列表
-  updateAppointmentStatus:"/trade-service/appointment/updateAppointmentStatus", //更新预约状态
+  queryAppointmentLogList: "/broke-manager-service/appointment/queryAppointmentLogList", //查询预约记录列表
+  updateAppointmentStatus: "/trade-service/appointment/updateAppointmentStatus", //更新预约状态
   saveAppointmentLog: "/trade-service/appointment/saveAppointmentLog", //保存预约信息
   deleteAppointmentLog: "/trade-service/appointment/deleteAppointmentLog", //删除预约记录
   uploadProjectPromoImage: "/broke-manager-service/upload/uploadProjectPromoImage", // 上传Project Promo Image
@@ -277,7 +278,7 @@ Vue.api = Vue.prototype.$api = {
   sign: "/trade-service/sign/sign", // 生成签名文件
   buyerList: "/trade-service/sign/buyerList", //查询买家签名列表
   getSignPdiInfo: "/trade-service/sign/getSignPdiInfo", // 查询签名信息
-  buyerSignByEmail: "/trade-service/sign/buyerSignByEmail" , // 买家签名 By Email
+  buyerSignByEmail: "/trade-service/sign/buyerSignByEmail", // 买家签名 By Email
   downloadSign: "/trade-service/sign/downloadSign", // 下载签名
   querySignStatus: "/trade-service/sign/querySignStatus", // 签名状态
   deleteTransactionFile: "/trade-service/upload/deleteTransactionFile", // 删除交易文件
@@ -293,7 +294,7 @@ Vue.api = Vue.prototype.$api = {
   // uploadFile: "/broke-manager-service/upload/uploadFile", // 上传证件
 
   //建筑师
-  queryProgressList: '/broke-manager-service/progress/queryProgressList' , //查询建筑师进度列表
+  queryProgressList: '/broke-manager-service/progress/queryProgressList', //查询建筑师进度列表
   saveProgress: '/broke-manager-service/progress/saveProgressList', //保存建筑师进度
   queryProgressKey: '/broke-manager-service/progress/queryProgressKey', //查询进度下拉列表
   queryProgressUnit: '/broke-manager-service/progress/queryProgressUnit', //查询单位列表
@@ -323,23 +324,23 @@ Vue.api = Vue.prototype.$api = {
   querySysArea: '/broke-manager-service/project/querySysArea', //查询区域
 
   exportInterestQueue: '/broke-manager-service/export/exportInterestQueue', //导出意向买家队列信息
-  
+
   //PND
   pndUploadFile: '/pnd-api/pnd_upload/uploadFile',//文件上传
-  deleteUploadFile:'/pnd-api/pnd_upload/deleteFile',//删除文件
+  deleteUploadFile: '/pnd-api/pnd_upload/deleteFile',//删除文件
 
-  queryFileList:'/pnd-api/pnd_file/queryFileList',//文件列表
-  pndDeleteFile:'/pnd-api/pnd_file/deleteFile',//删除pnd文件
-  setTop:'/pnd-api/pnd_file/setTop',//置顶pnd文件
+  queryFileList: '/pnd-api/pnd_file/queryFileList',//文件列表
+  pndDeleteFile: '/pnd-api/pnd_file/deleteFile',//删除pnd文件
+  setTop: '/pnd-api/pnd_file/setTop',//置顶pnd文件
   saveFile: '/pnd-api/pnd_file/saveFile',//保存pnd文件
-  
-  queryLinkList:'/pnd-api/pnd_link/queryLinkList',//查询pnd Link列表
-  saveLink:'/pnd-api/pnd_link/saveLink',//保存pnd link
+
+  queryLinkList: '/pnd-api/pnd_link/queryLinkList',//查询pnd Link列表
+  saveLink: '/pnd-api/pnd_link/saveLink',//保存pnd link
   deleteLink: '/pnd-api/pnd_link/deleteLink',//删除pnd link
 
-  queryCompanyList:'/pnd-api/pnd_company/queryCompanyList',//查询pnd公司列表
-  saveCompany:'/pnd-api/pnd_company/saveCompany',//保存pnd公司
-  deleteCompany:'/pnd-api/pnd_company/deleteCompany',//删除pnd公司
-  queryCompanyContactList:'/pnd-api/pnd_company/queryCompanyContactList',//查询pnd公司联系人列表
+  queryCompanyList: '/pnd-api/pnd_company/queryCompanyList',//查询pnd公司列表
+  saveCompany: '/pnd-api/pnd_company/saveCompany',//保存pnd公司
+  deleteCompany: '/pnd-api/pnd_company/deleteCompany',//删除pnd公司
+  queryCompanyContactList: '/pnd-api/pnd_company/queryCompanyContactList',//查询pnd公司联系人列表
 }
 

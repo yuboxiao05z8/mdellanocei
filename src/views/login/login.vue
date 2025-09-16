@@ -79,7 +79,8 @@ export default {
   },
   mounted () { },
   methods: {
-    goToHome (formName) {
+    async goToHome (formName) {
+      await this.getSysConfig()
       let selt = this
       this.$refs[formName].validate(valid => {
         if (valid) {
@@ -94,7 +95,7 @@ export default {
             if (res.code === '0') {
               let userInfo = res
               sessionStorage.setItem('userInfo', JSON.stringify(userInfo.datas))
-              sessionStorage.setItem('serveUrl', res.url)
+              // sessionStorage.setItem('serveUrl', res.url)
               sessionStorage.setItem('logInSign', '1')
               this.$router.push('/dashboard')
             } else {
@@ -110,6 +111,13 @@ export default {
             message: this.$t('login.verificate_account_pass')
           })
           return false
+        }
+      })
+    },
+    async getSysConfig () {
+      this.$Get(this.$api.querySysConfig, {}).then(res => {
+        if (res.code == 0) {
+          sessionStorage.setItem('serveUrl', res.datas.img_url)
         }
       })
     },

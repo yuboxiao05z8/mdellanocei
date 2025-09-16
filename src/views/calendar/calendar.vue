@@ -93,7 +93,7 @@
           <el-input type="textarea" class="input_375" :rows="4" v-model="ruleForm.content"></el-input>
         </el-form-item>
         <el-form-item :label="$t('picture')" prop="calendayImgs">
-          <uploaderImg :backData="ruleForm.calendayImgs" :id="'calendayImg'" :mixLength='3' folder="CalendarImg" :maxSize="1000"></uploaderImg>
+          <uploaderImg :backData="ruleForm.calendayImgs" :id="'calendayImg'" :mixLength='3' folder="calendarImg" :maxSize="1000"></uploaderImg>
         </el-form-item>
       </el-form>
       <span slot="footer" class="dialog-footer">
@@ -109,7 +109,7 @@ export default {
   components: {
     uploaderImg
   },
-  data() {
+  data () {
     return {
       calendarList: [],
       currentPage: 1,
@@ -163,31 +163,31 @@ export default {
         ]
       },
       hostUrl: window.sessionStorage.getItem("serveUrl") || "",
-      id:""
+      id: ""
     };
   },
-  mounted() {
+  mounted () {
     this.getListData();
   },
   watch: {
-    dialogVisible(now) {
+    dialogVisible (now) {
       if (!now) {
         this.$refs["ruleForm"].clearValidate();
       }
     }
   },
   methods: {
-    clearFun() {
+    clearFun () {
       this.searchForm.title = "";
       this.searchForm.startTime = "";
       this.searchForm.endTime = "";
       this.searchFun();
     },
-    searchFun() {
+    searchFun () {
       this.currentPage = 1;
       this.getListData();
     },
-    submitForm() {
+    submitForm () {
       this.$refs["ruleForm"].validate(valid => {
         if (valid) {
           let imgs = "";
@@ -202,7 +202,7 @@ export default {
             address: this.ruleForm.address,
             content: this.ruleForm.content,
             imgs: imgs ? imgs.slice(0, -1) : "",
-            id:this.id,
+            id: this.id,
           }).then(res => {
             if (res.code == 0) {
               this.dialogVisible = false;
@@ -228,7 +228,7 @@ export default {
         }
       });
     },
-    addCalendar() {
+    addCalendar () {
       this.dialogVisible = true;
       this.ruleForm = {
         title: "",
@@ -241,7 +241,7 @@ export default {
       };
       this.id = ''
     },
-    editData(row) {
+    editData (row) {
       this.dialogVisible = true;
       this.ruleForm = {
         title: row.title,
@@ -263,7 +263,7 @@ export default {
         });
       }
     },
-    deleteData(row) {
+    deleteData (row) {
       this.$confirm(
         this.$t("alert.alert_delete"),
         this.$t("alert.alert_command"),
@@ -294,24 +294,24 @@ export default {
         });
       });
     },
-    refresh() {
+    refresh () {
       //刷新
       this.getListData();
     },
 
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.pageSize = val;
       this.getListData();
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.currentPage = val;
       this.getListData();
     },
-    refresh() {
+    refresh () {
       this.getListData();
     },
     //获取列表数据
-    getListData() {
+    getListData () {
       this.$Geting(this.$api.queryCalendarList, {
         pageSize: this.pageSize,
         pageNo: this.currentPage,
@@ -332,7 +332,7 @@ export default {
       });
     }
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.$deleteImg();
   }
 };
