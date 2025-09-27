@@ -215,7 +215,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="ID/Passport Photo">
-              <uploaderImg :backData="nricPassportImg" :id="'certificateImg'" :mixLength="2" :maxSize="2000" folder="transactionImg"></uploaderImg>
+              <uploaderImg :backData="nricPassportImg" :id="'certificateImg'" :mixLength="2" :maxSize="20480" folder="transactionImg"></uploaderImg>
             </el-form-item>
             </el-col>
           </el-form>
