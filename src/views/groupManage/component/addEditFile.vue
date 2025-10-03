@@ -1,12 +1,9 @@
 <template>
   <div class="addEditFile">
-    <el-dialog center title="小组文件上传" :visible.sync="show" :close-on-click-modal="false" :close-on-press-escape="false"
-      width="500px" append-to-body v-loading="loading" element-loading-text="文件上传中"
-      element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" :show-close='false'>
+    <el-dialog center title="小组文件上传" :visible.sync="show" :close-on-click-modal="false" :close-on-press-escape="false" width="500px" append-to-body v-loading="loading" element-loading-text="文件上传中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" :show-close='false'>
       <div class="addEditFile_box">
         <div style="text-align:center;margin-bottom:15px">
-          <el-upload class="upload-demo" drag :show-file-list="false" action :before-upload="beforeUpload"
-            :http-request="uploadFile">
+          <el-upload class="upload-demo" drag :show-file-list="false" action :before-upload="beforeUpload" :http-request="uploadFile">
             <i class="el-icon-upload"></i>
             <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
           </el-upload>
@@ -19,8 +16,7 @@
             <el-input size="mini" v-model="fileForm.fileName"></el-input>
           </el-form-item>
           <el-form-item label="展示位置">
-            <el-select v-model="fileForm.type" placeholder="select" size="mini" style="display: block;"
-              :disabled='fileLoad.length>0 || type ==="edit"'>
+            <el-select v-model="fileForm.type" placeholder="select" size="mini" style="display: block;" :disabled='fileLoad.length>0 || type ==="edit"'>
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
@@ -92,7 +88,8 @@ export default {
         let formData = new FormData()
         formData.append('type', 'pnd_file')
         formData.append('group', this.fileForm.type)
-        formData.append('signature', this.$signatrue({ type: 'pnd_file', group: this.fileForm.type }))
+        formData.append('id', this.type === 'edit' ? this.fileForm.fileId : '')
+        formData.append('signature', this.$signatrue({ type: 'pnd_file', group: this.fileForm.type, id: this.type === 'edit' ? this.fileForm.fileId : '' }))
         formData.append('file', file.file)
         this.loading = true
         this.$PostFormData(this.$api.pndUploadFile, formData).then(res => {

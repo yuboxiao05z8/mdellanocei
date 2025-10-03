@@ -202,11 +202,13 @@ export default {
         let self = this
         formData.append('type', 'pnd_company_logo')
         formData.append('group', this.companyForm.type)
+        formData.append('id', this.type === 'edit' ? this.companyForm.companyId : '')
         formData.append(
           'signature',
           this.$signatrue({
             type: 'pnd_company_logo',
             group: this.companyForm.type,
+            id: this.type === 'edit' ? this.companyForm.companyId : ''
           })
         )
         formData.append('file', file.file)
