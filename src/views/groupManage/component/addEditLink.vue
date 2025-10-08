@@ -1,7 +1,6 @@
 <template>
   <div class="addEditCompany">
-    <el-dialog center title="Link" :visible.sync="show" :close-on-click-modal="false" :close-on-press-escape="false"
-      width="800px" append-to-body :show-close='false'>
+    <el-dialog center title="Link" :visible.sync="show" :close-on-click-modal="false" :close-on-press-escape="false" width="800px" append-to-body :show-close='false'>
       <div class="addEditCompany_box">
         <el-form ref="form_company" :rules="rules" :model="linkForm" label-width="120px">
           <el-form-item label="Link Name" prop="linkName">
@@ -11,15 +10,13 @@
             <el-input size="mini" v-model="linkForm.link"></el-input>
           </el-form-item>
           <el-form-item label="APP Group" prop="type">
-            <el-select v-model="linkForm.type" placeholder="select" size="mini"
-              :disabled='imgLoad.length>0 || type ==="edit"'>
+            <el-select v-model="linkForm.type" placeholder="select" size="mini" :disabled='imgLoad.length>0 || type ==="edit"'>
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="LOGO" prop="logo">
-            <el-upload class="upload-demo" :before-upload="beforeUpload" :http-request="uploadLogo" action
-              :show-file-list="false">
+            <el-upload class="upload-demo" :before-upload="beforeUpload" :http-request="uploadLogo" action :show-file-list="false">
               <img v-if="linkForm.logo" :src="serveUrl+linkForm.logo" class="logo">
               <i v-else class="el-icon-plus upload-demo-icon"></i>
             </el-upload>
@@ -134,7 +131,8 @@ export default {
         let self = this
         formData.append('type', 'pnd_link_logo')
         formData.append('group', this.linkForm.type)
-        formData.append('signature', this.$signatrue({ type: 'pnd_link_logo', group: this.linkForm.type }))
+        formData.append('id', this.type === 'edit' ? this.linkForm.linkId : '')
+        formData.append('signature', this.$signatrue({ type: 'pnd_link_logo', group: this.linkForm.type, id: this.type === 'edit' ? this.linkForm.linkId : '' }))
         formData.append('file', file.file)
         self.$PostFormData(this.$api.pndUploadFile, formData)
           .then(res => {
