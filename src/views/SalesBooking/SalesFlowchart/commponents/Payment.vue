@@ -38,8 +38,7 @@
           <el-col :span="12">
             <el-form label-width="150px">
               <el-form-item label="Payment Remarks">
-                <el-input v-model="Payment.otherRemarks" style="width: 100%" :autosize="{ minRows: 6, maxRows: 6 }"
-                  type="textarea"></el-input>
+                <el-input v-model="Payment.otherRemarks" style="width: 100%" :autosize="{ minRows: 6, maxRows: 6 }" type="textarea"></el-input>
               </el-form-item>
             </el-form>
           </el-col>
@@ -75,8 +74,7 @@
       </div>
     </div>
 
-    <el-dialog center title="Payment Details" :visible.sync="addShow" width="40%"
-      @closed="form = {amount: roundNum(variate * 0.05)}; payerImg = []">
+    <el-dialog center title="Payment Details" :visible.sync="addShow" width="40%" @closed="form = {amount: roundNum(variate * 0.05)}; payerImg = []">
       <div class="fontChange">
         <el-form :model="form" :rules="rules" ref="PaymentForm" label-width="220px">
           <el-form-item label="Payment Mode" prop="method">
@@ -114,7 +112,7 @@
             <el-input-number v-model="form.amount" :min="0"></el-input-number>
           </el-form-item>
           <el-form-item label="Payment Reference">
-            <uploaderImg :backData="payerImg" :id="'payerImg'" :mixLength="1" :maxSize="2000" folder="transactionImg">
+            <uploaderImg :backData="payerImg" :id="'payerImg'" :mixLength="1" :maxSize="20480" folder="transactionImg">
             </uploaderImg>
           </el-form-item>
         </el-form>
