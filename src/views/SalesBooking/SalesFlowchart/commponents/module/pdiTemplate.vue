@@ -177,8 +177,10 @@ export default {
     },
 
     buyerSign (row) {
+      console.log(row)
       let data = {
         recordId: this.recordId,
+        docId: this.docid,
       }
 
       if (row) {
