@@ -21,7 +21,7 @@ export default {
     id: String, // input ID 必填
     backData: Array, // 父组件容器，必填
     folder: {
-      type:String,
+      type: String,
       default: 'transactionImg'
     }, // 传入图片类型 type：CalendarImg(日历图片)
     maxSize: {
@@ -29,30 +29,30 @@ export default {
       default: 100
     }
   },
-  data() {
+  data () {
     return {
       files: [],
       percent: 0,
       hostUrl: window.sessionStorage.getItem("serveUrl") || ""
     };
   },
-  mounted() {
+  mounted () {
     console.log(this.backData);
   },
   methods: {
-    add() {
+    add () {
       this.$refs.file.click();
     },
-    remove(index, item) {
+    remove (index, item) {
       this.deleteUpImg(item.src);
       this.backData.splice(index, 1);
     },
 
-    fileChanged() {
+    fileChanged () {
       let self = this;
       const list = this.$refs.file.files;
       for (let i = 0; i < list.length; i++) {
-        if (!this.isContain(list[i])) {
+        if (!this.isContain(list[i]) || this.id === 'certificateImg') {
           if (list[i].size / 1024 > self.maxSize) {
             this.$message({
               message: `${self.$t("uploadmorethan")} ${self.maxSize}k ${self.$t(
@@ -76,18 +76,18 @@ export default {
     },
 
     // 将图片文件转成BASE64格式 压缩
-    html5Reader(file) {
+    html5Reader (file) {
       let self = this;
       let reader = new FileReader();
       reader.readAsDataURL(file);
       // console.log(file)
-      reader.onloadend = function() {
+      reader.onloadend = function () {
         let result = this.result;
         let img = new Image();
         img.src = result;
         // console.log("********未压缩前的图片大小********");
         // console.log(result.length);
-        img.onload = function() {
+        img.onload = function () {
           // 压缩
           let data;
           // if (img.src.length / 1024 / 1024 > 2) {
@@ -108,7 +108,7 @@ export default {
         };
       };
     },
-    compress(img) {
+    compress (img) {
       let canvas = document.createElement("canvas");
       let ctx = canvas.getContext("2d");
       let initSize = img.src.length;
@@ -129,7 +129,7 @@ export default {
     },
     // base64转成bolb对象
 
-    UpLoadImg(imgBlob) {
+    UpLoadImg (imgBlob) {
       let user = JSON.parse(window.sessionStorage.getItem("userInfo"));
       let formData = new FormData();
       formData.append("brokeId", user.brokeId);
@@ -166,7 +166,7 @@ export default {
         }
       });
     },
-    deleteUpImg(imgPush) {
+    deleteUpImg (imgPush) {
       this.$Post(this.$api.deleteFile, { path: imgPush }).then(res => {
         if (res.code === "0") {
           let uploadedImg = JSON.parse(
@@ -188,7 +188,7 @@ export default {
       });
     },
 
-    dataURItoFile(base64Data, filename = "file") {
+    dataURItoFile (base64Data, filename = "file") {
       let arr = base64Data.split(",");
       let mime = arr[0].match(/:(.*?);/)[1];
       // let suffix = mime.split("/")[1];
@@ -203,11 +203,11 @@ export default {
       });
     },
 
-    isContain(file) {
+    isContain (file) {
       return this.backData.find(item => item.name === file.name);
     },
 
-    uploadProgress(evt) {
+    uploadProgress (evt) {
       const component = this;
       if (evt.lengthComputable) {
         const percentComplete = Math.round(evt.loaded * 100 / evt.total);
