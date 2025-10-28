@@ -16,7 +16,7 @@
             <el-input size="mini" v-model="fileForm.fileName"></el-input>
           </el-form-item>
           <el-form-item label="展示位置">
-            <el-select v-model="fileForm.type" placeholder="select" size="mini" style="display: block;" :disabled='fileLoad.length>0 || type ==="edit"'>
+            <el-select v-model="fileForm.type" placeholder="select" size="mini" style="display: block;" :disabled='fileLoad.length>0 && type ==="edit"'>
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
@@ -24,7 +24,7 @@
         </el-form>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="closedForm(0)">Cancel</el-button>
+        <el-button @click="closedForm(false)">Cancel</el-button>
         <el-button type="primary" @click="addDataFn">Save</el-button>
       </div>
     </el-dialog>
@@ -64,6 +64,7 @@ export default {
     show (val) {
       if (val && this.type === 'edit') {
         this.fileForm = JSON.parse(JSON.stringify(this.editData))
+        this.editFile = JSON.parse(JSON.stringify(this.editData)).url
       }
     }
   },
@@ -101,7 +102,12 @@ export default {
             if (this.fileLoad.length === 0) {
               this.fileLoad = res.datas.filePath
             } else {
-              this.deleteUpload(0)
+              this.$Get(this.$api.deleteUploadFile, { path: this.filePath }).then(_res => {
+                if (_res.code == 0) {
+                  this.fileLoad = ''
+                  this.fileLoad = res.datas.filePath
+                }
+              })
             }
           } else {
             this.loading = false
@@ -114,13 +120,17 @@ export default {
       this.fileForm.userId = JSON.parse(sessionStorage.getItem('userInfo')).userId
       this.$Post(this.$api.saveFile, this.fileForm).then(res => {
         if (res.code == 0) {
+          this.$message.success('保存成功');
           if (this.type === 'edit') {
             if (this.fileLoad.length > 0) {
-              this.deleteUpload(1)
+              this.$Get(this.$api.deleteUploadFile, { path: this.editFile }).then(_res => {
+                if (_res.code == 0) {
+                  this.editLogo = ''
+                }
+              })
             }
           }
-          this.$message.success('保存成功');
-          this.closedForm(1)
+          this.closedForm(true)
           this.$emit('loadData')
         }
       })
@@ -129,16 +139,16 @@ export default {
       this.$Get(this.$api.deleteUploadFile, { path: type ? this.editFile : this.fileLoad }).then(_res => {
         if (_res.code == 0) {
           this.fileLoad = ''
-          if (this.fileForm.url) this.fileLoad = this.fileForm.url
         }
       })
     },
-    closedForm (id) {
+    closedForm (boole) {
       this.$refs['form_File'].resetFields();
       this.fileForm = {}
       this.editFile = ''
-      if (this.fileLoad.length > 0 && !id) {
-        this.deleteUpload(0)
+      if (boole) this.fileLoad = ''
+      if (this.fileLoad.length > 0 && !boole) {
+        this.deleteUpload(false)
       }
       this.$emit('cancel')
     },
