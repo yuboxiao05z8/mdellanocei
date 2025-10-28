@@ -24,7 +24,7 @@ const testIsLogin = () => {
 }
 
 // 校验是否有html标签
-function hasHTML(data) {
+function hasHTML (data) {
   data = JSON.stringify(data)
   let reg1 = /<\/?[^>]*>/g
   let reg2 = /&nbsp;/ig
@@ -51,7 +51,7 @@ const XHR = ({
     agentId: JSON.parse(window.sessionStorage.getItem('userInfo') || '{}').userId || '', //登陆用户的ID
     token: JSON.parse(window.sessionStorage.getItem('userInfo') || '{}').token || '',
     brokeId: JSON.parse(window.sessionStorage.getItem('userInfo') || '{}').brokeId || '',
-    source: 'manager'
+    source: 'manager', timestamp: new Date().getTime()
   }
 
   // 带请求进度条成功方法
@@ -160,7 +160,7 @@ const Posting = function (url = '', data = {}, allowHTML = false) {
 // }
 
 //带签名的请求POST
-const Post = function(url = '', data = {}, allowHTML = false){
+const Post = function (url = '', data = {}, allowHTML = false) {
   if (!allowHTML && hasHTML(data)) {
     return Promise.resolve({
       msg: '您的填写的数据带有非法字符，请改正后重试'
@@ -184,12 +184,12 @@ const Post = function(url = '', data = {}, allowHTML = false){
       Vue.prototype.$objKeySort(params)[key] !== null &&
       typeof Vue.prototype.$objKeySort(params)[key] !== 'undefined'
     ) {
-      if(Array.isArray(Vue.prototype.$objKeySort(params)[key])) console.log(params[key] = JSON.stringify(Vue.prototype.$objKeySort(params)[key]));
+      if (Array.isArray(Vue.prototype.$objKeySort(params)[key])) console.log(params[key] = JSON.stringify(Vue.prototype.$objKeySort(params)[key]));
       str += Vue.prototype.$objKeySort(params)[key]
     }
   }
   str = md5(str + 'c1d65f3667324592a071ebec5038f38c')
- let reqData = qs.stringify({
+  let reqData = qs.stringify({
     ...params,
     signature: str
   })
@@ -246,7 +246,7 @@ const Geting = function (url = '', data = {}, allowHTML = false) {
 // }
 
 //简单带请求GET带签名
-const Get  = function (url = '', data = {}, allowHTML = false) {
+const Get = function (url = '', data = {}, allowHTML = false) {
   if (!allowHTML && hasHTML(data)) {
     return Promise.resolve({
       msg: '您的填写的数据带有非法字符，请改正后重试'
@@ -276,7 +276,7 @@ const Get  = function (url = '', data = {}, allowHTML = false) {
   let params = {
     params: {
       ...param,
-      signature:str
+      signature: str
     }
   }
   return axiosX.get(url, params).then(sucFun).catch(errFun)

@@ -170,7 +170,7 @@ export default {
         this.loading = true
         let newWindow = window.open()
         newWindow.location.href = this.$addDownUrl(this.$api.downloadSign, {
-          recordId: this.recordId,
+          envelopeId: this.contractInfo.envelopeId,
         })
         this.loading = false
       }
@@ -179,7 +179,7 @@ export default {
     buyerSign (row) {
       console.log(row)
       let data = {
-        recordId: this.recordId,
+        envelopeId: this.contractInfo.envelopeId,
         docId: this.docid,
       }
 
@@ -207,7 +207,7 @@ export default {
     buyerSignByEmail (row) {
       let data = {
         buyerId: row.id,
-        recordId: this.recordId,
+        envelopeId: this.contractInfo.envelopeId,
         docId: this.docid,
       }
       this.loading = true
@@ -229,7 +229,9 @@ export default {
     },
     querySignStatus () {
       this.loading = true
-      this.$Post(this.$api.querySignStatus, { recordId: this.recordId }).then(
+      this.$Post(this.$api.querySignStatus, {
+        envelopeId: this.contractInfo.envelopeId
+      }).then(
         (res) => {
           this.loading = false
           if (res.code == 0) {
@@ -250,7 +252,7 @@ export default {
     },
     copyLink (row, event) {
       let data = {
-        recordId: this.recordId,
+        envelopeId: this.contractInfo.envelopeId,
         buyerId: row.id,
       }
       this.loading = true

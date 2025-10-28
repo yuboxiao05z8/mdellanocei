@@ -206,9 +206,12 @@ export default {
       if (type == 'Cheque') {
         this.form.chequeBankDate = this.$dateFormatNoTime(new Date())
       } else {
-        this.form.chequeNo = ''
-        this.form.chequeBookNum = ''
-        this.form.chequeBankDate = ''
+        if (this.form.chequeNo) this.form.chequeNo = ''
+        if (this.form.chequeBookNum) this.form.chequeBookNum = ''
+        if (this.form.chequeBankDate) this.form.chequeBankDate = ''
+        // this.$set(this.form, chequeNo, "")
+        // this.$set(this.form, chequeBookNum, "")
+        // this.$set(this.form, chequeBankDate, "")
       }
     },
     handleDelete (index, row) {
@@ -255,6 +258,7 @@ export default {
     addDataFn () {
       this.$refs['PaymentForm'].validate((valid) => {
         if (valid) {
+          this.form
           console.log(this.form)
           this.addShow = false
 
