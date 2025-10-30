@@ -13,7 +13,7 @@
             <el-input size="mini" v-model="fileForm.url" disabled></el-input>
           </el-form-item>
           <el-form-item label="文件名称">
-            <el-input size="mini" v-model="fileForm.fileName"></el-input>
+            <el-input size="mini" v-model="fileForm.fileName" @input="changeName"></el-input>
           </el-form-item>
           <el-form-item label="展示位置">
             <el-select v-model="fileForm.type" placeholder="select" size="mini" style="display: block;" :disabled='fileLoad.length>0 && type ==="edit"'>
@@ -35,7 +35,7 @@ export default {
   props: ['show', 'type', 'editData'],
   data () {
     return {
-      fileForm: {},
+      fileForm: { fileName: '' },
       options: [
         {
           value: 'object Handling',
@@ -69,6 +69,9 @@ export default {
     }
   },
   methods: {
+    changeName (val) {
+      this.fileForm.fileName = val
+    },
     beforeUpload (file) {
       const isPDF = file.type === 'application/pdf';
       const type = this.fileForm.type
