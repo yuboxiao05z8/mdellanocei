@@ -10,7 +10,7 @@
             <el-input size="mini" v-model="linkForm.link"></el-input>
           </el-form-item>
           <el-form-item label="APP Group" prop="type">
-            <el-select v-model="linkForm.type" placeholder="select" size="mini" :disabled='imgLoad.length>0 || type ==="edit"'>
+            <el-select v-model="linkForm.type" placeholder="select" size="mini" :disabled='imgLoad.length>0 && type ==="edit"'>
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
@@ -24,7 +24,7 @@
         </el-form>
       </div>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="closedForm(0)">Cancel</el-button>
+        <el-button @click="closedForm(false)">Cancel</el-button>
         <el-button type="primary" @click="addDataFn">Save</el-button>
       </div>
     </el-dialog>
@@ -94,7 +94,7 @@ export default {
                 }
               }
               this.$message.success('保存成功');
-              this.closedForm(1)
+              this.closedForm(true)
               this.$emit('loadData')
             }
           })
@@ -158,13 +158,13 @@ export default {
           })
       }
     },
-    closedForm (id) {
+    closedForm (bool) {
       this.$refs['form_company'].resetFields();
       this.linkForm = {
         logo: '',
       }
       this.editLogo = ''
-      if (this.imgLoad.length > 0 && !id) {
+      if (this.imgLoad.length > 0 && !bool) {
         this.$Get(this.$api.deleteUploadFile, { path: this.imgLoad }).then(_res => {
           if (_res.code == 0) {
             this.imgLoad = ''

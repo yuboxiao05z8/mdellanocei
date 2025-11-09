@@ -13,7 +13,7 @@
             <el-input size="mini" v-model="companyForm.companyAddress"></el-input>
           </el-form-item>
           <el-form-item label="APP Group" prop="type">
-            <el-select v-model="companyForm.type" placeholder="select" size="mini" :disabled="imgLoad.length > 0 || type === 'edit'" style="width:178px">
+            <el-select v-model="companyForm.type" placeholder="select" size="mini" :disabled="imgLoad.length > 0 && type === 'edit'" style="width:178px">
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
@@ -119,6 +119,7 @@ export default {
             this.editLogo = JSON.parse(
               JSON.stringify(this.editData)
             ).companyLogo
+            this.imgLoad = ''
             res.datas.forEach((item) => {
               this.companyForm.companyContact.push({
                 contactName: item.contactName,
