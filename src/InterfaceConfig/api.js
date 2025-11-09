@@ -342,5 +342,7 @@ Vue.api = Vue.prototype.$api = {
   saveCompany: '/pnd-api/pnd_company/saveCompany',//保存pnd公司
   deleteCompany: '/pnd-api/pnd_company/deleteCompany',//删除pnd公司
   queryCompanyContactList: '/pnd-api/pnd_company/queryCompanyContactList',//查询pnd公司联系人列表
+  sendLawyerEmail: '/trade-service/document/sendLawyerEmail', //发送律师邮件
+
 }
 

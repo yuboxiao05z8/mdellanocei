@@ -43,8 +43,7 @@
             Optional Add-on
           </div>
           <div class="facility-wrap">
-            <div class="facility-box" v-for="(facilityItem, facilityIndex) in detailsObj.facilityList"
-              :key="facilityIndex">
+            <div class="facility-box" v-for="(facilityItem, facilityIndex) in detailsObj.facilityList" :key="facilityIndex">
               <span class="facility-title">{{facilityItem.name}}</span>
               <el-input disabled size="mini" v-model="facilityItem.value1"></el-input>
             </div>
@@ -74,8 +73,7 @@
               <el-table-column label="Payment Reference">
                 <template slot-scope="scope">
                   <div class="payerImg_div" v-if="scope.row.payerImg">
-                    <img @click.stop="$imgPreview(hostUrl + scope.row.payerImg)" :src="hostUrl + scope.row.payerImg"
-                      alt="" />
+                    <img @click.stop="$imgPreview(hostUrl + scope.row.payerImg)" :src="hostUrl + scope.row.payerImg" alt="" />
                   </div>
                 </template>
               </el-table-column>
@@ -122,6 +120,7 @@
             >Staff & Agent</el-button
           > -->
           <el-button type="primary" @click="getData('Modify')">Modify</el-button>
+          <el-button type="primary" @click="sendLawyerEmailClick">Submit Lawyer</el-button>
           <!-- <el-button type="primary" v-if="AccessData['COMPLETED']== 1&&detailsObj.transactionStatus=='PDI SIGNED'&&((query.cooperate===1&&userInfo.type!==3) ||query.cooperate===0)" @click="updateStatus('COMPLETED')"
             >{{ $t('COMPLETED') }}</el-button
           >
@@ -521,6 +520,29 @@ export default {
         .then(res => {
           if (res.code == 0) {
             this.getTransaction()
+          }
+        })
+    },
+    sendLawyerEmailClick () {
+      let data = {
+        brokeId: this.userInfo.brokeId,
+        recordId: this.recordId,
+        projectName: this.query.projectName,
+        unitName: this.query.unitName,
+      }
+      this.$Posting(this.$api.sendLawyerEmail, data)
+        .then(res => {
+          if (res.code === '0') {
+            this.$notify({
+              title: 'Success',
+              message: res.msg,
+              type: 'success',
+            })
+          } else {
+            this.$notify.error({
+              title: 'Error',
+              message: res.msg,
+            })
           }
         })
     }
