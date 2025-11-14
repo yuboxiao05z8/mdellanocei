@@ -121,9 +121,9 @@ export default [
     path: "/groupManage",
     component: Layout,
     redirect: '/groupManage/groupCompany',
-    nage:'groupManage',
+    nage: 'groupManage',
     meta: {
-      title: '小组内容管理',
+      title: 'PND CMS',
       icon: 'el-icon-s-opportunity'
     },
     children: [
@@ -131,19 +131,19 @@ export default [
         path: 'groupCompany',
         component: () => import('@/views/groupManage/groupCompany'),
         name: 'groupCompany',
-        meta: { title: '小组快捷公司管理' }
+        meta: { title: 'Company Listing Creation' }
       },
       {
         path: 'groupFile',
         component: () => import('@/views/groupManage/groupFile'),
         name: 'groupFile',
-        meta: { title: '小组文件管理' }
+        meta: { title: 'PDF Files' }
       },
       {
         path: 'groupLink',
         component: () => import('@/views/groupManage/groupLink'),
         name: 'groupLink',
-        meta: { title: '小组外链管理' }
+        meta: { title: 'Links Management' }
       }
     ]
   },
