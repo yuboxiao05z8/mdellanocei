@@ -20,7 +20,8 @@ switch (env) {
     baseURL = 'http://192.168.1.126:9998'
     break
   case 'test':
-    baseURL = 'http://192.168.0.145:9998'
+    // baseURL = 'http://192.168.0.145:9998'
+    baseURL = 'http://ecoprop.vipgz4.idcfengye.com'
     socketLink = 'ws://192.168.0.145:4447/websocket'
     break
   case 'production':

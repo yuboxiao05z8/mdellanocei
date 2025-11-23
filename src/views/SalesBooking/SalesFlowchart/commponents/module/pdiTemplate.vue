@@ -25,7 +25,7 @@
             <el-button style="margin-left: 20px" size="mini" type="primary" @click="downloadFn('template')">PDI Template
               Download</el-button>
           </div>
-          <div>PDI Reference No. : {{ contractInfo.code }}</div>
+          <!-- <div>PDI Reference No. : {{ contractInfo.code }}</div> -->
           <div>
             PDI Generation Date:
             {{ $dateFormatNoTime(contractInfo.createTime) }}
