@@ -5,7 +5,7 @@
         <img @click.stop="$imgPreview(item.src)" :src="item.src" alt="">
         <span class="file-remove el-icon-error" @click="remove(index,item)"></span>
       </section>
-      <section v-if="backData.length < mixLength" class="file-item">
+      <section v-if="backData.length < mixLength||mixLength===0" class="file-item">
         <div @click="add" class="add">
           <span>+</span>
         </div>
@@ -101,7 +101,7 @@ export default {
             name: file.name,
             upImgData: blob
           };
-          if (self.files.length < self.mixLength) {
+          if (self.files.length < self.mixLength || self.mixLength === 0) {
             //不能超过限定图片数量
             self.UpLoadImg(item);
           }
