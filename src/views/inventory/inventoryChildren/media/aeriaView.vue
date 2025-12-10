@@ -32,6 +32,12 @@
             <div v-else>{{scope.row.link}}</div>
           </template>
         </el-table-column>
+        <el-table-column label="showIndex">
+          <template slot-scope="scope">
+            <el-input v-if="scope.$index === tableDataInit" v-model="showIndex"></el-input>
+            <div v-else>{{scope.row.showIndex}}</div>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('ivt.uploadIvt')">
           <template slot-scope="scope">
             <uploader :isDisabled="(scope.$index === tableDataInit)" :fileId="'ivt'+scope.row.id" :uploadParam="uploadModelParam" @uploadAfter="uploadModelAfter" :url="$api.uploadFile" fileType="image/*" :selfNum="scope.row.self" :btnText="{import:$t('upLoad')}" :showType="1"></uploader>
@@ -78,7 +84,7 @@ export default {
       title: "",
       url: "",
       link: "",
-      showIndex: 1,
+      showIndex: "",
       uploadModelParam: [
         {
           name: "projectId",
@@ -147,6 +153,7 @@ export default {
       this.title = row.title;
       this.url = row.url;
       this.link = row.link;
+      this.showIndex = row.showIndex;
     },
     cancel (row, index) {
       if (index == 0) {
@@ -160,13 +167,11 @@ export default {
       this.title = "";
       this.url = "";
       this.link = "";
+      this.showIndex = "";
       this.tableDataInit = -1;
     },
     update (row) {
-
       if (this.title) {
-        if (row.showIndex) this.showIndex
-        else this.showIndex = 1
         this.updateIvt(row.id || "");
       }
     },
@@ -178,7 +183,7 @@ export default {
         link: this.link,
         type: "IVT",
         id: id,
-        showIndex: this.showIndex
+        showIndex: this.showIndex ? this.showIndex * 1 : 1
       }).then(res => {
         if (res.code == 0) {
           this.$notify.success({
