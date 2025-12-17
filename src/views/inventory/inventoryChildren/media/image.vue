@@ -4,15 +4,7 @@
       <el-row class="row_header">
         <el-col :span="8" class="col_text">{{$t('image.importImages')}}</el-col>
         <el-col :span="16" class="col_button">
-          <uploader
-            fileId="imageFile"
-            :maxSize="50"
-            :uploadParam="uploadParam"
-            @uploadAfter="uploadProjectImageAfter"
-            :url="$api.uploadProjectMedia"
-            fileType=".jpg,.jpeg,.png,.gif,.zip"
-            :btnText="{select:$t('image.selectFile'),import:$t('image.addImages')}"
-          ></uploader>
+          <uploader fileId="imageFile" :maxSize="50" :uploadParam="uploadParam" @uploadAfter="uploadProjectImageAfter" :url="$api.uploadProjectMedia" fileType=".jpg,.jpeg,.png,.gif,.zip" :btnText="{select:$t('image.selectFile'),import:$t('image.addImages')}"></uploader>
         </el-col>
       </el-row>
       <el-row>
@@ -28,16 +20,7 @@
           <!-- <el-button size="mini"> {{$t('image.selectFile')}}</el-button>
           <el-button size="mini"> {{$t('image.addMainImage')}}
           </el-button>-->
-          <uploader
-            fileId="mainImageFile"
-            :maxSize="10"
-            :uploadParam="uploadMainParam"
-            :url="$api.uploadProjectMainImg"
-            @uploadAfter="uploadMainImageAfter"
-            :selfNum="self"
-            fileType=".jpg,.jpeg,.png,.gif"
-            :btnText="{select:$t('image.selectFile'),import:$t('image.addMainImage')}"
-          ></uploader>
+          <uploader fileId="mainImageFile" :maxSize="10" :uploadParam="uploadMainParam" :url="$api.uploadProjectMainImg" @uploadAfter="uploadMainImageAfter" :selfNum="self" fileType=".jpg,.jpeg,.png,.gif" :btnText="{select:$t('image.selectFile'),import:$t('image.addMainImage')}"></uploader>
           <!-- <el-button size="mini" @click="exportImage"> {{$t('image.downloadMainImage')}}
           </el-button>-->
         </el-col>
@@ -58,15 +41,7 @@
           <!-- <el-button size="mini"> {{$t('image.selectFile')}}</el-button>
           <el-button size="mini"> {{$t('image.addMainImage')}}
           </el-button>-->
-          <uploader
-            fileId="addInvitationsFile"
-            :maxSize="10"
-            :uploadParam="uploadMainParam"
-            :url="$api.uploadInviteImg"
-            @uploadAfter="InvitationsParamAfter"
-            fileType=".jpg,.jpeg,.png,.gif"
-            :btnText="{select:$t('image.selectFile'),import:$t('addInvitations')}"
-          ></uploader>
+          <uploader fileId="addInvitationsFile" :maxSize="10" :uploadParam="uploadMainParam" :url="$api.uploadInviteImg" @uploadAfter="InvitationsParamAfter" fileType=".jpg,.jpeg,.png,.gif" :btnText="{select:$t('image.selectFile'),import:$t('addInvitations')}"></uploader>
           <!-- <el-button size="mini" @click="exportImage"> {{$t('image.downloadMainImage')}}
           </el-button>-->
         </el-col>
@@ -86,21 +61,11 @@
           <div>{{$t('image.imageList')}} ({{imageNum}})</div>
         </el-col>
         <el-col :span="12" class="col_button">
-          <el-button
-            size="mini"
-            @click="add"
-            :disabled="tableDataInit!==-1"
-          >{{$t('image.addImageWithUrl')}}</el-button>
+          <el-button size="mini" @click="add" :disabled="tableDataInit!==-1">{{$t('image.addImageWithUrl')}}</el-button>
           <el-button size="mini" @click="refresh">{{$t('image.refresh')}}</el-button>
         </el-col>
       </el-row>
-      <el-table
-        :data="imageList"
-        border
-        style="width: 100%"
-        :header-cell-style="{'background':'#f5f7fa'}"
-        size="mini"
-      >
+      <el-table :data="imageList" border style="width: 100%" :header-cell-style="{'background':'#f5f7fa'}" size="mini">
         <el-table-column :label="$t('image.title')">
           <template slot-scope="scope">
             <el-input v-if="scope.$index === tableDataInit" v-model="title"></el-input>
@@ -114,6 +79,12 @@
             <img v-else style="width:45px" @click.stop="$imgPreview(hostUrl + scope.row.url)" :src="hostUrl +scope.row.url" alt="">
           </template>
         </el-table-column>
+        <el-table-column label="showIndex">
+          <template slot-scope="scope">
+            <el-input v-if="scope.$index === tableDataInit" v-model="showIndex"></el-input>
+            <div v-else>{{scope.row.showIndex}}</div>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('image.group')">
           <template slot-scope="scope">
             <el-input v-if="scope.$index === tableDataInit" v-model="group"></el-input>
@@ -122,53 +93,23 @@
         </el-table-column>
         <el-table-column :label="$t('image.delete')">
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              plain
-              :disabled="scope.$index === tableDataInit || scope.row.self == 0"
-              @click="deleteData(scope.row)"
-            >{{$t('image.delete')}}</el-button>
+            <el-button size="mini" plain :disabled="scope.$index === tableDataInit || scope.row.self == 0" @click="deleteData(scope.row)">{{$t('image.delete')}}</el-button>
           </template>
         </el-table-column>
         <el-table-column :label="$t('image.edit')">
           <template slot-scope="scope">
             <template v-if="scope.$index === tableDataInit">
-              <el-button
-                :disabled="scope.row.self == 0"
-                size="mini"
-                plain
-                @click="update(scope.row)"
-              >{{$t('update')}}</el-button>
-              <el-button
-                :disabled="scope.row.self == 0"
-                size="mini"
-                plain
-                @click="cancel(scope.row,scope.$index)"
-              >{{$t('cancel')}}</el-button>
+              <el-button :disabled="scope.row.self == 0" size="mini" plain @click="update(scope.row)">{{$t('update')}}</el-button>
+              <el-button :disabled="scope.row.self == 0" size="mini" plain @click="cancel(scope.row,scope.$index)">{{$t('cancel')}}</el-button>
             </template>
             <template v-else>
-              <el-button
-                :disabled="scope.row.self == 0"
-                size="mini"
-                plain
-                @click="edit(scope.row,scope.$index)"
-              >{{$t('image.edit')}}</el-button>
+              <el-button :disabled="scope.row.self == 0" size="mini" plain @click="edit(scope.row,scope.$index)">{{$t('image.edit')}}</el-button>
             </template>
           </template>
         </el-table-column>
       </el-table>
       <div class="page_section" v-if="imageNum">
-        <el-pagination
-          background
-          small
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="currentPage"
-          :page-sizes="[5,10,30,50,100]"
-          :page-size="pageSize"
-          layout="prev, pager, next,sizes,total"
-          :total="imageNum"
-        ></el-pagination>
+        <el-pagination background small @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-sizes="[5,10,30,50,100]" :page-size="pageSize" layout="prev, pager, next,sizes,total" :total="imageNum"></el-pagination>
       </div>
     </div>
   </div>
@@ -179,7 +120,7 @@ export default {
   components: {
     uploader
   },
-  data() {
+  data () {
     return {
       currentPage: 1,
       pageSize: 5,
@@ -190,6 +131,7 @@ export default {
       url: "",
       mainImage: "",
       group: "",
+      showIndex: "",
       hostUrl: sessionStorage.getItem("serveUrl") || "",
       self:
         JSON.parse(sessionStorage.getItem("projectDesc") || "{}").self,
@@ -215,7 +157,7 @@ export default {
       ]
     };
   },
-  mounted() {
+  mounted () {
     if (this.id !== "") {
       this.getListData();
       this.getMainImage();
@@ -223,7 +165,7 @@ export default {
     }
   },
   methods: {
-    exportImage() {
+    exportImage () {
       if (!this.mainImage) {
         this.$alertWarn(this.$t("image.imagenotexist"));
       } else {
@@ -233,7 +175,7 @@ export default {
         // });
       }
     },
-    deleteData(row) {
+    deleteData (row) {
       // console.log(row);
       this.$confirm(
         this.$t("alert.alert_delete"),
@@ -266,7 +208,7 @@ export default {
         });
       });
     },
-    update(row) {
+    update (row) {
       // console.log(row);
       this.$Posting(this.$api.saveProjectMedia, {
         projectId: this.id,
@@ -274,7 +216,8 @@ export default {
         title: this.title,
         url: this.url,
         type: "Image",
-        groupName: this.group
+        groupName: this.group,
+        showIndex: this.showIndex ? this.showIndex * 1 : 1
       }).then(res => {
         if (res.code == 0) {
           this.$notify.success({
@@ -292,32 +235,33 @@ export default {
         }
       });
     },
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.cancelAddData();
       this.pageSize = val;
       this.getListData();
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.cancelAddData();
       this.currentPage = val;
       this.getListData();
     },
-    uploadProjectImageAfter() {
+    uploadProjectImageAfter () {
       this.cancelAddData();
       this.currentPage = 1;
       this.getListData();
     },
-    add() {
+    add () {
       this.imageList.unshift({});
       this.tableDataInit = 0;
     },
-    edit(row, index) {
+    edit (row, index) {
       this.tableDataInit = index;
       this.title = row.title;
       this.url = this.hostUrl + row.url;
       this.group = row.groupName;
+      this.showIndex = row.showIndex;
     },
-    cancel(row, index) {
+    cancel (row, index) {
       if (index == 0) {
         if (row.title === undefined) {
           this.imageList.shift();
@@ -325,18 +269,19 @@ export default {
       }
       this.cancelAddData();
     },
-    cancelAddData() {
+    cancelAddData () {
       this.title = "";
       this.url = "";
       this.group = "";
+      this.showIndex = "";
       this.tableDataInit = -1;
     },
-    refresh() {
+    refresh () {
       this.cancelAddData();
       this.getListData();
     },
     //获取列表数据
-    getListData() {
+    getListData () {
       this.$Geting(this.$api.queryProjectMedia, {
         projectId: this.id,
         type: "Image",
@@ -356,7 +301,7 @@ export default {
       });
     },
     //查询main image
-    getMainImage() {
+    getMainImage () {
       this.$Geting(this.$api.queryProjectMainimg, {
         projectId: this.id
       }).then(res => {
@@ -371,10 +316,10 @@ export default {
         }
       });
     },
-    InvitationsParamAfter() {
+    InvitationsParamAfter () {
       this.getInvitationsImg()
     },
-    getInvitationsImg() {
+    getInvitationsImg () {
       this.$Geting(this.$api.queryCommission, {
         projectId: this.id
       }).then(res => {
@@ -390,7 +335,7 @@ export default {
         }
       });
     },
-    uploadMainImageAfter() {
+    uploadMainImageAfter () {
       //主图上传成功后
       this.getMainImage();
     }
