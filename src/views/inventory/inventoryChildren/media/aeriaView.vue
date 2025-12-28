@@ -10,13 +10,7 @@
           <el-button size="mini" @click="refresh">{{$t('ivt.refresh')}}</el-button>
         </el-col>
       </el-row>
-      <el-table
-        :data="ivtList"
-        border
-        style="width: 100%"
-        :header-cell-style="{'background':'#f5f7fa'}"
-        size="mini"
-      >
+      <el-table :data="ivtList" border style="width: 100%" :header-cell-style="{'background':'#f5f7fa'}" size="mini">
         <el-table-column :label="$t('ivt.title')">
           <template slot-scope="scope">
             <el-input v-if="scope.$index === tableDataInit" v-model="title"></el-input>
@@ -27,7 +21,7 @@
           <template slot-scope="scope">
             <div v-if="scope.row.url">
               <!-- {{hostUrl+scope.row.url}} -->
-          <img style="width:65px" @click.stop="$imgPreview(hostUrl + scope.row.url)" :src="hostUrl+scope.row.url" alt="">
+              <img style="width:65px" @click.stop="$imgPreview(hostUrl + scope.row.url)" :src="hostUrl+scope.row.url" alt="">
 
             </div>
           </template>
@@ -38,29 +32,20 @@
             <div v-else>{{scope.row.link}}</div>
           </template>
         </el-table-column>
+        <el-table-column label="showIndex">
+          <template slot-scope="scope">
+            <el-input v-if="scope.$index === tableDataInit" v-model="showIndex"></el-input>
+            <div v-else>{{scope.row.showIndex}}</div>
+          </template>
+        </el-table-column>
         <el-table-column :label="$t('ivt.uploadIvt')">
           <template slot-scope="scope">
-            <uploader
-              :isDisabled="(scope.$index === tableDataInit)"
-              :fileId="'ivt'+scope.row.id"
-              :uploadParam="uploadModelParam"
-              @uploadAfter="uploadModelAfter"
-              :url="$api.uploadFile"
-              fileType="image/*"
-              :selfNum="scope.row.self"
-              :btnText="{import:$t('upLoad')}"
-              :showType="1"
-            ></uploader>
+            <uploader :isDisabled="(scope.$index === tableDataInit)" :fileId="'ivt'+scope.row.id" :uploadParam="uploadModelParam" @uploadAfter="uploadModelAfter" :url="$api.uploadFile" fileType="image/*" :selfNum="scope.row.self" :btnText="{import:$t('upLoad')}" :showType="1"></uploader>
           </template>
         </el-table-column>
         <el-table-column :label="$t('ivt.delete')">
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              plain
-              :disabled="scope.$index === tableDataInit || scope.row.self == 0"
-              @click="deleteData(scope.row)"
-            >{{$t('ivt.delete')}}</el-button>
+            <el-button size="mini" plain :disabled="scope.$index === tableDataInit || scope.row.self == 0" @click="deleteData(scope.row)">{{$t('ivt.delete')}}</el-button>
           </template>
         </el-table-column>
         <el-table-column :label="$t('ivt.edit')">
@@ -76,17 +61,7 @@
         </el-table-column>
       </el-table>
       <div class="page_section" v-if="ivtNum">
-        <el-pagination
-          background
-          small
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="currentPage"
-          :page-sizes="[5,10,30,50,100]"
-          :page-size="pageSize"
-          layout="prev, pager, next,sizes,total"
-          :total="ivtNum"
-        ></el-pagination>
+        <el-pagination background small @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-sizes="[5,10,30,50,100]" :page-size="pageSize" layout="prev, pager, next,sizes,total" :total="ivtNum"></el-pagination>
       </div>
     </div>
   </div>
@@ -97,7 +72,7 @@ export default {
   components: {
     uploader
   },
-  data() {
+  data () {
     return {
       ivtList: [],
       currentPage: 1,
@@ -109,6 +84,7 @@ export default {
       title: "",
       url: "",
       link: "",
+      showIndex: "",
       uploadModelParam: [
         {
           name: "projectId",
@@ -122,32 +98,32 @@ export default {
       ]
     };
   },
-  mounted() {
+  mounted () {
     if (this.id !== "") {
       this.getListData();
     }
   },
   methods: {
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.cancelAddData();
       this.pageSize = val;
       this.getListData();
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.cancelAddData();
       this.currentPage = val;
       this.getListData();
     },
-    uploadModelAfter(datas) {
+    uploadModelAfter (datas) {
       this.ivtList[this.tableDataInit].url = datas.filePath;
       this.url = datas.filePath;
     },
-    refresh() {
+    refresh () {
       this.cancelAddData();
       this.getListData();
     },
     //获取列表数据
-    getListData() {
+    getListData () {
       this.$Geting(this.$api.queryProjectMedia, {
         projectId: this.id,
         type: "IVT",
@@ -166,19 +142,20 @@ export default {
         }
       });
     },
-    add() {
+    add () {
       this.ivtList.unshift({
         url: ""
       });
       this.tableDataInit = 0;
     },
-    edit(row, index) {
+    edit (row, index) {
       this.tableDataInit = index;
       this.title = row.title;
       this.url = row.url;
       this.link = row.link;
+      this.showIndex = row.showIndex;
     },
-    cancel(row, index) {
+    cancel (row, index) {
       if (index == 0) {
         if (row.id == undefined) {
           this.ivtList.shift();
@@ -186,25 +163,27 @@ export default {
       }
       this.cancelAddData();
     },
-    cancelAddData() {
+    cancelAddData () {
       this.title = "";
       this.url = "";
       this.link = "";
+      this.showIndex = "";
       this.tableDataInit = -1;
     },
-    update(row) {
+    update (row) {
       if (this.title) {
         this.updateIvt(row.id || "");
       }
     },
-    updateIvt(id) {
+    updateIvt (id) {
       this.$Posting(this.$api.saveProjectMediaIVT, {
         projectId: this.id,
         title: this.title,
         url: this.url,
         link: this.link,
         type: "IVT",
-        id: id
+        id: id,
+        showIndex: this.showIndex ? this.showIndex * 1 : 1
       }).then(res => {
         if (res.code == 0) {
           this.$notify.success({
@@ -221,7 +200,7 @@ export default {
         }
       });
     },
-    deleteData(row) {
+    deleteData (row) {
       this.$confirm(
         this.$t("alert.alert_delete"),
         this.$t("alert.alert_command"),
