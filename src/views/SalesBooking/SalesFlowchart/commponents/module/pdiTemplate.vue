@@ -63,7 +63,7 @@
         </el-card>
 
         <div class="pdi_btns">
-          <el-button style="margin-right: 10px" type="primary" @click="buyerSign()" :disabled="isDisabled">Download
+          <el-button style="margin-right: 10px" type="primary" @click="downloadSignFile()" :disabled="isDisabled">Download
             Signed PDI</el-button>
 
           <el-button v-if="attachment" style="margin-right: 10px" type="primary" @click="downloadFile(attachment)">Annex
@@ -196,6 +196,34 @@ export default {
         if (res.code == 0) {
           newWindow.location.href = res.datas.url
           console.log(res.datas.url)
+        } else {
+          this.$notify.error({
+            title: 'error',
+            message: res.msg,
+          })
+        }
+      })
+    },
+    downloadSignFile (row) {
+      console.log(this.$api.downloadSignFile)
+      let data = {
+        envelopeId: this.contractInfo.envelopeId,
+        docId: this.docid,
+      }
+
+      if (row) {
+        data.buyerId = row.id
+      } else {
+        data.buyerId = this.tableData[0].id
+      }
+
+      this.loading = true
+      let newWindow = window.open()
+      this.$Post(this.$api.downloadSignFile, data).then((res) => {
+        this.loading = false
+        if (res.code == 0) {
+          newWindow.location.href = res.datas
+          console.log(res.datas)
         } else {
           this.$notify.error({
             title: 'error',

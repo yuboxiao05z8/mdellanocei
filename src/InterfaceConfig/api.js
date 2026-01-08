@@ -275,6 +275,7 @@ Vue.api = Vue.prototype.$api = {
   validateInterestBuyInfo: "/broke-manager-service/interest/validateInterestBuyInfo", // 验证意向买家信息是否重复
   validateInterestInfo: "/broke-manager-service/interest/validateInterestInfo", // 验证意向信息是否重复
   buyerSign: "/trade-service/sign/buyerSign", // 买家签名
+  downloadSignFile: "/trade-service/sign/downloadSignFile", // 下载签名文件
   sign: "/trade-service/sign/sign", // 生成签名文件
   buyerList: "/trade-service/sign/buyerList", //查询买家签名列表
   getSignPdiInfo: "/trade-service/sign/getSignPdiInfo", // 查询签名信息
