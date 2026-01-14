@@ -51,7 +51,7 @@
         <el-table-column :label="$t('image.url')">
           <template slot-scope="scope">
             <el-input v-if="scope.$index === tableDataInit" v-model="url"></el-input>
-            <div v-else>{{hostUrl+scope.row.url}}</div>
+            <div v-else>{{$urlEncode(hostUrl+scope.row.url)}}</div>
           </template>
         </el-table-column>
         <el-table-column label="showIndex">

@@ -69,8 +69,8 @@
               ></i> -->
               <el-image
                 class="img_div"
-                :src="hostUrl + scope.row.img1"
-                :preview-src-list="[hostUrl + scope.row.img1]"
+                :src="$urlEncode(hostUrl + scope.row.img1)"
+                :preview-src-list="[$urlEncode(hostUrl + scope.row.img1)]"
               >
                 <div slot="error" class="image-slot">
                   <i class="el-icon-picture-outline"></i>
@@ -89,8 +89,8 @@
               ></i> -->
               <el-image
                 class="img_div"
-                :src="hostUrl + scope.row.img2"
-                :preview-src-list="[hostUrl + scope.row.img2]"
+                :src="$urlEncode(hostUrl + scope.row.img2)"
+                :preview-src-list="[$urlEncode(hostUrl + scope.row.img2)]"
               >
                 <div slot="error" class="image-slot">
                   <i class="el-icon-picture-outline"></i>
