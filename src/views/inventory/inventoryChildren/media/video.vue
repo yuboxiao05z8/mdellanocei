@@ -56,7 +56,7 @@
             <div v-else>
               <div v-if="scope.row.logoUrl">
                 <p v-if="sliceFn(scope.row.logoUrl)">
-                  <img style="width:65px" @click.stop="$imgPreview(hostUrl + scope.row.logoUrl)" :src="hostUrl+scope.row.logoUrl" alt="">
+                  <img style="width:65px" @click.stop="$imgPreview($urlEncode(hostUrl + scope.row.logoUrl))" :src="$urlEncode(hostUrl+scope.row.logoUrl)" alt="">
                 </p>
                 <p v-else>
                   {{scope.row.logoUrl}}

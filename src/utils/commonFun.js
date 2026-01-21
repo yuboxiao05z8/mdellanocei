@@ -204,6 +204,11 @@ function signatrue (obj) {
   return  Vue.prototype.$md5(str + 'c1d65f3667324592a071ebec5038f38c')
 }
 
+const urlEncode = (str) => {
+  str = (str + '').toString();
+  return str.replace('+', '%2B').replace(' ', '%20');
+}
+
 Vue.prototype.$addDownUrl = addDownUrl
 Vue.prototype.$base64ToContent = base64ToContent
 Vue.prototype.$contentToBase64 = contentToBase64
@@ -217,3 +222,4 @@ Vue.prototype.$changeSessionUploadImage = changeSessionUploadImage
 Vue.prototype.$changeUploadImg = changeUploadImg
 Vue.prototype.$objKeySort = objKeySort;
 Vue.prototype.$signatrue = signatrue;
+Vue.prototype.$urlEncode = urlEncode;

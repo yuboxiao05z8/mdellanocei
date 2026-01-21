@@ -2,14 +2,14 @@
  * @Author: aze
  * @Date: 2021-07-19 18:40:20
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-09-22 17:58:21
+ * @LastEditTime: 2021-09-23 12:32:50
  * @Description: 
  * @FilePath: \ecoprop_c_managere:\e_admin\src\InterfaceConfig\env.js
  */
 
 // const env = 'development' // 开发环境 
-const env = 'test' // 测试环境
-// const env = 'production' // 生产环境 
+// const env = 'test' // 测试环境
+const env = 'production' // 生产环境 
 
 let baseURL = '' // 接口地址
 let socketLink = ''
