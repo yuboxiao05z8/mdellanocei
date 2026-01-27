@@ -137,7 +137,7 @@ export default {
           value:
             JSON.parse(sessionStorage.getItem("projectDesc") || "{}").id || ""
         },
-        { name: "type ", value: "projectFileToVideoLogo" }
+        { name: "type", value: "projectFileToVideoLogo" }
       ]
     };
   },
