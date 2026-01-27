@@ -222,8 +222,8 @@ export default {
       this.$Post(this.$api.downloadSignFile, data).then((res) => {
         this.loading = false
         if (res.code == 0) {
-          newWindow.location.href = res.datas
-          console.log(res.datas)
+          newWindow.location.href = res.datas.url
+          console.log(res.datas.url)
         } else {
           this.$notify.error({
             title: 'error',
