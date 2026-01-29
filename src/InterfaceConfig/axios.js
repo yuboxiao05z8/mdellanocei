@@ -184,7 +184,8 @@ const Post = function (url = '', data = {}, allowHTML = false) {
       Vue.prototype.$objKeySort(params)[key] !== null &&
       typeof Vue.prototype.$objKeySort(params)[key] !== 'undefined'
     ) {
-      if (Array.isArray(Vue.prototype.$objKeySort(params)[key])) console.log(params[key] = JSON.stringify(Vue.prototype.$objKeySort(params)[key]));
+
+      if (Array.isArray(Vue.prototype.$objKeySort(params)[key])) params[key] = JSON.stringify(Vue.prototype.$objKeySort(params)[key]);
       str += Vue.prototype.$objKeySort(params)[key]
     }
   }
