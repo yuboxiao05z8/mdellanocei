@@ -12,24 +12,9 @@
       <div class="nav-search">
         <el-row>
           <el-col :span="16">
-            <el-input
-              style="width:300px;margin-right:20px;"
-              size="mini"
-              :placeholder="$t('input key words')"
-              v-model="searchName"
-            ></el-input>
-            <el-select
-              style="margin-right:20px;"
-              v-model="status"
-              size="mini"
-              :placeholder="$t('input key words')"
-            >
-              <el-option
-                v-for="item in stateList"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
+            <el-input style="width:300px;margin-right:20px;" size="mini" :placeholder="$t('input key words')" v-model="searchName"></el-input>
+            <el-select style="margin-right:20px;" v-model="status" size="mini" :placeholder="$t('input key words')">
+              <el-option v-for="item in stateList" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
             <el-button @click="queryProjectAdvert" size="mini">{{$t('inventoryLists.Search')}}</el-button>
           </el-col>
@@ -40,14 +25,7 @@
       </div>
     </div>
     <div class="tabList">
-      <el-table
-        :data="tabList"
-        border
-        style="width: 100%"
-        max-height="700"
-        :header-cell-style="{'background':'#f5f7fa'}"
-        size="mini"
-      >
+      <el-table :data="tabList" border style="width: 100%" max-height="700" :header-cell-style="{'background':'#f5f7fa'}" size="mini">
         <el-table-column width="200" :label="$t('title')">
           <template slot-scope="scope">
             <div>{{scope.row.title}}</div>
@@ -55,12 +33,7 @@
         </el-table-column>
         <el-table-column width="160" :label="$t('illustration')">
           <template slot-scope="scope">
-            <img
-              class="Photo_Service"
-              @click.stop="$imgPreview(serveUrl+scope.row.logo)"
-              :src="serveUrl+scope.row.logo"
-              alt
-            />
+            <img class="Photo_Service" @click.stop="$imgPreview(serveUrl+scope.row.logo)" :src="serveUrl+scope.row.logo" alt />
           </template>
         </el-table-column>
         <el-table-column width="200" :label="$t('project name')">
@@ -103,42 +76,12 @@
         <el-table-column fixed="right" width="400" :label="$t('userLists.edit')">
           <template slot-scope="scope">
             <template>
-              <el-button
-                @click="moveFn(scope.row,'up')"
-                v-if="scope.row.status == 1"
-                size="mini"
-                plain
-              >{{$t('move up')}}</el-button>
-              <el-button
-                @click="moveFn(scope.row,'down')"
-                v-if="scope.row.status == 1"
-                size="mini"
-                plain
-              >{{$t('move down')}}</el-button>
-              <el-button
-                v-if="scope.row.status == 1"
-                size="mini"
-                plain
-                @click="editData(scope.row)"
-              >{{$t('buildingPhases.edit')}}</el-button>
-              <el-button
-                @click="soldOutFn(scope.row)"
-                v-if="scope.row.status == 1"
-                size="mini"
-                plain
-              >{{$t('revocation')}}</el-button>
-              <el-button
-                @click="putawayFn(scope.row)"
-                v-if="scope.row.status == 2"
-                size="mini"
-                plain
-              >{{$t('publish')}}</el-button>
-              <el-button
-                v-if="scope.row.status == 2"
-                size="mini"
-                plain
-                @click="deleteData(scope.row,scope.$index)"
-              >{{$t('delete')}}</el-button>
+              <el-button @click="moveFn(scope.row,'up')" v-if="scope.row.status == 1" size="mini" plain>{{$t('move up')}}</el-button>
+              <el-button @click="moveFn(scope.row,'down')" v-if="scope.row.status == 1" size="mini" plain>{{$t('move down')}}</el-button>
+              <el-button v-if="scope.row.status == 1" size="mini" plain @click="editData(scope.row)">{{$t('buildingPhases.edit')}}</el-button>
+              <el-button @click="soldOutFn(scope.row)" v-if="scope.row.status == 1" size="mini" plain>{{$t('revocation')}}</el-button>
+              <el-button @click="putawayFn(scope.row)" v-if="scope.row.status == 2" size="mini" plain>{{$t('publish')}}</el-button>
+              <el-button v-if="scope.row.status == 2" size="mini" plain @click="deleteData(scope.row,scope.$index)">{{$t('delete')}}</el-button>
             </template>
           </template>
         </el-table-column>
@@ -146,120 +89,44 @@
     </div>
 
     <div class="page_section" v-if="total">
-      <el-pagination
-        background
-        small
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="currentPage"
-        :page-sizes="[5,10]"
-        :page-size="pageSize"
-        layout="prev, pager, next,sizes,total"
-        :total="total"
-      ></el-pagination>
+      <el-pagination background small @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-sizes="[5,10]" :page-size="pageSize" layout="prev, pager, next,sizes,total" :total="total"></el-pagination>
     </div>
 
-    <el-dialog
-      :title="$t('Create/edit Project advertising')"
-      center
-      :visible.sync="dialogVisible"
-      width="60%"
-      @closed="closedFn"
-    >
+    <el-dialog :title="$t('Create/edit Project advertising')" center :visible.sync="dialogVisible" width="60%" @closed="closedFn">
       <div class="dialogDiv">
         <el-form ref="form" :model="advertisingForm" label-width="150px">
-          <el-form-item
-            :label="$t('title')"
-            prop="title"
-            :rules="[{ required: true, message: $t('The title cannot be empty'),trigger: 'blur'},
-            { min: 3, max: 40, message: $t('The length ranges from 3 to 40 characters'), trigger: 'blur' }]"
-          >
+          <el-form-item :label="$t('title')" prop="title" :rules="[{ required: true, message: $t('The title cannot be empty'),trigger: 'blur'},
+            { min: 3, max: 40, message: $t('The length ranges from 3 to 40 characters'), trigger: 'blur' }]">
             <el-input v-model="advertisingForm.title"></el-input>
           </el-form-item>
-          <el-form-item
-            :label="$t('developers')"
-            prop="devBrokeId"
-            :rules="[{ required: true, message: $t('Please select developer'),trigger: 'change'}]"
-          >
-            <el-select
-              style="width:100%"
-              v-model="advertisingForm.devBrokeId"
-              filterable
-              @change="getProjectFn"
-              :placeholder="$t('pleaseSelect')"
-            >
-              <el-option
-                v-for="item in Brokes"
-                :key="item.brokeId"
-                :label="item.brokeName"
-                :value="item.brokeId"
-              ></el-option>
+          <el-form-item :label="$t('developers')" prop="devBrokeId" :rules="[{ required: true, message: $t('Please select developer'),trigger: 'change'}]">
+            <el-select style="width:100%" v-model="advertisingForm.devBrokeId" filterable @change="getProjectFn" :placeholder="$t('pleaseSelect')">
+              <el-option v-for="item in Brokes" :key="item.brokeId" :label="item.brokeName" :value="item.brokeId"></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item
-            :label="$t('project')"
-            prop="projectId"
-            :rules="[{ required: true, message: $t('pleaseSelect'),trigger: 'change'}]"
-          >
-            <el-select
-              style="width:100%"
-              v-model="advertisingForm.projectId"
-              filterable
-              @change="getProjectImg"
-              :placeholder="$t('pleaseSelect')"
-            >
-              <el-option
-                v-for="item in Projects"
-                :key="item.projectId"
-                :label="item.projectName"
-                :value="item.projectId"
-              ></el-option>
+          <el-form-item :label="$t('project')" prop="projectId" :rules="[{ required: true, message: $t('pleaseSelect'),trigger: 'change'}]">
+            <el-select style="width:100%" v-model="advertisingForm.projectId" filterable @change="getProjectImg" :placeholder="$t('pleaseSelect')">
+              <el-option v-for="item in Projects" :key="item.projectId" :label="item.projectName" :value="item.projectId"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item :label="$t('Custom illustration')">
             <el-switch v-model="isCustomImg"></el-switch>
           </el-form-item>
           <el-form-item :label="$t('Custom illustration')" v-if="isCustomImg">
-            <uploaderImg
-              :backData="customImg"
-              :id="'calendayImg'"
-              :mixLength="1"
-              folder="brokeLogo"
-            ></uploaderImg>
+            <uploaderImg :backData="customImg" :id="'calendayImg'" :mixLength="1" :editBrokeId='advertisingForm.devBrokeId' folder="brokeLogo"></uploaderImg>
           </el-form-item>
           <el-form-item :label="$t('Project main photo')" v-if="!isCustomImg">
-            <img
-              class="mainImgDiv"
-              @click.stop="$imgPreview(serveUrl+mainImage)"
-              :src="serveUrl+mainImage"
-              alt
-            />
+            <img class="mainImgDiv" @click.stop="$imgPreview(serveUrl+mainImage)" :src="serveUrl+mainImage" alt />
           </el-form-item>
           <el-row>
             <el-col :span="12">
-              <el-form-item
-                :label="$t('start date')"
-                prop="startTime"
-                :rules="[{ type: 'date', required: true, message: $t('Please select the start time'), trigger: 'change' }]"
-              >
-                <el-date-picker
-                  style="width:100%"
-                  value-format="timestamp"
-                  v-model="advertisingForm.startTime"
-                  type="date"
-                  placeholder="Select Date"
-                ></el-date-picker>
+              <el-form-item :label="$t('start date')" prop="startTime" :rules="[{ type: 'date', required: true, message: $t('Please select the start time'), trigger: 'change' }]">
+                <el-date-picker style="width:100%" value-format="timestamp" v-model="advertisingForm.startTime" type="date" placeholder="Select Date"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('ending date')">
-                <el-date-picker
-                  style="width:100%"
-                  value-format="timestamp"
-                  v-model="advertisingForm.endTime"
-                  type="date"
-                  placeholder="Select Date"
-                ></el-date-picker>
+                <el-date-picker style="width:100%" value-format="timestamp" v-model="advertisingForm.endTime" type="date" placeholder="Select Date"></el-date-picker>
               </el-form-item>
             </el-col>
           </el-row>
@@ -277,7 +144,7 @@
 import uploaderImg from '@/components/uploaderImg.vue'
 export default {
   components: { uploaderImg },
-  data() {
+  data () {
     return {
       searchName: '',
       tabList: [],
@@ -308,12 +175,12 @@ export default {
       status: ''
     }
   },
-  mounted() {
+  mounted () {
     this.queryProjectAdvert()
     this.getBroke()
   },
   methods: {
-    saveProjectAdvert() {
+    saveProjectAdvert () {
       this.$refs['form'].validate(valid => {
         if (valid) {
           if (this.advertisingForm.startTime > this.advertisingForm.endTime) {
@@ -360,13 +227,13 @@ export default {
         }
       })
     },
-    async getBroke() {
+    async getBroke () {
       let arr = await this.$Posting(this.$api.getBroke, { type: 2 })
       if (arr) {
         this.Brokes = arr.datas
       }
     },
-    async queryProjectAdvert() {
+    async queryProjectAdvert () {
       let data = {
         pageNo: this.currentPage,
         pageSize: this.pageSize,
@@ -380,7 +247,7 @@ export default {
         this.total = arr.datas.count
       }
     },
-    getProjectFn(val, refresh = true) {
+    getProjectFn (val, refresh = true) {
       let data = {
         pageSize: 10000,
         pageNo: 1,
@@ -398,7 +265,7 @@ export default {
         }
       })
     },
-    getProjectImg(val) {
+    getProjectImg (val) {
       let arr = this.Projects.filter(i => i.projectId == val)
       if (arr.length) {
         this.mainImage = arr[0].mainImage
@@ -406,7 +273,7 @@ export default {
         this.isCustomImg = false
       }
     },
-    editData(item) {
+    editData (item) {
       this.advertisingForm = {
         advertId: item.advertId,
         devBrokeId: item.brokeId,
@@ -432,7 +299,7 @@ export default {
       }
       this.dialogVisible = true
     },
-    deleteData(item) {
+    deleteData (item) {
       this.$confirm(this.$t('Are you sure to delete it'), 'hint', {
         confirmButtonText: 'Ok',
         cancelButtonText: 'Cancel',
@@ -457,9 +324,9 @@ export default {
             }
           })
         })
-        .catch(() => {})
+        .catch(() => { })
     },
-    putawayFn(item) {
+    putawayFn (item) {
       this.$confirm(this.$t('Are you sure you want it on the shelf'), 'hint', {
         confirmButtonText: 'Ok',
         cancelButtonText: 'Cancel',
@@ -485,9 +352,9 @@ export default {
             }
           })
         })
-        .catch(() => {})
+        .catch(() => { })
     },
-    soldOutFn(item) {
+    soldOutFn (item) {
       this.$confirm(
         this.$t('Are you sure you want to take it off the shelf'),
         'hint',
@@ -517,9 +384,9 @@ export default {
             }
           })
         })
-        .catch(() => {})
+        .catch(() => { })
     },
-    moveFn(item, type) {
+    moveFn (item, type) {
       this.$Post(this.$api.move, {
         advertId: item.advertId,
         moveType: type
@@ -539,15 +406,15 @@ export default {
         }
       })
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.currentPage = val
       this.queryProjectAdvert()
     },
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.pageSize = val
       this.queryProjectAdvert()
     },
-    closedFn() {
+    closedFn () {
       this.customImg = []
       this.advertisingForm = {
         advertId: '',
@@ -555,7 +422,7 @@ export default {
       }
     }
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.$deleteImg()
   }
 }

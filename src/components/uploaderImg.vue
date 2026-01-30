@@ -24,6 +24,10 @@ export default {
       type: String,
       default: 'transactionImg'
     }, // 传入图片类型 type：CalendarImg(日历图片)
+    editBrokeId: {
+      type: String,
+      default: ''
+    },
     maxSize: {
       type: Number,
       default: 100
@@ -37,7 +41,7 @@ export default {
     };
   },
   mounted () {
-    console.log(this.backData);
+    console.log(this.brokeId);
   },
   methods: {
     add () {
@@ -137,6 +141,7 @@ export default {
       formData.append("userId", user.userId);
       formData.append("file", imgBlob.upImgData);
       formData.append("type", this.folder);
+      this.editBrokeId ? formData.append("editBrokeId", this.editBrokeId) : ''
       console.log(formData)
       this.$PostFormData(this.$api.uploadFile, formData).then(res => {
         if (res.code === "0") {

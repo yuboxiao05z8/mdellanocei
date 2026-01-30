@@ -4,18 +4,8 @@
       <div class="employeeList_header">
         <el-row>
           <el-col :span="12">
-            <el-input
-              style="width: 300px"
-              size="mini"
-              :placeholder="$t('accounts.findCompany')"
-              v-model="searchName"
-            ></el-input>
-            <el-button
-              style="margin-left: 20px"
-              size="mini"
-              @click="searchData"
-              >{{ $t("inventoryLists.Search") }}</el-button
-            >
+            <el-input style="width: 300px" size="mini" :placeholder="$t('accounts.findCompany')" v-model="searchName"></el-input>
+            <el-button style="margin-left: 20px" size="mini" @click="searchData">{{ $t("inventoryLists.Search") }}</el-button>
           </el-col>
           <el-col :span="12" style="text-align: right">
             <el-button v-if="isAdmin == 0" size="mini" @click="addAccount">{{
@@ -29,13 +19,7 @@
       </div>
     </div>
     <div class="accounts_list_table accounts_section">
-      <el-table
-        :data="userList"
-        border
-        style="width: 100%"
-        :header-cell-style="{ background: '#f5f7fa' }"
-        size="mini"
-      >
+      <el-table :data="userList" border style="width: 100%" :header-cell-style="{ background: '#f5f7fa' }" size="mini">
         <el-table-column :label="$t('accounts.companyName')">
           <template slot-scope="scope">
             <div>{{ scope.row.brokeName }}</div>
@@ -43,11 +27,7 @@
         </el-table-column>
         <el-table-column :label="$t('accounts.companyLogo')">
           <template slot-scope="scope">
-            <img
-              @click.stop="$imgPreview(serveUrl + scope.row.logo)"
-              :src="serveUrl + scope.row.logo"
-              alt
-            />
+            <img @click.stop="$imgPreview(serveUrl + scope.row.logo)" :src="serveUrl + scope.row.logo" alt />
           </template>
         </el-table-column>
         <el-table-column :label="$t('accounts.companyType')">
@@ -78,59 +58,23 @@
           </template>
         </el-table-column>
 
-        <el-table-column
-          fixed="right"
-          width="300"
-          :label="$t('userLists.edit')"
-        >
+        <el-table-column fixed="right" width="300" :label="$t('userLists.edit')">
           <template slot-scope="scope">
             <template>
-              <el-button
-                v-if="isAdmin == 0"
-                size="mini"
-                plain
-                @click="editData(scope.row)"
-                >{{ $t("transactions.Edit") }}</el-button
-              >
-              <el-button
-                size="mini"
-                plain
-                @click="managementFn(scope.row, scope.$index)"
-                >{{ $t("accounts.EmployeeList") }}</el-button
-              >
-              <el-button
-                v-if="isAdmin == 0"
-                size="mini"
-                plain
-                @click="deleteData(scope.row, scope.$index)"
-                >{{ $t("accounts.delete") }}</el-button
-              >
+              <el-button v-if="isAdmin == 0" size="mini" plain @click="editData(scope.row)">{{ $t("transactions.Edit") }}</el-button>
+              <el-button size="mini" plain @click="managementFn(scope.row, scope.$index)">{{ $t("accounts.EmployeeList") }}</el-button>
+              <el-button v-if="isAdmin == 0" size="mini" plain @click="deleteData(scope.row, scope.$index)">{{ $t("accounts.delete") }}</el-button>
             </template>
           </template>
         </el-table-column>
       </el-table>
       <div class="page_section" v-if="userNum">
-        <el-pagination
-          background
-          small
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="currentPage"
-          :page-sizes="[5, 10, 30, 50, 100]"
-          :page-size="pageSize"
-          layout="prev, pager, next,sizes,total"
-          :total="userNum"
-        ></el-pagination>
+        <el-pagination background small @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currentPage" :page-sizes="[5, 10, 30, 50, 100]" :page-size="pageSize" layout="prev, pager, next,sizes,total" :total="userNum"></el-pagination>
       </div>
     </div>
 
     <!-- 表单 -->
-    <el-dialog
-      title="Edit Properties"
-      :visible.sync="dialogVisible"
-      width="70%"
-      class="account_dialog"
-    >
+    <el-dialog title="Edit Properties" :visible.sync="dialogVisible" width="70%" class="account_dialog">
       <el-form ref="form" :model="companyForm" label-width="150px">
         <el-row>
           <el-col :span="12">
@@ -140,17 +84,8 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('accounts.companyType')">
-              <el-select
-                style="width: 100%"
-                v-model="companyForm.type"
-                :placeholder="$t('pleaseSelect')"
-              >
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
+              <el-select style="width: 100%" v-model="companyForm.type" :placeholder="$t('pleaseSelect')">
+                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
               </el-select>
             </el-form-item>
           </el-col>
@@ -185,13 +120,7 @@
         <el-row>
           <el-col :span="12">
             <el-form-item label="Expiration Date">
-              <el-date-picker
-                style="width: 100%"
-                value-format="timestamp"
-                v-model="companyForm.expirationDate"
-                type="date"
-                placeholder="Select Date"
-              ></el-date-picker>
+              <el-date-picker style="width: 100%" value-format="timestamp" v-model="companyForm.expirationDate" type="date" placeholder="Select Date"></el-date-picker>
             </el-form-item>
           </el-col>
 
@@ -210,20 +139,8 @@
           </el-col>
           <el-col :span="12">
             <el-form-item label="Country">
-              <el-select
-                v-model="companyForm.country"
-                filterable
-                style="width: 100%"
-                allow-create
-                default-first-option
-                placeholder="Choose the country"
-              >
-                <el-option
-                  v-for="item in CountryList"
-                  :key="item"
-                  :label="item"
-                  :value="item"
-                >
+              <el-select v-model="companyForm.country" filterable style="width: 100%" allow-create default-first-option placeholder="Choose the country">
+                <el-option v-for="item in CountryList" :key="item" :label="item" :value="item">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -238,13 +155,7 @@
           </el-col>
           <el-col :span="12">
             <el-form-item :label="$t('accounts.companyLogo')">
-              <uploaderImg
-                :backData="companyForm.logo"
-                :id="'calendayImg'"
-                :mixLength="1"
-                folder="brokeLogo"
-                :maxSize="500"
-              ></uploaderImg>
+              <uploaderImg :backData="companyForm.logo" :editBrokeId='companyForm.editBrokeId' :id="'calendayImg'" :mixLength="1" folder="brokeLogo" :maxSize="500"></uploaderImg>
             </el-form-item>
           </el-col>
         </el-row>
@@ -252,13 +163,7 @@
         <el-row>
           <el-col>
             <el-form-item :label="$t('DeveloperInformation')">
-              <editor
-                editorId="commissionss"
-                :value="detail"
-                :setting="editorSetting"
-                @show="editors"
-                @on-upload-success="onEditorUploadComplete"
-              ></editor>
+              <editor editorId="commissionss" :value="detail" :setting="editorSetting" @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
             </el-form-item>
           </el-col>
         </el-row>
@@ -285,7 +190,7 @@ export default {
     uploaderImg,
     editor,
   },
-  data() {
+  data () {
     return {
       tableDataInit: -1,
       userList: [],
@@ -335,11 +240,11 @@ export default {
       CountryList: ["Singapore", "Malaysia", "Cambodia", "Australia", "UK"],
     };
   },
-  mounted() {
+  mounted () {
     this.getListData();
   },
   methods: {
-    addAccount() {
+    addAccount () {
       if (tinymce.editors[0]) {
         tinymce.editors[0].setContent("");
       }
@@ -360,16 +265,16 @@ export default {
       };
       this.dialogVisible = true;
     },
-    editors(obj) {
+    editors (obj) {
       // editor组件传过来的值赋给content
       this.detail = obj.content;
     },
-    onEditorUploadComplete(json) {
+    onEditorUploadComplete (json) {
       // 处理上传图片后返回数据，添加img标签到编辑框内
       json[1](this.serveUrl + json[0].filePath);
     },
     //保存前先读取服务端返回的富文本编辑器里面的内容，晒选出图片存在缓存中
-    beforeSaveGetInitEdit() {
+    beforeSaveGetInitEdit () {
       console.log(arguments, "22222");
       for (let i = 0; i < arguments.length; i++) {
         this.editorArr = this.editorArr.concat(
@@ -378,7 +283,7 @@ export default {
       }
     },
     //保存前获取编辑后的富文本编辑器的内容
-    beforeSaveGetEdit() {
+    beforeSaveGetEdit () {
       for (let i = 0; i < arguments.length; i++) {
         this.updateEditorArr = this.updateEditorArr.concat(
           this.$changeHtmlStr(arguments[i])
@@ -386,7 +291,7 @@ export default {
       }
     },
     //提交之前进行图片的检测
-    beforeSaveCheckImage() {
+    beforeSaveCheckImage () {
       let editorImg =
         JSON.parse(window.sessionStorage.getItem("editorImg")) || [];
       this.beforeSaveGetEdit(this.detail);
@@ -399,18 +304,18 @@ export default {
         ); //点击时将之前富文本编辑器里面的图片进行缓存
       this.$changeSession(this.updateEditorArr);
     },
-    refresh() {
+    refresh () {
       this.getListData();
     },
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.pageSize = val;
       this.getListData();
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.currentPage = val;
       this.getListData();
     },
-    getListData() {
+    getListData () {
       this.$Geting(this.$api.queryBroke, {
         pageSize: this.pageSize,
         pageNo: this.currentPage,
@@ -428,12 +333,13 @@ export default {
         }
       });
     },
-    searchData() {
+    searchData () {
       this.currentPage = 1;
       this.getListData();
     },
-    editData(row) {
+    editData (row) {
       // 编辑
+      console.log(row);
       this.companyForm = {
         brokeName: row.brokeName,
         fileNum: row.fileNum,
@@ -466,14 +372,14 @@ export default {
 
       this.dialogVisible = true;
     },
-    managementFn(row) {
+    managementFn (row) {
       // 管理公司
       let data = {
         editBrokeId: row.brokeId,
       };
       this.$router.replace({ path: "/account/employeeList", query: data });
     },
-    deleteData(row) {
+    deleteData (row) {
       // 删除公司
       // console.log(row)
       this.$confirm(this.$t("deleteIt"), this.$t("alert.alert_command"), {
@@ -506,7 +412,7 @@ export default {
           });
         });
     },
-    onSubmit() {
+    onSubmit () {
       // 提交
       let data = { ...this.companyForm };
       data.logo = this.companyForm.logo[0].url;
@@ -528,7 +434,7 @@ export default {
         }
       });
     },
-    beforeDestroy() {
+    beforeDestroy () {
       this.$deleteImg();
     },
   },
