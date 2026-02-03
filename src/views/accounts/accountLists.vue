@@ -154,12 +154,18 @@
             </el-form-item>
           </el-col>
           <el-col :span="12">
+            <el-form-item label="Show C">
+              <el-switch v-model="companyForm.showc" active-value="1" inactive-value="0" />
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
             <el-form-item :label="$t('accounts.companyLogo')">
               <uploaderImg :backData="companyForm.logo" :editBrokeId='companyForm.editBrokeId' :id="'calendayImg'" :mixLength="1" folder="brokeLogo" :maxSize="500"></uploaderImg>
             </el-form-item>
           </el-col>
         </el-row>
-
         <el-row>
           <el-col>
             <el-form-item :label="$t('DeveloperInformation')">
@@ -211,6 +217,7 @@ export default {
         country: "",
         brokeAlias: "",
         licenceNo: "",
+        showc: '0'
       },
       detail: "",
       editorArr: [], //获取数据时富文本编辑器的图片数组
@@ -262,6 +269,7 @@ export default {
         country: "",
         brokeAlias: "",
         licenceNo: "",
+        showc: '0'
       };
       this.dialogVisible = true;
     },
@@ -359,6 +367,7 @@ export default {
         country: row.country,
         brokeAlias: row.brokeAlias,
         licenceNo: row.licenceNo,
+        showc: row.showc + ''
       };
       if (!this.CountryList.includes(row.country) && row.country) {
         this.CountryList.push(row.country);
