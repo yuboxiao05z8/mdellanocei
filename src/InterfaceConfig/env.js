@@ -1,11 +1,3 @@
-/*
- * @Author: aze
- * @Date: 2021-07-19 18:40:20
- * @LastEditors: Please set LastEditors
- * @LastEditTime: 2021-10-10 16:38:25
- * @Description: 
- * @FilePath: \ecoprop_c_managere:\e_admin\src\InterfaceConfig\env.js
- */
 
 // const env = 'development' // 开发环境 
 // const env = 'test' // 测试环境
