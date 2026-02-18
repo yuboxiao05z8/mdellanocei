@@ -31,6 +31,10 @@ export default {
     maxSize: {
       type: Number,
       default: 100
+    },
+    projectId: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -42,6 +46,7 @@ export default {
   },
   mounted () {
     console.log(this.brokeId);
+    console.log(this.backData);
   },
   methods: {
     add () {
@@ -49,7 +54,7 @@ export default {
     },
     remove (index, item) {
       this.deleteUpImg(item.src);
-      this.backData.splice(index, 1);
+      if (this.backData) this.backData.splice(index, 1);
     },
 
     fileChanged () {
@@ -141,8 +146,10 @@ export default {
       formData.append("userId", user.userId);
       formData.append("file", imgBlob.upImgData);
       formData.append("type", this.folder);
+      if (this.projectId) {
+        formData.append("projectId", this.projectId);
+      }
       this.editBrokeId ? formData.append("editBrokeId", this.editBrokeId) : ''
-      console.log(formData)
       this.$PostFormData(this.$api.uploadFile, formData).then(res => {
         if (res.code === "0") {
           let item = {
@@ -181,7 +188,6 @@ export default {
             uploadedImg.forEach((item, index) => {
               if (item === imgPush) {
                 uploadedImg.splice(index, 1);
-                console.log(item, imgPush);
               }
             });
             window.sessionStorage.setItem(

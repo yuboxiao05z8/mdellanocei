@@ -74,7 +74,7 @@
       </div>
     </div>
 
-    <el-dialog center title="Payment Details" :visible.sync="addShow" width="40%" @closed="form = {amount: roundNum(variate * 0.05)}; payerImg = []">
+    <el-dialog center title="Payment Details" :visible.sync="addShow" width="40%" @closed="form = {amount: roundNum(variate * 0.05),payerImgArr : []}; ">
       <div class="fontChange">
         <el-form :model="form" :rules="rules" ref="PaymentForm" label-width="220px">
           <el-form-item label="Payment Mode" prop="method">
@@ -111,8 +111,8 @@
           <el-form-item label="Amount" prop="amount">
             <el-input-number v-model="form.amount" :min="0"></el-input-number>
           </el-form-item>
-          <el-form-item label="Payment Reference">
-            <uploaderImg :backData="payerImg" :id="'payerImg'" :mixLength="1" :maxSize="20480" folder="transactionImg">
+          <el-form-item label="Payment Reference" prop="payerImgArr">
+            <uploaderImg :backData="form.payerImgArr" :id="'payerImg'" :mixLength="1" :maxSize="20480" folder="transactionImg" :projectId='$route.query.projectId'>
             </uploaderImg>
           </el-form-item>
         </el-form>
@@ -149,6 +149,7 @@ export default {
         chequeBookNum: '',
         chequeBankDate: '',
         amount: this.roundNum(this.variate * 0.05),
+        payerImgArr: [],
       },
       Payment: {
         buyerPaymentList: [],
@@ -168,7 +169,7 @@ export default {
   },
   computed: {
     rules () {
-      let blurArr = ['chequeBookNum', 'chequeNo', 'chequeBankDate', 'amount']
+      let blurArr = ['chequeBookNum', 'chequeNo', 'chequeBankDate', 'amount', 'payerImgArr']
       let changeArr = ['method', 'bankName']
       return {
         ...setRulesData('blur', blurArr),
@@ -225,7 +226,7 @@ export default {
         row.chequeBankDate = this.$dateFormatNoTime(new Date())
       }
       if (row.payerImg) {
-        this.payerImg = row.payerImg.split(',').map(i => {
+        this.form.payerImgArr = row.payerImg.split(',').map(i => {
           return {
             url: i,
             src: this.hostUrl + i
@@ -235,7 +236,6 @@ export default {
       this.form = row
     },
     calculateFn (arr) {
-      console.log(arr)
       let totalPrice = 0, earnest = this.roundNum(this.reserveObj.earnest)
       this.reserveObj.Received = this.roundNum(
         arr.reduce(
@@ -258,13 +258,9 @@ export default {
     addDataFn () {
       this.$refs['PaymentForm'].validate((valid) => {
         if (valid) {
-          this.form
-          console.log(this.form)
           this.addShow = false
-
-
-          if (this.payerImg.length) {
-            this.form.payerImg = this.payerImg
+          if (this.form.payerImgArr.length) {
+            this.form.payerImg = this.form.payerImgArr
               .map((i) => {
                 return i.url
               })
@@ -276,11 +272,12 @@ export default {
           } else {
             this.Payment.buyerPaymentList.push(this.form)
           }
-          console.log(this.Payment.buyerPaymentList, this.form)
           this.calculateFn(this.Payment.buyerPaymentList)
           this.form = {
             amount: this.roundNum(this.variate * 0.05),
+            payerImgArr: []
           }
+          console.log(this.form)
         } else {
           return false
         }
