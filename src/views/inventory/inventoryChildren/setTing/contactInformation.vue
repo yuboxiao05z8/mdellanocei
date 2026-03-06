@@ -42,11 +42,7 @@
           <el-input type="number" placeholder="placeholder" v-model="commissionNum"></el-input>
         </div>
         <div>
-          <el-button
-            size="mini"
-            style="margin-left: 10px"
-            @click="saveSetting"
-          >{{$t('settings.update')}}</el-button>
+          <el-button size="mini" style="margin-left: 10px" @click="saveSetting">{{$t('settings.update')}}</el-button>
         </div>
       </div>
 
@@ -54,13 +50,7 @@
         <span>Commission description</span>
       </div>
       <div style="padding-left: 15px;">
-        <editor
-          editorId="contactinfoOne"
-          :value="commissionDesc"
-          :setting="editorSetting"
-          @show="editors"
-          @on-upload-success="onEditorUploadComplete"
-        ></editor>
+        <editor editorId="contactinfoOne" :value="commissionDesc" :setting="editorSetting" @show="editors" @on-upload-success="onEditorUploadComplete"></editor>
       </div>
 
       <div class="add_main_image image_section">
@@ -68,15 +58,7 @@
           <el-col :span="8" class="col_text">Add Tagger Img</el-col>
           <el-col :span="16" class="col_button">
             <el-button size="mini" @click="deleteContactImage">Delete Tagger Img</el-button>
-            <uploader
-              fileId="mainImageFile"
-              :maxSize="10"
-              :uploadParam="uploadMainParam"
-              :url="$api.uploadContactImage"
-              @uploadAfter="uploadMainImageAfter"
-              fileType=".jpg,.jpeg,.png,.gif"
-              :btnText="{select:$t('image.selectFile'),import:'Add Tagger Img'}"
-            ></uploader>
+            <uploader fileId="mainImageFile" :maxSize="10" :uploadParam="uploadMainParam" :url="$api.uploadContactImage" @uploadAfter="uploadMainImageAfter" fileType=".jpg,.jpeg,.png,.gif" :btnText="{select:$t('image.selectFile'),import:'Add Tagger Img'}"></uploader>
           </el-col>
         </el-row>
         <el-row>
@@ -84,13 +66,9 @@
             <!-- <p class="Purl" v-if="contactImage">
               {{hostUrl+contactImage}}
             </p> -->
-            <img v-if="contactImage" style="width:65px"  @click.stop="$imgPreview(hostUrl + contactImage)" :src="hostUrl+contactImage" alt="">
+            <img v-if="contactImage" style="width:65px" @click.stop="$imgPreview(hostUrl + contactImage)" :src="hostUrl+contactImage" alt="">
 
-            <el-alert
-              title="Add the Tagger Image in .jpg or .jpeg or .png or .gif formats"
-              type="info"
-              :closable="false"
-            ></el-alert>
+            <el-alert title="Add the Tagger Image in .jpg or .jpeg or .png or .gif formats" type="info" :closable="false"></el-alert>
           </el-col>
         </el-row>
       </div>
@@ -114,24 +92,10 @@
         <el-button @click="deleteAllProjectContact">Delete All</el-button>
         <el-button @click="exportProjectContacts">Export Contact</el-button>
 
-        <uploader
-          fileId="floorFile"
-          :maxSize="10"
-          :uploadParam="uploadParam"
-          :url="$api.importProjectContact"
-          @uploadAfter="uploadwaterAfter"
-          fileType=".xls,.xlsx"
-          :btnText="{select:$t('floorPlans.selectFile'),import:$t('floorPlans.importFloorPlan')}"
-        ></uploader>
+        <uploader fileId="floorFile" :maxSize="10" :uploadParam="uploadParam" :url="$api.importProjectContact" @uploadAfter="uploadwaterAfter" fileType=".xls,.xlsx" :btnText="{select:$t('floorPlans.selectFile'),import:$t('floorPlans.importFloorPlan')}"></uploader>
         <el-button @click="AddedIndividually" :disabled="tableDataInit !== -1 ">Added individually</el-button>
       </div>
-      <el-table
-        :data="tableLists"
-        border
-        style="width: 100%"
-        :header-cell-style="{'background':'#f5f7fa'}"
-        size="mini"
-      >
+      <el-table :data="tableLists" border style="width: 100%" :header-cell-style="{'background':'#f5f7fa'}" size="mini">
         <el-table-column :label="$t('ContactName')">
           <template slot-scope="scope">
             <!-- <el-input v-if="scope.$index === tableDataInit" v-model="form.agentName"></el-input> -->
@@ -159,17 +123,8 @@
         <el-table-column :label="$t('userRole')">
           <template slot-scope="scope">
             <!-- <el-input v-if="scope.$index === tableDataInit" v-model="form.type"></el-input> -->
-            <el-select
-              v-model="form.type"
-              placeholder="placeholder"
-              v-if="scope.$index === tableDataInit"
-            >
-              <el-option
-                v-for="item in typeOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
+            <el-select v-model="form.type" placeholder="placeholder" v-if="scope.$index === tableDataInit">
+              <el-option v-for="item in typeOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
             <div v-else>{{scope.row.type}}</div>
           </template>
@@ -177,17 +132,8 @@
         <el-table-column :label="$t('Group')">
           <template slot-scope="scope">
             <!-- <el-input v-if="scope.$index === tableDataInit" v-model="form.type"></el-input> -->
-            <el-select
-              v-model="form.groupName"
-              placeholder="placeholder"
-              v-if="scope.$index === tableDataInit"
-            >
-              <el-option
-                v-for="item in groupOptions"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              ></el-option>
+            <el-select v-model="form.groupName" placeholder="placeholder" v-if="scope.$index === tableDataInit">
+              <el-option v-for="item in groupOptions" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
             <div v-else>{{scope.row.groupName}}</div>
           </template>
@@ -212,17 +158,7 @@
         </el-table-column>
       </el-table>
       <div class="page_section" v-if="ContactNum">
-        <el-pagination
-          background
-          small
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="pageNo"
-          :page-sizes="[5,10,30,50,100]"
-          :page-size="pageSize"
-          layout="prev, pager, next,sizes,total"
-          :total="ContactNum"
-        ></el-pagination>
+        <el-pagination background small @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageNo" :page-sizes="[5,10,30,50,100]" :page-size="pageSize" layout="prev, pager, next,sizes,total" :total="ContactNum"></el-pagination>
       </div>
     </div>
   </div>
@@ -238,7 +174,7 @@ export default {
     uploader,
     editor
   },
-  data() {
+  data () {
     return {
       contactImage: "",
       uploadParam: [
@@ -303,8 +239,8 @@ export default {
           label: "Tagger"
         },
         {
-          value: "Mgt Team",
-          label: "Mgt Team"
+          value: "Leader Team",
+          label: "Leader Team"
         }
       ],
       editorSetting: {
@@ -318,14 +254,14 @@ export default {
       ContactData: {}
     };
   },
-  mounted() {
+  mounted () {
     this.queryProjectContact();
     this.$nextTick(() => {
       this.queryCommission();
     });
   },
   methods: {
-    deleteAllProjectContact() {
+    deleteAllProjectContact () {
       this.$confirm(
         this.$t("alert.alert_delete"),
         this.$t("alert.alert_command"),
@@ -343,7 +279,7 @@ export default {
               title: this.$t("alert.alert_success_title"),
               message: this.$t("alert.alert_success_delete_title")
             });
-            
+
             this.queryProjectContact();
           } else {
             this.$notify.error({
@@ -354,28 +290,28 @@ export default {
         });
       });
     },
-    exportProjectContacts() {
+    exportProjectContacts () {
       window.location.href = this.$addDownUrl(this.$api.exportProjectContacts, {
         projectId: this.projectId
       });
     },
-    uploadMainImageAfter() {
+    uploadMainImageAfter () {
       //主图上传成功后
       this.queryCommission();
     },
-    editors(obj) {
+    editors (obj) {
       this.commissionDesc = obj.content;
       // console.log("符文布", this.commissionDesc);
     },
-    onEditorUploadComplete(json) {
+    onEditorUploadComplete (json) {
       json[1](this.hostUrl + json[0].filePath);
     },
-    AddedIndividually() {
+    AddedIndividually () {
       this.tableLists.unshift({});
       this.tableDataInit = 0;
     },
     //保存前先读取服务端返回的富文本编辑器里面的内容，晒选出图片存在缓存中
-    beforeSaveGetInitEdit() {
+    beforeSaveGetInitEdit () {
       // console.log(arguments, "2321223");
       for (let i = 0; i < arguments.length; i++) {
         this.editorArr = this.editorArr.concat(
@@ -384,7 +320,7 @@ export default {
       }
     },
     //保存前获取编辑后的富文本编辑器的内容
-    beforeSaveGetEdit() {
+    beforeSaveGetEdit () {
       for (let i = 0; i < arguments.length; i++) {
         this.updateEditorArr = this.updateEditorArr.concat(
           this.$changeHtmlStr(arguments[i])
@@ -392,7 +328,7 @@ export default {
       }
     },
     //提交之前进行图片的检测
-    beforeSaveCheckImage() {
+    beforeSaveCheckImage () {
       let editorImg =
         JSON.parse(window.sessionStorage.getItem("editorImg")) || [];
       this.beforeSaveGetEdit(this.commissionDesc);
@@ -405,7 +341,7 @@ export default {
         ); //点击时将之前富文本编辑器里面的图片进行缓存
       this.$changeSession(this.updateEditorArr);
     },
-    updata() {
+    updata () {
       let data = {
         projectId: this.projectId,
         type: this.form.type,
@@ -429,7 +365,7 @@ export default {
         }
       });
     },
-    editData(row, index) {
+    editData (row, index) {
       console.log(row)
       this.tableDataInit = index;
       this.form.type = row.type;
@@ -437,7 +373,7 @@ export default {
       this.form.regNum = row.regNum;
       this.form.groupName = row.groupName || "";
     },
-    cancel(row, index) {
+    cancel (row, index) {
       if (index == 0) {
         if (row.contactId == undefined) {
           this.tableLists.shift();
@@ -445,7 +381,7 @@ export default {
       }
       this.cancelAddData();
     },
-    cancelAddData() {
+    cancelAddData () {
       this.form = {
         email: "",
         type: "",
@@ -454,9 +390,9 @@ export default {
       };
       this.tableDataInit = -1;
     },
-    deleteContactImage() {
-      this.$Get(this.$api.deleteContactImage, {id: this.ContactData.id}).then(res => {
-        if(res.code == 0) {
+    deleteContactImage () {
+      this.$Get(this.$api.deleteContactImage, { id: this.ContactData.id }).then(res => {
+        if (res.code == 0) {
           this.$notify.success({
             title: this.$t("alert.alert_success_title"),
             message: res.msg
@@ -470,7 +406,7 @@ export default {
         }
       })
     },
-    queryCommission() {
+    queryCommission () {
       this.$Get(this.$api.queryCommission, { projectId: this.projectId }).then(
         res => {
           if (res.code == 0) {
@@ -494,7 +430,7 @@ export default {
         }
       );
     },
-    saveSetting() {
+    saveSetting () {
       // if (this.ExternalCommission == "" || this.internalCommission == "" || this.internalCommissionNum == "") {
       //   return false;
       // }
@@ -521,10 +457,10 @@ export default {
         }
       });
     },
-    uploadwaterAfter() {
+    uploadwaterAfter () {
       this.queryProjectContact();
     },
-    queryProjectContact() {
+    queryProjectContact () {
       this.$Get(this.$api.queryProjectContact, {
         projectId: this.projectId,
         pageNo: this.pageNo,
@@ -536,15 +472,15 @@ export default {
         }
       });
     },
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.pageSize = val;
       this.queryProjectContact();
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.currentPage = val;
       this.queryProjectContact();
     },
-    deleteData(id) {
+    deleteData (id) {
       this.$Get(this.$api.deleteProjectContact, { contactId: id }).then(res => {
         if (res.code == 0) {
           this.queryProjectContact();
@@ -562,7 +498,7 @@ export default {
       this.tableDataInit = -1;
     },
   },
-  beforeDestroy() {
+  beforeDestroy () {
     this.$deleteImg();
   }
 };
