@@ -6,29 +6,14 @@
           <div>{{$t('settings.settings')}}</div>
         </el-col>
         <el-col :span="12" style="text-align:right">
-          <el-button
-            :disabled="self == 0"
-            size="mini"
-            @click="saveSetting"
-          >{{$t('settings.update')}}</el-button>
+          <el-button :disabled="self == 0" size="mini" @click="saveSetting">{{$t('settings.update')}}</el-button>
           <el-button :disabled="self == 0" size="mini">{{$t('settings.cancel')}}</el-button>
         </el-col>
       </el-row>
     </div>
     <div class="setting_content">
-      <el-form
-        :inline="true"
-        class="demo-form-inline form"
-        label-width="350px"
-        label-position="left"
-        size="small"
-      >
-        <el-alert
-          style="padding:8px 0;margin-bottom:10px"
-          title="Project Setting"
-          type="info"
-          :closable="false"
-        ></el-alert>
+      <el-form :inline="true" class="demo-form-inline form" label-width="350px" label-position="left" size="small">
+        <el-alert style="padding:8px 0;margin-bottom:10px" title="Project Setting" type="info" :closable="false"></el-alert>
         <div style="padding:10px; text-align: center">
           <el-row>
             <el-col :span="6">
@@ -47,23 +32,13 @@
           <!-- <el-checkbox v-model="checked3" label="备选项1" border></el-checkbox>
           <el-checkbox v-model="checked4" label="备选项2" border></el-checkbox>-->
         </div>
-        <el-alert
-          style="padding:8px 0;margin-bottom:10px"
-          :title="$t('settings.UnitInterest')"
-          type="info"
-          :closable="false"
-        ></el-alert>
+        <el-alert style="padding:8px 0;margin-bottom:10px" :title="$t('settings.UnitInterest')" type="info" :closable="false"></el-alert>
         <div class="div_padding_x">
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.InterestExpirationTime')">
                 <!-- <el-date-picker class="width_300px" v-model="settingForm.interestExpirationTime" type="datetime" value-format="yyyy-MM-dd hh:mm:ss"></el-date-picker> -->
-                <el-date-picker
-                  class="width_300px"
-                  v-model="settingForm.interestExpirationTime"
-                  type="datetime"
-                  value-format="timestamp"
-                ></el-date-picker>
+                <el-date-picker class="width_300px" v-model="settingForm.interestExpirationTime" type="datetime" value-format="timestamp"></el-date-picker>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -75,22 +50,13 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.AllowInterestSoldUnit')">
-                <el-checkbox
-                  v-model="settingForm.allowInterestSoldUnit"
-                  :true-label="0"
-                  :false-label="1"
-                ></el-checkbox>
+                <el-checkbox v-model="settingForm.allowInterestSoldUnit" :true-label="0" :false-label="1"></el-checkbox>
               </el-form-item>
             </el-col>
           </el-row>
         </div>
 
-        <el-alert
-          style="padding:8px 0;margin-bottom:10px"
-          title="Book Unit"
-          type="info"
-          :closable="false"
-        ></el-alert>
+        <el-alert style="padding:8px 0;margin-bottom:10px" title="Book Unit" type="info" :closable="false"></el-alert>
         <div class="div_padding_x">
           If the time limit expire, the unit will revert to available for sales status
           <el-row>
@@ -111,12 +77,7 @@
           </el-row>
         </div>
 
-        <el-alert
-          style="padding:8px 0;margin-bottom:10px"
-          :title="$t('settings.unitCustomFieldLabels')"
-          type="info"
-          :closable="false"
-        ></el-alert>
+        <el-alert style="padding:8px 0;margin-bottom:10px" :title="$t('settings.unitCustomFieldLabels')" type="info" :closable="false"></el-alert>
         <div class="div_padding_x">
           <el-row>
             <el-col :span="12">
@@ -186,12 +147,7 @@
             </el-col>
           </el-row>
         </div>
-        <el-alert
-          style="padding:8px 0;margin-bottom:10px"
-          :title="$t('settings.unitPriceSettings')"
-          type="info"
-          :closable="false"
-        ></el-alert>
+        <el-alert style="padding:8px 0;margin-bottom:10px" :title="$t('settings.unitPriceSettings')" type="info" :closable="false"></el-alert>
         <div class="div_padding_x" style="border-bottom:1px solid #dcdfe6">
           <el-row>
             <el-col :span="12">
@@ -304,11 +260,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.price10CanbeusedforTransaction')">
-                <el-checkbox
-                  v-model="settingForm.price10UsedTrans"
-                  :true-label="0"
-                  :false-label="1"
-                ></el-checkbox>
+                <el-checkbox v-model="settingForm.price10UsedTrans" :true-label="0" :false-label="1"></el-checkbox>
               </el-form-item>
             </el-col>
           </el-row>
@@ -325,12 +277,7 @@
             </el-col>
           </el-row>
         </div>
-        <el-alert
-          style="padding:8px 0;margin-bottom:10px"
-          :title="$t('settings.ReservationFormSettings')"
-          type="info"
-          :closable="false"
-        ></el-alert>
+        <el-alert style="padding:8px 0;margin-bottom:10px" :title="$t('settings.ReservationFormSettings')" type="info" :closable="false"></el-alert>
         <div class="div_padding_x" style="border-bottom:1px solid #dcdfe6">
           <el-row>
             <el-col :span="12">
@@ -352,11 +299,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.CommentsRequired')">
-                <el-checkbox
-                  v-model="settingForm.commentsRequired"
-                  :true-label="0"
-                  :false-label="1"
-                ></el-checkbox>
+                <el-checkbox v-model="settingForm.commentsRequired" :true-label="0" :false-label="1"></el-checkbox>
               </el-form-item>
             </el-col>
           </el-row>
@@ -368,11 +311,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.AllowSecondSalesRep')">
-                <el-checkbox
-                  v-model="settingForm.allowSecondSalesRep"
-                  :true-label="0"
-                  :false-label="1"
-                ></el-checkbox>
+                <el-checkbox v-model="settingForm.allowSecondSalesRep" :true-label="0" :false-label="1"></el-checkbox>
               </el-form-item>
             </el-col>
           </el-row>
@@ -415,11 +354,7 @@
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.RequireJustificationtoCancel')">
-                <el-checkbox
-                  v-model="settingForm.requireJustificationToCancel"
-                  :true-label="0"
-                  :false-label="1"
-                ></el-checkbox>
+                <el-checkbox v-model="settingForm.requireJustificationToCancel" :true-label="0" :false-label="1"></el-checkbox>
               </el-form-item>
             </el-col>
             <el-col :span="12">
@@ -445,12 +380,7 @@
             </el-col>
           </el-row>
         </div>
-        <el-alert
-          style="padding:8px 0;margin-bottom:10px"
-          :title="$t('settings.NotificationSettings')"
-          type="info"
-          :closable="false"
-        ></el-alert>
+        <el-alert style="padding:8px 0;margin-bottom:10px" :title="$t('settings.NotificationSettings')" type="info" :closable="false"></el-alert>
         <div class="div_padding_x" style="border-bottom:1px solid #dcdfe6">
           <el-row>
             <el-col :span="12">
@@ -460,22 +390,14 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.ReserveNotificationEmail')">
-                <el-checkbox
-                  v-model="notificationSet.documentsInReserve"
-                  :true-label="0"
-                  :false-label="1"
-                ></el-checkbox>
+                <el-checkbox v-model="notificationSet.documentsInReserve" :true-label="0" :false-label="1"></el-checkbox>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.SPASignNotificationEmail')">
-                <el-checkbox
-                  v-model="notificationSet.pendingSPASign"
-                  :true-label="0"
-                  :false-label="1"
-                ></el-checkbox>
+                <el-checkbox v-model="notificationSet.pendingSPASign" :true-label="0" :false-label="1"></el-checkbox>
               </el-form-item>
             </el-col>
           </el-row>
@@ -487,11 +409,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.DocumentsinSPASign')">
-                <el-checkbox
-                  v-model="notificationSet.documentsInSpaSign"
-                  :true-label="0"
-                  :false-label="1"
-                ></el-checkbox>
+                <el-checkbox v-model="notificationSet.documentsInSpaSign" :true-label="0" :false-label="1"></el-checkbox>
               </el-form-item>
             </el-col>
           </el-row>
@@ -503,11 +421,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.NumberofDaysforReminder')">
-                <el-input
-                  class="width_300px"
-                  v-model="notificationSet.preReservedDays"
-                  :maxlength="5"
-                ></el-input>
+                <el-input class="width_300px" v-model="notificationSet.preReservedDays" :maxlength="5"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -519,51 +433,31 @@
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.NumberofDaysforReminder')">
-                <el-input
-                  class="width_300px"
-                  v-model="notificationSet.reservationDays"
-                  :maxlength="5"
-                ></el-input>
+                <el-input class="width_300px" v-model="notificationSet.reservationDays" :maxlength="5"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.SendPendingSPASignReminder')">
-                <el-checkbox
-                  v-model="notificationSet.sendPendingSpaSign"
-                  :true-label="0"
-                  :false-label="1"
-                ></el-checkbox>
+                <el-checkbox v-model="notificationSet.sendPendingSpaSign" :true-label="0" :false-label="1"></el-checkbox>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.NumberofDaysforReminder')">
-                <el-input
-                  class="width_300px"
-                  v-model="notificationSet.sendPendingSpaSignDays"
-                  :maxlength="5"
-                ></el-input>
+                <el-input class="width_300px" v-model="notificationSet.sendPendingSpaSignDays" :maxlength="5"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
               <el-form-item :label="$t('settings.SendPendingSPAStampReminder')">
-                <el-checkbox
-                  v-model="notificationSet.pendingSpaStamp"
-                  :true-label="0"
-                  :false-label="1"
-                ></el-checkbox>
+                <el-checkbox v-model="notificationSet.pendingSpaStamp" :true-label="0" :false-label="1"></el-checkbox>
               </el-form-item>
             </el-col>
             <el-col :span="12">
               <el-form-item :label="$t('settings.NumberofDaysforReminder')">
-                <el-input
-                  class="width_300px"
-                  v-model="notificationSet.pendingSpaStampDays"
-                  :maxlength="5"
-                ></el-input>
+                <el-input class="width_300px" v-model="notificationSet.pendingSpaStampDays" :maxlength="5"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
@@ -580,12 +474,7 @@
             </el-col>
           </el-row>
         </div>
-        <el-alert
-          style="padding:8px 0;margin-bottom:10px"
-          :title="$t('settings.BookingReissueSettings')"
-          type="info"
-          :closable="false"
-        ></el-alert>
+        <el-alert style="padding:8px 0;margin-bottom:10px" :title="$t('settings.BookingReissueSettings')" type="info" :closable="false"></el-alert>
         <div class="div_padding_x" style="border-bottom:1px solid #dcdfe6">
           <el-row>
             <el-col :span="12">
@@ -612,13 +501,76 @@
             </el-col>
           </el-row>
         </div>
+        <el-alert style="padding:8px 0;margin-bottom:10px" :title="$t('Price API')" type="info" :closable="false"></el-alert>
+        <div class="div_padding_x" style="border-bottom:1px solid #dcdfe6">
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('Price 1')">
+                <el-checkbox v-model="settingForm.price1Api" :true-label="0" :false-label="1"></el-checkbox>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Price 2')">
+                <el-checkbox v-model="settingForm.price2Api" :true-label="0" :false-label="1"></el-checkbox>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('Price 3')">
+                <el-checkbox v-model="settingForm.price3Api" :true-label="0" :false-label="1"></el-checkbox>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Price 4')">
+                <el-checkbox v-model="settingForm.price4Api" :true-label="0" :false-label="1"></el-checkbox>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('Price 5')">
+                <el-checkbox v-model="settingForm.price5Api" :true-label="0" :false-label="1"></el-checkbox>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Price 6')">
+                <el-checkbox v-model="settingForm.price6Api" :true-label="0" :false-label="1"></el-checkbox>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('Price 7')">
+                <el-checkbox v-model="settingForm.price7Api" :true-label="0" :false-label="1"></el-checkbox>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Price 8')">
+                <el-checkbox v-model="settingForm.price8Api" :true-label="0" :false-label="1"></el-checkbox>
+              </el-form-item>
+            </el-col>
+          </el-row>
+          <el-row>
+            <el-col :span="12">
+              <el-form-item :label="$t('Price 9')">
+                <el-checkbox v-model="settingForm.price9Api" :true-label="0" :false-label="1"></el-checkbox>
+              </el-form-item>
+            </el-col>
+            <el-col :span="12">
+              <el-form-item :label="$t('Price 10')">
+                <el-checkbox v-model="settingForm.price10Api" :true-label="0" :false-label="1"></el-checkbox>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </div>
       </el-form>
     </div>
   </div>
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       self: JSON.parse(sessionStorage.getItem('projectDesc')).self,
       id: JSON.parse(sessionStorage.getItem('projectDesc') || '{}').id || '',
@@ -683,7 +635,17 @@ export default {
         showBroke: 0,
         soldApprove: 0,
         showAvailable: 0,
-        launchStatus: 0
+        launchStatus: 0,
+        price1Api: 1, //代表未勾选
+        price2Api: 1,
+        price3Api: 1,
+        price4Api: 1,
+        price5Api: 1,
+        price6Api: 1,
+        price7Api: 1,
+        price8Api: 1,
+        price9Api: 1,
+        price10Api: 1
       },
       notificationSet: {
         reserve: '',
@@ -716,13 +678,13 @@ export default {
       isUpdataDisabled: false
     }
   },
-  mounted() {
+  mounted () {
     if (this.id) {
       this.getSetting()
     }
   },
   methods: {
-    getSetting() {
+    getSetting () {
       //查询设置
       this.$Geting(this.$api.queryProjectSet, { projectId: this.id }).then(
         res => {
@@ -735,10 +697,10 @@ export default {
             this.settingForm.soldApprove = !!res.datas.projectSet.soldApprove
             this.settingForm.showAvailable = !!res.datas.projectSet
               .showAvailable
-            this.settingForm.launchStatus = !! res.datas.projectSet.launchStatus
+            this.settingForm.launchStatus = !!res.datas.projectSet.launchStatus
             this.notificationSet = res.datas.notificationSet || {}
             this.bookTime = res.datas.projectSet.bookTime
-            this.radio = this.bookTime == 20? '1': '2'
+            this.radio = this.bookTime == 20 ? '1' : '2'
           } else {
             this.$notify.error({
               title: 'fail',
@@ -749,7 +711,7 @@ export default {
         }
       )
     },
-    saveSetting() {
+    saveSetting () {
       // console.log(Number(this.settingForm.showBroke), Number(this.settingForm.soldApprove));
       this.settingForm.showBroke = Number(this.settingForm.showBroke)
       this.settingForm.soldApprove = Number(this.settingForm.soldApprove)
