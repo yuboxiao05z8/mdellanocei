@@ -58,11 +58,12 @@
           </template>
         </el-table-column>
 
-        <el-table-column fixed="right" width="300" :label="$t('userLists.edit')">
+        <el-table-column fixed="right" width="370" :label="$t('userLists.edit')">
           <template slot-scope="scope">
             <template>
               <el-button v-if="isAdmin == 0" size="mini" plain @click="editData(scope.row)">{{ $t("transactions.Edit") }}</el-button>
               <el-button size="mini" plain @click="managementFn(scope.row, scope.$index)">{{ $t("accounts.EmployeeList") }}</el-button>
+              <el-button size="mini" plain @click="emailSetFn(scope.row)">{{ $t("Email Set") }}</el-button>
               <el-button v-if="isAdmin == 0" size="mini" plain @click="deleteData(scope.row, scope.$index)">{{ $t("accounts.delete") }}</el-button>
             </template>
           </template>
@@ -387,6 +388,13 @@ export default {
         editBrokeId: row.brokeId,
       };
       this.$router.replace({ path: "/account/employeeList", query: data });
+    },
+    emailSetFn (row) {
+      // 邮箱设置
+      let data = {
+        editBrokeId: row.brokeId,
+      };
+      this.$router.replace({ path: "/account/emailSet", query: data });
     },
     deleteData (row) {
       // 删除公司

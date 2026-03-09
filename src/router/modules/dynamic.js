@@ -50,6 +50,15 @@ const dynamicRouter = [
         meta: {
           title: 'Employee List'
         }
+      },
+      {
+        path: 'emailSet',
+        component: () => import('@/views/accounts/emailSet'),
+        name: 'emailSet',
+        hidden: true,
+        meta: {
+          title: 'Email Set'
+        }
       }
     ]
   },
