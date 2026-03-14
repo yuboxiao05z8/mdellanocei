@@ -89,6 +89,7 @@ Vue.api = Vue.prototype.$api = {
   deleteEmailReceive: "/broke-manager-service/contact/deleteEmailReceive",//删除邮箱接收人
   queryEmailReceiveByBrokeId: "/broke-manager-service/contact/queryEmailReceiveByBrokeId",//查询邮箱接收人
   saveOrUpdateEmailReceive: "/broke-manager-service/contact/saveOrUpdateEmailReceive",//设置邮箱接收人
+  switchAppointment: "/broke-manager-service/appointment/switchAppointment",//预约开关
   // admin
   queryGeneralFile: "/broke-manager-service/general/queryGeneralFile",//查询general file列表
   deleteGeneralFile: "/broke-manager-service/general/deleteGeneralFile",//删除general file

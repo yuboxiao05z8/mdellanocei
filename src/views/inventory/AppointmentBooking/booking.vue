@@ -2,13 +2,7 @@
   <div class="AppointmentBooking">
     <div class="AppointmentBooking_head">
       <div class="project_title">
-        <el-button
-          size="mini"
-          type="info"
-          class="btn el-icon-back"
-          style="margin-right: 30px;"
-          @click="goBack"
-        >{{$t('editMap.goBack')}}</el-button>
+        <el-button size="mini" type="info" class="btn el-icon-back" style="margin-right: 30px;" @click="goBack">{{$t('editMap.goBack')}}</el-button>
         <span>{{$t('navTop.propertiesDetails')}}</span>
         <span class="project_name">Appointment Booking: {{linkInfo.name}}</span>
       </div>
@@ -33,13 +27,15 @@
               <el-button size="mini" @click="EditMediationFn(scope.row.appointmentId)">To Manage</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="Edit">
+          <el-table-column label="Edit" width="250px">
             <template slot="header" slot-scope="scope">
               Edit <el-button size="mini" @click="addBooking" class="addBooking">Add Time</el-button>
             </template>
             <template slot-scope="scope">
               <el-button size="mini" @click="handleEdit(scope.row)">Edit</el-button>
               <el-button size="mini" @click="handleDelete(scope.row.appointmentId)">Delete</el-button>
+              <el-switch v-model="scope.row.status" active-text="start" :active-value='1' :inactive-value='0' style="margin-left:10px" @change="switchChange(scope.row)">
+              </el-switch>
             </template>
           </el-table-column>
         </el-table>
@@ -56,7 +52,7 @@ import SetMediation from './model/SetMediation'
 import SettingBox from './model/SettingBox'
 export default {
   components: { CompileBooking, SetMediation, SettingBox },
-  data() {
+  data () {
     return {
       linkInfo: this.$route.query,
       tableData: [],
@@ -64,11 +60,27 @@ export default {
       activeId: '',
     }
   },
-  mounted() {
+  mounted () {
     this.queryAppointmentList()
   },
   methods: {
-    queryAppointmentList() {
+    switchChange (data) {
+      this.$Posting(this.$api.switchAppointment, {
+        appointmentId: data.appointmentId,
+        status: data.status
+      }).then((res) => {
+        if (res.code == 0) {
+          this.$notify.success({
+            message: 'Success',
+          })
+        } else {
+          this.$notify.error({
+            message: 'Fail',
+          })
+        }
+      })
+    },
+    queryAppointmentList () {
       this.$Posting(this.$api.queryAppointmentList, {
         projectId: this.linkInfo.id,
       }).then((res) => {
@@ -77,7 +89,7 @@ export default {
         }
       })
     },
-    handleDelete(id) {
+    handleDelete (id) {
       this.$confirm(
         this.$t('alert.alert_delete'),
         this.$t('alert.alert_command'),
@@ -112,7 +124,7 @@ export default {
           })
         })
     },
-    addBooking() {
+    addBooking () {
       this.activeItem = {
         appointmentId: '',
         endTime: '',
@@ -125,14 +137,14 @@ export default {
       }
       this.$refs.compile.dialogVisible = true
     },
-    goBack() {
+    goBack () {
       this.$router.go(-1)
     },
-    handleEdit(row) {
+    handleEdit (row) {
       this.$refs.compile.dialogVisible = true
       this.activeItem = row
     },
-    EditMediationFn(id) {
+    EditMediationFn (id) {
       this.activeId = id
       this.$refs.SetMediation.dialogVisible = true
     },
