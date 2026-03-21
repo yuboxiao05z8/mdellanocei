@@ -27,14 +27,14 @@
               <el-button size="mini" @click="EditMediationFn(scope.row.appointmentId)">To Manage</el-button>
             </template>
           </el-table-column>
-          <el-table-column label="Edit" width="250px">
+          <el-table-column label="Edit" width="220px">
             <template slot="header" slot-scope="scope">
               Edit <el-button size="mini" @click="addBooking" class="addBooking">Add Time</el-button>
             </template>
             <template slot-scope="scope">
               <el-button size="mini" @click="handleEdit(scope.row)">Edit</el-button>
               <el-button size="mini" @click="handleDelete(scope.row.appointmentId)">Delete</el-button>
-              <el-switch v-model="scope.row.status" active-text="start" :active-value='1' :inactive-value='0' style="margin-left:10px" @change="switchChange(scope.row)">
+              <el-switch v-model="scope.row.status" :active-value='1' :inactive-value='0' style="margin-left:10px" @change="switchChange(scope.row)">
               </el-switch>
             </template>
           </el-table-column>
