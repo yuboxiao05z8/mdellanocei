@@ -1,11 +1,11 @@
 <template>
   <div class="vue-uploader">
     <div class="file-list">
-      <section v-for="(item, index) of backData" class="file-item draggable-item">
+      <section v-for="(item, index) of imgData" class="file-item draggable-item" :key="index">
         <img @click.stop="$imgPreview(item.src)" :src="item.src" alt="">
         <span class="file-remove el-icon-error" @click="remove(index,item)"></span>
       </section>
-      <section v-if="backData.length < mixLength||mixLength===0" class="file-item">
+      <section v-if="imgData.length < mixLength || mixLength===0" class="file-item">
         <div @click="add" class="add">
           <span>+</span>
         </div>
@@ -41,12 +41,14 @@ export default {
     return {
       files: [],
       percent: 0,
-      hostUrl: window.sessionStorage.getItem("serveUrl") || ""
+      hostUrl: window.sessionStorage.getItem("serveUrl") || "",
+      imgData: []
     };
   },
   mounted () {
     console.log(this.brokeId);
     console.log(this.backData);
+    this.imgData = [...this.backData]
   },
   methods: {
     add () {
@@ -157,7 +159,8 @@ export default {
             name: imgBlob.name,
             url: res.datas.filePath
           };
-          this.backData.push(item);
+          this.imgData.push(item);
+          console.log(this.imgData);
           let uploadedImg = JSON.parse(
             window.sessionStorage.getItem("uploadImg")
           );
@@ -215,7 +218,7 @@ export default {
     },
 
     isContain (file) {
-      return this.backData.find(item => item.name === file.name);
+      return this.imgData.find(item => item.name === file.name);
     },
 
     uploadProgress (evt) {

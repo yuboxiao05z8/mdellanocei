@@ -220,11 +220,13 @@ export default {
       this.calculateFn(this.Payment.buyerPaymentList)
     },
     editFn (index, row) {
+      console.log(row);
       this.editIndex = index
       this.addShow = true
       if (row.chequeBankDate) {
         row.chequeBankDate = this.$dateFormatNoTime(new Date())
       }
+      this.form = row
       if (row.payerImg) {
         this.form.payerImgArr = row.payerImg.split(',').map(i => {
           return {
@@ -232,8 +234,9 @@ export default {
             src: this.hostUrl + i
           }
         })
+      } else {
+        this.form.payerImgArr = []
       }
-      this.form = row
     },
     calculateFn (arr) {
       let totalPrice = 0, earnest = this.roundNum(this.reserveObj.earnest)
