@@ -1,11 +1,11 @@
 <template>
   <div class="vue-uploader">
     <div class="file-list">
-      <section v-for="(item, index) of imgData" class="file-item draggable-item" :key="index">
+      <section v-for="(item, index) of backData" class="file-item draggable-item">
         <img @click.stop="$imgPreview(item.src)" :src="item.src" alt="">
         <span class="file-remove el-icon-error" @click="remove(index,item)"></span>
       </section>
-      <section v-if="imgData.length < mixLength || mixLength===0" class="file-item">
+      <section v-if="backData.length < mixLength||mixLength===0" class="file-item">
         <div @click="add" class="add">
           <span>+</span>
         </div>
@@ -31,24 +31,17 @@ export default {
     maxSize: {
       type: Number,
       default: 100
-    },
-    projectId: {
-      type: String,
-      default: ''
     }
   },
   data () {
     return {
       files: [],
       percent: 0,
-      hostUrl: window.sessionStorage.getItem("serveUrl") || "",
-      imgData: []
+      hostUrl: window.sessionStorage.getItem("serveUrl") || ""
     };
   },
   mounted () {
     console.log(this.brokeId);
-    console.log(this.backData);
-    this.imgData = [...this.backData]
   },
   methods: {
     add () {
@@ -56,7 +49,7 @@ export default {
     },
     remove (index, item) {
       this.deleteUpImg(item.src);
-      if (this.backData) this.backData.splice(index, 1);
+      this.backData.splice(index, 1);
     },
 
     fileChanged () {
@@ -148,10 +141,8 @@ export default {
       formData.append("userId", user.userId);
       formData.append("file", imgBlob.upImgData);
       formData.append("type", this.folder);
-      if (this.projectId) {
-        formData.append("projectId", this.projectId);
-      }
       this.editBrokeId ? formData.append("editBrokeId", this.editBrokeId) : ''
+      console.log(formData)
       this.$PostFormData(this.$api.uploadFile, formData).then(res => {
         if (res.code === "0") {
           let item = {
@@ -159,8 +150,7 @@ export default {
             name: imgBlob.name,
             url: res.datas.filePath
           };
-          this.imgData.push(item);
-          console.log(this.imgData);
+          this.backData.push(item);
           let uploadedImg = JSON.parse(
             window.sessionStorage.getItem("uploadImg")
           );
@@ -191,6 +181,7 @@ export default {
             uploadedImg.forEach((item, index) => {
               if (item === imgPush) {
                 uploadedImg.splice(index, 1);
+                console.log(item, imgPush);
               }
             });
             window.sessionStorage.setItem(
@@ -218,7 +209,7 @@ export default {
     },
 
     isContain (file) {
-      return this.imgData.find(item => item.name === file.name);
+      return this.backData.find(item => item.name === file.name);
     },
 
     uploadProgress (evt) {

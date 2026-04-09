@@ -214,8 +214,8 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="ID/Passport Photo" prop="nricPassportImgArr">
-              <uploaderImg :backData="buyerForm.nricPassportImgArr" :id="'certificateImg'" :mixLength="0" :maxSize="20480" folder="transactionImg" :projectId='$route.query.projectId'></uploaderImg>
+            <el-form-item label="ID/Passport Photo">
+              <uploaderImg :backData="nricPassportImg" :id="'certificateImg'" :mixLength="0" :maxSize="20480" folder="transactionImg"></uploaderImg>
             </el-form-item>
             </el-col>
           </el-form>
@@ -304,7 +304,6 @@ export default {
         residential: '',
         district: '',
         buyerName: '',
-        nricPassportImgArr: []
       },
       type: this.interested,
       ActiveId: '',
@@ -353,7 +352,6 @@ export default {
         'buyerEmail',
         'nationality',
         'nricPassport',
-        'nricPassportImgArr'
       ]
       let changeArr = [
         'customerType',
@@ -439,7 +437,7 @@ export default {
     },
     closedFn () {
       this.resetFromFn()
-      this.buyerForm.nricPassportImgArr = []
+      this.nricPassportImg = []
     },
     addDataFn (type) {
       switch (type) {
@@ -456,6 +454,10 @@ export default {
         default:
           this.$refs.form.validate((valid) => {
             if (valid) {
+              if (this.nricPassportImg.length === 0) {
+                this.$message.error('Please upload pictures!');
+                return false
+              }
               let data = this.buyerForm
 
               if (data.dateOfBirth) {
@@ -473,8 +475,8 @@ export default {
                   return false
                 }
               }
-              if (this.buyerForm.nricPassportImgArr.length) {
-                data.nricPassportImg = this.buyerForm.nricPassportImgArr
+              if (this.nricPassportImg.length) {
+                data.nricPassportImg = this.nricPassportImg
                   .map((i) => {
                     return i.url
                   })
@@ -508,7 +510,7 @@ export default {
     editFn (index, row) {
       let data = JSON.parse(JSON.stringify(row))
       if (data.nricPassportImg) {
-        this.buyerForm.nricPassportImgArr = data.nricPassportImg.split(',').map(i => {
+        this.nricPassportImg = data.nricPassportImg.split(',').map(i => {
           return {
             url: i,
             src: this.hostUrl + i
