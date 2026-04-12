@@ -119,6 +119,18 @@
         </el-row>
         <el-row>
           <el-col :span="12">
+            <el-form-item label="Preview Date">
+              <el-date-picker class="width_300px" value-format="timestamp" format="dd-MMM-yyyy" type="date" v-model="detailForm.previewDate"></el-date-picker>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="Preview Date Alt Text">
+              <el-input class="width_300px" v-model="detailForm.previewDateAltText"></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span="12">
             <el-form-item prop="launchDate" :label="$t('edit.launchDate')">
               <el-date-picker class="width_300px" value-format="timestamp" format="dd-MMM-yyyy" type="date" v-model="detailForm.launchDate"></el-date-picker>
             </el-form-item>
@@ -662,6 +674,8 @@ export default {
         tenureAltText: '',
         completionDate: '',
         completionDateAltText: '',
+        previewDate: '',
+        previewDateAltText: '',
         launchDate: '',
         launchDateAltText: '',
         country: '',
