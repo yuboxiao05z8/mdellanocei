@@ -32,8 +32,12 @@
           <el-form-item label="Contacts" prop="companyContact" style="display:block">
             <div class="contact" v-for="(item, index) in companyForm.companyContact" :key="index">
               <div class="contact_box">
-                <p>{{ item.contactName }}</p>
-                <p>{{ item.contactMobile }}</p>
+                <img v-if="item.contactLogo" :src="item.contactLogo" alt="" width="50px" height="50px">
+                <div>
+                  <p>{{ item.contactName }}</p>
+                  <p>{{ item.contactEmail }}</p>
+                  <p>{{ item.contactMobile }}</p>
+                </div>
               </div>
               <i class="el-icon-circle-close" @click="deleteContact(index)"></i>
             </div>
@@ -46,10 +50,21 @@
         <el-button type="primary" @click="addDataFn">Save</el-button>
       </div>
     </el-dialog>
-    <el-dialog :visible.sync="dialogVisible" width="400px">
+    <el-dialog :visible.sync="dialogVisible" width="400px" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
       <el-form ref="form_contact" :rules="rules" :model="contactObj" label-width="100px">
+        <el-form-item label="portrait">
+          <div style="width:100px">
+            <el-upload class="upload-demo" :before-upload="beforeUploadHead" :http-request="uploadLogoHead" action :show-file-list="false">
+              <img v-if="contactObj.contactLogo" :src="serveUrl + contactObj.contactLogo" class="logo" />
+              <i v-else class="el-icon-plus upload-demo-icon"></i>
+            </el-upload>
+          </div>
+        </el-form-item>
         <el-form-item label="Name" prop="contactName">
           <el-input size="mini" v-model="contactObj.contactName" style="width:200px"></el-input>
+        </el-form-item>
+        <el-form-item label="Email">
+          <el-input size="mini" v-model="contactObj.contactEmail" style="width:200px"></el-input>
         </el-form-item>
         <el-form-item label="Mobile" prop="contactMobile">
           <el-input size="mini" v-model="contactObj.contactMobile" style="width:200px"></el-input>
@@ -90,12 +105,19 @@ export default {
           value: 'Handyan & moves',
           label: 'Handyan & moves',
         },
+        {
+          value: 'Web',
+          label: 'Web',
+        },
       ],
       uploadFlag: false,
       dialogVisible: false,
-      contactObj: {},
+      contactObj: { contactLogo: '' },
       imgLoad: '',
       editLogo: '',
+      imgLoad1: '',
+      headImgCancel: [],//取消时删除
+      headImgSave: []//保存时删除
     }
   },
   computed: {
@@ -123,6 +145,8 @@ export default {
             res.datas.forEach((item) => {
               this.companyForm.companyContact.push({
                 contactName: item.contactName,
+                contactLogo: item.contactLogo,
+                contactEmail: item.contactEmail,
                 contactMobile: item.contactMobile,
               })
             })
@@ -141,15 +165,28 @@ export default {
           this.$Post(this.$api.saveCompany, this.companyForm).then((res) => {
             if (res.code == 0) {
               if (this.type === 'edit') {
+                let path = this.headImgSave
                 if (this.imgLoad.length > 0) {
+                  path.push(this.imgLoad)
+                }
+                if (path.length > 0) {
                   this.$Get(this.$api.deleteUploadFile, {
-                    path: this.editLogo,
+                    path: path.join(),
                   }).then((_res) => {
                     if (_res.code == 0) {
                       this.editLogo = ''
+                      this.headImgSave = []
                     }
                   })
                 }
+              } else {
+                this.$Get(this.$api.deleteUploadFile, {
+                  path: this.headImgSave.join(),
+                }).then((_res) => {
+                  if (_res.code == 0) {
+                    this.headImgSave = []
+                  }
+                })
               }
               this.$message.success('保存成功')
               this.closedForm(1)
@@ -166,9 +203,15 @@ export default {
         if (valid) {
           this.companyForm.companyContact.push({
             contactName: this.contactObj.contactName,
+            contactLogo: this.contactObj.contactLogo,
+            contactEmail: this.contactObj.contactEmail,
             contactMobile: this.contactObj.contactMobile,
           })
+          this.headImgCancel.push(this.contactObj.contactLogo)
           this.dialogVisible = false
+          this.contactObj.contactLogo = ''
+          this.contactObj.contactEmail = ''
+          this.imgLoad1 = ''
           this.$refs['form_contact'].resetFields()
         } else {
           return false
@@ -238,7 +281,64 @@ export default {
           .catch((err) => { })
       }
     },
+    beforeUploadHead (file) {
+      const isJPG_Png = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isJPG_Png) {
+        this.$message.error('请上传JPG或者PNG格式LOGO!')
+        this.uploadFlag = false
+        return false
+      }
+      if (!isLt2M) {
+        this.$message.error('上传LOGO大小不能超过 2MB!')
+        this.uploadFlag = false
+        return false
+      }
+      if (isLt2M && isJPG_Png) this.uploadFlag = true
+      // return isLt2M && type;
+    },
+    uploadLogoHead (file) {
+      if (this.uploadFlag) {
+        let formData = new FormData()
+        let self = this
+        formData.append('type', 'pnd_company_contact_logo')
+        formData.append('id', this.type === 'edit' ? this.companyForm.companyId : '')
+        formData.append(
+          'signature',
+          this.$signatrue({
+            type: 'pnd_company_contact_logo',
+            id: this.type === 'edit' ? this.companyForm.companyId : ''
+          })
+        )
+        formData.append('file', file.file)
+        self
+          .$PostFormData(this.$api.pndUploadFile, formData)
+          .then((res) => {
+            if (res.code == 0) {
+              self.contactObj.contactLogo = res.datas.filePath
+              console.log(self.contactObj.contactLogo);
+              self.$message.success('上传成功')
+              if (self.imgLoad1.length === 0) {
+                self.imgLoad1 = res.datas.filePath
+              } else {
+                self
+                  .$Get(self.$api.deleteUploadFile, { path: self.imgLoad1 })
+                  .then((_res) => {
+                    if (_res.code == 0) {
+                      self.imgLoad1 = ''
+                      self.imgLoad1 = res.datas.filePath
+                    }
+                  })
+              }
+            } else {
+              self.$message.error('上传失败')
+            }
+          })
+          .catch((err) => { })
+      }
+    },
     deleteContact (index) {
+      this.headImgSave.push(this.companyForm.companyContact[index].contactLogo)
       this.companyForm.companyContact.splice(index, 1)
     },
     closedForm (id) {
@@ -248,11 +348,16 @@ export default {
         companyContact: [],
       }
       this.editLogo = ''
-      if (this.imgLoad.length > 0 && !id) {
-        this.$Get(this.$api.deleteUploadFile, { path: this.imgLoad }).then(
+      let path = this.headImgCancel
+      if (this.imgLoad.length > 0) {
+        path.push(this.imgLoad)
+      }
+      if (path.length > 0 && !id) {
+        this.$Get(this.$api.deleteUploadFile, { path: path.join() }).then(
           (_res) => {
             if (_res.code == 0) {
               this.imgLoad = ''
+              this.headImgCancel = []
             }
           }
         )
@@ -303,18 +408,14 @@ export default {
   .contact_box {
     min-width: 300px;
     box-shadow: 1px 3px 6px #888888;
-    height: 40px;
-    position: relative;
+    height: 60px;
+    display: flex;
+    padding: 5px;
+    img {
+      margin-right: 5px;
+    }
     p {
-      position: absolute;
-      left: 10px;
-    }
-    p:first-child {
-      top: -8px;
-    }
-    p:last-child {
-      top: 8px;
-      font-size: 12px;
+      line-height: 18px;
     }
   }
   i {

@@ -21,6 +21,9 @@
               </el-option>
             </el-select>
           </el-form-item>
+          <el-form-item label="分组录入">
+            <el-input size="mini" v-model="fileForm.groupName" @input="changeGroup"></el-input>
+          </el-form-item>
         </el-form>
       </div>
       <div slot="footer" class="dialog-footer">
@@ -35,7 +38,7 @@ export default {
   props: ['show', 'type', 'editData'],
   data () {
     return {
-      fileForm: { fileName: '' },
+      fileForm: { fileName: '', groupName: '' },
       options: [
         {
           value: 'object Handling',
@@ -72,6 +75,9 @@ export default {
     changeName (val) {
       this.fileForm.fileName = val
     },
+    changeGroup (val) {
+      this.fileForm.groupName = val
+    },
     beforeUpload (file) {
       const isPDF = file.type === 'application/pdf';
       const type = this.fileForm.type
@@ -101,6 +107,7 @@ export default {
             this.loading = false
             this.fileForm.url = res.datas.filePath
             this.fileForm.fileName = res.datas.fileName
+            this.fileForm.groupName = res.datas.groupName
             this.$message.success('上传成功');
             if (this.fileLoad.length === 0) {
               this.fileLoad = res.datas.filePath
@@ -135,6 +142,8 @@ export default {
           }
           this.closedForm(true)
           this.$emit('loadData')
+        } else {
+          this.$message.error(res.msg);
         }
       })
     },

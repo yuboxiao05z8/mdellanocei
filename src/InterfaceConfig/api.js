@@ -334,7 +334,7 @@ Vue.api = Vue.prototype.$api = {
   pndUploadFile: '/pnd-api/pnd_upload/uploadFile',//文件上传
   deleteUploadFile: '/pnd-api/pnd_upload/deleteFile',//删除文件
 
-  queryFileList: '/pnd-api/pnd_file/queryFileList',//文件列表
+  queryFileListPage: '/pnd-api/pnd_file/queryFileListPage',//文件列表
   pndDeleteFile: '/pnd-api/pnd_file/deleteFile',//删除pnd文件
   setTop: '/pnd-api/pnd_file/setTop',//置顶pnd文件
   saveFile: '/pnd-api/pnd_file/saveFile',//保存pnd文件

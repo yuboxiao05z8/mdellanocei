@@ -7,8 +7,7 @@
             <el-input style="width: 200px;margin-right: 20px;" size="mini" v-model="form.name" placeholder="name">
             </el-input>
             <span style="font-size: 14px;color: #606266;">Group: </span>
-            <el-select style="width: 200px;margin-right: 20px;" clearable v-model="form.type" placeholder="select"
-              size="mini">
+            <el-select style="width: 200px;margin-right: 20px;" clearable v-model="form.type" placeholder="select" size="mini">
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
@@ -28,6 +27,7 @@
           </template>
         </el-table-column>
         <el-table-column prop="type" label="APP Group"></el-table-column>
+        <el-table-column prop="groupName" label="Group"></el-table-column>
         <el-table-column label="Update Time">
           <template slot-scope="scope">
             <div>{{$dateFormatNoTime(scope.row.createTime)}}</div>
@@ -48,9 +48,7 @@
       </el-table>
     </div>
     <div class="page_section" v-if="total">
-      <el-pagination background small @size-change="handleSizeChange" @current-change="handleCurrentChange"
-        :current-page.sync="form.pageNo" :page-sizes="[5,10,30,50,100]" :page-size="form.pageSize"
-        layout="prev, pager, next,sizes,total" :total="total"></el-pagination>
+      <el-pagination background small @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="form.pageNo" :page-sizes="[5,10,30,50,100]" :page-size="form.pageSize" layout="prev, pager, next,sizes,total" :total="total"></el-pagination>
     </div>
     <addEditFile :show="show" :type="type" @cancel="show = false" :editData='editData' @loadData="getListData">
     </addEditFile>
@@ -101,7 +99,7 @@ export default {
   },
   methods: {
     getListData () {
-      this.$Get(this.$api.queryFileList, this.form).then(res => {
+      this.$Get(this.$api.queryFileListPage, this.form).then(res => {
         if (res.code == 0) {
           this.tableData = res.datas.lists
           this.total = res.datas.count
