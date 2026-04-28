@@ -50,7 +50,7 @@
         <el-button type="primary" @click="addDataFn">Save</el-button>
       </div>
     </el-dialog>
-    <el-dialog :visible.sync="dialogVisible" width="400px" :close-on-click-modal="false" :close-on-press-escape="false" :show-close="false">
+    <el-dialog :visible.sync="dialogVisible" width="400px" :close-on-click-modal="false" :close-on-press-escape="false" @close="closeDia">
       <el-form ref="form_contact" :rules="rules" :model="contactObj" label-width="100px">
         <el-form-item label="portrait">
           <div style="width:100px">
@@ -198,6 +198,20 @@ export default {
         }
       })
     },
+    closeDia () {
+      if (this.imgLoad1.length > 0) {
+        this.$Get(this.$api.deleteUploadFile, { path: this.imgLoad1 })
+          .then((_res) => {
+            if (_res.code == 0) {
+              this.imgLoad1 = ''
+            }
+          })
+      }
+      this.contactObj.contactLogo = ''
+      this.contactObj.contactEmail = ''
+      this.$refs['form_contact'].resetFields()
+
+    },
     addContact () {
       this.$refs['form_contact'].validate((valid) => {
         if (valid) {
@@ -316,7 +330,6 @@ export default {
           .then((res) => {
             if (res.code == 0) {
               self.contactObj.contactLogo = res.datas.filePath
-              console.log(self.contactObj.contactLogo);
               self.$message.success('上传成功')
               if (self.imgLoad1.length === 0) {
                 self.imgLoad1 = res.datas.filePath
