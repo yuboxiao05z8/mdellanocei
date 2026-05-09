@@ -144,6 +144,18 @@ export default [
         component: () => import('@/views/groupManage/groupLink'),
         name: 'groupLink',
         meta: { title: 'Links Management' }
+      },
+      {
+        path: 'schedule',
+        component: () => import('@/views/groupManage/schedule'),
+        name: 'schedule',
+        meta: { title: 'schedule' }
+      },
+      {
+        path: 'landInfo',
+        component: () => import('@/views/groupManage/landInfo'),
+        name: 'landInfo',
+        meta: { title: 'landInfo' }
       }
     ]
   },

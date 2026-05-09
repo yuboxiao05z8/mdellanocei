@@ -38,7 +38,7 @@ export default {
       default: '1'
     }
   },
-  data() {
+  data () {
     return {
       accept: 'image/jpeg, image/png,image/jpg',
       hostUrl: sessionStorage.getItem('serveUrl') || '',
@@ -81,24 +81,24 @@ export default {
       }
     }
   },
-  mounted() {
+  mounted () {
     let setting = this.getSetting()
     let _this = this
     tinymce.init({})
   },
   methods: {
-    getSetting() {
+    getSetting () {
       let _this = this
       return {
         selector: '#' + _this.editorId,
-        init_instance_callback: function(editor) {
+        init_instance_callback: function (editor) {
           editor.on('input change undo redo', () => {
             var content = editor.getContent()
             _this.$emit('show', { content: content, id: _this.editorId })
           })
         },
         // 图片上传
-        images_upload_handler: function(blobInfo, success, failure) {
+        images_upload_handler: function (blobInfo, success, failure) {
           if (blobInfo.blob().size / 1024 / 1024 > 3) {
             failure('File size is too large')
           }
@@ -110,7 +110,7 @@ export default {
         }
       }
     },
-    uploadPic(blobInfo, success, failure) {
+    uploadPic (blobInfo, success, failure) {
       let _this = this
       // 发送请求
       const formData = new FormData()
@@ -134,7 +134,7 @@ export default {
 
       _this
         .$PostFormData(uploadImageUrl, formData)
-        .then(function(data) {
+        .then(function (data) {
           if (data.code == 0) {
             if (window.sessionStorage.getItem('editorImg')) {
               editorImg = JSON.parse(window.sessionStorage.getItem('editorImg'))
@@ -155,7 +155,7 @@ export default {
         })
     }
   },
-  beforeDestroy: function() {
+  beforeDestroy: function () {
     tinymce.get(this.editorId).destroy()
   }
 }

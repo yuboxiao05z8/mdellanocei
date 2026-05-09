@@ -181,7 +181,7 @@ const changeSessionUploadImage = (useData = [], sessionData = []) => {
   window.sessionStorage.setItem('uploadImg', JSON.stringify(sessionData))
 
 }
-function objKeySort(obj) {//排序的函数
+function objKeySort (obj) {//排序的函数
   //先用Object内置类的keys方法获取要排序对象的属性名，再利用Array原型上的sort方法对获取的属性名进行排序，newkey是一个数组
   let newkey = Object.keys(obj).sort()
   let newObj = {};//创建一个新的对象，用于存放排好序的键值对
@@ -201,7 +201,7 @@ function signatrue (obj) {
       str += objKeySort(obj)[key]
     }
   }
-  return  Vue.prototype.$md5(str + 'c1d65f3667324592a071ebec5038f38c')
+  return Vue.prototype.$md5(str + 'c1d65f3667324592a071ebec5038f38c')
 }
 
 const urlEncode = (str) => {

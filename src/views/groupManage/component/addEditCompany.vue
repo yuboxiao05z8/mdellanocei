@@ -29,6 +29,14 @@
           <el-form-item label="account">
             <el-input size="mini" type="textarea" v-model="companyForm.description" style="width:178px"></el-input>
           </el-form-item>
+          <el-form-item label="Company Content">
+            <div style="width:178px">
+              <el-upload class="upload-demo" :before-upload="beforeUploadContent" :http-request="uploadLogoContent" action :show-file-list="false">
+                <img v-if="companyForm.companyContent" :src="serveUrl + companyForm.companyContent" class="logo" />
+                <i v-else class="el-icon-plus upload-demo-icon"></i>
+              </el-upload>
+            </div>
+          </el-form-item>
           <el-form-item label="Contacts" prop="companyContact" style="display:block">
             <div class="contact" v-for="(item, index) in companyForm.companyContact" :key="index">
               <div class="contact_box">
@@ -83,7 +91,7 @@ export default {
   data () {
     return {
       serveUrl: sessionStorage.getItem('serveUrl'),
-      companyForm: { companyLogo: '', companyContact: [] },
+      companyForm: { companyLogo: '', companyContent: '', companyContact: [] },
       options: [
         {
           value: 'Bankers',
@@ -116,6 +124,7 @@ export default {
       imgLoad: '',
       editLogo: '',
       imgLoad1: '',
+      imgLoad2: '',
       headImgCancel: [],//取消时删除
       headImgSave: []//保存时删除
     }
@@ -142,6 +151,7 @@ export default {
               JSON.stringify(this.editData)
             ).companyLogo
             this.imgLoad = ''
+            this.imgLoad2 = ''
             res.datas.forEach((item) => {
               this.companyForm.companyContact.push({
                 contactName: item.contactName,
@@ -169,6 +179,9 @@ export default {
                 if (this.imgLoad.length > 0) {
                   path.push(this.imgLoad)
                 }
+                if (this.imgLoad2.length > 0) {
+                  path.push(this.imgLoad2)
+                }
                 if (path.length > 0) {
                   this.$Get(this.$api.deleteUploadFile, {
                     path: path.join(),
@@ -180,13 +193,15 @@ export default {
                   })
                 }
               } else {
-                this.$Get(this.$api.deleteUploadFile, {
-                  path: this.headImgSave.join(),
-                }).then((_res) => {
-                  if (_res.code == 0) {
-                    this.headImgSave = []
-                  }
-                })
+                if (this.headImgSave.length > 0) {
+                  this.$Get(this.$api.deleteUploadFile, {
+                    path: this.headImgSave.join(),
+                  }).then((_res) => {
+                    if (_res.code == 0) {
+                      this.headImgSave = []
+                    }
+                  })
+                }
               }
               this.$message.success('保存成功')
               this.closedForm(1)
@@ -295,6 +310,69 @@ export default {
           .catch((err) => { })
       }
     },
+    beforeUploadContent (file) {
+      const isJPG_Png = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      const type = this.companyForm.type
+      if (!type) {
+        this.$message.error('请先选择APP Group再进行上传')
+        this.uploadFlag = false
+        return false
+      }
+      if (!isJPG_Png) {
+        this.$message.error('请上传JPG或者PNG格式LOGO!')
+        this.uploadFlag = false
+        return false
+      }
+      if (!isLt2M) {
+        this.$message.error('上传LOGO大小不能超过 2MB!')
+        this.uploadFlag = false
+        return false
+      }
+      if (isLt2M && type && isJPG_Png) this.uploadFlag = true
+      // return isLt2M && type;
+    },
+    uploadLogoContent (file) {
+      if (this.uploadFlag) {
+        let formData = new FormData()
+        let self = this
+        formData.append('type', 'pnd_company_logo')
+        formData.append('group', this.companyForm.type)
+        formData.append('id', this.type === 'edit' ? this.companyForm.companyId : '')
+        formData.append(
+          'signature',
+          this.$signatrue({
+            type: 'pnd_company_logo',
+            group: this.companyForm.type,
+            id: this.type === 'edit' ? this.companyForm.companyId : ''
+          })
+        )
+        formData.append('file', file.file)
+        self
+          .$PostFormData(this.$api.pndUploadFile, formData)
+          .then((res) => {
+            if (res.code == 0) {
+              self.companyForm.companyContent = res.datas.filePath
+              self.$message.success('上传成功')
+              if (self.imgLoad2.length === 0) {
+                self.imgLoad2 = res.datas.filePath
+              } else {
+                self
+                  .$Get(self.$api.deleteUploadFile, { path: self.imgLoad2 })
+                  .then((_res) => {
+                    if (_res.code == 0) {
+                      self.imgLoad2 = ''
+                      self.imgLoad2 = res.datas.filePath
+                    }
+                  })
+              }
+            } else {
+              self.$message.error('上传失败')
+            }
+          })
+          .catch((err) => { })
+      }
+    },
     beforeUploadHead (file) {
       const isJPG_Png = file.type === 'image/jpeg' || file.type === 'image/png'
       const isLt2M = file.size / 1024 / 1024 < 2
@@ -365,11 +443,15 @@ export default {
       if (this.imgLoad.length > 0) {
         path.push(this.imgLoad)
       }
+      if (this.imgLoad2.length > 0) {
+        path.push(this.imgLoad2)
+      }
       if (path.length > 0 && !id) {
         this.$Get(this.$api.deleteUploadFile, { path: path.join() }).then(
           (_res) => {
             if (_res.code == 0) {
               this.imgLoad = ''
+              this.imgLoad2 = ''
               this.headImgCancel = []
             }
           }
