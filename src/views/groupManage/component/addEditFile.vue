@@ -156,7 +156,8 @@ export default {
     },
     closedForm (boole) {
       this.$refs['form_File'].resetFields();
-      this.fileForm = {}
+      this.fileForm.fileName = ''
+      this.fileForm.type = ''
       this.editFile = ''
       if (boole) this.fileLoad = ''
       if (this.fileLoad.length > 0 && !boole) {
