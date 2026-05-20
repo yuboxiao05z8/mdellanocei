@@ -146,10 +146,10 @@ export default [
         meta: { title: 'Links Management' }
       },
       {
-        path: 'schedule',
-        component: () => import('@/views/groupManage/schedule'),
-        name: 'schedule',
-        meta: { title: 'schedule' }
+        path: 'calendar',
+        component: () => import('@/views/groupManage/calendar'),
+        name: 'Calendar',
+        meta: { title: 'Calendar' }
       },
       {
         path: 'landInfo',
