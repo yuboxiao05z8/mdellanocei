@@ -102,7 +102,13 @@
         <p class="pagesize-title">{{$t('Ballot["No. Ballot Per Draw"]')}}</p>
         <el-input type="number" size="mini" v-model="value" max="5" min="1">
         </el-input>
-        <p class="pagesize-title">{{$t('Ballot.min1 to max 5')}}</p>
+        <p class="pagesize-title text-left">{{$t('Ballot.min1 to max 5')}}</p>
+      </div>
+      <div class="demo-input-suffix">
+        <p class="pagesize-title">{{$t('等待时间')}}</p>
+        <el-input type="number" size="mini" v-model="waitTime" max="5" min="1">
+        </el-input>
+        <p class="pagesize-title text-left">s</p>
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="confirm">{{$t('architect.confirm')}}</el-button>
@@ -129,7 +135,8 @@ export default {
       timer: null,
       full: 'on',
       isStart: false, //自动抽取是否开始
-      table: []
+      table: [],
+      waitTime: 0, //翻牌等待时间
     }
   },
   mounted () {
@@ -169,10 +176,14 @@ export default {
         self.isStart = false
       }
       if (self.value1) {
+        console.log(600 * (self.pageSize < 3 ? 3 : self.pageSize) + Number(self.waitTime > 0 ? self.waitTime * 1000 : 1 * 1000))
         self.isStart = true
         self.timer = setInterval(() => {
           self.drawInterestBuyer()
-        }, 1000 * (self.pageSize < 3 ? 3 : self.pageSize))
+        }, 600 * (self.pageSize < 3 ? 3 : self.pageSize) + Number(self.waitTime > 0 ? self.waitTime * 1000 : 1 * 1000))
+        if (this.drawCount.no_draw_num <= 0) {
+          clearInterval(self.timer)
+        }
       } else {
         clearInterval(self.timer)
         self.isStart = false
@@ -571,11 +582,19 @@ export default {
       font-size: 16px;
       text-align: left;
       font-family: PingFangSC-regular;
+      width: 160px;
+      text-align: right;
+    }
+    .text-left {
+      text-align: left;
     }
     .el-input {
       width: 100px;
       margin: 0px 10px;
     }
+  }
+  .demo-input-suffix + .demo-input-suffix {
+    margin-top: 10px;
   }
 }
 </style>
