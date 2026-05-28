@@ -385,6 +385,9 @@ export default {
           position: absolute;
           transition: all 0.6s linear;
           backface-visibility: hidden;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
         }
         .cardBack {
           background: #f2898b;
@@ -397,7 +400,7 @@ export default {
         }
         .buyer-number {
           color: rgba(215, 100, 102, 100);
-          margin-top: 38px;
+          // margin-top: 38px;
           font-weight: 600;
           font-size: 24px;
         }
