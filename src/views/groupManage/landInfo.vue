@@ -18,7 +18,7 @@ export default {
   },
   methods: {
     downloadTemplate () {
-      window.location.href = this.$addDownUrl(this.$api.downloadAgentTemplate)
+      window.location.href = this.$addDownUrl(this.$api.exportProjectLands)
     },
     selectFile () {
       let domEle = document.getElementById('fileId');
@@ -33,6 +33,8 @@ export default {
           this.$alertWarn(`File size is greater than ${this.maxSize}M`);
           domEle.value = "";
           return;
+        } else {
+          this.uploadFile();
         }
       }
     },
@@ -42,11 +44,11 @@ export default {
       let userInfo = JSON.parse(
         window.sessionStorage.getItem("userInfo") || "{}"
       );
-      // formData.append("brokeId", userInfo.brokeId);
-      // formData.append("userId", userInfo.userId);
-      // formData.append("token", userInfo.token);
+      formData.append("brokeId", userInfo.brokeId);
+      formData.append("userId", userInfo.userId);
+      formData.append("token", userInfo.token);
       formData.append("file", document.getElementById('fileId').files[0]);
-      this.$PostFormData(self.url, formData)
+      this.$PostFormData(this.$api.importProjectLand, formData)
         .then(res => {
           if (res.code == 0) {
             self.$notify({
