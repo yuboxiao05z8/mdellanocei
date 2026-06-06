@@ -352,7 +352,7 @@ Vue.api = Vue.prototype.$api = {
   queryCalendarList: '/pnd-api/calendar/queryCalendarList',//查询日程管理列表
   deleteCalendarById: '/pnd-api/calendar/deleteCalendarById',//删除日程管理
   saveOrUpdateCalendar: '/pnd-api/calendar/saveOrUpdateCalendar',//新增或修改日程管理信息
-  importProjectLand: '/broke-manager-service/import/importProjectLand',//导入土地信息
-  exportProjectLands: '/broke-manager-service/export/exportProjectLands',//导出土地信息
+  importProjectLand: '/pnd-api/land/importProjectLand',//导入土地信息
+  exportProjectLands: '/pnd-api/land/exportProjectLands',//导出土地信息
 }
 

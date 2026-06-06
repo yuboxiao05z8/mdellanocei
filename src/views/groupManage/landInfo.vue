@@ -9,6 +9,7 @@
   </div>
 </template>
 <script>
+import md5 from 'js-md5'
 export default {
 
   data () {
@@ -48,6 +49,7 @@ export default {
       formData.append("userId", userInfo.userId);
       formData.append("token", userInfo.token);
       formData.append("file", document.getElementById('fileId').files[0]);
+      formData.append("signature", md5(userInfo.brokeId + userInfo.token + userInfo.userId + 'c1d65f3667324592a071ebec5038f38c'));
       this.$PostFormData(this.$api.importProjectLand, formData)
         .then(res => {
           if (res.code == 0) {

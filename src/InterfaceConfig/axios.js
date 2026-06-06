@@ -328,7 +328,6 @@ const PostFormData = function (url = '', formData, allowHTML = false) {
 }
 Vue.prototype.$PostFormData = PostFormData
 Vue.PostFormData = PostFormData
-
 const PostY = function (url = '', data = {}, allowHTML = false) {
   if (!allowHTML && hasHTML(data)) {
     return Promise.resolve({
