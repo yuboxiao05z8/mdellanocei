@@ -571,6 +571,8 @@ export default {
     background: #fff;
     padding: 10px;
     height: calc(100% - 60px);
+    position: relative;
+    padding-bottom: 60px;
     .sonBox {
       width: 100%;
       overflow-y: scroll;
@@ -655,8 +657,12 @@ export default {
       }
     }
     .viewDetails_content_btn {
-      margin: 30px 0;
       text-align: center;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
     }
     .AgentDiv_content {
       padding: 15px;

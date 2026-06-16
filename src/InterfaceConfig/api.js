@@ -225,6 +225,7 @@ Vue.api = Vue.prototype.$api = {
   queryBrokeProject: "/broke-manager-service/advert/queryBrokeProject", // 查询项目列表
   getUnitRoleAccess: "/broke-manager-service/access/getUnitRoleAccess", // 查询账户对项目拥有的权限
   getUnitFilter: "/broke-manager-service/unit/getUnitFilter", // 查询unit筛选条件
+  queryBuildingStack: "/broke-manager-service/unit/queryBuildingStack", // 查询building列表
   queryUpdateUnit: "/broke-manager-service/unit/queryUpdateUnit", // 查询修改Unit价格列表
   updateUnitPrice: "/broke-manager-service/unit/updateUnitPrice", // 批量更新价格
   queryUnitOpLog: "/broke-manager-service/unit/queryUnitOpLog", // 查询unit 操作记录

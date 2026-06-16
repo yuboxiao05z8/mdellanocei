@@ -4,43 +4,20 @@
       <div class="head">
         <el-form :inline="true" :model="form" class="demo-form-inline">
           <el-form-item label="Project">
-            <el-select
-              @change="getUnitFilter"
-              size="mini"
-              v-model="form.projectId"
-            >
-              <el-option
-                v-for="(item, index) in projects"
-                :key="index"
-                :label="item.projectName"
-                :value="item.projectId"
-              ></el-option>
+            <el-select @change="getUnitFilter" size="mini" v-model="form.projectId">
+              <el-option v-for="(item, index) in projects" :key="index" :label="item.projectName" :value="item.projectId"></el-option>
             </el-select>
           </el-form-item>
 
           <el-form-item label="No.Bedroom">
             <el-select size="mini" v-model="form.roomType">
-              <el-option
-                v-for="(item, index) in bedrooms"
-                :key="index"
-                :label="item.key"
-                :value="item.key"
-              ></el-option>
+              <el-option v-for="(item, index) in bedrooms" :key="index" :label="item.key" :value="item.key"></el-option>
             </el-select>
           </el-form-item>
 
           <el-form-item label="Building">
-            <el-select
-              size="mini"
-              @change="queryTableList"
-              v-model="form.building"
-            >
-              <el-option
-                v-for="(item, index) in buildings"
-                :key="index"
-                :label="item.key"
-                :value="item.key"
-              ></el-option>
+            <el-select size="mini" @change="queryTableList" v-model="form.building">
+              <el-option v-for="(item, index) in buildings" :key="index" :label="item.key + '(' + item.stack + ')'" :value="item.key"></el-option>
             </el-select>
           </el-form-item>
 
@@ -64,10 +41,7 @@
             </div>
           </el-col>
           <el-col :span="4">
-            <div
-              class="statusDiv InPROGRESS"
-              @click="seekStatus('IN PROGRESS')"
-            >
+            <div class="statusDiv InPROGRESS" @click="seekStatus('IN PROGRESS')">
               <h1>In Progress</h1>
               <p>{{ tabObj.unitStat.progress_num }}</p>
             </div>
@@ -85,10 +59,7 @@
             </div>
           </el-col>
           <el-col :span="4">
-            <div
-              class="statusDiv NOTRELEASED"
-              @click="seekStatus('NOT RELEASED')"
-            >
+            <div class="statusDiv NOTRELEASED" @click="seekStatus('NOT RELEASED')">
               <h1>Not Released</h1>
               <p>{{ tabObj.unitStat.not_released_num }}</p>
             </div>
@@ -101,26 +72,16 @@
         </div>
         <div class="tabBox" v-else>
           <div class="horizontalScale">
-            <div
-              class="Scale"
-              v-for="(item, index) in tabObj.stack"
-              :key="index"
-            >
+            <div class="Scale" v-for="(item, index) in tabObj.stack" :key="index">
               {{ item }}
             </div>
           </div>
-          <div
-            class="verticalScale"
-            v-for="(item, index) in tabObj.floor"
-            :key="index"
-          >
+          <div class="verticalScale" v-for="(item, index) in tabObj.floor" :key="index">
             <div class="leftScale">
               <div class="ScaleBox">{{ item.key }}</div>
             </div>
             <div class="units" v-for="(unit, index) in item.value">
-              <div
-                class="unitBox"
-                :class="{
+              <div class="unitBox" :class="{
                   SOLD: unit.purchaseStatus == 'SOLD',
                   AVAILABLE: unit.purchaseStatus == 'AVAILABLE',
                   PENDINGRESERVED: unit.purchaseStatus == 'PENDING RESERVED',
@@ -130,12 +91,10 @@
                   REQUESTCANCEL: unit.purchaseStatus == 'REQUEST CANCEL',
                   NOTRELEASED: unit.purchaseStatus == 'NOT RELEASED',
                   InPROGRESS: unit.purchaseStatus == 'IN PROGRESS',
-                }"
-                v-if="
+                }" v-if="
                   (unit.bedrooms == form.roomType || form.roomType == 'ALL') &&
                   (unit.purchaseStatus == form.Status || form.Status == 'ALL')
-                "
-              >
+                ">
                 <div class="coreUnitBox" @click="showPopup(unit)">
                   <div class="flixDiv">
                     <h1>{{ unit.unitName }}</h1>
@@ -151,18 +110,9 @@
       </div>
     </div>
     <div class="drawLots_box" v-if="launchStatus">
-      <draw-lots
-        @getInterestId="getInterestId"
-        ref="drawDom"
-        :projectId="form.projectId"
-      />
+      <draw-lots @getInterestId="getInterestId" ref="drawDom" :projectId="form.projectId" />
     </div>
-    <SalesPopup
-      ref="popup"
-      @refreshFn="refreshFn"
-      :unitObj="unitObj"
-      :interestId="interestId"
-    ></SalesPopup>
+    <SalesPopup ref="popup" @refreshFn="refreshFn" :unitObj="unitObj" :interestId="interestId"></SalesPopup>
   </div>
 </template>
 
@@ -171,11 +121,11 @@ import SalesPopup from './module/SalesPopup'
 import drawLots from './module/drawLots'
 import { socketLink } from '@/InterfaceConfig/env'
 
-let socket 
+let socket
 
 export default {
   components: { SalesPopup, drawLots },
-  data() {
+  data () {
     return {
       form: {
         projectId: '',
@@ -193,7 +143,7 @@ export default {
       userInfo: JSON.parse(sessionStorage.getItem('userInfo')) || {}
     }
   },
-  mounted() {
+  mounted () {
     if (this.$route.query.id) {
       this.form.projectId = this.$route.query.id
       this.getUnitFilter()
@@ -210,14 +160,14 @@ export default {
     this.queryProjectSalesList()
   },
   methods: {
-    socketMessage(event) {
+    socketMessage (event) {
       if (this.form.projectId == event) {
         console.log('==> socket和项目匹配，触发刷新 <==')
         this.refreshFn()
       }
       console.log(`进入socket方法', 发来ID: ${event}, 项目ID：${this.form.projectId}`)
     },
-    queryProjectSalesList() {
+    queryProjectSalesList () {
       let data = {
         pageSize: 9999,
         pageNo: 1,
@@ -228,7 +178,7 @@ export default {
         }
       })
     },
-    getUnitFilter() {
+    getUnitFilter () {
       this.bedrooms = []
       this.buildings = []
       this.$Post(this.$api.getUnitFilter, {
@@ -236,17 +186,27 @@ export default {
       }).then((res) => {
         if (res.code == 0) {
           this.bedrooms = [{ key: 'ALL' }, ...res.datas.bedrooms]
-          this.buildings = res.datas.building
-          this.form.building = this.buildings[0].key || ''
+          // this.buildings = res.datas.building
+          // this.form.building = this.buildings[0].key || ''
+          this.queryProjectSet(this.form.projectId)
+          this.refreshFn()
+        }
+      })
+      this.$Get(this.$api.queryBuildingStack, {
+        projectId: this.form.projectId,
+      }).then((res) => {
+        if (res.code == 0) {
+          this.buildings = res.datas
+          this.form.building = this.buildings[0].key + '(' + this.buildings[0].stack + ')' || ''
           this.queryProjectSet(this.form.projectId)
           this.refreshFn()
         }
       })
     },
-    queryTableList() {
+    queryTableList () {
       let data = {
         projectId: this.form.projectId,
-        building: this.form.building,
+        building: this.form.building.split('(')[0],
       }
       this.statusObj = []
       this.$Posting(this.$api.queryTableList, data).then((res) => {
@@ -255,10 +215,10 @@ export default {
         }
       })
     },
-    seekStatus(type) {
+    seekStatus (type) {
       this.form.Status = type
     },
-    refreshFn() {
+    refreshFn () {
       this.queryTableList()
       this.interestId = ''
       if (this.$refs.drawDom) {
@@ -267,24 +227,24 @@ export default {
         this.$refs.drawDom.getUnitRoleAccess()
       }
     },
-    showPopup(unit) {
+    showPopup (unit) {
       if (unit.purchaseStatus) {
         this.unitObj = unit
         this.$refs.popup.show = true
       }
     },
-    getInterestId(val) {
+    getInterestId (val) {
       // console.log('收到了交易ID', val)
       this.interestId = val
     },
-    async queryProjectSet(id) {
+    async queryProjectSet (id) {
       let res = await this.$Get(this.$api.queryProjectSet, { projectId: id })
       if (res.code == 0) {
         this.launchStatus = res.datas.projectSet.launchStatus
       }
     },
   },
-  destroyed() {
+  destroyed () {
     socket.close()
     // console.log('==> 关闭连接前 <==', socket)
     socket = null
@@ -321,7 +281,7 @@ window.onbeforeunload = function () {
       }
       .el-col-2 {
         &::before {
-          content: '1';
+          content: "1";
           opacity: 0;
         }
       }

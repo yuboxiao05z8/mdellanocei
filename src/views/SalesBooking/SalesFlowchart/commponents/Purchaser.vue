@@ -313,7 +313,7 @@ export default {
       CustomerData: [],
       PurchaserObj: {
         buyerList: [],
-        buyerCountry: '',
+        buyerCountry: 'Singapore',
         buyerBlock: '',
         buyerUnit: '',
         buyerPostalCode: '',
@@ -369,11 +369,11 @@ export default {
       let blurArr = [
         'buyerPostalCode',
         'buyerBlock',
-        'buyerUnit',
+        // 'buyerUnit',
         'buyerStreetName',
         'postalCode',
         'block',
-        'unitNo',
+        // 'unitNo',
         'streetName'
       ]
       let changeArr = ['buyerCountry']
@@ -394,6 +394,20 @@ export default {
         takeArr.push(key)
       }
       let beforeObj = pick(obj, takeArr)
+      if (!beforeObj.buyerCountry) {
+        if (this.updaObj.projectCountry) {
+          beforeObj.buyerCountry = this.updaObj.projectCountry
+        } else {
+          beforeObj.buyerCountry = 'Singapore'
+        }
+      }
+      if (!beforeObj.country) {
+        if (this.updaObj.projectCountry) {
+          beforeObj.country = this.updaObj.projectCountry
+        } else {
+          beforeObj.country = 'Singapore'
+        }
+      }
       this.PurchaserObj = beforeObj
       if (beforeObj.buyerList && beforeObj.buyerList.length) {
         this.PurchaserObj.buyerList = beforeObj.buyerList

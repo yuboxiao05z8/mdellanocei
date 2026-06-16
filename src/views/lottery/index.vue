@@ -105,7 +105,7 @@
         <p class="pagesize-title text-left">{{$t('Ballot.min1 to max 5')}}</p>
       </div>
       <div class="demo-input-suffix">
-        <p class="pagesize-title">{{$t('等待时间')}}</p>
+        <p class="pagesize-title">{{$t('Ballot Intervals')}}</p>
         <el-input type="number" size="mini" v-model="waitTime" max="5" min="1">
         </el-input>
         <p class="pagesize-title text-left">s</p>
