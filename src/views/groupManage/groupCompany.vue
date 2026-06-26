@@ -10,8 +10,7 @@
             <el-input style="width: 200px;margin-right: 20px;" size="mini" v-model="form.name" placeholder="name">
             </el-input>
             <span style="font-size: 14px;color: #606266;">Group: </span>
-            <el-select style="width: 200px;margin-right: 20px;" clearable v-model="form.type" placeholder="select"
-              size="mini">
+            <el-select style="width: 200px;margin-right: 20px;" clearable v-model="form.type" placeholder="select" size="mini">
               <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
@@ -27,8 +26,7 @@
         <el-table-column prop="companyName" label="Name"></el-table-column>
         <el-table-column prop="companyLogo" label="LOGO" width="180">
           <template slot-scope="scope">
-            <img class="Photo_Service" @click.stop="$imgPreview(serveUrl+scope.row.companyLogo)"
-              :src="serveUrl+scope.row.companyLogo" alt />
+            <img class="Photo_Service" @click.stop="$imgPreview(serveUrl+scope.row.companyLogo)" :src="serveUrl+scope.row.companyLogo" alt />
           </template>
         </el-table-column>
         <el-table-column prop="description" label="account"></el-table-column>
@@ -60,9 +58,7 @@
       </el-table>
     </div>
     <div class="page_section" v-if="total">
-      <el-pagination background small @size-change="handleSizeChange" @current-change="handleCurrentChange"
-        :current-page.sync="form.pageNo" :page-sizes="[5,10,30,50,100]" :page-size="form.pageSize"
-        layout="prev, pager, next,sizes,total" :total="total"></el-pagination>
+      <el-pagination background small @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="form.pageNo" :page-sizes="[5,10,30,50,100]" :page-size="form.pageSize" layout="prev, pager, next,sizes,total" :total="total"></el-pagination>
     </div>
     <addEditCompany :show="show" :type="type" @cancel="show = false" :editData='editData' @loadData="getListData">
     </addEditCompany>
@@ -101,6 +97,10 @@ export default {
         {
           value: 'Handyan & moves',
           label: 'Handyan & moves'
+        },
+        {
+          value: 'Web',
+          label: 'Web'
         }
       ],
       type: '',
@@ -133,6 +133,7 @@ export default {
           companyId: data.companyId,
           companyAddress: data.companyAddress,
           companyLogo: data.companyLogo,
+          companyContent: data.companyContent,
           companyName: data.companyName,
           companyUrl: data.companyUrl,
           description: data.description,

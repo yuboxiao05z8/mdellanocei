@@ -123,6 +123,7 @@ export default {
       contactObj: { contactLogo: '' },
       imgLoad: '',
       editLogo: '',
+      editLogo1: '',
       imgLoad1: '',
       imgLoad2: '',
       headImgCancel: [],//取消时删除
@@ -150,6 +151,9 @@ export default {
             this.editLogo = JSON.parse(
               JSON.stringify(this.editData)
             ).companyLogo
+            this.editLogo1 = JSON.parse(
+              JSON.stringify(this.editData)
+            ).companyContent
             this.imgLoad = ''
             this.imgLoad2 = ''
             res.datas.forEach((item) => {
@@ -176,11 +180,11 @@ export default {
             if (res.code == 0) {
               if (this.type === 'edit') {
                 let path = this.headImgSave
-                if (this.imgLoad.length > 0) {
-                  path.push(this.imgLoad)
+                if (this.editLogo.length > 0) {
+                  path.push(this.editLogo)
                 }
-                if (this.imgLoad2.length > 0) {
-                  path.push(this.imgLoad2)
+                if (this.editLogo1.length > 0) {
+                  path.push(this.editLogo1)
                 }
                 if (path.length > 0) {
                   this.$Get(this.$api.deleteUploadFile, {
@@ -188,6 +192,7 @@ export default {
                   }).then((_res) => {
                     if (_res.code == 0) {
                       this.editLogo = ''
+                      this.editLogo1 = ''
                       this.headImgSave = []
                     }
                   })
@@ -353,6 +358,7 @@ export default {
           .then((res) => {
             if (res.code == 0) {
               self.companyForm.companyContent = res.datas.filePath
+              console.log(self.companyForm.companyContent);
               self.$message.success('上传成功')
               if (self.imgLoad2.length === 0) {
                 self.imgLoad2 = res.datas.filePath
@@ -436,9 +442,11 @@ export default {
       this.$refs['form_company'].resetFields()
       this.companyForm = {
         companyLogo: '',
+        companyContent: '',
         companyContact: [],
       }
       this.editLogo = ''
+      this.editLogo1 = ''
       let path = this.headImgCancel
       if (this.imgLoad.length > 0) {
         path.push(this.imgLoad)

@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import md5 from 'js-md5'
 import {
   baseURL
 } from '@/InterfaceConfig/env'
@@ -10,12 +11,17 @@ const addDownUrl = (url = '', params = {}) => {
   let userId = userInfo.userId || ''
   let token = userInfo.token || ''
   let brokeId = userInfo.brokeId || ''
+  let agentId = userInfo.agentId || ''
   let str = "";
   for (let key in params) {
     str += `${key}=${params[key]}&`
   }
-  return `${baseURL}${url}?${str}userId=${userId}&token=${token}&brokeId=${brokeId}&source=manager&agentId=${userId}`
-
+  if (url.includes('pnd-api')) {
+    let sign = md5(agentId + brokeId + 'manager' + token + userId + 'c1d65f3667324592a071ebec5038f38c')
+    return `${baseURL}${url}?${str}userId=${userId}&token=${token}&brokeId=${brokeId}&source=manager&agentId=${userId}&signature=${sign}`
+  } else {
+    return `${baseURL}${url}?${str}userId=${userId}&token=${token}&brokeId=${brokeId}&source=manager&agentId=${userId}`
+  }
 }
 const base64ToContent = (content) => {
   if (!content) {
