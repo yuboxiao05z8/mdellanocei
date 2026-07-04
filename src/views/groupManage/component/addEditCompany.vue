@@ -180,10 +180,10 @@ export default {
             if (res.code == 0) {
               if (this.type === 'edit') {
                 let path = this.headImgSave
-                if (this.editLogo.length > 0) {
+                if (this.editLogo.length > 0 && this.imgLoad.length > 0) {
                   path.push(this.editLogo)
                 }
-                if (this.editLogo1.length > 0) {
+                if (this.editLogo1.length > 0 && this.imgLoad2.length > 0) {
                   path.push(this.editLogo1)
                 }
                 if (path.length > 0) {
