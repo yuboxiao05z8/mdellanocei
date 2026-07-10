@@ -464,6 +464,8 @@ export default {
             }
           }
         )
+      } else {
+        this.headImgCancel = []
       }
       this.$emit('cancel')
     },
