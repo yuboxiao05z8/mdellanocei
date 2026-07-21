@@ -40,7 +40,7 @@
           <el-form-item label="Contacts" prop="companyContact" style="display:block">
             <div class="contact" v-for="(item, index) in companyForm.companyContact" :key="index">
               <div class="contact_box">
-                <img v-if="item.contactLogo" :src="item.contactLogo" alt="" width="50px" height="50px">
+                <img v-if="item.contactLogo" :src="serveUrl+item.contactLogo" alt="" width="50px" height="50px">
                 <div>
                   <p>{{ item.contactName }}</p>
                   <p>{{ item.contactEmail }}</p>
