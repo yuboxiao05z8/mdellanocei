@@ -3,36 +3,19 @@
     <div class="head">
       <el-row :gutter="20">
         <el-col :span="12">
-          <el-input
-            style="width:300px;margin-right: 15px;"
-            class="seekInput"
-            size="mini"
-            v-model="from.projectName"
-            placeholder="Project Name"
-          ></el-input>
+          <el-input style="width:300px;margin-right: 15px;" class="seekInput" size="mini" v-model="from.projectName" placeholder="Project Name"></el-input>
           <el-button class="seekBtn" size="mini" @click="Search">Search</el-button>
         </el-col>
         <el-col :span="12">
           Sales Status
           <el-select style="margin-left:10px;" size="mini" v-model="from.status" @change="Search">
-            <el-option
-              v-for="(item, index) in statusData"
-              :key="index"
-              :label="item.text"
-              :value="item.type"
-            ></el-option>
+            <el-option v-for="(item, index) in statusData" :key="index" :label="item.text" :value="item.type"></el-option>
           </el-select>
         </el-col>
       </el-row>
     </div>
     <div class="tabDiv">
-      <el-table
-        border
-        :header-cell-style="{'background':'#f5f7fa'}"
-        :data="tableData"
-        style="width: 100%; max-height: 600px"
-        size="mini"
-      >
+      <el-table border :header-cell-style="{'background':'#f5f7fa'}" :data="tableData" style="width: 100%; max-height: 600px" size="mini">
         <el-table-column label="System No.">
           <template slot-scope="scope">
             <div class="seqNoBtn" @click="goDetails(scope.row)">{{scope.row.seqNo}}</div>
@@ -64,10 +47,7 @@
         <el-table-column label="Edit" width="300px">
           <template slot-scope="scope">
             <div v-if="scope.row.status == 2">
-              <el-button
-                size="mini"
-                @click="StatusPartitive(scope.row, 3, 'Cancel Reserved')"
-              >Cancel Reserved</el-button>
+              <el-button size="mini" @click="StatusPartitive(scope.row, 3, 'Cancel Reserved')">Cancel Reserved</el-button>
               <el-button size="mini" @click="BookUnitFn(scope.row)">Approve Unit</el-button>
             </div>
             <div v-if="scope.row.status == 1">
@@ -82,20 +62,13 @@
       </el-table>
     </div>
 
-    <el-pagination
-      class="page_section"
-      @current-change="changePage"
-      background
-      :page-size="from.pageSize"
-      layout="prev, pager, next"
-      :total="from.count"
-    ></el-pagination>
+    <el-pagination class="page_section" @current-change="changePage" background :page-size="from.pageSize" layout="prev, pager, next" :total="from.count"></el-pagination>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       from: {
         projectName: '',
@@ -114,11 +87,11 @@ export default {
       ]
     }
   },
-  mounted() {
+  mounted () {
     this.queryTransactionLogList()
   },
   methods: {
-    queryTransactionLogList() {
+    queryTransactionLogList () {
       this.$Posting(this.$api.queryTransactionLogList, this.from).then(res => {
         if (res.code == 0) {
           this.from.count = res.datas.count
@@ -126,15 +99,15 @@ export default {
         }
       })
     },
-    changePage(val) {
+    changePage (val) {
       this.from.pageNo = val
       this.queryTransactionLogList()
     },
-    Search() {
+    Search () {
       this.from.pageNo = 1
       this.queryTransactionLogList()
     },
-    goDetails(row) {
+    goDetails (row) {
       let status = ''
       switch (row.status) {
         case 1:
@@ -164,7 +137,7 @@ export default {
         }
       })
     },
-    BookUnitFn(row) {
+    BookUnitFn (row) {
       this.$router.push({
         path: '/SalesBooking/SalesFlowchart',
         query: {
@@ -177,7 +150,7 @@ export default {
         }
       })
     },
-    StatusPartitive(row, type, text) {
+    StatusPartitive (row, type, text) {
       console.log(row)
       this.$confirm(`Change the state to ${text}?`, text, {
         confirmButtonText: 'Confirm',
@@ -195,7 +168,7 @@ export default {
             if (res.code == 0) {
               this.$message({
                 type: 'success',
-                message: 'Change the success!'
+                message: 'Updated!'
               })
               this.queryTransactionLogList()
             } else {

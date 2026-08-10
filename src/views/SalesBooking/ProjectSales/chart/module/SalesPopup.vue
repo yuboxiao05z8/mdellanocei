@@ -175,7 +175,7 @@ export default {
             if (res.code == 0) {
               this.$message({
                 type: 'success',
-                message: 'Change the success!',
+                message: 'Updated!',
               })
               // this.$emit('refreshFn')
               this.show = false
