@@ -350,9 +350,9 @@ Vue.api = Vue.prototype.$api = {
   queryCompanyContactList: '/pnd-api/pnd_company/queryCompanyContactList',//查询pnd公司联系人列表
   sendLawyerEmail: '/trade-service/document/sendLawyerEmail', //发送律师邮件
 
-  queryCalendarList: '/pnd-api/calendar/queryCalendarList',//查询日程管理列表
-  deleteCalendarById: '/pnd-api/calendar/deleteCalendarById',//删除日程管理
-  saveOrUpdateCalendar: '/pnd-api/calendar/saveOrUpdateCalendar',//新增或修改日程管理信息
+  queryPNDCalendarList: '/pnd-api/calendar/queryCalendarList',//查询日程管理列表
+  deletePNDCalendarById: '/pnd-api/calendar/deleteCalendarById',//删除日程管理
+  saveOrUpdatePNDCalendar: '/pnd-api/calendar/saveOrUpdateCalendar',//新增或修改日程管理信息
   importProjectLand: '/pnd-api/land/importProjectLand',//导入土地信息
   exportProjectLands: '/pnd-api/land/exportProjectLands',//导出土地信息
 }

@@ -123,7 +123,7 @@ export default {
         if (valid) {
           let data = Object.assign({}, this.scheduleForm)
           data.description = this.$contentToBase64(data.description)
-          this.$Post(this.$api.saveOrUpdateCalendar, data).then(res => {
+          this.$Post(this.$api.saveOrUpdatePNDCalendar, data).then(res => {
             if (res.code == 0) {
               if (this.type === 'edit') {
                 if (this.imgLoad.length > 0) {

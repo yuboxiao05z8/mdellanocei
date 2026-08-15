@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     getListData () {
-      this.$Get(this.$api.queryCalendarList, this.form).then(res => {
+      this.$Get(this.$api.queryPNDCalendarList, this.form).then(res => {
         if (res.code == 0) {
           this.tableData = res.datas.lists
           this.total = res.datas.count
@@ -111,7 +111,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$Get(this.$api.deleteCalendarById, { calendarId: calendarId }).then(res => {
+        this.$Get(this.$api.deletePNDCalendarById, { calendarId: calendarId }).then(res => {
           if (res.code == 0) {
             this.$message.success('删除成功');
             this.getListData()
