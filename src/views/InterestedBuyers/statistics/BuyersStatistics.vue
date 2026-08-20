@@ -11,8 +11,7 @@
         </el-col>
 
         <el-col :span="12" v-if="activePageName == 'default'">
-          <uploader v-if="!isOpening" fileId="transactionsFile" :maxSize="100" :uploadParam="uploadParam"
-            @uploadAfter="uploadAfter" :url="$api.importUnitInterest" fileType=".xls,.xlsx" :btnText="{
+          <uploader v-if="!isOpening" fileId="transactionsFile" :maxSize="100" :uploadParam="uploadParam" @uploadAfter="uploadAfter" :url="$api.importUnitInterest" fileType=".xls,.xlsx" :btnText="{
               select: 'Select Excel File',
               import: 'Import Using File',
             }"></uploader>
@@ -67,14 +66,16 @@
         <div class="inputDiv">
           <el-button size="mini" @click="queryInterestDetail">Add EOI</el-button>
         </div>
+        <div class="inputDiv">
+          <el-button size="mini" @click="removeAll">Remove All</el-button>
+        </div>
       </div>
     </div>
 
     <div class="tab__list_center">
       <el-tabs class="pane_tabs_box" v-model="activePageName" type="border-card">
         <el-tab-pane name="default" label="EOI List">
-          <BuyTabTemplate :tabList="tableData" :isShowQueueNo="true" :count="defaultCount" ref="defaultTemplate"
-            @queryInterestDetail="queryInterestDetail" @handleCurrentChange="PagingPageNo" @UpStatusFn="upStatusFn" />
+          <BuyTabTemplate :tabList="tableData" :isShowQueueNo="true" :count="defaultCount" ref="defaultTemplate" @queryInterestDetail="queryInterestDetail" @handleCurrentChange="PagingPageNo" @UpStatusFn="upStatusFn" />
         </el-tab-pane>
         <el-tab-pane name="repetition" label="EOI Duplicates">
           <el-tabs type="card" v-model="repeatType" @tab-click="repeatNavTabFn" class="repeatNavTab">
@@ -82,9 +83,7 @@
             <el-tab-pane label="Buyer Name" name="buyerName"></el-tab-pane>
             <el-tab-pane label="Cheque No." name="ChequeNo"></el-tab-pane>
           </el-tabs>
-          <BuyTabTemplate :tabList="repetitionData" :count="RepeatCount" ref="RepeatTemplate"
-            @queryInterestDetail="queryInterestDetail" @UpStatusFn="upStatusFn" @handleCurrentChange="PagingPageNo"
-            :bgColor="true" />
+          <BuyTabTemplate :tabList="repetitionData" :count="RepeatCount" ref="RepeatTemplate" @queryInterestDetail="queryInterestDetail" @UpStatusFn="upStatusFn" @handleCurrentChange="PagingPageNo" :bgColor="true" />
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -304,6 +303,37 @@ export default {
         this.interestId = interestId
       }
       this.$refs.buyers_from.form = { ...this.getCreateInfo() }
+    },
+    removeAll () {
+      this.$confirm(this.$t("deleteIt"), this.$t("alert.alert_command"), {
+        confirmButtonText: this.$t("alert.sure"),
+        cancelButtonText: this.$t("alert.cancel"),
+        type: "warning",
+      }).then(() => {
+        this.$Get(this.$api.removeAll, {
+          projectId: this.$route.query.id,
+        }).then((res) => {
+          if (res.code === '0') {
+            this.$message({
+              type: "success",
+              message: this.$t("alert.alert_success_delete_title"),
+            });
+            this.queryInterest()
+            this.queryRepeatBuyers()
+          } else {
+            this.$notify.error({
+              title: "fail",
+              message: res.msg,
+            });
+          }
+        })
+      }).catch(() => {
+
+        this.$message({
+          type: "info",
+          message: this.$t("cancel"),
+        });
+      })
     },
     getCreateInfo () {
       let info = JSON.parse(sessionStorage.getItem('userInfo')) || {}
