@@ -12,37 +12,47 @@
     "Residential Low to Mid-rise",
     "Residential Lowrise"
   ],
-  "tenureData": [{
-    "label":"30 Years",
-    "value":"30 Years"
-  },{
-    "label":"60 Years",
-    "value":"60 Years"
-  },{
-    "label":"99 Years",
-    "value":"99 Years"
-  },{
-    "label":"129 Years",
-    "value":"129 Years"
-  },{
-    "label":"250 Years",
-    "value":"250 Years"
-  },{
-    "label":"946 Years",
-    "value":"946 Years"
-  },{
-    "label":"956 Years",
-    "value":"956 Years"
-  },{
-    "label":"999 Years",
-    "value":"999 Years"
-  },{
-    "label":"Freehold",
-    "value":"Freehold"
-  },{
-    "label":"Leasehold",
-    "value":"Leasehold"
-  }
+  "tenureData": [
+    {
+      "label": "30 Years",
+      "value": "30 Years"
+    },
+    {
+      "label": "60 Years",
+      "value": "60 Years"
+    },
+    {
+      "label": "99 Years",
+      "value": "99 Years"
+    },
+    {
+      "label": "129 Years",
+      "value": "129 Years"
+    },
+    {
+      "label": "250 Years",
+      "value": "250 Years"
+    },
+    {
+      "label": "946 Years",
+      "value": "946 Years"
+    },
+    {
+      "label": "956 Years",
+      "value": "956 Years"
+    },
+    {
+      "label": "999 Years",
+      "value": "999 Years"
+    },
+    {
+      "label": "Freehold",
+      "value": "Freehold"
+    },
+    {
+      "label": "Leasehold",
+      "value": "Leasehold"
+    }
   ],
   "locationData": [
     "150 Sea Horizon",
@@ -83,6 +93,7 @@
     "Johor",
     "Kuala Lumpur - Taman Tun Dr Ismail",
     "London",
+    "Manila",
     "Melbourne",
     "Mumbai - Bandra",
     "Mumbai - Juhu",
