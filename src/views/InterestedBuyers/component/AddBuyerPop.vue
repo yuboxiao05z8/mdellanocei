@@ -4,13 +4,11 @@
       <div class="AddBuyerPop_box">
         <el-form ref="form_buyser" :rules="rules" :model="buyerForm" label-width="150px" v-if="show">
           <el-form-item label="Name" prop="buyerName">
-            <el-input size="mini" style="width: 100%" v-model="buyerForm.buyerName"
-              :disabled="!!porjectInfo.isOpening && developers !== 2"></el-input>
+            <el-input size="mini" style="width: 100%" v-model="buyerForm.buyerName" :disabled="!!porjectInfo.isOpening && developers !== 2"></el-input>
           </el-form-item>
           <el-form-item label="Customer Type" prop="customerType">
             <el-select size="mini" style="width: 100%" v-model="buyerForm.customerType">
-              <el-option v-for="(item, index) in SellBlockData.CustomerTypeData" :key="index" :label="item.name"
-                :value="item.value"></el-option>
+              <el-option v-for="(item, index) in SellBlockData.CustomerTypeData" :key="index" :label="item.name" :value="item.value"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="Date of Birth" prop="dateOfBirth">
@@ -21,20 +19,17 @@
               v-model="buyerForm.dateOfBirth"
               style="width: 100%"
             ></el-date-picker> -->
-            <datepicker class="buyerFormDatePicker" :disabled-dates="disabledDates" inputClass="DatePickerInputClass"
-              v-model="buyerForm.dateOfBirth" :minimumView="'day'" :maximumView="'year'" :initialView="'year'">
+            <datepicker class="buyerFormDatePicker" :disabled-dates="disabledDates" inputClass="DatePickerInputClass" v-model="buyerForm.dateOfBirth" :minimumView="'day'" :maximumView="'year'" :initialView="'year'">
             </datepicker>
           </el-form-item>
           <el-form-item label="Gender" prop="gender">
             <el-select size="mini" style="width: 100%" v-model="buyerForm.gender">
-              <el-option v-for="(item, index) in SellBlockData.GenderData" :key="index" :label="item.name"
-                :value="item.value"></el-option>
+              <el-option v-for="(item, index) in SellBlockData.GenderData" :key="index" :label="item.name" :value="item.value"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="Area Code" prop="countryCallingCode">
             <el-select size="mini" style="width: 100%" v-model="buyerForm.countryCallingCode">
-              <el-option v-for="(item, index) in SellBlockData.countryCallingCodeData" :key="index" :label="item.name"
-                :value="item.name"></el-option>
+              <el-option v-for="(item, index) in SellBlockData.countryCallingCodeData" :key="index" :label="item.name" :value="item.name"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="Mobile" prop="buyerMobile">
@@ -44,23 +39,19 @@
             <el-input size="mini" style="width: 100%" v-model="buyerForm.buyerEmail"></el-input>
           </el-form-item>
           <el-form-item label="Nationality" prop="nationality">
-            <el-select size="mini" style="width: 100%" v-model="buyerForm.nationality"
-              :disabled="!!porjectInfo.isOpening && developers !== 2">
-              <el-option v-for="(item, index) in SellBlockData.CitizenshipData" :key="index" :label="item"
-                :value="item"></el-option>
+            <el-select size="mini" style="width: 100%" v-model="buyerForm.nationality" :disabled="!!porjectInfo.isOpening && developers !== 2">
+              <el-option v-for="(item, index) in SellBlockData.CitizenshipData" :key="index" :label="item" :value="item"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="NRIC/Passport" prop="nricPassport">
-            <el-input size="mini" style="width: 100%" v-model="buyerForm.nricPassport"
-              :disabled="!!porjectInfo.isOpening && developers !== 2"></el-input>
+            <el-input size="mini" style="width: 100%" v-model="buyerForm.nricPassport" :disabled="!!porjectInfo.isOpening && developers !== 2"></el-input>
           </el-form-item>
           <el-form-item label="Occupation">
             <el-input size="mini" style="width: 100%" v-model="buyerForm.occupation"></el-input>
           </el-form-item>
           <el-form-item label="Residential">
             <el-select size="mini" style="width: 100%" v-model="buyerForm.residential">
-              <el-option v-for="(item, index) in SellBlockData.residentialData" :key="index" :label="item"
-                :value="item"></el-option>
+              <el-option v-for="(item, index) in SellBlockData.residentialData" :key="index" :label="item" :value="item"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="District">
@@ -76,8 +67,7 @@
 
           <el-form-item label="Country">
             <el-select size="mini" style="width: 100%" v-model="buyerForm.country">
-              <el-option v-for="(item, index) in SellBlockData.CitizenshipData" :key="index" :label="item"
-                :value="item"></el-option>
+              <el-option v-for="(item, index) in SellBlockData.CitizenshipData" :key="index" :label="item" :value="item"></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="Block">
@@ -209,7 +199,7 @@ export default {
             if (newDate[1] == oldDate[1]) {
               // 年份等于21，月份等于
 
-              if (newDate[2] > oldDate[2]) {
+              if (newDate[2] >= oldDate[2]) {
                 // 年份等于21，月份等于，天数大于 true
                 return true
               } else {

@@ -624,7 +624,7 @@ export default {
             if (newDate[1] == oldDate[1]) {
               // 年份等于21，月份等于
 
-              if (newDate[2] > oldDate[2]) {
+              if (newDate[2] >= oldDate[2]) {
                 // 年份等于21，月份等于，天数大于 true
                 return true
               } else {

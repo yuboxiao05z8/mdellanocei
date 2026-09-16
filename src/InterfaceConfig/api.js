@@ -269,6 +269,7 @@ Vue.api = Vue.prototype.$api = {
   saveRoleMenu: "/broke-manager-service/menu/saveRoleMenu", //角色分配菜单
   saveBrokeMenu: "/broke-manager-service/menu/saveBrokeMenu", // 公司分配菜单
   queryUserMenu: "/broke-manager-service/menu/queryUserMenu", // 查询菜单列表
+  queryMaxOtp: "/trade-service/document/queryMaxOtp", // 查询当前最大的otp号码
 
   saveAppointmentSet: "/broke-manager-service/appointment/saveAppointmentSet", // 保存预约必填
   exportAppointment: "/broke-manager-service/export/exportAppointment", // 导出预约

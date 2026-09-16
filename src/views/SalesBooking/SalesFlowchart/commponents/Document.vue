@@ -13,16 +13,14 @@
         </h1>
       </div>
       <div class="fromDiv Document_content_div">
-        <el-table border :header-cell-style="{ background: '#f5f7fa' }" class="Document_content_div_tab"
-          :data="tableData" style="width: 100%">
+        <el-table border :header-cell-style="{ background: '#f5f7fa' }" class="Document_content_div_tab" :data="tableData" style="width: 100%">
           <el-table-column label="No." prop="method">
             <template slot-scope="scope">{{ scope.$index + 1 }}</template>
           </el-table-column>
           <el-table-column label="Documet" prop="title"></el-table-column>
           <el-table-column label="Files" prop="chequeNo" width="300">
             <template slot-scope="scope" v-if="scope.row.allowGenerate == 1">
-              <el-tag v-for="(tag, index) in scope.row.url" :key="index" closable v-if="tag" effect="dark"
-                @close="deleteImg(scope.row, tag)" @click="PreviewFn(tag)" style="
+              <el-tag v-for="(tag, index) in scope.row.url" :key="index" closable v-if="tag" effect="dark" @close="deleteImg(scope.row, tag)" @click="PreviewFn(tag)" style="
                   display: block;
                   width: 130px;
                   margin: 5px auto;
@@ -41,16 +39,13 @@
           </el-table-column>
           <el-table-column label="edit" width="500">
             <template slot-scope="scope">
-              <el-button size="mini" v-if="scope.row.allowGenerate == 0" @click="ViewFn(scope.row)"
-                :disabled="scope.row.url == ''">View</el-button>
+              <el-button size="mini" v-if="scope.row.allowGenerate == 0" @click="ViewFn(scope.row)" :disabled="scope.row.url == ''">View</el-button>
 
-              <el-upload class="upload-demo" :action="baseURL + $api.uploadTransactionFile"
-                accept="application/pdf,image/jpeg,image/png" :data="{
+              <el-upload class="upload-demo" :action="baseURL + $api.uploadTransactionFile" accept="application/pdf,image/jpeg,image/png" :data="{
                   ...upDataObj,
                   docId: scope.row.docId,
                   id: scope.row.id,
-                }" :limit="30" auto-upload :on-success="upImgSuccess" :on-error="upImgError"
-                v-if="scope.row.allowGenerate == 1" :show-file-list="false">
+                }" :limit="30" auto-upload :on-success="upImgSuccess" :on-error="upImgError" v-if="scope.row.allowGenerate == 1" :show-file-list="false">
                 <el-button size="small" type="primary" v-if="scope.row.url.length < 2">Click on the upload</el-button>
                 <div slot="tip" class="el-upload__tip">
                   Only JPG/PNG/PDF files and no more than 1MB can be uploaded
@@ -58,17 +53,11 @@
               </el-upload>
               <el-button size="mini" v-if="scope.row.allowGenerate == 0" @click="VersionView(scope.row)">Version
               </el-button>
-              <el-button size="mini" v-if="scope.row.allowGenerate == 0" @click="OpenContractSettings(scope.row)"
-                :disabled="(isAgentCompany == 3 && scope.row.type == 2)">Generate</el-button>
-              <el-button size="mini" :disabled="scope.row.url == ''"
-                v-if="scope.row.allowGenerate == 0 && scope.row.type == 1" @click="PDIFn(scope.row)">Go to E-Sign
+              <el-button size="mini" v-if="scope.row.allowGenerate == 0" @click="OpenContractSettings(scope.row)" :disabled="(isAgentCompany == 3 && scope.row.type == 2)">Generate</el-button>
+              <el-button size="mini" :disabled="scope.row.url == ''" v-if="scope.row.allowGenerate == 0 && scope.row.type == 1" @click="PDIFn(scope.row)">Go to E-Sign
               </el-button>
-              <el-button size="mini" :disabled="scope.row.url == ''"
-                v-if="AccessData['PDI_SIGNED']== 1&&(documentObj.transactionStatus=='PDI PENDING'||!documentObj.transactionStatus) && scope.row.type==1"
-                @click="updateStatus('PDI SIGNED')">{{ $t('PDI SIGNED') }}</el-button>
-              <el-button size="mini" :disabled="scope.row.url == ''"
-                v-if="AccessData['COMPLETED']== 1&&documentObj.transactionStatus=='PDI SIGNED'&&userInfo.type!==3&& scope.row.type==2"
-                @click="updateStatus('COMPLETED')">{{ $t('COMPLETED') }}</el-button>
+              <el-button size="mini" :disabled="scope.row.url == ''" v-if="AccessData['PDI_SIGNED']== 1&&(documentObj.transactionStatus=='PDI PENDING'||!documentObj.transactionStatus) && scope.row.type==1" @click="updateStatus('PDI SIGNED')">{{ $t('PDI SIGNED') }}</el-button>
+              <el-button size="mini" :disabled="scope.row.url == ''" v-if="AccessData['COMPLETED']== 1&&documentObj.transactionStatus=='PDI SIGNED'&&userInfo.type!==3&& scope.row.type==2" @click="updateStatus('COMPLETED')">{{ $t('COMPLETED') }}</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -95,7 +84,8 @@
     <!-- 合同编号生产弹窗 -->
     <el-dialog title="OTP Settings" width="30%" center :visible.sync="outerVisible">
       <div>
-        <p v-if="acitveGontractInfon.otp">Current OTP No. {{acitveGontractInfon.otp}}</p>
+        <p v-if="otpNewest">Last Generated OTP No.{{otpNewest}}</p>
+        <p v-if="acitveGontractInfon.otp">Existing OTP No.{{acitveGontractInfon.otp}}</p>
         <p>Please select OTP No. output</p>
         <div style="text-align: center;">
           <el-button type="warning" style="margin-top: 20px" :disabled="isDisabled" @click="GenerateFn(1)">System
@@ -108,8 +98,7 @@
           </el-button>
         </div>
       </div>
-      <el-dialog width="30%" title="OTP Settings" :visible.sync="innerVisible" append-to-body center
-        @closed="otpNo = ''">
+      <el-dialog width="30%" title="OTP Settings" :visible.sync="innerVisible" append-to-body center @closed="otpNo = ''">
         <div style="text-align: center;">
           <el-input placeholder="Please key in OTP no." v-model="otpNo">
             <template slot="prepend">Please key in OTP no.</template>
@@ -164,6 +153,7 @@ export default {
       innerVisible: false,
       userInfo: JSON.parse(sessionStorage.getItem('userInfo')),
       otpNo: '',
+      otpNewest: '',
       isAgentCompany: JSON.parse(sessionStorage.getItem('userInfo')).type,
       AccessData: {}
     }
@@ -225,6 +215,16 @@ export default {
       this.acitveGontractInfon = row
       if (row.allowGenerate == 0 && row.type == 2) {
         this.outerVisible = true
+        this.$Geting(this.$api.queryMaxOtp, {
+          projectId: this.$route.query.projectId,
+          otpNo: row.otpNo,
+          otpNewest: row.otpNewest
+        })
+          .then(res => {
+            if (res.code == 0) {
+              this.otpNewest = res.datas.otpNewest
+            }
+          })
       } else {
         this.GenerateFn()
       }
