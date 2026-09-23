@@ -160,6 +160,7 @@ Vue.api = Vue.prototype.$api = {
   updateAction: "/broke-manager-service/interest/updateAction",//Active
   importUnitInterest: "/broke-manager-service/import/importUnitInterest",//import Unit Interest
   exportUnitInterest: "/broke-manager-service/export/exportUnitInterest",//export Unit Interest
+  removeAll: "/broke-manager-service/interest/removeAll",
   //transaction
   importTransaction: "/broke-manager-service/import/importTransaction",//import Transaction
   exportTransaction: "/broke-manager-service/export/exportTransaction",//export Transaction
