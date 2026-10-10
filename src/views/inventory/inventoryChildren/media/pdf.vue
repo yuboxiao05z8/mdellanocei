@@ -82,12 +82,12 @@
             <div v-else>{{scope.row.groupName}}</div>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('pdf.delete')">
+        <el-table-column :label="$t('pdf.delete')" width="100px">
           <template slot-scope="scope">
             <el-button size="mini" plain :disabled="scope.$index === tableDataInit || scope.row.self == 0" @click="deleteData(scope.row)">{{$t('pdf.delete')}}</el-button>
           </template>
         </el-table-column>
-        <el-table-column :label="$t('pdf.edit')">
+        <el-table-column :label="$t('pdf.edit')" width="170px">
           <template slot-scope="scope">
             <template v-if="scope.$index === tableDataInit">
               <el-button :disabled="scope.row.self == 0" size="mini" plain @click="update(scope.row)">{{$t('update')}}</el-button>
@@ -96,6 +96,7 @@
             <template v-else>
               <el-button :disabled="scope.row.self == 0" size="mini" plain @click="edit(scope.row,scope.$index)">{{$t('pdf.edit')}}</el-button>
             </template>
+            <el-button :disabled="scope.row.self == 0" size="mini" plain @click="mainClick(scope.row)" v-if="scope.row.pndType!=1&&scope.row.type==2">Main PDF</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -165,6 +166,17 @@ export default {
     }
   },
   methods: {
+    mainClick (row) {
+      this.$Get(this.$api.updatePdfType, {
+        id: row.id,
+        projectId: row.projectId
+      }).then(res => {
+        if (res.code == 0) {
+          this.$message.success('设置成功')
+          this.getListData();
+        }
+      })
+    },
     refresh () {
       this.cancelAddData();
       this.getListData();

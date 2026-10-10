@@ -345,6 +345,7 @@ Vue.api = Vue.prototype.$api = {
   queryLinkList: '/pnd-api/pnd_link/queryLinkList',//查询pnd Link列表
   saveLink: '/pnd-api/pnd_link/saveLink',//保存pnd link
   deleteLink: '/pnd-api/pnd_link/deleteLink',//删除pnd link
+  queryLinkContactList: '/pnd-api/pnd_link/queryLinkContactList',//查询linkContactList
 
   queryCompanyList: '/pnd-api/pnd_company/queryCompanyList',//查询pnd公司列表
   saveCompany: '/pnd-api/pnd_company/saveCompany',//保存pnd公司
@@ -357,5 +358,7 @@ Vue.api = Vue.prototype.$api = {
   saveOrUpdatePNDCalendar: '/pnd-api/calendar/saveOrUpdateCalendar',//新增或修改日程管理信息
   importProjectLand: '/pnd-api/land/importProjectLand',//导入土地信息
   exportProjectLands: '/pnd-api/land/exportProjectLands',//导出土地信息
+
+  updatePdfType: '/broke-manager-service/media/updatePdfType', //更新PDF文件为主要文件类型
 }
 

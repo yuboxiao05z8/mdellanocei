@@ -118,7 +118,8 @@ export default {
           type: data.type,
           linkName: data.linkName,
           link: data.link,
-          logo: data.logo
+          logo: data.logo,
+          pndLinkContact: []
         }
       }
     },
