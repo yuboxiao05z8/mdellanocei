@@ -41,20 +41,16 @@ export default {
       fileForm: { fileName: '', groupName: '' },
       options: [
         {
-          value: 'object Handling',
-          label: 'object Handling'
+          value: 'Professional Tips',
+          label: 'Professional Tips'
         },
         {
           value: 'Land Bid',
           label: 'Land Bid'
         },
         {
-          value: 'Branding Awareness',
-          label: 'Branding Awareness'
-        },
-        {
-          value: 'report',
-          label: 'report'
+          value: 'Market Analysis',
+          label: 'Market Analysis'
         }
       ],
       fileLoad: '',

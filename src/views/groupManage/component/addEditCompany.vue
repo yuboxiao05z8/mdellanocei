@@ -37,6 +37,9 @@
               </el-upload>
             </div>
           </el-form-item>
+          <el-form-item label="showIndex">
+            <el-input size="mini" type="number" v-model="companyForm.showIndex" style="width:178px"></el-input>
+          </el-form-item>
           <el-form-item label="Contacts" prop="companyContact" style="display:block">
             <div class="contact" v-for="(item, index) in companyForm.companyContact" :key="index">
               <div class="contact_box">
@@ -91,7 +94,7 @@ export default {
   data () {
     return {
       serveUrl: sessionStorage.getItem('serveUrl'),
-      companyForm: { companyLogo: '', companyContent: '', companyContact: [] },
+      companyForm: { companyLogo: '', companyContent: '', companyContact: [], showIndex: '' },
       options: [
         {
           value: 'Bankers',

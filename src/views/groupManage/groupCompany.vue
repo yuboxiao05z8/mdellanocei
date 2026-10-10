@@ -131,6 +131,7 @@ export default {
       if (type === 'edit') {
         this.editData = {
           companyId: data.companyId,
+          showIndex: data.showIndex,
           companyAddress: data.companyAddress,
           companyLogo: data.companyLogo,
           companyContent: data.companyContent,
