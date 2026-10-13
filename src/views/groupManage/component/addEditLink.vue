@@ -128,7 +128,7 @@ export default {
               JSON.stringify(this.editData)
             ).pndLinkContact
             this.imgLoad = ''
-            res.datas.forEach((item) => {
+            res.datas.contact.forEach((item) => {
               this.linkForm.pndLinkContact.push({
                 contactName: item.contactName,
                 contactLogo: item.contactLogo,

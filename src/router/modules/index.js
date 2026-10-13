@@ -156,6 +156,35 @@ export default [
         component: () => import('@/views/groupManage/landInfo'),
         name: 'landInfo',
         meta: { title: 'landInfo' }
+      },
+      {
+        path: 'pdfManage',
+        component: () => import('@/views/groupManage/pdfManage'),
+        redirect: '/groupManage/pdfManage/projectUpload',
+        name: 'pdfManage',
+        meta: {
+          title: 'PDF Manage'
+        },
+        children: [
+          {
+            path: 'projectUpload',
+            component: () => import('@/views/groupManage/pdfManage/projectUpload'),
+            name: 'projectUpload',
+            meta: { title: 'Project Upload' }
+          },
+          {
+            path: 'areaUpload',
+            component: () => import('@/views/groupManage/pdfManage/areaUpload'),
+            name: 'areaUpload',
+            meta: { title: 'Area Upload' }
+          },
+          {
+            path: 'otherUpload',
+            component: () => import('@/views/groupManage/pdfManage/otherUpload'),
+            name: 'otherUpload',
+            meta: { title: 'Other Upload' }
+          }
+        ]
       }
     ]
   },

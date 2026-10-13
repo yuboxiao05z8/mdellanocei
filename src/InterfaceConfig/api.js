@@ -360,5 +360,16 @@ Vue.api = Vue.prototype.$api = {
   exportProjectLands: '/pnd-api/land/exportProjectLands',//导出土地信息
 
   updatePdfType: '/broke-manager-service/media/updatePdfType', //更新PDF文件为主要文件类型
+
+  queryPndDistrictList: '/pnd-api/pdf/queryPndDistrictList', //查询地区PDF图片列表
+  saveOrUpdatePndProject: '/pnd-api/pdf/saveOrUpdatePndProject', //新增或修改项目PDF图片
+  saveOrUpdatePndDistrict: '/pnd-api/pdf/saveOrUpdatePndDistrict', //新增或修改地区PDF图片
+  saveOrUpdatePndFile: '/pnd-api/pdf/saveOrUpdatePndFile', //新增或修改PDF文件
+  queryPndProjectList: '/pnd-api/pdf/queryPndProjectList', //查询项目PDF图片列表
+  queryPndFileList: '/pnd-api/pdf/queryPndFileList', //查询PDF文件图片列表
+  deletePndFile: '/pnd-api/pdf/deletePndFile', //删除PDF文件图片
+  deletePndDistrict: '/pnd-api/pdf/deletePndDistrict', //删除地区PDF图片
+  deletePndProject: '/pnd-api/pdf/deletePndProject', //删除项目PDF图片
+  queryProjectBySearch: '/pnd-api/project/queryProjectBySearch', //搜索项目列表
 }
 
