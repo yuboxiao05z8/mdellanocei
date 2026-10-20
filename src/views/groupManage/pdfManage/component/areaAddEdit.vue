@@ -4,18 +4,18 @@
       <div class="addEditCompany_box">
         <el-form ref="form_pro" :rules="rules" :model="proForm" label-width="120px">
           <el-form-item label="District Name" prop="districtName">
-            <el-select v-model="proForm.districtName" placeholder="select" size="mini" disabled>
-              <el-option label="Regional rent" :value="1">
+            <el-select v-model="proForm.districtName" placeholder="select" size="mini">
+              <el-option v-for="item in disList" :key="item.value" :label="item.label" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="TYPE" prop="pdfType">
-            <el-select v-model="proForm.pdfType" placeholder="select" size="mini" disabled>
+            <el-select v-model="proForm.pdfType" placeholder="select" size="mini">
               <el-option label="Regional rent" :value="1">
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="LOGO" prop="logo">
+          <el-form-item label="File" prop="logo">
             <el-upload class="upload-demo" :before-upload="beforeUpload" :http-request="uploadLogo" action :show-file-list="false">
               <img v-if="proForm.logo" :src="serveUrl+proForm.logo" class="logo">
               <i v-else class="el-icon-plus upload-demo-icon"></i>
@@ -66,11 +66,9 @@ export default {
     },
   },
   mounted () {
-    alert(11)
-    for (let i = 0; i++; i < 28) {
-      this.disList.push({ label: 'D' + i < 10 ? `0${i}` : i, value: 'D' + i < 10 ? `0${i}` : i })
+    for (let i = 0; i < 28; i++) {
+      this.disList.push({ label: `D${i < 10 ? '0' + (i + 1) : i + 1}`, value: `D${i < 10 ? '0' + (i + 1) : i + 1}` })
     }
-    console.log(this.disList);
   },
   methods: {
     addDataFn () {
@@ -111,7 +109,7 @@ export default {
         this.uploadFlag = false
         return false
       }
-      if (isLt2M && type && isJPG_Png) this.uploadFlag = true
+      if (isLt2M && isJPG_Png) this.uploadFlag = true
       // return isLt2M && type;
     },
     uploadLogo (file) {
@@ -119,9 +117,8 @@ export default {
         let formData = new FormData()
         let self = this
         formData.append('type', 'pnd_logo')
-        formData.append('group', this.proForm.type)
-        formData.append('id', this.type === 'edit' ? this.proForm.pdfId : '')
-        formData.append('signature', this.$signatrue({ type: 'pnd_logo', id: this.type === 'edit' ? this.proForm.pdfId : '' }))
+        formData.append('id', this.type === 'edit' ? this.proForm.districtId : '')
+        formData.append('signature', this.$signatrue({ type: 'pnd_logo', id: this.type === 'edit' ? this.proForm.districtId : '' }))
         formData.append('file', file.file)
         self.$PostFormData(this.$api.pndUploadFile, formData)
           .then(res => {

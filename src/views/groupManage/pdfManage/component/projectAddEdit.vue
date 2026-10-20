@@ -10,7 +10,7 @@
             </el-select>
           </el-form-item>
           <el-form-item label="TYPE" prop="pdfType">
-            <el-select v-model="proForm.pdfType" placeholder="select" size="mini" disabled>
+            <el-select v-model="proForm.pdfType" placeholder="select" size="mini">
               <el-option label="facilities" :value="1">
               </el-option>
             </el-select>

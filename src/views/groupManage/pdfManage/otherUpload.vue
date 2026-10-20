@@ -6,10 +6,6 @@
           <div class="grid-content bg-purple">
             <el-input style="width: 200px;margin-right: 20px" size="mini" v-model="form.fileName" placeholder="Pro Name">
             </el-input>
-            <el-select v-model="form.pdfType" style="width: 200px;margin-right: 20px" placeholder="TYPE" clearable="">
-              <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-              </el-option>
-            </el-select>
             <el-button size="mini" @click="getListData">Search</el-button>
             <el-button size="mini" @click="reset">Clear</el-button>
             <el-button size="mini" @click="addEdit('add')">+ADD</el-button>
@@ -19,13 +15,18 @@
     </div>
     <div class="schedule_tab">
       <el-table size="mini" :header-cell-style="{'background':'#f5f7fa'}" :data="tableData" border max-height="600">
-        <el-table-column prop="type" label="Pro Name">
+        <el-table-column prop="fileName" label="File Name">
+          <template>
+            <div>
+              ProjectReport
+            </div>
+          </template>
         </el-table-column>
-        <el-table-column prop="type" label="TYPE">
+        <el-table-column prop="page" label="Page">
         </el-table-column>
-        <el-table-column prop="companyLogo" label="Image" width="180">
+        <el-table-column prop="logo" label="Image" width="180">
           <template slot-scope="scope">
-            <img class="Photo_Service" @click.stop="$imgPreview(serveUrl+scope.row.companyLogo)" :src="serveUrl+scope.row.companyLogo" alt />
+            <img class="Photo_Service" @click.stop="$imgPreview(serveUrl+scope.row.logo)" :src="serveUrl+scope.row.logo" alt />
           </template>
         </el-table-column>
         <el-table-column label="Edit" width="170">
@@ -63,7 +64,6 @@ export default {
         pageSize: 10,
         pageNo: 1,
         fileName: '',
-        page: ''
       },
       show: false,
       type: '',
@@ -92,7 +92,6 @@ export default {
     },
     reset () {
       this.form.fileName = ''
-      this.form.pdfType = ''
       this.getListData()
     },
     addEdit (type, data) {
@@ -101,10 +100,9 @@ export default {
       if (type === 'edit') {
         this.editData = {
           fileId: data.fileId,
-          projectId: data.projectId,
           fileName: data.fileName,
           logo: data.logo,
-          pdfType: data.pdfType
+          page: data.page
         }
       }
     },
@@ -142,6 +140,13 @@ export default {
   .schedule_tab {
     padding: 10px;
     background: #fff;
+  }
+  .Photo_Service {
+    width: 130px;
+    height: 70px;
+    background: #999;
+    object-fit: contain;
+    border-radius: 5px;
   }
 }
 </style>

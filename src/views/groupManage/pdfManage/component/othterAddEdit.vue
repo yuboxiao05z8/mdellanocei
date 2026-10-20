@@ -3,16 +3,16 @@
     <el-dialog center title="Link" :visible.sync="show" :close-on-click-modal="false" :close-on-press-escape="false" width="800px" append-to-body :show-close='false'>
       <div class="addEditCompany_box">
         <el-form ref="form_pro" :rules="rules" :model="proForm" label-width="120px">
-          <el-form-item label="Pro Name" prop="projectId">
-            <el-input size="mini" v-model="proForm.proName"></el-input>
-          </el-form-item>
-          <el-form-item label="TYPE" prop="pdfType">
-            <el-select v-model="proForm.pdfType" placeholder="select" size="mini" disabled>
-              <el-option label="周边截图" :value="1">
+          <el-form-item label="File Name" prop="fileName">
+            <el-select v-model="proForm.fileName" placeholder="select" size="mini">
+              <el-option label="ProjectReport" value="1">
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="LOGO" prop="logo">
+          <el-form-item label="Page" prop="page">
+            <el-input-number size="mini" v-model="proForm.page" :min="1" :step="1" step-strictly style="width:193px"></el-input-number>
+          </el-form-item>
+          <el-form-item label="File" prop="logo">
             <el-upload class="upload-demo" :before-upload="beforeUpload" :http-request="uploadLogo" action :show-file-list="false">
               <img v-if="proForm.logo" :src="serveUrl+proForm.logo" class="logo">
               <i v-else class="el-icon-plus upload-demo-icon"></i>
@@ -34,7 +34,7 @@ export default {
   data () {
     return {
       serveUrl: sessionStorage.getItem('serveUrl'),
-      proForm: { logo: '', projectId: '', pdfType: 1 },
+      proForm: { logo: '', page: 1, fileName: 1 },
       uploadFlag: false,
       imgLoad: '',
       editLogo: '',
@@ -43,12 +43,15 @@ export default {
   },
   computed: {
     rules () {
+      let blurArr = [
+        'page'
+      ]
       let changeArr = [
-        'projectId',
-        'pdfType',
+        'fileName',
         'logo',
       ]
       return {
+        ...setRulesData('blur', blurArr),
         ...setRulesData('change', changeArr),
       }
     },
@@ -100,7 +103,7 @@ export default {
         this.uploadFlag = false
         return false
       }
-      if (isLt2M && type && isJPG_Png) this.uploadFlag = true
+      if (isLt2M && isJPG_Png) this.uploadFlag = true
       // return isLt2M && type;
     },
     uploadLogo (file) {
@@ -108,9 +111,8 @@ export default {
         let formData = new FormData()
         let self = this
         formData.append('type', 'pnd_logo')
-        formData.append('group', this.proForm.type)
-        formData.append('id', this.type === 'edit' ? this.proForm.pdfId : '')
-        formData.append('signature', this.$signatrue({ type: 'pnd_logo', id: this.type === 'edit' ? this.proForm.pdfId : '' }))
+        formData.append('id', this.type === 'edit' ? this.proForm.fileId : '')
+        formData.append('signature', this.$signatrue({ type: 'pnd_logo', id: this.type === 'edit' ? this.proForm.fileId : '' }))
         formData.append('file', file.file)
         self.$PostFormData(this.$api.pndUploadFile, formData)
           .then(res => {
