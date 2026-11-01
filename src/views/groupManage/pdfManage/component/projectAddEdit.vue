@@ -15,7 +15,7 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="LOGO" prop="logo">
+          <el-form-item label="File" prop="logo">
             <el-upload class="upload-demo" :before-upload="beforeUpload" :http-request="uploadLogo" action :show-file-list="false">
               <img v-if="proForm.logo" :src="serveUrl+proForm.logo" class="logo">
               <i v-else class="el-icon-plus upload-demo-icon"></i>
