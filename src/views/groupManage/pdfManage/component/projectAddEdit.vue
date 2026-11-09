@@ -100,6 +100,8 @@ export default {
               this.$message.success('保存成功');
               this.closedForm(true)
               this.$emit('loadData')
+            } else {
+              this.$message.error(res.msg)
             }
           })
         } else {

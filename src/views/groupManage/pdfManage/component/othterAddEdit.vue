@@ -5,7 +5,7 @@
         <el-form ref="form_pro" :rules="rules" :model="proForm" label-width="120px">
           <el-form-item label="File Name" prop="fileName">
             <el-select v-model="proForm.fileName" placeholder="select" size="mini">
-              <el-option label="ProjectReport" :value="1">
+              <el-option label="ProjectReport" value="ProjectReport">
               </el-option>
             </el-select>
           </el-form-item>
@@ -34,7 +34,7 @@ export default {
   data () {
     return {
       serveUrl: sessionStorage.getItem('serveUrl'),
-      proForm: { logo: '', page: 1, fileName: 1 },
+      proForm: { logo: '', page: 1, fileName: 'ProjectReport' },
       uploadFlag: false,
       imgLoad: '',
       editLogo: '',
@@ -83,6 +83,8 @@ export default {
               this.$message.success('保存成功');
               this.closedForm(true)
               this.$emit('loadData')
+            } else {
+              this.$message.error(res.msg)
             }
           })
         } else {
