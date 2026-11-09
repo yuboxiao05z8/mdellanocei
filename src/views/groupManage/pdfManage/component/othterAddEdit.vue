@@ -1,11 +1,11 @@
 <template>
   <div class="addEditCompany">
-    <el-dialog center title="Link" :visible.sync="show" :close-on-click-modal="false" :close-on-press-escape="false" width="800px" append-to-body :show-close='false'>
+    <el-dialog center title="Other" :visible.sync="show" :close-on-click-modal="false" :close-on-press-escape="false" width="800px" append-to-body :show-close='false'>
       <div class="addEditCompany_box">
         <el-form ref="form_pro" :rules="rules" :model="proForm" label-width="120px">
           <el-form-item label="File Name" prop="fileName">
             <el-select v-model="proForm.fileName" placeholder="select" size="mini">
-              <el-option label="ProjectReport" value="1">
+              <el-option label="ProjectReport" :value="1">
               </el-option>
             </el-select>
           </el-form-item>
@@ -150,6 +150,8 @@ export default {
             this.imgLoad = ''
           }
         })
+      } else {
+        this.imgLoad = ''
       }
       this.$emit('cancel')
     },
