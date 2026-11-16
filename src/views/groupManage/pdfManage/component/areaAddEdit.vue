@@ -67,7 +67,7 @@ export default {
   },
   mounted () {
     for (let i = 0; i < 28; i++) {
-      this.disList.push({ label: `D${i < 10 ? '0' + (i + 1) : i + 1}`, value: `D${i < 10 ? '0' + (i + 1) : i + 1}` })
+      this.disList.push({ label: `D${i < 9 ? '0' + (i + 1) : i + 1}`, value: `D${i < 9 ? '0' + (i + 1) : i + 1}` })
     }
   },
   methods: {
