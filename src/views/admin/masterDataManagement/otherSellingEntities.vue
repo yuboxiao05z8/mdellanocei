@@ -99,7 +99,7 @@ export default {
     },
     update(row) {
       // console.log(row);
-      this.$Posting(this.$api.saveBrokeCompany, {
+      this.$Post(this.$api.saveBrokeCompany, {
         companyId: row.companyId,
         companyName: this.name
       }).then(res => {

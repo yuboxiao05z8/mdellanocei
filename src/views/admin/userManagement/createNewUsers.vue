@@ -147,7 +147,7 @@ export default {
             params.date = "";
             params.month = "";
           }
-          this.$Posting(this.$api.createAccount, params).then(res => {
+          this.$Post(this.$api.createAccount, params).then(res => {
             if (res.code == 0) {
               this.$notify.success({
                 title: this.$t("alert.alert_success_title"),

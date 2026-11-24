@@ -434,7 +434,7 @@ export default {
       let data = { ...this.companyForm };
       data.logo = this.companyForm.logo[0].url;
       data.detail = this.$contentToBase64(this.detail);
-      this.$Posting(this.$api.saveBroke, data).then((res) => {
+      this.$Post(this.$api.saveBroke, data).then((res) => {
         if (res.code == 0) {
           this.$notify.success({
             title: this.$t("alert.alert_success_title"),

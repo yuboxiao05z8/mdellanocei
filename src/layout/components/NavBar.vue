@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     queryUserMenu() {
-      this.$Posting(this.$api.queryUserMenu).then((res) => {
+      this.$Post(this.$api.queryUserMenu).then((res) => {
         if (res.code == 0) {
           this.different_routes = res.datas
 

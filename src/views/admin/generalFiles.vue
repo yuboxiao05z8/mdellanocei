@@ -136,7 +136,7 @@ export default {
       });
     },
     update(row) {
-      this.$Posting(this.$api.updateGeneralFile, {
+      this.$Post(this.$api.updateGeneralFile, {
         id: row.id,
         title: this.title,
         url: `${this.hostUrl}${row.url}`,

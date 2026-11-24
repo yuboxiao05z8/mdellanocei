@@ -347,7 +347,7 @@ export default {
         return;
       } else {
       }
-      this.$Posting(this.$api.saveTeamsAgent, {
+      this.$Post(this.$api.saveTeamsAgent, {
         agentId: this.selectValue,
         teamId: this.teamId
       }).then(res => {
@@ -422,7 +422,7 @@ export default {
     },
     update(row) {
       //添加和编辑team
-      this.$Posting(this.$api.saveTeam, {
+      this.$Post(this.$api.saveTeam, {
         teamId: row.teamId,
         teamName: this.teamName
         // sellingEntities: this.sellingEntities,

@@ -181,7 +181,7 @@ export default {
     },
     update () {
       let data = { ...this.formData, editBrokeId: this.editBrokeId, id: this.isEdit ? this.id : '' }
-      this.$Posting(this.$api.saveOrUpdateEmailReceive, data).then(res => {
+      this.$Post(this.$api.saveOrUpdateEmailReceive, data).then(res => {
         if (res.code == 0) {
           this.$notify.success({
             title: this.$t('alert.alert_success_title'),

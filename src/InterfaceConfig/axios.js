@@ -129,10 +129,31 @@ const Posting = function (url = '', data = {}, allowHTML = false) {
   } = XHR({
     loading: true
   })
-  let reqData = qs.stringify({
+  let params = {
     ...user,
     ...data
+  }
+  console.log(params);
+  let str = ''
+  for (const key in Vue.prototype.$objKeySort(params)) {
+    if (
+      Vue.prototype.$objKeySort(params)[key] !== null &&
+      typeof Vue.prototype.$objKeySort(params)[key] !== 'undefined'
+    ) {
+
+      if (Array.isArray(Vue.prototype.$objKeySort(params)[key])) params[key] = JSON.stringify(Vue.prototype.$objKeySort(params)[key]);
+      str += Vue.prototype.$objKeySort(params)[key]
+    }
+  }
+  str = md5(str + 'c1d65f3667324592a071ebec5038f38c')
+  let reqData = qs.stringify({
+    ...params,
+    signature: str
   })
+  // let reqData = qs.stringify({
+  //   ...user,
+  //   ...data
+  // })
   return axiosX.post(url, reqData).then(sucFun).catch(errFun)
 }
 

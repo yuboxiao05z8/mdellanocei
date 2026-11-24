@@ -405,7 +405,7 @@ export default {
         return;
       } else {
       }
-      this.$Posting(this.$api.insertAgentProject, {
+      this.$Post(this.$api.insertAgentProject, {
         agentId: this.icTeam.agentModel
       }).then(res => {
         if (res.code == 0) {
@@ -428,7 +428,7 @@ export default {
     //team ic 更新经纪人关联项目
     updateIcAgentProject() {
       let projectName = this.icTeam.checkedProject.join();
-      this.$Posting(this.$api.updateAgentProject, {
+      this.$Post(this.$api.updateAgentProject, {
         agentId: this.icTeam.dialogItem.agentId,
         projectName: projectName
       }).then(res => {
@@ -546,7 +546,7 @@ export default {
     update() {
       // console.log(this.selectedData);
       // console.log(this.noSelectedData);
-      this.$Posting(this.$api.updateBrokeAgentGroupStatus, {
+      this.$Post(this.$api.updateBrokeAgentGroupStatus, {
         isAgentGroupId: this.selectedData.join(),
         noAgentGroupId: this.noSelectedData.join()
       }).then(res => {

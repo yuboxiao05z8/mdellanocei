@@ -530,7 +530,7 @@ export default {
         projectName: this.query.projectName,
         unitName: this.query.unitName,
       }
-      this.$Posting(this.$api.sendLawyerEmail, data)
+      this.$Post(this.$api.sendLawyerEmail, data)
         .then(res => {
           if (res.code === '0') {
             this.$notify({

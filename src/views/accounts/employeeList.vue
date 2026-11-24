@@ -348,7 +348,7 @@ export default {
           }
         }
       }
-      this.$Posting(this.$api.addBrokeSysUser, data).then(res => {
+      this.$Post(this.$api.addBrokeSysUser, data).then(res => {
         if (res.code == 0) {
           this.$notify.success({
             title: this.$t('alert.alert_success_title'),

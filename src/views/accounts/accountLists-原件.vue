@@ -266,7 +266,7 @@ export default {
       this.tableDataInit = 0;
     },
     sendEmail(row) {
-      this.$Posting(this.$api.sendMail, {
+      this.$Post(this.$api.sendMail, {
         editUsreId: row.userId
       }).then(res => {
         if (res.code == 0) {
@@ -335,7 +335,7 @@ export default {
       } else if (this.isDeveloper) {
         type = 2;
       }
-      this.$Posting(this.$api.saveBroke, {
+      this.$Post(this.$api.saveBroke, {
         editBrokeId: row.brokeId,
         editUsreId: row.userId,
         userName: this.userName,
