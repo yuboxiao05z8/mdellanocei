@@ -1,6 +1,6 @@
 
 // const env = 'development' // 开发环境 
-// const env = 'test' // 测试环境
+//const env = 'test' // 测试环境
 const env = 'production' // 生产环境 
 
 let baseURL = '' // 接口地址
