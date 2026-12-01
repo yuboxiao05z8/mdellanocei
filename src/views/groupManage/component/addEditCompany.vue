@@ -117,8 +117,8 @@ export default {
           label: 'Handyan & moves',
         },
         {
-          value: 'Web',
-          label: 'Web',
+          value: 'Property Platforms',
+          label: 'Property Platforms',
         },
       ],
       uploadFlag: false,
